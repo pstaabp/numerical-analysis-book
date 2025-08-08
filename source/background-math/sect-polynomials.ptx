@@ -1,0 +1,684 @@
+<section xml:id="sect-polynomials">
+  <title>Polynomials</title>
+
+  <introduction>
+    <p>
+      Recall that a polynomial is a function of the form:
+    </p>
+
+    <p>
+      <me>
+        P(x) = \sum_{k=0}^{n} a_{k} x^{k}
+      </me>
+    </p>
+
+    <p>
+      where <m>a_{k}</m> are constants and <m>a_{n} \neq 0</m> is called the <alert>leading coefficient</alert>.
+      The <alert>degree</alert> of the polynomial is <m>n</m>.
+      Polynomials are quite important in numerical analysis.
+    </p>
+
+    <example>
+      <statement>
+        <p>
+          <ul>
+            <li>
+              <p>
+                Examples of polynomials include <m>5, 3x-1, 3x^{2}+ 9x^{4}</m>.
+              </p>
+            </li>
+
+            <li>
+              <p>
+                Functions that are not polynomials: <m>\sqrt{x},\frac{x-1}{3x^{2}+1}, \sin x, e^{x}</m>.
+              </p>
+            </li>
+          </ul>
+        </p>
+      </statement>
+    </example>
+
+    <p>
+      The polynomials with small degrees are generally called more specific names.
+      Here are the polynomials of degrees with 0, 1, 2 and 3.
+    </p>
+
+    <tabular>
+      <row>
+        <cell>degree</cell>
+        <cell>form</cell>
+        <cell>type</cell>
+      </row>
+
+      <row>
+        <cell> </cell>
+      </row>
+
+      <row>
+        <cell>0</cell>
+        <cell> <m>f(x) = a_{0}</m> </cell>
+        <cell>horizontal line</cell>
+      </row>
+
+      <row>
+        <cell>1</cell>
+        <cell> <m>f(x) = a_{0} + a_{1} x</m> </cell>
+        <cell>general line</cell>
+      </row>
+
+      <row>
+        <cell>2</cell>
+        <cell> <m>f(x) = a_{0} + a_{1} x + a_{2} x^{2}</m> </cell>
+        <cell>quadratic</cell>
+      </row>
+
+      <row>
+        <cell>3</cell>
+        <cell> <m>f(x) = a_{0} + a_{1} x + a_{2} x^{2} + a_{3} x^{3}</m> </cell>
+        <cell>cubic</cell>
+      </row>
+    </tabular>
+  </introduction>
+
+
+  <subsection>
+    <title>Power Functions</title>
+
+    <p>
+      A power function has form <m>f(x) = x^{n}</m> for <m>n</m> a nonnegative integer.
+      These functions are the building blocks of polynomials.
+      The graph of <m>f(x) = x^{n}</m> for <m>n=0,1,2,3,4,5,6</m>:
+    </p>
+
+    <figure xml:id="fig-xfewfe">
+      <caption></caption>
+      <image width="50%">
+        <shortdescription>
+        </shortdescription>
+        <latex-image>
+          <![CDATA[
+            \begin{tikzpicture}[yscale=0.5,xscale=1.5]
+\draw[->] (-3.5,0) -- (3.5,0) node [above right] {$x$}; \foreach \x in {-3,-2,-1,1,2,3} \draw (\x,0.1) -- (\x,-0.1) node [below] {\x};
+ \draw[->] (0,-12) -- (0,12) node [above right] {$y$};
+\foreach \y in {-10,-8,-6,-4,-2,2,4,6,8,10} \draw (0.1,\y) -- (-0.1,\y) node [left] {\y};
+\clip (-2,-10) rectangle (2,10);
+\foreach \n in {2,4,6} \draw plot[domain=-2:2,samples=150] (\x,{pow(\x,\n)});
+\foreach \n in {1,3,5} \draw[dashed] plot[domain=-2:2,samples=150] (\x,{pow(\x,\n)});
+\end{tikzpicture}
+          ]]>
+        </latex-image>
+      </image>
+    </figure>
+
+    <p>
+      The 3 functions for <m>n=2,4,6</m> above are solid and shaped like cups opening up with the higher power growing faster with <m>|x|>1</m> a flatter bottom inside the interval <m>[-1,1]</m>.
+      The odd powers are dashed with a similar features in that the higher powers are steeper outside of the interval <m>[-1,1]</m> and flatter inside the interval.
+    </p>
+  </subsection>
+
+
+  <subsection>
+    <title>Forms of Polynomials</title>
+
+    <p>
+      <dl>
+      <li>
+        <title>Standard Form</title>
+
+        <p>
+          <men xml:id="eq-std-form">
+            p(x) = a_{0} + a_{1} x + a_{2} x^{2} + \cdots + a_{n} x^{n}
+          </men>
+        </p>
+
+        <p>
+          This is a simple compact form of a polynomial and this can be useful for various types of theorems and it easy to see the degree and leading coefficient of the polynomial.
+        </p>
+      </li>
+
+      <li>
+        <title>Factored Form:</title>
+
+        <p>
+          The factored form of a polynomial can be written:
+        </p>
+
+        <p>
+          <men xml:id="eq-poly-factored-form">
+            p(x) = a(x-x_0)^{k_0} (x-x_1)^{k_1} \cdots (x-x_m)^{k_m}
+          </men>
+        </p>
+
+        <p>
+          where the roots are <m>x_{0},x_{1},x_{m}</m> and have <alert>multiplicity</alert> <m>k_{0}, k_{1}, \ldots k_{m}</m> respectively with <m>a=a_{n}</m> from the standard form above, called the <alert>leading coefficient</alert> and the multiplicities satisfy: <m>n = k_{0}+k_{1} + \cdots + k_{m}</m>, where <m>n</m> is the degree.
+          Not all polynomials in standard form can be written in factored form, which assumes that all roots are real.
+        </p>
+
+        <p>
+          The factored form obviously gives you the roots directly, however, one can easily create a graph from this form as well.
+          The behavior as <m>|x| \rightarrow \infty</m>, is the same as the power function with leading coefficient.
+          That is it behaves like <m>a_{n} x^{n}</m>.
+        </p>
+
+        <p>
+          Additionally, the graph near each zero behaves like the multiplicity of zero.
+          An example is given below in ???
+        </p>
+      </li>
+
+      <li>
+        <title>Horner's Form</title>
+
+        <p>
+          Lastly, if a polynomial is written in a nested form like
+        </p>
+
+        <p>
+          <men xml:id="eq-poly-horner-form">
+            p(x) = a_0 + x(a_1 + x (a_2 + x(a_3+ \cdots)))
+          </men>
+        </p>
+
+        <p>
+          it is in <alert>Horner’s Form</alert>, which is generally an efficient way of evaluating the polynomial at a point, both in terms of efficiency of operations and in terms of rounding errors as will be seen in ????
+        </p>
+      </li>
+      </dl>
+    </p>
+  </subsection>
+
+
+  <subsection>
+    <title>Graphs of Polynomials</title>
+
+    <p>
+      The graph of a polynomial is most easily understood in factored form (eq:poly:factored:form).
+      The following can be determined directly from this form:
+    </p>
+
+    <p>
+      <ul>
+        <li>
+          <p>
+            The <m>x</m>-intercepts are the roots of the polynomial, <m>x_{0}, x_{1}, \ldots, x_{m}</m>.
+          </p>
+        </li>
+
+        <li>
+          <p>
+            The shape of the polynomial near <m>x=x_{i}</m> is <m>b_{i}(x-x_{i})^{k_i}</m>, where <m>b_{i}=\lim_{x \rightarrow x_i}p(x)/(x-x_{i})^{k_i}</m>.
+          </p>
+        </li>
+
+        <li>
+          <p>
+            The end behavior of the graph (shape of the curve for <m>|x| \rightarrow \infty</m>) is similar to the power function <m>ax^{n}</m>, where <m>n</m> is the degree and <m>a</m> is the leading coefficient.
+          </p>
+        </li>
+
+        <li>
+          <p>
+            The intervals of positive and negative values of the polynomial can be found by first understanding the sign of the power function <m>ax^{n}</m> for <m>x>0</m> and <m>x&#x3C;0</m>, which depends on the sign of <m>a</m> and if <m>n</m> is even or odd.
+            Once the sign of <m>p</m> is known for large <m>x</m> (in the positive or negative direction), we know that <m>p</m> will only switch sign over a zero with odd multiplicity.
+          </p>
+        </li>
+      </ul>
+    </p>
+
+    <p>
+      The following few examples shows how to both manipulate polynomials as well as pull out the important information.
+    </p>
+
+    <example>
+      <statement>
+        <p>
+          Consider the polynomial <m>f(x) = 3x(x+1)(x-2)^{2}</m>.
+        </p>
+
+        <p>
+          <ol>
+            <li>
+              <p>
+                List all real zeros of the polynomial and the multiplicity of each.
+              </p>
+            </li>
+
+            <li>
+              <p>
+                Determine the <m>x</m>-intercepts and if the cross or just touch at each.
+              </p>
+            </li>
+
+            <li>
+              <p>
+                Find the power function that the polynomial resembles for large <m>|x|</m>.
+              </p>
+            </li>
+
+            <li>
+              <p>
+                Find intervals where the graph is above or below the <m>x</m>-axis.
+              </p>
+            </li>
+
+            <li>
+              <p>
+                Determine the graph of <m>f</m> near each zero.
+              </p>
+            </li>
+
+            <li>
+              <p>
+                With all given information, plot <m>y=f(x)</m> with the graphs in #5.
+              </p>
+            </li>
+          </ol>
+        </p>
+      </statement>
+
+      <solution>
+        <p>
+          <ol>
+            <li>
+              <p>
+                The zeros are <m>x=0</m> (mult.
+                1), <m>x=-1</m> (mult.
+                1) and <m>x=2</m> mult.
+                2
+              </p>
+            </li>
+
+            <li>
+              <p>
+                The <m>x</m>-intercepts cross at <m>x=0,-1</m> and just touch <m>x=2</m>.
+              </p>
+            </li>
+
+            <li>
+              <p>
+                The power function is <m>y=3x^{4}</m>.
+              </p>
+            </li>
+
+            <li>
+              <p>
+                Since the power function for large <m>|x|</m> is <m>3x^{4}</m>, left of <m>-1</m> and right of <m>2</m> the function is positive.
+                Recalling that the polynomial changes sign over roots of odd multiplicity however doesn’t over even multiplicity, one gets the following sign chart:
+              </p>
+
+              <figure xml:id="fig-ex-power">
+                <caption></caption>
+                <image width="70%">
+                  <shortdescription>
+                  </shortdescription>
+                  <latex-image>
+                    <![CDATA[
+                    \begin{tikzpicture}
+                      \draw[->] (-3,0) -- (4,0);
+                      \foreach \x in {0,-1,2} \draw (\x,0.1) -- (\x,-0.1) node [below] {\x};
+                      \foreach \x/\sign in {-2/+,-0.5/-,1/+,3/+} \draw (\x,0.1) node [above] {$\sign$};
+                      \end{tikzpicture}
+                    ]]>
+                  </latex-image>
+                </image>
+              </figure>
+            </li>
+
+            <li>
+              <p>
+                The graph of <m>p</m> near each of the zeros will take on the form <m>b_{i}(x-x_{i})^{k_i}</m> or
+              </p>
+            </li>
+
+            <li>
+              <p>
+                A graph of the polynomial and the three transformed power functions (as dashed curves):
+              </p>
+
+              <figure xml:id="fig-">
+                <caption></caption>
+                <image>
+                  <shortdescription>
+                  </shortdescription>
+                  <latex-image>
+                    <![CDATA[
+                    \begin{tikzpicture}[yscale=0.2,xscale=1]
+                    \draw[->] (-3.5,0) -- (3.5,0) node [above right] {$x$}; \foreach \x in {-3,-2,-1,1,2,3} \draw (\x,0.1) -- (\x,-0.1) node [below] {\x};
+                    \draw[->] (0,-12) -- (0,21) node [above right] {$y$};
+                    \foreach \y in {-10,-5,5,10,15,20} \draw (0.1,\y) -- (-0.1,\y) node [left] {\y};
+                    \clip (-4,-10) rectangle (3,22);
+                    \draw[<->] plot[domain=-1.6:3,samples=150] (\x,{3*\x*(\x+1)*pow(\x-2,2)});
+                    \draw[<->,dashed] plot[domain=-1.5:-0.5] (\x,{-27*(\x+1)});
+                    \draw[<->,dashed] plot[domain=-1:1] (\x,{12*\x});
+                    \draw[<->,dashed] plot[domain=1.2:2.8] (\x,{18*pow(\x-2,2)});
+                    \end{tikzpicture}
+                    ]]>
+                  </latex-image>
+                </image>
+              </figure>
+            </li>
+          </ol>
+        </p>
+      </solution>
+    </example>
+
+    <p>
+      The next example shows use of these same concepts to construct the graph.
+    </p>
+
+    <example>
+      <statement>
+        <p>
+          Construct the graph of the polynomial:
+        </p>
+
+        <p>
+          <me>
+            p(x)= -\frac{1}{5}(x-2)^{3}(x+1)^{2}(x+3) \\
+          </me>
+        </p>
+
+        <p>
+          This polynomial is in factored form.
+          The roots are <m>2, -1</m> and <m>-3</m> with multiplicities 3, 2 and 1 respectively.
+          Also, the degree of the polynomial is the sum of the multiplicities or 6.
+          Notice that the term in front is <m>-1/5</m>, so the leading term is <m>-\frac{1}{5}x^{6}</m>.
+        </p>
+
+        <p>
+          The intervals on which the polynomial is positive and negative is found the following way.
+          Note that the leading term is <m>-\frac{1}{5}x^{6}</m>, the far behavior of <m>p</m> is the same as this so it is negative for <m>|x| \rightarrow \infty</m>.
+          The polynomial will change sign over the roots of odd multiplicity or at <m>x=2</m> and <m>x=-3</m>.
+          Therefore the sign of the polynomial can be summarized in the following sign chart:
+        </p>
+
+        <figure xml:id="fig-poly2">
+          <caption></caption>
+          <image>
+            <shortdescription>
+            </shortdescription>
+            <latex-image>
+      <![CDATA[
+      \begin{tikzpicture}
+\draw[->] (-5,0) -- (4,0);
+\foreach \x in {-3,-1,2} \draw (\x,0.1) -- (\x,-0.1) node [below] {\x};
+\foreach \x/\lab in {-4/-,-2/+,0.5/+,3/-} \draw (\x,0.25) node [above] {$\lab$};
+\end{tikzpicture}
+      ]]>
+            </latex-image>
+          </image>
+        </figure>
+
+        <p>
+          The graph of <m>p</m> near each of the zeros will take on the form <m>b_{i}(x-x_{i})^{k_i}</m> or
+        </p>
+
+        <p>
+          <dl>
+          <li>
+            <title>When <m>x=-3</m></title>
+
+            <p>
+              <me>
+                b_1 = \lim_{x \rightarrow -3} \frac{p(x)}{(x+3)} = \lim_{x \rightarrow -3} -\frac{1}{5}(x-2)^3(x+1)^2  = -100
+              </me>
+            </p>
+
+            <p>
+              so near <m>x=-3</m>, the graph is <m>-100(x+3)</m>
+            </p>
+          </li>
+
+          <li>
+            <title>When <m>x=-1</m></title>
+
+            <p>
+              The multiplicity is 1 and the coefficient in front is
+            </p>
+
+            <p>
+              <me>
+                b_2 = \lim_{x \rightarrow -1} \frac{p(x)}{(x+1)^2} = \lim_{x \rightarrow -1} -\frac{1}{5}(x-2)^3(x+3) = \frac{54}{5}
+              </me>
+            </p>
+
+            <p>
+              so near <m>x=-1</m>, the graph is <m>\frac{54}{5}(x+1)^{2}</m>
+            </p>
+          </li>
+
+          <li>
+            <title>When <m>x=0</m></title>
+
+            <p>
+              The multiplicity is 2 and the coefficient in front is
+            </p>
+
+            <p>
+              <me>
+                b_2 = \lim_{x \rightarrow 0} \frac{f(x)}{x} = \lim_{x \rightarrow 0} 3(x+1)(x-2)^2 = 12
+              </me>
+            </p>
+          </li>
+
+          <li>
+            <title>When <m>x=2</m></title>
+
+            <p>
+              The multiplicity is 2 and the coefficient in front is
+            </p>
+          </li>
+          </dl>
+        </p>
+
+        <p>
+          A graph of the polynomial and the three transformed power functions (as dashed curves):
+        </p>
+
+        <figure xml:id="fig-poly">
+          <caption></caption>
+          <image>
+            <shortdescription>
+            </shortdescription>
+            <latex-image>
+      <![CDATA[
+      \begin{tikzpicture}[yscale=0.2,xscale=1]
+\draw[->] (-3.5,0) -- (3.5,0) node [above right] {$x$}; \foreach \x in {-3,-2,-1,1,2,3} \draw (\x,0.1) -- (\x,-0.1) node [below] {\x};
+ \draw[->] (0,-12) -- (0,21) node [above right] {$y$};
+\foreach \y in {-10,-5,5,10,15,20} \draw (0.1,\y) -- (-0.1,\y) node [left] {\y};
+\clip (-4,-10) rectangle (3,22);
+\draw[<->] plot[domain=-1.6:3,samples=150] (\x,{3*\x*(\x+1)*pow(\x-2,2)});
+\draw[<->,dashed] plot[domain=-1.5:-0.5] (\x,{-27*(\x+1)});
+\draw[<->,dashed] plot[domain=-1:1] (\x,{12*\x});
+\draw[<->,dashed] plot[domain=1.2:2.8] (\x,{18*pow(\x-2,2)});
+\end{tikzpicture}
+      ]]>
+            </latex-image>
+          </image>
+        </figure>
+
+        <p>
+          and one can see the similarity between the power functions and the polynomial near each of the roots.
+        </p>
+      </statement>
+    </example>
+
+    <example>
+      <statement>
+        <p>
+          Find the standard form and Horner form of the polynomial <m>p(x)=-\frac{1}{5}(x-2)^{3}(x+1)^{2}(x+3)</m>.
+        </p>
+
+        <p>
+        </p>
+
+        <p>
+          The standard form is found by expanding all of the terms.
+          This is a little painful, so a CAS like Matlab, Maple or Mathematica is often helpful.
+        </p>
+
+        <p>
+          <me>
+            p(x) = -\frac{1}{5}\,{x}^{6}+\frac{1}{5}\,{x}^{5}+{\frac{11\,{x}^{4}}{5}}-{\frac{13\,{x}^{3 }}{5}}-{\frac{26\,{x}^{2}}{5}}+4\,x+{\frac{24}{5}}
+          </me>
+        </p>
+
+        <p>
+          To find the Horner form, we successive factor out an <m>x</m> in a nested way:
+        </p>
+
+        <p>
+          <me>
+            \begin{aligned} p(x)\amp= \biggl(-\frac{1}{5}\,{x}^{5}+\frac{1}{5}\,{x}^{4}+{\frac{11\,{x}^{3}}{5}}-{\frac{13\,{x}^{2 }}{5}}-{\frac{26\,{x}}{5}}+4\biggr)x+{\frac{24}{5}}\\\amp= \biggl(\biggl(-\frac{1}{5}\,{x}^{4}+\frac{1}{5}\,{x}^{3}+{\frac{11\,{x}^{2}}{5}}-{\frac{13\,{x}}{5}}-\frac{26}{5}\biggr)x+4\biggr)x+{\frac{24}{5}}\\\amp= \biggl(\biggl(\biggl(-\frac{1}{5}\,{x}^{3}+\frac{1}{5}\,{x}^{2}+{\frac{11\,x}{5}}-{\frac{13}{5}}\biggr) x-\frac{26}{5}\biggr)x+4\biggr)x+{\frac{24}{5}}\\\amp= \vdots \\\amp= \biggl(\biggl(\biggl(\biggl(\biggl(-\frac{1}{5}x+\frac{1}{5}\biggr)x+{\frac{11}{5}}\biggr)x-{\frac{13}{5}}\biggr) x-\frac{26}{5}\biggr)x+4\biggr)x+{\frac{24}{5}}\\ \end{aligned}
+          </me>
+        </p>
+
+        <p>
+          As we will see later in ?????, the Horner form also decreases round off errors and shorten the number of operations needed to evaluate the polynomial.
+        </p>
+      </statement>
+    </example>
+
+    <p>
+      Also as we will see in section sect:optimal:pts, some polynomials have properties that seem to be nice may not be so nice.
+      For example a polynomial with equally spaced roots have a nice form, but the local extrema get very large.
+      The following example is a polynomial with equally-spaced roots.
+    </p>
+
+    <example>
+      <statement>
+        <p>
+          A <alert>Wilkinson polynomial</alert> is a polynomial of some degree <m>n</m> (an integer) with the following property: the polynomial as roots at <m>1,2,3, \ldots, n</m>, each of which has multiplicity 1.
+          Write down the Wilkinson polynomial of degree 5.
+        </p>
+
+        <p>
+        </p>
+
+        <p>
+          <me>
+            f(x) = (x-1)(x-2)(x-3)(x-4)(x-5)
+          </me>
+        </p>
+      </statement>
+    </example>
+
+    <example>
+      <statement>
+        <p>
+          Find a polynomial <m>f(x)</m> with the following roots and multiplicity:
+        </p>
+
+        <tabular>
+          <row>
+            <cell>Roots</cell>
+            <cell>1</cell>
+            <cell>-1</cell>
+            <cell>2</cell>
+          </row>
+
+          <row>
+            <cell>Multiplicity</cell>
+            <cell>2</cell>
+            <cell>1</cell>
+            <cell>3</cell>
+          </row>
+        </tabular>
+
+        <p>
+          and satisfies <m>f(3)=-4</m>.
+        </p>
+
+        <p>
+        </p>
+
+        <p>
+          First, we write a general polynomial that satisfies the roots property with appropriate multiplicity:
+        </p>
+
+        <p>
+          <me>
+            f(x) = A(x-1)^{2}(x+1)(x-2)^{3}
+          </me>
+        </p>
+
+        <p>
+          and then find <m>A</m> using <m>f(3)=-4</m>,
+        </p>
+
+        <p>
+          <me>
+            -4 = A(3-1)^{2}(3+1)(3-2)^{3} = 16A
+          </me>
+        </p>
+
+        <p>
+          so <m>A=-1/4</m> and the polynomial is:
+        </p>
+
+        <p>
+          <me>
+            f(x) = -\frac{1}{4}(x-1)^{2}(x+1)(x-2)^{3}
+          </me>
+        </p>
+      </statement>
+    </example>
+
+    <p>
+      In Section ????, we will cover how to find a polynomial that passes through a given set of points.
+      The next example is a fundamental building block of such polynomials called a Lagrange polynomial.
+    </p>
+
+    <example>
+      <statement>
+        <p>
+          Find the simplest polynomial <m>p(x)</m> that has the property that <m>p(x_{0})=1</m>, <m>p(x_{1})=0</m> and <m>p(x_{2})=0</m>.
+        </p>
+
+        <p>
+        </p>
+
+        <p>
+          Since there are 3 points that it must satisfy, unless there is a special relationship between <m>x_{0}, x_{1}</m> and <m>x_{2}</m>, we will probably need a quadratic.
+          We know two of the zeros of the polynomial, so a form is:
+        </p>
+
+        <p>
+          <me>
+            p(x) = A (x-x_{1})(x-x_{2})
+          </me>
+        </p>
+
+        <p>
+          and then we use the third point to find <m>A</m>
+        </p>
+
+        <p>
+          <me>
+            p(x_{0}) = 1 = A(x_{0}-x_{1})(x_{0}-x_{1})
+          </me>
+        </p>
+
+        <p>
+          or
+        </p>
+
+        <p>
+          <me>
+            A = \frac{1}{(x_{0}-x_{1})(x_{0}-x_{1})}
+          </me>
+        </p>
+
+        <p>
+          therefore the polynomial is:
+        </p>
+
+        <p>
+          <me>
+            p(x) = \frac{(x-x_{1})(x-x_{2})}{(x_{0}-x_{1})(x_{0}-x_{1})}
+          </me>
+        </p>
+      </statement>
+    </example>
+  </subsection>
+</section>

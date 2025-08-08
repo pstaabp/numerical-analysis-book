@@ -1,0 +1,10 @@
+<chapter xml:id="ch-background" xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Important Background Mathematics</title>
+
+  <p>
+    As we will see throughout this course, nearly all of the analysis will be based on theorems from Calculus.
+    In this chapter, we will review the important theorems and concepts from Calculus.
+  </p>
+
+  <xi:include href="./sect-polynomials.ptx" />
+</chapter>
