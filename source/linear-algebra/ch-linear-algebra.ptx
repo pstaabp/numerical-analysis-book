@@ -1,0 +1,10 @@
+<chapter xml:id="ch-linear-algebra" xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Numerical Linear Algebra</title>
+  <introduction>
+    <p>
+      Say things here.
+    </p>
+  </introduction>
+  <xi:include href="sect-intro-linear-algebra.ptx" />
+  <xi:include href="sect-linear-systems.ptx" />
+</chapter>

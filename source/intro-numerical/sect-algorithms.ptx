@@ -1,0 +1,656 @@
+<section xml:id="sect-algorithms">
+  <title>Algorithms</title>
+
+  <introduction>
+    <p>
+      One of the questions in Example ex:sqrt:65 asked to write down the steps to find the square root.
+      Throughout this book and in many related fields, like computer science, reproducing results in a specific ways is immensely important.
+      We call this an algorithm.
+    </p>
+
+    <definition>
+      <statement>
+        <p>
+          An <alert>algorithm</alert> is a precise sequence of steps to accomplish a task.
+        </p>
+      </statement>
+    </definition>
+
+    <p>
+      The next example shows that we actually use algorithm in our daily lives.
+      This is a short cooking example, but finding directions or navigating webpages are other good examples of using algorithms.
+    </p>
+
+    <example>
+      <statement>
+        <p>
+          Write down an algorithm to make a peanut butter and jelly sandwich.
+        </p>
+      </statement>
+
+      <solution>
+        <p>
+          <ol>
+            <li>
+              <p>
+                Gather all ingredients (peanut butter, jelly and two slices of bread) and a knife.
+              </p>
+            </li>
+
+            <li>
+              <p>
+                Place the bread on a plate.
+                Spread peanut butter on one side of one slice, spread jelly on one side of the other slice of bread.
+              </p>
+            </li>
+
+            <li>
+              <p>
+                Place the peanut butter coated bread on top of the jelly side of the other slice.
+                Make sure the peanut butter side sticks to the jelly side.
+              </p>
+            </li>
+
+            <li>
+              <p>
+                Serve and enjoy.
+              </p>
+            </li>
+          </ol>
+        </p>
+      </solution>
+    </example>
+
+    <p>
+      The next example is a relatively straightforward mathematical problem.
+    </p>
+
+    <example>
+      <statement>
+        <p>
+          Find an algorithm to determine the mean, <m>\bar{x}</m> of <m>n</m> real numbers.
+        </p>
+      </statement>
+
+      <solution>
+        <p>
+          Input <m>x_{1}, x_{2}, \ldots, x_{n}</m>
+        </p>
+
+        <p>
+          <ol>
+            <li>
+              <p>
+                Let <m>s = 0</m>
+              </p>
+            </li>
+
+            <li>
+              <p>
+                Let <m>s = s + x_{i}</m> for <m>i = 1, 2, \ldots, n</m>.
+              </p>
+            </li>
+          </ol>
+          return <m>s/n</m>.
+        </p>
+      </solution>
+    </example>
+
+    <p>
+      The next example shows the algorithm that can be used to find <m>\sqrt{65}</m> as in <xref ref="ex-sqrt-65"/>.
+      This is called the bisection method and we will see the details of the algorithm in <xref ref="ch-rootfinding"/><mdash/>in short it starts with an interval that always contains the answer and through a procedure, finds subintervals that still contains the answer and the length of the subinterval shrinks.
+    </p>
+
+    <example xml:id="ex-sqrt">
+      <statement>
+        <p>
+          Write down an algorithm to find the square root of <m>a</m> to <m>d</m> decimal places.
+        </p>
+      </statement>
+
+      <solution>
+        <p>
+          In this case, we will produce a sequence of numbers <m>a_{0},a_{1},a_{2},\ldots</m> that are always <em>below</em> <m>\sqrt{a}</m> and <m>b_{0},b_{1},b_{2}, \ldots</m> that are always <em>above</em> <m>\sqrt{a}</m>.
+          The algorithm is listed below and sentences in <em>italics</em> are simply comments.
+        </p>
+
+        <p>
+          Let the inputs be <m>a</m>, a real number greater than 0 and <m>d</m> be an integer greater than 1.
+          <ol>
+            <li>
+              <p>
+                Let <m>\epsilon = 10^{-d}</m>.
+                <em>This number is the precision which we intend to reach.
+                </em>
+              </p>
+            </li>
+
+            <li>
+              <p>
+                If <m>a \gt 1</m>, then <m>a_{0}=1</m> and <m>b_{0}=a</m>.
+                If <m>a \lt 1</m> then <m>a_{0}=a</m> and <m>b_{0}=1</m>.
+                <em>This ensures that <m>\sqrt{a}\in [a_{0},b_{0}]</m>.</em>
+              </p>
+            </li>
+
+            <li>
+              <p>
+                Let <m>n=0</m>
+              </p>
+            </li>
+
+            <li>
+              <p>
+                Let <m>c_{n}=(a_{n}+b_{n})/2</m>.
+                <em>Take the midpoint of the interval as a new guess for the <m>\sqrt{a}</m>.
+                </em>
+              </p>
+            </li>
+
+            <li>
+              <p>
+                If <m>c_{n}^{2} \gt a</m> then <m>a_{n+1}=a_{n}</m> and <m>b_{n+1}=c_{n}</m>, otherwise let <m>a_{n+1}=c_{n}</m> and <m>b_{n+1}=b_{n}</m>.
+              </p>
+            </li>
+
+            <li>
+              <p>
+                If <m>b_{n+1}-a_{n+1} \lt \epsilon</m> then stop, return <m>0.5(a_{n+1}+b_{n+1})</m> otherwise, increment <m>n</m> by 1.
+              </p>
+            </li>
+
+            <li>
+              <p>
+                Return to step 4.
+              </p>
+            </li>
+          </ol>
+        </p>
+      </solution>
+    </example>
+
+    <p>
+      The next example shows how to employ a spreadsheet to run through the algorithm in <xref ref="ex-sqrt"/>.
+      Computers are a great tool to automate algorithms and spreadsheets as well as other tools such as Maple, Mathematics, Matlab or programs written in other languages are how a lot of mathematics are done.
+    </p>
+
+    <example>
+      <statement>
+        <p>
+          Use a computer program (Maple or a spreadsheet) to find <m>\sqrt{65}</m> to 3 decimal places using the algorithm in <xref ref="ex-sqrt"/>.
+        </p>
+      </statement>
+
+      <solution>
+        <p>
+          In this case, we will use a spreadsheet to accomplish this.
+          We will make three columns (A, B, C) for the three sequences <m>a_{n}, b_{n}</m> and <m>c_{n}</m>.
+        </p>
+
+        <p>
+          <ol>
+            <li>
+              <p>
+                Since <m>a=65 \gt 1</m>, we will put a 1 in the first row of column A and a 65 in the first row of column B.
+                For column C, enter <em>=0.5*(a1+b1)</em> and you should get 33.
+                Also, create a column (in D) that will be the error.
+                Enter in cell D1, <em>=b1-a1</em>.
+              </p>
+            </li>
+
+            <li>
+              <p>
+                For the next row, we enter step 4 from Example ex:sqrt in the spreadsheet.
+                For cell A2, enter <em>=IF(C12 &gt; 65,A1,C1)</em>.
+                <em>This will fill in either the mean (in column C) or the value above it.</em> For cell B2, enter <em>=IF(C12&gt;65,C1,B1)</em>.
+              </p>
+            </li>
+
+            <li>
+              <p>
+                For cell C2, enter <em>=0.5*(a2+b2)</em> and for the error in D2, enter <em>=c2-a2</em>.
+              </p>
+            </li>
+
+            <li>
+              <p>
+                To continue this, you can select the four columns in the second row, click on the lower right corner and drag down an number a places.
+                The spreadsheet will fill in the values in a recursive manner.
+              </p>
+            </li>
+          </ol>
+        </p>
+
+        <p>
+          You should see the following:
+        </p>
+
+        <table>
+          <title>Spreadsheet for finding a square root</title>
+
+          <tabular>
+            <row>
+              <cell> <m>n</m> </cell>
+              <cell><m>A</m></cell>
+              <cell><m>B</m></cell>
+              <cell><m>C</m></cell>
+              <cell><m>B—A</m></cell>
+            </row>
+
+            <row>
+              <cell> <m>1</m> </cell>
+              <cell> <m>1.00000</m> </cell>
+              <cell> <m>65.00000</m> </cell>
+              <cell> <m>33.00000</m> </cell>
+              <cell> <m>64</m> </cell>
+            </row>
+
+            <row>
+              <cell> <m>2</m> </cell>
+              <cell> <m>1.00000</m> </cell>
+              <cell> <m>33.00000</m> </cell>
+              <cell> <m>17.00000</m> </cell>
+              <cell> <m>32</m> </cell>
+            </row>
+
+            <row>
+              <cell> <m>3</m> </cell>
+              <cell> <m>1.00000</m> </cell>
+              <cell> <m>17.00000</m> </cell>
+              <cell> <m>9.00000</m> </cell>
+              <cell> <m>16</m> </cell>
+            </row>
+
+            <row>
+              <cell> <m>4</m> </cell>
+              <cell> <m>1.00000</m> </cell>
+              <cell> <m>9.00000</m> </cell>
+              <cell> <m>5.00000</m> </cell>
+              <cell> <m>8</m> </cell>
+            </row>
+
+            <row>
+              <cell> <m>5</m> </cell>
+              <cell> <m>5.00000</m> </cell>
+              <cell> <m>9.00000</m> </cell>
+              <cell> <m>7.00000</m> </cell>
+              <cell> <m>4</m> </cell>
+            </row>
+
+            <row>
+              <cell> <m>6</m> </cell>
+              <cell> <m>7.00000</m> </cell>
+              <cell> <m>9.00000</m> </cell>
+              <cell> <m>8.00000</m> </cell>
+              <cell> <m>2</m> </cell>
+            </row>
+
+            <row>
+              <cell> <m>7</m> </cell>
+              <cell> <m>8.00000</m> </cell>
+              <cell> <m>9.00000</m> </cell>
+              <cell> <m>8.50000</m> </cell>
+              <cell> <m>1</m> </cell>
+            </row>
+
+            <row>
+              <cell> <m>8</m> </cell>
+              <cell> <m>8.00000</m> </cell>
+              <cell> <m>8.50000</m> </cell>
+              <cell> <m>8.25000</m> </cell>
+              <cell> <m>0.5</m> </cell>
+            </row>
+
+            <row>
+              <cell> <m>9</m> </cell>
+              <cell> <m>8.00000</m> </cell>
+              <cell> <m>8.25000</m> </cell>
+              <cell> <m>8.12500</m> </cell>
+              <cell> <m>0.25</m> </cell>
+            </row>
+
+            <row>
+              <cell> <m>10</m> </cell>
+              <cell> <m>8.00000</m> </cell>
+              <cell> <m>8.12500</m> </cell>
+              <cell> <m>8.06250</m> </cell>
+              <cell> <m>0.125</m> </cell>
+            </row>
+
+            <row>
+              <cell> <m>11</m> </cell>
+              <cell> <m>8.00000</m> </cell>
+              <cell> <m>8.06250</m> </cell>
+              <cell> <m>8.03125</m> </cell>
+              <cell> <m>0.0625</m> </cell>
+            </row>
+
+            <row>
+              <cell> <m>12</m> </cell>
+              <cell> <m>8.03125</m> </cell>
+              <cell> <m>8.06250</m> </cell>
+              <cell> <m>8.04688</m> </cell>
+              <cell> <m>0.03125</m> </cell>
+            </row>
+
+            <row>
+              <cell> <m>13</m> </cell>
+              <cell> <m>8.04688</m> </cell>
+              <cell> <m>8.06250</m> </cell>
+              <cell> <m>8.05469</m> </cell>
+              <cell> <m>0.015625</m> </cell>
+            </row>
+
+            <row>
+              <cell> <m>14</m> </cell>
+              <cell> <m>8.05469</m> </cell>
+              <cell> <m>8.06250</m> </cell>
+              <cell> <m>8.05859</m> </cell>
+              <cell> <m>0.0078125</m> </cell>
+            </row>
+
+            <row>
+              <cell> <m>15</m> </cell>
+              <cell> <m>8.05859</m> </cell>
+              <cell> <m>8.06250</m> </cell>
+              <cell> <m>8.06055</m> </cell>
+              <cell> <m>0.00390625</m> </cell>
+            </row>
+
+            <row>
+              <cell> <m>16</m> </cell>
+              <cell> <m>8.06055</m> </cell>
+              <cell> <m>8.06250</m> </cell>
+              <cell> <m>8.06152</m> </cell>
+              <cell> <m>0.001953125</m> </cell>
+            </row>
+
+            <row>
+              <cell> <m>17</m> </cell>
+              <cell> <m>8.06152</m> </cell>
+              <cell> <m>8.06250</m> </cell>
+              <cell> <m>8.06201</m> </cell>
+              <cell> <m>0.0009765625</m> </cell>
+            </row>
+          </tabular>
+        </table>
+
+        <p>
+          In the 17th row, you will see that the error (in the last row) is now smaller than 0.001, so you should stop.
+          The approximation to the <m>\sqrt{65}</m> is 3.06201, which is correct to 3 digits.
+        </p>
+
+        <p>
+          This method is called the <em>bisection</em> method and we will see it in detail in the next chapter.
+        </p>
+      </solution>
+    </example>
+  </introduction>
+
+
+  <subsection>
+    <title>Newtons' Method: A Better Square Root Algorithm</title>
+
+    <p>
+      We will use Newton's Method, that will be presented in <xref ref="ch-rootfinding"/> to write down an alternative square root algorithm.
+    </p>
+
+    <p>
+      To find <m>\sqrt{a}</m> to <m>d</m> decimal points,
+    </p>
+
+    <p>
+      <ol>
+        <li>
+          <p>
+            Let <m>x_{0}=a</m>
+          </p>
+        </li>
+
+        <li>
+          <p>
+            Let <m>\displaystyle x_{n+1}= \frac{x_{n}}{2}+ \frac{a}{2x_{n}}</m>
+          </p>
+        </li>
+
+        <li>
+          <p>
+            Repeat step 2 until <m>|x_{n+1}-x_{n}| \lt 10^{-d}</m>.
+          </p>
+        </li>
+
+        <li>
+          <p>
+            Return <m>x_{n+1}</m>.
+          </p>
+        </li>
+      </ol>
+    </p>
+
+    <example xml:id="ex-newton-method-sqrt-65">
+      <statement>
+        <p>
+          Use Newton's Method to find <m>\sqrt{65}</m> to 3 digits.
+        </p>
+      </statement>
+
+      <solution>
+        <p>
+          In this case, we will use a spreadsheet again.
+          The first column will be <m>n</m> and the 2nd column will be <m>x_{n}</m>.
+          In the first row, enter <m>0</m> and <m>65</m>.
+          In the second row enter <c>=a1+1</c> and <c>=b1/2+65/(2*b1)</c>.
+          Select these two cells and in the bottom left corner, drag down a number of rows.
+          You should see:
+        </p>
+
+        <table>
+          <title>Newton's Method to Find <m>\sqrt{65}</m></title>
+
+          <tabular>
+            <row bottom="minor">
+              <cell> <m>n</m> </cell>
+              <cell> <m>x_{n}</m> </cell>
+              <cell> <m>|x_{n+1}-x_{n}|</m> </cell>
+            </row>
+
+            <row>
+              <cell> <m>0</m> </cell>
+              <cell> <m>1.00000000</m> </cell>
+              <cell> </cell>
+            </row>
+
+            <row>
+              <cell> <m>1</m> </cell>
+              <cell> <m>33.00000000</m> </cell>
+              <cell> <m>32.00000000</m> </cell>
+            </row>
+
+            <row>
+              <cell> <m>2</m> </cell>
+              <cell> <m>17.48484848</m> </cell>
+              <cell> <m>15.51515152</m> </cell>
+            </row>
+
+            <row>
+              <cell> <m>3</m> </cell>
+              <cell> <m>10.60117641</m> </cell>
+              <cell> <m>6.88367208</m> </cell>
+            </row>
+
+            <row>
+              <cell> <m>4</m> </cell>
+              <cell> <m>8.36628570</m> </cell>
+              <cell> <m>2.23489071</m> </cell>
+            </row>
+
+            <row>
+              <cell> <m>5</m> </cell>
+              <cell> <m>8.06778188</m> </cell>
+              <cell> <m>0.29850382</m> </cell>
+            </row>
+
+            <row>
+              <cell> <m>6</m> </cell>
+              <cell> <m>8.06225964</m> </cell>
+              <cell> <m>0.00552224</m> </cell>
+            </row>
+
+            <row>
+              <cell> <m>7</m> </cell>
+              <cell> <m>8.06225775</m> </cell>
+              <cell> <m>0.00000189</m> </cell>
+            </row>
+          </tabular>
+        </table>
+
+        <p>
+          and since <m>|x_{7}-x_{6}| \lt 10^{-3}</m>, we can stop.
+          To 3 digits, <m>\sqrt{65}</m> is 8.062.
+        </p>
+      </solution>
+    </example>
+  </subsection>
+
+
+  <subsection>
+    <title>YASRA: Yet Another Square Root Algorithm</title>
+
+    <p>
+      We will use Taylor's series (see <xref ref="sect-taylor-series"/>) for <m>f(x)=\sqrt{x}</m> to find another algorithm for the square of <m>a</m>.
+      Let <m>c</m> be the center of the Taylor's Series of a function <m>f(x)</m>.
+      Then the function can be written
+      <me>
+        f(x) = \sqrt{c}+ \sum_{n=1}^{\infty}(-1)^{n+1}\frac{(2n-3)!!}{2^{n} n!}c^{-(2n-1)/2}(x-c)^{n}
+      </me>
+      where <m>n!!=1\cdot 3 \cdot 5 \cdot 7 \cdots n</m> and this is similar to <xref ref="ex-sqrt-taylor-series"/>, but in that example, the center was <m>0</m> and for this the center of the series is <m>c</m>.
+    </p>
+
+    <p>
+      From this we develop another square root algorithm to find <m>\sqrt{a}</m>.
+    </p>
+
+    <algorithm xml:id="alg-YASRA">
+      <statement>
+        <p>
+          The following will find <m>\sqrt{a}</m> to within <m>\epsilon</m>.
+        </p>
+
+        <p>
+          <ol>
+            <li>
+              <p>
+                Let <m>c</m> be the perfect square less than <m>a</m>.
+              </p>
+            </li>
+
+            <li>
+              <p>
+                Let <m>x_{0}= \sqrt{c}</m>
+              </p>
+            </li>
+
+            <li>
+              <p>
+                Let <m>\displaystyle x_{n+1}= x_{n} + (-1)^{n+1}\frac{(2n-3)!!}{2^{n} n!}c^{-(2n-1)/2}(a-c)^{n}</m> until <m>|x_{n+1}-x_{n}|  \lt  10^{-d}</m>.
+              </p>
+            </li>
+
+            <li>
+              <p>
+                Repeat step 3 until <m>|x_{n+1} - x_n| \lt \epsilon </m>
+              </p>
+            </li>
+          </ol>
+        </p>
+      </statement>
+    </algorithm>
+
+    <p>
+      Note: only <m>+,-,\cdot,/</m> are used since <m>c</m> is a perfect square.
+    </p>
+
+    <example xml:id="ex-YASRA">
+      <statement>
+        <p>
+          Use YASRA to find <m>\sqrt{65}</m> to with 0.0001.
+        </p>
+      </statement>
+
+      <solution>
+        <p>
+          <ol>
+            <li>
+              <p>
+                The first perfect square less than 65 is 64.
+              </p>
+            </li>
+
+            <li>
+              <p>
+                <m>x_{0} = 8</m>
+              </p>
+            </li>
+
+            <li>
+              <p>
+                <me>
+                  x_1 = x_{0} + \frac{1}{2}64^{-1/2}(65-64) = 8 + \frac{1}{2}\cdot \frac{1}{8}
+                </me>
+              </p>
+            </li>
+
+            <li>
+              <p>
+                <me>
+                  \begin{aligned} x_{2} \amp = x_{1} - \frac{1}{4\cdot 2!}64^{-3/2}(65-64)^{2} = \frac{129}{16}- \frac{1}{2}\frac{1}{4}\cdot \frac{1}{8^{3}} \\ \amp = \frac{33023}{4096} \approx 8.062255859375 \end{aligned}
+                </me>
+              </p>
+            </li>
+
+            <li>
+              <me>
+                \begin{aligned} x_{3} \amp = x_{2} + \frac{3}{8\cdot 3!}64^{-5/2}(65-64)^{3} = \frac{33023}{4096}+ \frac{3}{48}\cdot \frac{1}{8^{5}}\\ \amp = \frac{4226945}{524288}\approx 8.06225776672 \end{aligned}
+              </me>
+            </li>
+          </ol>
+        </p>
+
+        <p>
+          and since the difference between <m>x_{3}</m> and <m>x_{2}</m> is less than <m>10^{-4}</m>, we stop.
+        </p>
+      </solution>
+    </example>
+  </subsection>
+
+
+  <subsection>
+    <title>Analyzing Algorithms</title>
+
+    <p>
+      In this section, we have seen three different ways to compute a square root.
+      Each produces a sequence of points.
+      Here are some of the questions we should ask:
+    </p>
+
+    <p>
+      <ol>
+        <li>
+          <p>
+            Does the algorithm do what is intended? That is, can we prove that each algorithm generates the square root? (Does it converge to the correct answer?)
+          </p>
+        </li>
+
+        <li>
+          <p>
+            How fast does the sequence converge?
+          </p>
+        </li>
+      </ol>
+    </p>
+
+    <p>
+      These are two important questions that we will examine as we analyze algorithms throughout this book.
+    </p>
+  </subsection>
+</section>

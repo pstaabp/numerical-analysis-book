@@ -1,0 +1,329 @@
+<section xml:id="sect-composite-newton-cotes">
+  <title>Composite Newton-Cotes Quadrature</title>
+
+  <introduction>
+    <p>
+      In the previous section, we developed a class of numerical integration techniques called Newton-Cotes Quadrature formulas.
+      In this case we break down an integral into smaller subintervals and then apply the formulas from the previous section.
+    </p>
+
+    <p>
+      If we let <m>x_{i} = a+i h</m> where <m>h=(b-a)/n</m>, for <m>n</m> some positive integer, we can write
+      <me>
+        \begin{aligned}\int_{a}^{b} f(x) \, dx\amp = \int_{x_0}^{x_1}f(x) \, dx +\int_{x_1}^{x_2}f(x) \, dx + \cdots + \int_{x_{n-1}}^{x_n}f(x) \, dx \\\amp \approx \widehat{I}_{1}(f) + \widehat{I}_{2}(f) + \cdots + \widehat{I}_{n}(f)\end{aligned}
+      </me>
+      where <m>\widehat{I}_{k}</m> is some quadrature formula on <m>[x_{k-1},x_{k}]</m>.
+      Note, in this section, the subscript does not determine the quadrature formula (like trapezoid or Simpson's).
+      Instead it only determines the interval on which the formula is applied.
+    </p>
+  </introduction>
+
+
+  <subsection>
+    <title>Composite Trapezoid</title>
+
+    <p>
+      Recall that the Trapezoid Rule with its error term from Theorem thm:error:trap is
+      <me>
+        \begin{aligned}\int_{a}^{b} f(x) \, dx\amp = \frac{b-a}{2}\bigl(f(a) + f(b) \bigr) - \frac{(b-a)^{3}}{12}f''(\xi)\end{aligned}
+      </me>
+      and applying this to the interval <m>[x_{j},x_{j+1}]</m> is
+      <me>
+        \begin{aligned}\int_{x_j}^{x_{j+1}}f(x) \, dx\amp = \frac{x_{j+1}-x_{j}}{2}\bigl(f(x_{j}) + f(x_{j+1}) \bigr) - \frac{(x_{j+1}-x_{j})^{3}}{12}f''(\xi_{j})\\ \amp \qquad \text{and assuming that the points are equally-space, then $x_{j+1}-x_{j}=h$ and $\xi_{j} \in [x_{j},x_{j+1}]$}\\ \amp = \frac{h}{2}\bigl(f(x_{j}) + f(x_{j+1}) \bigr) - \frac{h^{3}}{12}f''(\xi_{j})\end{aligned}
+      </me>
+    </p>
+
+    <p>
+      So applying this on <m>n</m> subintervals of length <m>h</m> is
+      <me>
+        \begin{aligned}\int_{a}^{b} (x) \,\amp = \int_{x_0}^{x_1}f(x) \, dx +\int_{x_1}^{x_2}f(x) \, dx + \cdots + \int_{x_{n-1}}^{x_n}f(x) \, dx, \notag \\\amp =\underbrace{\frac{h}{2} \bigl( (f(x_0) + f(x_1)) + (f(x_1) + f(x_2)) + (f(x_2)+ f(x_3)) + (f(x_3)+f(x_4)) + \cdots }_{\text{Trapezoid Rule}}\notag \\\amp \qquad \underbrace{+ (f(x_{n-2}) + f(x_{n-1})) + (f(x_{n-1}) + f(x_n)) \bigr)}_{\text{Trapezoid Rule}}- \underbrace{\frac{h^{3}}{12} \sum_{j=1}^n f''(\xi_j) }_{\text{Error}}\label{eq:comp:trap:rule0}\end{aligned}
+      </me>
+    </p>
+
+    <p>
+      And this can be written more compactly.
+    </p>
+
+    <p>
+      The <term>Composite Trapezoid Rule</term> on <m>[a,b]</m> for <m>n</m> equally-spaced subintervals is designated <m>T_{n}(f)</m> and is
+      <men xml:id="eq-comp-trap-rule">
+        T_{n}(f) = \frac{h}{2}\biggl( f(x_{0}) + 2 \sum_{j=1}^{n-1}f(x_{j}) + f(x_{n}) \biggr),
+      </men>
+      where <m>h=(b-a)/n</m> and <m>x_{j} = a+jh</m>.
+    </p>
+
+    <p>
+      Let's look at the error formula a bit more carefully.
+      Let <m>c_{1}</m> and <m>c_{2}</m> be defined to be:
+      <me>
+        \begin{aligned}f''(c_{1})\amp = \max_{x \in [a,b]}f''(x),\amp f''(c_{2})\amp = \min_{x \in [a,b]}f''(x) ,\end{aligned}
+      </me>
+      therefore
+      <me>
+        \begin{aligned}f''(c_{2}) \leq f''(\xi_{i}) \leq f''(c_{1}) ,\end{aligned}
+      </me>
+      for each <m>i</m>.
+      If we sum over <m>i</m> from 1 to <m>n</m>, we get:
+      <me>
+        \begin{aligned}n f''(c_{2}) \leq \sum_{i=1}^{n} f''(\xi_{i}) \leq n f''(c_{1}),\end{aligned}
+      </me>
+    </p>
+
+    <p>
+      By the Intermediate Value Theorem there exists a number <m>\xi \in [a,b]</m> such that
+      <me>
+        \begin{aligned}n f''(\xi) = \sum_{i=1}^{n} f''(\xi_{i}).\end{aligned}
+      </me>
+    </p>
+
+    <p>
+      The error at the end of <xref ref="eq-comp-trap-rule"/> can now be written:
+      <me>
+        -\frac{h^{3}}{12}\sum_{j=1}^{n} f(\xi_{i}) = -\frac{h^{3}}{12}\cdot n f''(\xi) = -\frac{(b-a)h^{2}}{12}f''(\xi),
+      </me>
+      Where <m>h=(b-a)/n</m> has been used.
+      Therefore,
+      <me>
+        \begin{aligned}\int_{a}^{b} f(x) \, dx\amp = \frac{h}{2}\biggl( f(x_{0}) + 2 \sum_{i=1}^{n-1}f(x_{i}) + f(x_{n}) \biggr) - \frac{(b-a)h^{2}}{12}f''(\xi)\end{aligned}
+      </me>
+    </p>
+
+    <p>
+      The error of the Composite trapezoid rule is therefore:
+      <men xml:id="eq-error-comp-trap">
+        \int_{a}^{b} f(x) \, dx - T_{n}(f) = - \frac{(b-a)h^{2}}{12}f''(\xi),
+      </men>
+      for some <m>\xi \in [a,b]</m>.
+    </p>
+
+    <example xml:id="ex-comp-trap">
+      <statement>
+        <p>
+          Find <m>\int_{0}^{1} e^{-x^2}\,dx</m> using the composite trapezoid rule with <m>n=10</m>.
+          Find a bound on the error.
+        </p>
+      </statement>
+
+      <solution>
+        <p>
+          In this case <m>h=(b-a)/n=1/10</m>.
+          <me>
+            \begin{aligned}\int_{0}^{1} e^{-x^2}\,dx\amp = \frac{1}{20}\biggl( f(0) + 2 \sum_{i=1}^{9} f(i/10) + f(1) \biggr) \\\amp \approx 0.7462107961\end{aligned}
+          </me>
+        </p>
+
+        <p>
+          To find a bound on the error, we use (eq:error:comp:trap) and need a bound on the second derivative of <m>f(x)</m>.
+          It can be shown that <m>f''(x) = (4x^{2}-2)e^{-x^2}</m> and this reaches a maximum (in absolute value) at <m>x=0</m>, so <m>|f''(x)| \leq 2</m>.
+          Using <xref ref="eq-error-comp-trap"/>,
+          <me>
+            \begin{aligned}\biggl|- \frac{(b-a)h^{2}}{12}f''(\xi) \biggr| \leq \frac{1(1/10)}{12}\max_{x \in [0,1]}f''(\xi) \leq \frac{1}{120}(2) = \frac{1}{60}.\end{aligned}
+          </me>
+        </p>
+
+        <p>
+          Recall that this is a theoretical error bound and the actual error is about <m>6 \times 10^{-4}</m>.
+        </p>
+      </solution>
+    </example>
+  </subsection>
+
+
+  <subsection>
+    <title>Rate of Convergence</title>
+
+    <p>
+      Equation (eq:error:comp:trap) shows that the error is <m>O(h^{2})</m>.
+      The following example will also show this is true numerically.
+    </p>
+
+    <example>
+      <statement>
+        <p>
+          Show numerically that the error of composite trapezoid rule is <m>O(h^{2})</m> by the following.
+          Find <m>T_{n}(f)</m> for <m>n=1,2,4,8,\ldots,256</m> where <m>f(x) = \cos x</m> on <m>[0,\pi/2]</m>.
+          Build a table of errors and show that <m>e_{2h}/e_{h}</m> appears to converge to 4.
+        </p>
+      </statement>
+
+      <solution>
+        <p>
+          First, we will find <m>T_{n}(f)</m> for <m>n=1,2,4,8,\ldots,256</m>.
+          To demonstrate the first few, for <m>n=1</m>, <m>h/2 = (b-a)/2=\pi/4</m>, so
+          <me>
+            \begin{aligned}T_{1}(f)\amp = \frac{\pi}{4}(f(0) + f(\pi/2)) \approx 0.78539\end{aligned}
+          </me>
+          and when <m>n=2</m>, <m>h/2=(b-a)/4=\pi/8</m>, so
+          <me>
+            \begin{aligned}T_{2}(f)\amp = \frac{\pi}{8}\bigl( f(0) + 2 f(\pi/4) + f(\pi)\bigr) \approx 0.948059\end{aligned}
+          </me>
+          and so on.
+          The error is given by <m>e_{h}=I(f)-T_{n}(f)=1-T_{n}(f)</m> and finally a ratio <m>e_{2h}/e_{h}</m> is calculated.
+          The following table lists all these values for <m>n=1,2,4, \ldots, 256</m>.
+        </p>
+
+        <tabular>
+          <row bottom="minor">
+            <cell> <m>n</m> </cell>
+            <cell> <m>h</m> </cell>
+            <cell> <m>T_{n}(f)</m> </cell>
+            <cell> <m>e_{h}=I(f)-T_{n}(f)</m> </cell>
+            <cell> <m>e_{2h}/e_{h}</m> </cell>
+          </row>
+
+          <row>
+            <cell> <m>1</m> </cell>
+            <cell> <m>\pi/2</m> </cell>
+            <cell> <m>0.7853981635</m> </cell>
+            <cell> <m>0.2146018365</m> </cell>
+            <cell> </cell>
+          </row>
+
+          <row>
+            <cell> <m>2</m> </cell>
+            <cell> <m>\pi/4</m> </cell>
+            <cell> <m>0.9480594490</m> </cell>
+            <cell> <m>0.0519405510</m> </cell>
+            <cell> <m>4.1316819400</m> </cell>
+          </row>
+
+          <row>
+            <cell> <m>4</m> </cell>
+            <cell> <m>\pi/8</m> </cell>
+            <cell> <m>0.9871158012</m> </cell>
+            <cell> <m>0.0128841988</m> </cell>
+            <cell> <m>4.0313372840</m> </cell>
+          </row>
+
+          <row>
+            <cell> <m>8</m> </cell>
+            <cell> <m>\pi/16</m> </cell>
+            <cell> <m>0.9967851722</m> </cell>
+            <cell> <m>0.0032148278</m> </cell>
+            <cell> <m>4.0077415030</m> </cell>
+          </row>
+
+          <row>
+            <cell> <m>16</m> </cell>
+            <cell> <m>\pi/32</m> </cell>
+            <cell> <m>0.9991966798</m> </cell>
+            <cell> <m>0.0008033202</m> </cell>
+            <cell> <m>4.0019257580</m> </cell>
+          </row>
+
+          <row>
+            <cell> <m>32</m> </cell>
+            <cell> <m>\pi/64</m> </cell>
+            <cell> <m>0.9997991945</m> </cell>
+            <cell> <m>0.0002008055</m> </cell>
+            <cell> <m>4.0004890300</m> </cell>
+          </row>
+
+          <row>
+            <cell> <m>64</m> </cell>
+            <cell> <m>\pi/128</m> </cell>
+            <cell> <m>0.9999498004</m> </cell>
+            <cell> <m>0.0000501996</m> </cell>
+            <cell> <m>4.0001414350</m> </cell>
+          </row>
+
+          <row>
+            <cell> <m>128</m> </cell>
+            <cell> <m>\pi/256</m> </cell>
+            <cell> <m>0.9999874508</m> </cell>
+            <cell> <m>0.0000125492</m> </cell>
+            <cell> <m>4.0002231220</m> </cell>
+          </row>
+
+          <row>
+            <cell> <m>256</m> </cell>
+            <cell> <m>\pi/512</m> </cell>
+            <cell> <m>0.9999968633</m> </cell>
+            <cell> <m>0.0000031367</m> </cell>
+            <cell> <m>4.0007651350</m> </cell>
+          </row>
+        </tabular>
+
+        <p>
+          An <m>O(h^{2})</m> method will have <m>e_{2h}/e_{h} \rightarrow 4</m> because since
+          <me>
+            \begin{aligned}e_{h}\amp = c h^{2}\amp e_{2h}\amp = c (2h)^{2}\\ \amp  \text{finding the ratio}\frac{e_{2h}}{e_{h}}\\ \amp = \frac{4ch^{2}}{ch^{2}}= 4 .\end{aligned}
+          </me>
+        </p>
+      </solution>
+    </example>
+
+    <p>
+      We will show later in this chapter that knowing that the trapezoid rule is <m>O(h^{2})</m> will allow us to create an accelerated quadrature method called Romberg integration.
+    </p>
+  </subsection>
+
+
+  <subsection>
+    <title>Composite Simpson's Rule</title>
+
+    <p>
+      Since Simpson's Rule has 2 subintervals, when we extend it to a composite Simpson's rule, we need an even number of subintervals for <m>n</m>, so let <m>n=2m</m>, and
+      <me>
+        \begin{aligned}h\amp = \frac{b-a}{n}= \frac{b-a}{2m}\\ x_{i}\amp = a + ih\end{aligned}
+      </me>
+      for <m>i = 0, 1, 2, \ldots, n</m>.
+    </p>
+
+    <p>
+      If <m>\widehat{I}_{k}(f)</m> represents Simpson's Rule on <m>[x_{2k},x_{2k+1}]</m>, then
+      <me>
+        \begin{aligned}\int_{a}^{b} f(x) \,\amp = \int_{x_0}^{x_2}f(x) \, dx +\int_{x_2}^{x_4}f(x) \, dx + \cdots + \int_{x_{n-2}}^{x_n}f(x) \, dx \\\amp \approx \widehat{I}_{0} (f) + \widehat{I}_{1} (f) + \cdots + \widehat{I}_{m} (f) \\\amp = \underbrace{\frac{h}{3} \bigl( f(x_0) + 4 f(x_1) + f(x_2) + f(x_2) + 4f(x_3) + f(x_4) +}_{\text{Simpson's rule}}\\\amp \qquad \underbrace{\cdots+ f(x_{n-1}) + 4 f(x_{n-1}) + f(x_n) \bigr)}_{\text{Simpson's rule}}\\\amp \qquad - \underbrace{ \sum_{j=1}^n \frac{(x_{2j}-x_{2j-2})^{5}}{2880}f''''(\xi_j) }_{\text{Error}}\end{aligned}
+      </me>
+      <term>Composite Simpson's Rule</term> on the interval <m>[a,b]</m> is given by
+      <men xml:id="eq-comp-simp">
+        \begin{aligned}S_{n}(f)\amp = \frac{h}{3}\biggl( f(x_{0}) + 4 \sum_{j=1}^{m} f(x_{2j-1}) + 2 \sum_{j=1}^{m-1}f(x_{2j}) + f(x_{2m}) \biggr) \end{aligned}
+      </men>
+      for <m>n</m> even and <m>h=(b-a)/n</m> and <m>x_{i}=a+ih</m>.The error associated with Simpson's rule is
+      <me>
+        \begin{aligned}\int_{a}^{b} f(x) \,dx - S_{n} (f)\amp = - \frac{(b-a)h^{4}}{180}f^{(4)}(\xi) \label{eq:comp:simp:error}\end{aligned}
+      </me>
+      for some number <m>\xi \in [a,b]</m>.
+    </p>
+
+    <p>
+      The error analysis above for Simpson's rule is similar to that found in the composite trapezoid rule above.
+    </p>
+
+    <example>
+      <statement>
+        <p>
+          Find <m>\int_{0}^{1} e^{-x^2}\, dx</m> using composite Simpson's rule and <m>m=5</m>.
+          (That is, <m>n=10</m>).
+          Also, find the theoretical error bound using <m>|f^{(4)}(x)| \leq 10</m> on <m>[0,1]</m>.
+        </p>
+
+        <p>
+        </p>
+
+        <p>
+          First, note that the nodes are <m>x_{j}=jh</m> for <m>j=0,1,2, \ldots, 10</m> and <m>h=1/10</m>.
+          Let <m>f(x) = e^{-x^2}</m>.
+          <me>
+            \begin{aligned}I_{k}(f)\amp = \frac{1}{30}\bigl(f(0) + 4 f(0.1) + 2 f(0.2) + 4 f(0.3) + 2 f(0.4) + 4 f(0.5) \\\amp \qquad \qquad + 2 f(0.6) + 4 f(0.7) + 2 f(0.8) + 4 f(0.9) + f(1) \bigr) \\\amp \approx 0.7468249483.\end{aligned}
+          </me>
+        </p>
+
+        <p>
+          The error can be found by using (eq:comp:simp:error),
+          <me>
+            \begin{aligned}\biggl\vert \int_{a}^{b} e^{-x^2}\,dx - S_{10}(f) \biggr\vert\amp = \biggl\vert - \frac{(1-0) (1/10)^{4}}{180}f^{(4)}(\xi) \biggr\vert \\ \leq 5.555 \times 10^{-6}\end{aligned}
+          </me>
+          so the approximate value of the integral given above is guaranteed accurate to 5 decimal places.
+        </p>
+      </statement>
+    </example>
+
+    <p>
+      The methods given here in this section can be extended to the other Newton-Cotes rules like the 3/8-rule and Boole's rule.
+      However, they are generally not used.
+      It is often simpler to stay with the composite trapezoid or Simpson's rule and use more subintervals to decrease the error.
+      Also as we will see at the end of this chapter an accelerated method using composite trapezoid method will often generate more accurate results with fewer function evaluations.
+    </p>
+  </subsection>
+</section>

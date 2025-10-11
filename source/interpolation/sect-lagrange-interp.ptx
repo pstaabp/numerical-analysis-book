@@ -1,0 +1,514 @@
+<section xml:id="sect-lagrange-interp">
+  <title>The Lagrange Form of the Interpolating Polynomial</title>
+
+  <introduction>
+    <p>
+      Let's return to the notion of fitting a polynomial to a set of data.
+      We will start with two points.
+      Consider the points <m>(x_{0},f_{0})</m> and <m>(x_{1},f_{1})</m>.
+      The lowest-order polynomial that fits the data is a straight line which can be written in point-slope form as:
+      <me>
+        \begin{aligned}y=f_{0} + \frac{f_{1}-f_{0}}{x_{1}-x_{0}}(x-x_{0}).\end{aligned}
+      </me>
+    </p>
+
+    <p>
+      Rearranging this a bit we can get:
+      <md>
+        <mrow>y  \amp =\frac{f_{0} (x_{1} - x_{0}) + (f_{1} - f_{0}) (x-x_{0}) }{x_{1}-x_{0}},</mrow>
+        <mrow> \amp =\frac{f_{0} (x_{1}-x) + f_{1} (x - x_{0})}{x_{1} - x_{0}},</mrow>
+        <mrow xml:id="eq-linear-lagrange" number="yes"> \amp = f_{0} \frac{x-x_{1}}{x_{0}-x_{1}}+ f_{1} \frac{x-x_{0}}{x_{1}-x_{0}}.</mrow>
+      </md>
+    </p>
+
+    <p>
+      The functions
+      <men xml:id="eq-lagrange-linear-comps">
+        \begin{aligned}L_{1,0}(x)\amp = \frac{x-x_{1}}{x_{0}-x_{1}},\amp L_{1,1}(x)\amp = \frac{x-x_{0}}{x_{1} - x_{0}},\end{aligned}
+      </men>
+      are called the Lagrange polynomials and are the “functional” part of <xref ref="eq-linear-lagrange"/>.
+      In this case, they are a lines and have the properties:
+      <men xml:id="eq-lagrange-linear-props">
+        \begin{aligned}L_{1,0}(x_{0})\amp = 1,\amp L_{1,0}(x_{1})\amp = 0,\amp L_{1,1}(x_{0})\amp = 0,\amp L_{1,1}(x_{1})\amp = 1.
+        \end{aligned}
+      </men>
+    </p>
+
+    <p>
+      Because of this property, it makes the interpolating polynomial easy to find.
+      You just need to multiply the each Lagrange polynomial by the appropriate <m>y</m>-value, thus <xref ref="eq-linear-lagrange"/>can be written as
+      <men xml:id="eq-linear-lagrange-short">
+        y = f_{0} L_{1,0}(x) + f_{1} L_{1,1}(x)
+      </men>
+      and we will see that both the quadratic form and general form of interpolation is similar.
+      We can now use this in an example.
+    </p>
+
+    <example>
+      <statement>
+        <p>
+          Use the Lagrange formulas above to find the line that interpolates through the points <m>(2,5)</m> and <m>(4,1)</m>.
+        </p>
+
+        <p>
+        </p>
+
+        <p>
+          First, we will find the Lagrange polynomials in <xref ref="eq-lagrange-linear-comps"/> with <m>x_{0}=2</m> and <m>x_{1}=4</m>
+          <me>
+            \begin{aligned}L_{1,0}\amp = \frac{x-4}{2-4}\amp L_{1,1}\amp = \frac{x-2}{4-2}\end{aligned}
+          </me>
+          and then the interpolated line is found using <xref ref="eq-linear-lagrange-short"/>,
+          <me>
+            \begin{aligned}y\amp = 5 \cdot \frac{x-4}{-2}+ 1 \cdot \frac{x-2}{2}\\\amp = -2x +9\end{aligned}
+          </me>
+          which is the same result if one found the line through the two given points using a technique from Precalculus.
+        </p>
+      </statement>
+    </example>
+  </introduction>
+
+
+  <subsection>
+    <title>Quadratic Lagrange Polynomials</title>
+
+    <p>
+      If we look at the above properties for the linear Lagrange polynomials in (eq:lagrange:linear:props), we can hypothesize the properties of a quadratic Lagrange polynomial.
+    </p>
+
+    <p>
+      <me>
+        \begin{aligned}L_{2,0}(x_{0})\amp = 1,\amp L_{2,0}(x_{1})\amp = 0,\amp L_{2,0}(x_{2})\amp = 0, \\ L_{2,1}(x_{0})\amp = 0,\amp L_{2,1}(x_{1})\amp = 1,\amp L_{2,1}(x_{2})\amp = 0, \\ L_{2,2}(x_{0})\amp = 0,\amp L_{2,2}(x_{1})\amp = 0,\amp L_{2,2}(x_{2})\amp = 1.\end{aligned}
+      </me>
+    </p>
+
+    <p>
+      Also, analogous to <xref ref="eq-lagrange-linear-comps"/>, the following are the quadratic Lagrange polynomials.
+      <men xml:id="eq-lagrange-quad-polys">
+        \begin{aligned}L_{2,0}(x)\amp = \frac{(x-x_{1})(x-x_{2})}{(x_{0}-x_{1})(x_{0}-x_{2})}, \notag \\ L_{2,1}(x)\amp = \frac{(x-x_{0})(x-x_{2})}{(x_{1}-x_{0})(x_{1}-x_{2})}, \notag \\ L_{2,2}(x)\amp = \frac{(x-x_{0})(x-x_{1})}{(x_{2}-x_{0})(x_{2}-x_{1})}.
+        \end{aligned}
+      </men>
+    </p>
+
+    <p>
+      And the quadratic function that interpolates the data <m>\{(x_{0},f_{0}), (x_{1},f_{1}), (x_{2},f_{2})\}</m> is
+      <men xml:id="eq-lagrange-quad">
+        \begin{aligned}y = f_{0} L_{2,0}(x) + f_{1} L_{2,1}(x)+f_{2} L_{2,2}(x) \label{eq:lagrange:quad}\end{aligned}
+      </men>
+      and is the quadratic version of <xref ref="eq-linear-lagrange"/>.
+    </p>
+
+    <example xml:id="ex-lagrange-interp-quad">
+      <statement>
+        <p>
+          Use the dataset <m>\{(0,0),(1,1),(3,2)\}</m> that was given in <xref ref="ex-quad-interp-basic"/> to find the interpolating polynomial using the Lagrange formulas:
+        </p>
+      </statement>
+
+      <solution>
+        <p>
+          First, find the individual Lagrange polynomials in <xref ref="eq-lagrange-quad-polys"/> for the given <m>x</m> values:
+          <me>
+            \begin{aligned}L_{2,0}(x)\amp = \frac{(x-1)(x-3)}{(0-1)(0-3)}= \frac{1}{3}(x-1)(x-3), \\ L_{2,1}(x)\amp = \frac{(x-0)(x-3)}{(1-0)(1-3)}= -\frac{1}{2}x(x-3),\\ L_{2,2}(x)\amp = \frac{(x-0)(x-1)}{(3-0)(3-1)}= \frac{1}{6}x(x-1),\\\end{aligned}
+          </me>
+          and the resulting interpolating polynomial given by <xref ref="eq-lagrange-quad"/> is
+          <me>
+            \begin{aligned}y\amp = (0) \frac{1}{3}(x-1)(x-3) + (1)\frac{-1}{2}x(x-3) + (2) \frac{1}{6}x(x-1), \\\amp = -\frac{1}{2}x^{2} + \frac{3}{2}x + \frac{1}{3}x^{2} - \frac{1}{3}x = -\frac{1}{6}x^{2} +\frac{7}{6}x,\end{aligned}
+          </me>
+          which is the same polynomial that we found in <xref ref="ex-quad-interp-basic"/>.
+        </p>
+      </solution>
+    </example>
+  </subsection>
+
+
+  <subsection>
+    <title>General Lagrange Polynomial</title>
+
+    <p>
+      The general <m>k</m>-th Lagrange polynomial of order <m>n</m> is given by
+      <me>
+        \begin{aligned}L_{n,k}(x)\amp = \frac{ (x-x_{0})(x-x_{1})\cdots (x-x_{k-1})(x-x_{k+1}) \cdots (x-x_{n}) }{ (x_{k}-x_{0})(x_{k}-x_{1})\cdots (x_{k}-x_{k-1})(x_{k}-x_{k+1}), \cdots (x_{k}-x_{n})}\\\amp = \prod_{\stackrel{i=0,}{i\neq k}}^{n}\frac{x-x_{i}}{x_{k}-x_{i}}.\end{aligned}
+      </me>
+    </p>
+
+    <p>
+      Notice that this gives the property
+      <me>
+        \begin{aligned}L_{n,k}(x_{i}) = 0 \quad\text{for all $i \neq k$}\quad L_{n,k}(x_{k}) = 1.
+        \end{aligned}
+      </me>
+    </p>
+
+    <p>
+      And the general interpolating polynomial <m>P_{n}(x)</m> that passes through the data <m>(x_{i},f_{i})</m> for <m>0 \leq i \leq n</m> is
+      <me>
+        \begin{aligned}P_{n}(x)\amp = \sum_{k=1}^{n} f_{i} L_{n,k}(x) .\end{aligned}
+      </me>
+    </p>
+
+    <example xml:id="ex-interp-normal-dist">
+      <statement>
+        <p>
+          If we return to the problem of finding a polynomial that passes through the probability data given at the beginning of the chapter:
+        </p>
+
+        <tabular>
+          <col right="minor"> </col> <col> </col> <col> </col> <col> </col> <col> </col> <col> </col>
+          <row>
+            <cell> <m>x</m> </cell>
+            <cell> <m>0</m> </cell>
+            <cell> <m>0.25</m> </cell>
+            <cell> <m>0.50</m> </cell>
+            <cell> <m>0.75</m> </cell>
+            <cell> <m>1</m> </cell>
+          </row>
+
+          <row>
+            <cell> <m>y</m> </cell>
+            <cell> <m>0.0000</m> </cell>
+            <cell> <m>0.0987</m> </cell>
+            <cell> <m>0.1915</m> </cell>
+            <cell> <m>0.2734</m> </cell>
+            <cell> <m>0.3413</m> </cell>
+          </row>
+        </tabular>
+
+        <p>
+          in which <m>y=P(X \gt x)</m>.
+          Then the Lagrange polynomials using the <m>x</m>-values in the table above are:
+          <me>
+            \begin{aligned}L_{4,0}(x)\amp = \frac{(x-0.25)(x-0.5)(x-0.75)(x-1)}{(0-0.25)(0-0.5)(0-0.75)(0-1)}\\ L_{4,1}(x)\amp = \frac{(x-0)(x-0.5)(x-0.75)(x-1)}{(0.25-0)(0.25-0.5)(0.25-0.75)(0.25-1)}\\ L_{4,2}(x)\amp = \frac{(x-0)(x-0.25)(x-0.75)(x-1)}{(0.5-0)(0.5-0.25)(0.5-0.75)(0.5-1)}\\ L_{4,3}(x)\amp = \frac{(x-0)(x-0.25)(x-0.5)(x-1)}{(0.75-0)(0.75-0.25)(0.75-0.5)(0.75-1)}\\ L_{4,4}(x)\amp = \frac{(x-0)(x-0.25)(x-0.5)(x-0.75)}{(1-0)(1-0.25)(1-0.5)(1-0.75)}\\\end{aligned}
+          </me>
+          and the resulting Lagrange interpolating polynomial is
+          <me>
+            \begin{aligned}P_{4} (x)\amp = \sum_{k=0}^{4}f_{k} L_{4,k}\\\amp = 0.01923862081x^{4}-0.08107936270x^{3}\\\amp \qquad +0.00479110462x^{2}+0.3983943834x,\end{aligned}
+          </me>
+          where simplification has taken place.
+        </p>
+
+        <p>
+          The data and the interpolating polynomial are plotted below:
+        </p>
+
+        <figure xml:id="fig-lagrange-interp">
+          <caption></caption>
+          <image>
+            <shortdescription>
+            </shortdescription>
+            <latex-image>
+      <![CDATA[
+      \begin{tikzpicture}[xscale=3,yscale=5]
+\draw[->] (-0.5,0) -- (1.2,0) node [above right] {$x$}; \foreach \x in {0.25,0.5,0.75,1} \draw (\x,0.02) -- (\x,-0.02) node [below] {\x};
+ \draw[->] (0,-0.1) -- (0,0.6) node [above right] {$y$};
+\foreach \y in {0.1,0.2,0.3,0.4,0.5} \draw (0.02,\y) -- (-0.02,\y) node [left] {\y};
+\draw[<->] plot [domain=-0.2:1.2] (\x,{0.01923862081*pow(\x,4)-0.08107936270*pow(\x,3)+0.00479110462*\x*\x+0.3983943834*\x});
+\foreach \x/\y in {0/0,0.25/0.0987,0.50/0.1915,0.75/0.2734,1.0/0.3413} \fill (\x,\y) ellipse [x radius=0.5pt, y radius = 0.3pt];
+\end{tikzpicture}
+      ]]>
+            </latex-image>
+          </image>
+        </figure>
+
+        <p>
+          For example, if we use the interpolating polynomial to calculate the probability <m>P(X \geq 0.64)</m>, the polynomial gives us:
+          <me>
+            \begin{aligned}P_{4}(0.64)\amp = 0.2389,\end{aligned}
+          </me>
+          which agrees to the cumulative density function (given in Probability and Statistics books) to 4 digits.
+        </p>
+      </statement>
+    </example>
+
+    <p>
+      The following theorem shows that given a set of points, there exists a polynomials that passes through the points and that polynomial is unique.
+    </p>
+
+    <theorem xml:id="thm-interp-exist-unique">
+      <statement>
+        <p>
+          If <m>x_{0},x_{1},x_{2},\ldots, x_{n}</m> are distinct points in the domain of <m>f</m>, then there exists a unique polynomial, <m>P</m> of degree at most <m>n</m> such that <m>P</m> interpolates <m>f</m>; that is
+          <me>
+            P(x_{i}) = f(x_{i})
+          </me>
+          for each <m>i=0,1,2, \ldots, n</m>.
+          The function <m>P</m> is called the <term>interpolating polynomial</term>.
+        </p>
+      </statement>
+
+
+      <proof>
+        <p>
+          <alert>Existence:</alert>
+        </p>
+
+        <p>
+          Such a polynomial exists by constructing the Lagrange polynomial as seen above.
+        </p>
+
+        <p>
+          <me>
+            \begin{aligned}P_{n}(x)\amp = \sum_{i=0}^{n} f(x_{i}) L_{n,i}(x)\end{aligned}
+          </me>
+          and using the properties of the Lagrange polynomials:
+          <me>
+            \begin{aligned}P_{n}(x_{i})\amp = \sum_{i=0}^{n} f(x_{i}) L_{n,i}(x_{i}) = f(x_{i}).\end{aligned}
+          </me>
+          for each <m>i=0,1,2, \ldots, n</m>.
+        </p>
+
+        <p>
+          <alert>Uniqueness:</alert>
+        </p>
+
+        <p>
+          This will proceed by contradiction.
+          Suppose both <m>P(x)</m> and <m>Q(x)</m> are polynomials of degrees at most <m>n</m> which interpolate <m>f</m> at the given points.
+        </p>
+
+        <p>
+          Let <m>h(x) = P(x) - Q(x)</m>.
+          Since both <m>P</m> and <m>Q</m> are polynomials of degree at most <m>n</m>, the same is true for <m>h</m>.
+          Also,
+          <me>
+            \begin{aligned}h(x_{i})\amp = P(x_{i}) - Q(x_{i}) = f(x_{i}) -f(x_{i}) = 0\end{aligned}
+          </me>
+          for each <m>i=0,1,2,\ldots, n</m>.
+          Therefore <m>h</m> is a polynomial of degree at most <m>n</m> with <m>n+1</m> roots.
+          The fundamental Theorem of Algebra guarantees that the only way this can happen is if <m>h(x) \equiv 0</m>.
+          This implies that <m>P\equiv Q</m>, and thus the polynomial is unique.
+        </p>
+      </proof>
+    </theorem>
+
+    <p>
+      Since the above theorem shows that the interpolating polynomial is unique, therefore the method used to find it does not matter.
+      <xref ref="ex-quad-interp-basic"/> used a basic method to arrive at the interpolating polynomial through the points <m>(0,0), (1,1)</m> and <m>(3,2)</m>.
+      <xref ref="ex-lagrange-interp-quad"/> used Lagrange interpolation to arrive at the same answer and in the next section, we will see yet another form.
+    </p>
+  </subsection>
+
+
+  <subsection>
+    <title>Error in the interpolating polynomial</title>
+
+    <p>
+      We saw in <xref ref="ex-interp-normal-dist"/>, the interpolating polynomial with the normal distribution data given was accurate to 4 decimal places at the desired point.
+      The next theorem shows how to calculate this.
+    </p>
+
+    <theorem xml:id="thm-interp-error">
+      <statement>
+        <p>
+          Suppose <m>x_{0}, x_{1}, x_{2}, \ldots x_{n}</m> are distinct numbers in <m>[a,b]</m> and <m>f \in C^{n+1}[a,b]</m>.
+          Then for each <m>x</m> in <m>[a,b]</m>, a number <m>\xi(x)</m> in <m>(a,b)</m> exists with
+          <me>
+            f(x) = P(x) + \frac{f^{(n+1)}(\xi(x))}{(n+1)!}(x-x_{0})(x-x_{1}) \cdots (x-x_{n}).
+          </me>
+        </p>
+
+        <p>
+          This results in a error term:
+          <me>
+            R(x) = f(x)-P(x) = \frac{f^{(n+1)}(\xi(x))}{(n+1)!}(x-x_{0})(x-x_{1}) \cdots (x-x_{n}).
+          </me>
+        </p>
+      </statement>
+
+
+      <proof>
+        <p>
+          First, note that because of the form of the error term
+          <me>
+            \begin{aligned}f(x_{i})\amp = P(x_{i})\amp \amp \text{for $i=0 \ldots n$}\\\end{aligned}
+          </me>
+          since at each <m>x_{i}</m>, the error term is zero.
+        </p>
+
+        <p>
+          For any value <m>x \in [a,b]</m> such that <m>x \neq x_{i}</m> for all <m>i</m>, define:
+          <me>
+            \begin{aligned}g(t)\amp = f(t) - P(t) - \bigl(f(x) -P(x) \bigr) \prod_{i=0}^{n}\frac{t-x_{i}}{x-x_{i}}\\\end{aligned}
+          </me>
+        </p>
+
+        <p>
+          By the conditions of the theorem, <m>f</m> has <m>n+1</m> continuous derivatives, and since <m>P</m> is a polynomial, and it has <m>n+1</m> continuous derivatives, <m>g</m> has <m>n+1</m> continuous derivatives on <m>(a,b)</m>.
+        </p>
+
+        <p>
+          Furthermore,
+          <me>
+            \begin{aligned}g(x_{j})\amp = f(x_{j}) - P(x_{j}) - \bigl(f(x)-P(x) \bigr) \cdot 0 \\\amp = 0\end{aligned}
+          </me>
+          for <m>j=0, 1, \ldots, n</m> and
+          <me>
+            \begin{aligned}g(x)\amp = f(x) - P(x) - \bigl(f(x) - P(x) \bigr) \prod_{i=0}^{n} \frac{x-x_{i}}{x-x_{i}}\\\amp = f(x) - P(x) - \bigl(f(x) - P(x)\bigr) \cdot 1 = 0.\end{aligned}
+          </me>
+          therefore <m>g</m> has <m>n+2</m> roots on <m>[a,b]</m>.
+          Applying the Generalized Rolle's Theorem given in Theorem thm:generalized:rolles, it follows that there exists <m>\xi \in [a,b]</m> such that <m>g^{(n+1)}(\xi) = 0</m>.
+        </p>
+
+        <p>
+          Note that <m>P</m> is a polynomial of degree at most <m>n</m>, so <m>P^{(n+1)}(x) \equiv 0</m>.
+          And <m>\prod_{i=0}^{n}\frac{t-x_{i}}{x-x_{i}}</m> is a polynomial of degree <m>n+1</m> with leading coefficient <m>\prod_{i=0}^{n} (x-x_{i})^{-1}</m>, so
+          <me>
+            \begin{aligned}\frac{d^{n+1}}{dt^{n+1}}\biggl[\prod_{i=0}^{n} \frac{t-x_{i}}{x-x_{i}}\biggr] ,\amp = (n+1)! \biggl[\prod_{i=0}^{n} (x-x_{i}) \biggr]^{-1}.\end{aligned}
+          </me>
+        </p>
+
+        <p>
+          Differentiating <m>g</m> <m>n+1</m> times and evaluating it at <m>\xi</m> yields
+          <me>
+            \begin{aligned}0\amp = g^{(n+1)}(\xi) = f^{(n+1)}(\xi) - 0 - \bigl(f(x) - P(x)\bigr) \biggl[\prod_{i=1}^{n} (x-x_{i})\biggr]^{-1}.\end{aligned}
+          </me>
+        </p>
+
+        <p>
+          Solving for <m>f(x)</m>, results in
+          <me>
+            \begin{aligned}f(x)\amp = P(x) + \frac{f^{(n+1)}(\xi)}{(n+1)!}(x-x_{0})(x-x_{1}) \cdots (x-x_{n})\end{aligned}
+          </me>
+        </p>
+      </proof>
+    </theorem>
+
+    <p>
+      This theorem now allows us to determine the error associated with approximating a function.
+      The following example shows how one can use this to determine how well an interpolated polynomial approximates a function.
+    </p>
+
+    <example xml:id="ex-interp-error">
+      <statement>
+        <p>
+          Find the interpolated polynomial for the function <m>f(x)=\sin x</m> on <m>[0,\pi]</m> using 3 equally-spaced points.
+          Find a bound on the error using <xref ref="thm-interp-error"/>.
+        </p>
+      </statement>
+
+      <solution>
+        <p>
+          First, we will find the interpolated polynomial through the points <m>(0,0)</m>, <m>(\pi/2,1)</m> and <m>(\pi,0)</m>.
+          We will need the three Lagrange polynomials:
+          <me>
+            \begin{aligned}L_{2,0}(x)\amp = \frac{(x-\pi/2)(x-\pi)}{(0-\pi/2)(0-\pi)}\\ L_{2,1}(x)\amp = \frac{(x-0)(x-\pi)}{(\pi/2-0)(\pi/2-\pi)}\\ L_{2,2}(x)\amp = \frac{(x-0)(x-\pi/2)}{(\pi-0)(\pi-\pi/2)}\\\end{aligned}
+          </me>
+          and then write:
+          <me>
+            \begin{aligned}P_{2}(x)\amp = 0 \cdot L_{2,0}(x) + 1 \cdot L_{2,1}(x) + 0 \cdot L_{2,2}(x) \\\amp = -\frac{4}{\pi^{2}}x(x-\pi)\end{aligned}
+          </me>
+        </p>
+
+        <p>
+          Here is a plot of both <m>f</m> and <m>P_{2}</m> on <m>[0,\pi]</m>.
+        </p>
+
+        <figure xml:id="fig-lagrange-p2">
+          <caption></caption>
+          <image>
+            <shortdescription>
+            </shortdescription>
+            <latex-image>
+      <![CDATA[
+        \begin{tikzpicture}[scale=3]
+          \draw[->] (-0.5,0) -- (3.5,0) node [above right] {$x$};
+          \foreach \x/\lab in {0.785/{\frac{\pi}{4}},1.57/{\frac{\pi}{2}},2.356/{\frac{3\pi}{4}},3.142/{\pi}} \draw (\x,0.1) -- (\x,-0.1) node [below] {$\lab$};
+          \draw[->] (0,-1.25) -- (0,1.25) node [above right] {$y$};
+          \foreach \y in {-1,1} \draw (0.1,\y) -- (-0.1,\y) node [left] {\y};
+          \draw[<->] plot [domain=-0.1:3.3] (\x,{sin(\x r)});
+          \draw[<->,dashed] plot [domain=-0.3:3.3] (\x,{-4*\x*(\x-pi)/pi/pi});
+        \end{tikzpicture}
+      ]]>
+            </latex-image>
+          </image>
+        </figure>
+
+        <p>
+          As you can see from the plot, the interpolated polynomial and the sine function are close (but not identical).
+          Now, let's use <xref ref="thm-interp-error"/> to find the error,
+          <me>
+            \begin{aligned}R(x)\amp = |f(x)-P_{n}(x)| = \biggl\vert \frac{f^{(n+1)}(\xi(x))}{(n+1)!}\prod_{i=0}^{n} (x-x_{i}) \biggr\vert.\end{aligned}
+          </me>
+        </p>
+
+        <p>
+          First, there is the term <m>f^{(n+1)}(\xi(x))</m> for <m>\xi \in [0,\pi]</m> and <m>n=2</m>.
+          Since the function is the sine function, this can be bounded by 1.
+          Next, is the term:
+          <me>
+            \begin{aligned}E(x)\amp =(x-0)(x-\pi/2)(x-\pi)\end{aligned}
+          </me>
+        </p>
+
+        <p>
+          We also need to find the maximum of this error, which must occur when <m>E'(x)=0</m> or
+          <me>
+            \begin{aligned}E'(x)\amp = (x-\pi/2)(x-\pi) + x(x-\pi)+x(x-\pi/2) \\\amp = 3x^{2} - 3\pi x + \frac{\pi^{2}}{2}=0\end{aligned}
+          </me>
+          which has a zero when <m>x=(3\pi \pm \sqrt{9\pi^{2}-6\pi^{2}})/6=\frac{\pi}{2}(1 \pm \sqrt{3}/3)</m> and <m>|E(x)|</m> at either of these points is <m>\pi^{3}/(12\sqrt{3})</m>.
+          Therefore a bound on the error:
+          <me>
+            \begin{aligned}\biggl\vert\frac{f^{(n+1)}(\xi(x))}{(n+1)!}(x-0)(x-\pi/2)(x-\pi) \biggr\vert \leq \frac{1}{3!}\frac{\pi^{3}}{12 \sqrt{3}}\approx 0.2486.\end{aligned}
+          </me>
+        </p>
+
+        <p>
+          Thus the approximation (using the polynomial) in place of the sine function on this interval is bounded by 0.2486.
+        </p>
+      </solution>
+    </example>
+  </subsection>
+
+
+  <subsection>
+    <title>Advantages and Disadvantages of the Lagrange form</title>
+
+    <p>
+      We will soon see an alternative way of finding a polynomial interpolant.
+      Before moving on, let's look at the advantages and disadvantages:
+    </p>
+
+    <p>
+      <alert>Advantages</alert>: The formula for computing the Lagrange form is relatively simple and easy (as we will see) to understand. The other advantage is the error formula just proved above is easy to derive because of the Lagrange form.
+    </p>
+
+    <p>
+      <alert>Disadvantages:</alert> The main disadvantage is seen by considering the following scenario: Let's return to the problem seen above in that we found a polynomial interpolant through the data:
+    </p>
+
+    <tabular>
+      <col right="minor"> </col> <col> </col><col> </col><col> </col><col> </col><col> </col>
+      <row>
+        <cell> <m>x</m> </cell>
+        <cell>0</cell>
+        <cell>0.25</cell>
+        <cell>0.50</cell>
+        <cell>0.75</cell>
+        <cell>1</cell>
+      </row>
+
+      <row>
+        <cell> <m>P(X \gt x)</m> </cell>
+        <cell>0.0000</cell>
+        <cell>0.0987</cell>
+        <cell>0.1915</cell>
+        <cell>0.2734</cell>
+        <cell>0.3413</cell>
+      </row>
+
+      <row>
+        <cell> </cell>
+      </row>
+    </tabular>
+
+    <p>
+      Consider the case of another point is found (perhaps we know that <m>P(X \gt 0.6)= 0.2257</m>) and we would like to produce a new polynomial that incorporates this new point.
+    </p>
+
+    <p>
+      Unfortunately, the Lagrange form requires that we start from scratch and rebuild the polynomial.
+      That is, we can't use the current polynomial to find a new polynomial.
+      We will see that this is possible with the Newton Divided Differences.
+    </p>
+  </subsection>
+</section>

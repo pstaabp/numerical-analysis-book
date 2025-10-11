@@ -1,0 +1,173 @@
+<section xml:id="sect-rational-interp">
+  <title>Rational Interpolation and Approximation</title>
+
+  <introduction>
+    <p>
+      We now extend some of the ideas above to that using rational functions instead of polynomials.
+    </p>
+  </introduction>
+
+
+  <subsection>
+    <title>Padé Approximations</title>
+
+    <p>
+      The first Rational Approximation to a function that we will discuss is that of the Padé approximation.
+      This is the equivalent of the Taylor Series to rational functions.
+    </p>
+
+    <p>
+      Recall that a Taylor approximation to a function <m>f(x)</m> is a polynomial <m>P(x)</m> such that
+      <me>
+        \begin{aligned}f^{(i)}(x_{0})\amp = P^{(i)}(x_{0}) \qquad \text{for some $x_{0}$ and $i=0,1, \ldots, n$}\end{aligned}
+      </me>
+    </p>
+
+    <example>
+      <statement>
+        <p>
+          The Taylor Polynomial <m>P_{2}(x)</m> to <m>f(x)=e^{-x}</m> at <m>x_{0}=0</m> is
+          <me>
+            \begin{aligned}P_{2}(x)\amp = 1 - x + \frac{x^{2}}{2}\end{aligned}
+          </me>
+        </p>
+      </statement>
+    </example>
+
+    <p>
+      In a similar manner, let
+      <me>
+        \begin{aligned}R_{m,n}(x)\amp = \frac{\sum_{i=0}^{m} a_{i} x^{i}}{\sum_{i=0}^{n} b_{i} x_{i}}\end{aligned}
+      </me>
+      where generally <m>b_{0}=1</m>.
+      The Padé approximation <m>R_{m,n}(x)</m> is the rational function that satisfies:
+      <me>
+        \begin{aligned}f^{(i)}(x_{0})\amp = R^{(i)}_{m,n}(x)\end{aligned}
+      </me>
+      for <m>i=0,1,2, \ldots m+n</m>.
+    </p>
+
+    <example>
+      <statement>
+        <p>
+          Find the Padé approximation, <m>R_{1,1}(x)</m> to <m>f(x)=e^{-x}</m> at <m>x_{0}=0</m>.
+        </p>
+      </statement>
+
+      <solution>
+        <p>
+          The function <m>R_{1,1}(x)</m> can be written:
+          <me>
+            \begin{aligned}R_{1,1}(x)\amp = \frac{a_{0} + a_{1} x}{1+b_{1}x}\end{aligned}
+          </me>
+        </p>
+
+        <p>
+          To find the Padé approximation, we will need the first two derivatives of this or:
+          <me>
+            \begin{aligned}R_{1,1}'(x)\amp = \frac{a_{1}-a_{0}b_{1}}{(1+b_{1}x)^{2}}\\ R_{1,1}''(x)\amp = 2\frac{a_{0}b_{1}^{2}-a_{1}b_{1}}{(1+b_{1}x)^{3}}\end{aligned}
+          </me>
+          and then to find the coefficients <m>a_{0}, a_{1}, b_{1}</m>, these must satisfy:
+          <me>
+            \begin{aligned}f(0)\amp = R_{1,1}(0)\amp 1\amp = a_{0} \\ f'(0)\amp = R'_{1,1}(0)\amp -1\amp = a_{1}-a_{0}b_{1} \\ f''(0)\amp = R''_{1,1}(0)\amp 1\amp = 2(a_{0}b_{1}^{2}-a_{1}b_{1}) \\\end{aligned}
+          </me>
+          and using <m>a_{0}=1</m> in the second equation, one can find <m>a_{1} = -1+b_{1}</m>.
+          Substituting into the 3rd equation above:
+          <me>
+            \begin{aligned}1\amp = 2(b_{1}^{2} - (-1+b_{1})b_{1} = 2b_{1}\end{aligned}
+          </me>
+          so
+          <me>
+            \begin{aligned}a_{0}\amp = 1\amp a_{1}\amp =- \frac{1}{2}\amp b_{1}\amp = \frac{1}{2}\end{aligned}
+          </me>
+          so
+          <me>
+            \begin{aligned}R_{1,1}(x)\amp = \frac{1-x/2}{1+x/2}= \frac{2-x}{2+x}\end{aligned}
+          </me>
+        </p>
+
+        <p>
+          A plot of <m>f(x)=e^{-x}</m> and <m>R_{1,1}(x)</m> is
+        </p>
+
+        <figure xml:id="fig-plot-1234891p">
+          <caption></caption>
+          <image>
+            <shortdescription>
+            </shortdescription>
+            <latex-image>
+      <![CDATA[
+      \begin{tikzpicture}[yscale=0.5,xscale=2]
+\draw[->] (-1.5,0) -- (1.5,0) node [above right] {$x$}; \foreach \x in {-1,1} \draw (\x,0.1) -- (\x,-0.1) node [below] {\x};
+ \draw[->] (0,-0.5) -- (0,3.5) node [above right] {$y$};
+\foreach \y in {1,2,3} \draw (0.1,\y) -- (-0.1,\y) node [left] {\y};
+\draw[<->] plot [domain=-1.1:1.1] (\x,{exp(-\x)});
+\draw[<->,dashed] plot[domain=-1.1:1.1] (\x,{(\x*(1-exp(1))+exp(1)+1)/(\x*(exp(1)-1)+exp(1)+1)});
+\end{tikzpicture}
+      ]]>
+            </latex-image>
+          </image>
+        </figure>
+      </solution>
+    </example>
+
+    <p>
+      And similar to Taylor Series, increasing <m>n</m> will in general decrease the error in the approximation.
+      Also similar to Taylor Series, the approximate is most accurate near the “center” (in this case, <m>x=0</m>) and the error typically increases as the distance from this center increases.
+    </p>
+
+    <p>
+      Note also that since this is a rational function, there may be places where it is undefined.
+      In this case, <m>x=-2</m> is a vertical asymptote of the rational function, but not the original function <m>y=e^{-x}</m>.
+    </p>
+  </subsection>
+
+
+  <subsection>
+    <title>A Hermite-Type Rational Approximation</title>
+
+    <p>
+      Lastly, we chose a rational function <m>R_{m,n}(x)</m> that matches both the derivative and function values at interpolated points.
+      We will explore this through an example.
+      Consider <m>f(x)=e^{-x}</m> and
+
+    <me>
+      \begin{aligned}R_{4,3}(x)\amp = \frac{a_{0}+a_{1} x + a_{2} x^{2} + a_{3} x^{3}+a_{4} x^{4}}{1 + b_{1} x + b_{2} x^{2}+ b_{3} x^{3}}\end{aligned}
+    </me>
+
+
+      and we wish to evaluate <m>R_{4,3}(x)</m> and its derivative at 4 points.
+      Although equally-spaced points can be used, we will use the roots of <m>T_{4}(x)</m>, the Chebyshev polynomial.
+      Thus we will take <m>x_{0} = -0.9238795325</m>, <m>x_{1}= -0.3826834325</m>, <m>x_{2}=0.3826834325</m>, and <m>x_{3}=0.9238795325</m>.
+      We will solve:
+
+    <me>
+      \begin{aligned}R_{4,3}(x_{i})\amp = f(x_{i})\amp R'_{4,3}(x)\amp = f'(x_{i})\end{aligned}
+    </me>
+
+
+      and solve for the <m>a</m> and <m>b</m> values.
+      Again, this is not easy to do by hand, but using a CAS, it is reasonably easy.
+      The results are:
+
+    <me>
+      \begin{aligned}R_{4,3}(x)\amp = \frac{P(x)}{Q(x)}\end{aligned}
+    </me>
+
+
+      where
+
+    <me>
+      \begin{aligned}P(x)\amp = 1.000000011- 0.5718840492\,x+ 0.1430276148\,{x}^{2}\\\amp - 0.01904667174\,{x}^{3}+ 0.001181046601\,{x}^{4}\\ Q(x)\amp = 1+ 0.4281159555\,x+ 0.07114374318\,{x}^{2}+ 0.004705683520\,{x}^{3}\end{aligned}
+    </me>
+  </p>
+
+    <p>
+      A plot of the error <m>|R(x)-e^{-x}|</m> shows that this is quite accurate
+    </p>
+
+    <p>
+      <em>NEED PLOT</em>
+    </p>
+  </subsection>
+</section>

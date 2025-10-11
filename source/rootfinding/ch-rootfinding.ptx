@@ -1,0 +1,12 @@
+<chapter xml:id="ch-rootfinding" xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Rootfinding</title>
+  <introduction>
+    <p>
+      Say things here.
+    </p>
+  </introduction>
+  <xi:include href="./sect-intro-rootfinding.ptx" />
+  <xi:include href="./sect-bisection.ptx" />
+  <xi:include href="./sect-fixed-point.ptx" />
+  <xi:include href="./sect-newtons-method.ptx" />
+</chapter>

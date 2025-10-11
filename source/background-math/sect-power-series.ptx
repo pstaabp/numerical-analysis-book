@@ -1,0 +1,502 @@
+<section xml:id="sect-power-series">
+  <title>Power Series</title>
+
+  <objectives>
+    <ul>
+      <li>
+        <p>
+          Learn the definition of a <alert>power series</alert>.
+        </p>
+      </li>
+    </ul>
+  </objectives>
+
+  <introduction>
+    <p>
+      In this section, we will expand the idea of a series from <xref ref="sect-series"/> to that as a function that is written as a series.  The simplest one is that of a power series in which each term is a power function.
+    </p>
+  </introduction>
+
+  <subsection>
+    <title>Power Series</title>
+
+    <definition>
+      <statement>
+        <p>
+          A <alert>power series</alert> is a series of the form:
+          <me>
+            \sum_{n=0}^{\infty}c_{n} x^{n} = c_{0} + c_{1} x + c_{2} x^{2} + \cdots
+          </me>
+          where <m>x</m> is a variable and the <m>c_{n}</m>'s are constants called coefficients.
+        </p>
+      </statement>
+    </definition>
+
+    <p>
+      A power series is a function of <m>x</m> and resembles a polynomial with an infinite number of terms.
+    </p>
+
+    <definition>
+      <statement>
+        <p>
+          The series:
+          <me>
+            \sum_{n=0}^{\infty}c_{n} (x-a)^{n} = c_{0} + c_{1} (x-a) + c_{2} (x-a)^{2} + \cdots
+          </me>
+          is called a <alert>power series center at <m>x=a</m> </alert>.
+        </p>
+      </statement>
+    </definition>
+
+    <example>
+      <statement>
+        <p>
+          Consider the power series
+          <me>
+            \sum_{n=0}^{\infty}x^{n} = 1+x+x^{2}+x^{3}+ x^{4} + \cdots
+          </me>
+        </p>
+
+        <p>
+          This is a geometric series with <m>r=x</m> and <m>a=1</m>.
+          The series converges for <m>|x| \lt 1</m> and diverges for <m>|x|\geq 1</m>.
+        </p>
+
+        <p>
+          From what we know about geometric series, when the series converges, it converges to
+          <me>
+            \frac{1}{1-x}
+          </me>
+        </p>
+      </statement>
+    </example>
+
+    <example>
+      <statement>
+        <p>
+          Find the center of
+          <me>
+            \sum_{n=0}^{\infty}\frac{x^{n}}{n!}
+          </me>
+          and all values of <m>x</m> for which the series converges.
+        </p>
+      </statement>
+
+      <solution>
+        <p>
+          First, the center is <m>a=0</m>.
+          To find the values of <m>x</m> of convergence, we will use RATFACE and
+          <me>
+            \lim_{n \rightarrow \infty}\biggl\vert \frac{\frac{x^{n+1}}{(n+1)!}}{\frac{x^{n}}{n!}}\biggr\vert = \lim_{n \rightarrow \infty}\frac{|x|}{n+1}=0
+          </me>
+          and since <m>L \lt 1</m> and does not depend on <m>x</m>, this series converges for all <m>x</m>.
+        </p>
+      </solution>
+    </example>
+
+    <example>
+      <statement>
+        <p>
+          Find the domain for the power series:
+          <me>
+            \sum_{n=1}^{\infty}\frac{(x-1)^{n}}{3^{n}\sqrt{n}}
+          </me>
+        </p>
+      </statement>
+      <solution>
+        <p>
+          Find the domain is identical to find all values of <m>x</m> for which the series converges.
+          Let's use RATFACE again.
+        </p>
+
+        <p>
+          <me>
+            \lim_{n \rightarrow \infty}\biggl\vert \frac{\frac{(x-1)^{n+1}}{3^{n+1}\sqrt{n+1}}}{\frac{(x-1)^{n}}{3^{n}\sqrt{n}}}\biggr\vert = \lim_{n \rightarrow \infty}\frac{|x-1|}{3}\frac{\sqrt{n}}{\sqrt{n+1}}= \frac{|x-1| }{3}
+          </me>
+        </p>
+
+        <p>
+          And this value is less than 1 (and thus converges) when <m>|x-1| \lt 3</m> or <m>-2  \lt  x  \lt  4</m> and diverges when <m>|x-1|\gt 4</m> or <m>x \lt -2</m> and <m>x \gt 4</m>.
+          This test is inconclusive when <m>|x-1|=1</m> or at <m>x=-2</m> and <m>x=4</m>.
+          We will thus need to test each of those separately.
+        </p>
+
+        <p>
+          <dl>
+          <li>
+            <title><m>x=-2</m></title>
+
+            <p>
+              Plug this value into the series to get
+              <me>
+                \sum_{n=1}^{\infty}\frac{(-3)^{n}}{3^{n}\sqrt{n}}= \sum_{n=0}^{\infty}\frac{(-1)^{n}}{\sqrt{n}}
+              </me>
+              and this is an alternating series.We will use the Alternating Series Test (<xref ref="thm-AST"/>) with <m>b_{n}=1/\sqrt{n}</m> and this is positive, decreasing and approaches zero, so it converges.<m>x=4</m>
+            </p>
+          </li>
+
+          <li>
+            <title><m>x=4</m></title>
+
+            <p>
+              Plug this value into the series to get:
+              <me>
+                \sum_{n=1}^{\infty}\frac{(3)^{n}}{3^{n}\sqrt{n}} = \sum_{n=0}^{\infty}\frac{1}{\sqrt{n}}
+              </me>
+              which diverges as it is a <m>p</m>-series (see Theorem thm:p:test) with <m>p=1/2</m>.
+              Thus the domain of this function is <m>-2 \leq x \lt 4</m>.
+            </p>
+          </li>
+          </dl>
+        </p>
+      </solution>
+    </example>
+
+    <theorem xml:id="thm-power-series-convergence">
+      <statement>
+        <p>
+          For a given power series
+          <me>
+            \sum_{n=0}^{\infty}c_{n}(x-a)^{n}
+          </me>
+          there are only three possibilities:
+          <ol>
+            <li>
+              <p>
+                The series converges only when <m>x=a</m>.
+              </p>
+            </li>
+
+            <li>
+              <p>
+                The series converges for all <m>x</m>.
+              </p>
+            </li>
+
+            <li>
+              <p>
+                There is a positive number <m>R</m> such that the series converges if <m>|x-a| \lt R</m> and diverges for <m>|x-a| \gt R</m>.
+              </p>
+            </li>
+          </ol>
+        </p>
+      </statement>
+    </theorem>
+
+    <p>
+      We call the number <m>R</m> the <alert>radius of convergence</alert> and in the 2nd and 3rd cases, the <alert>interval of convergence.</alert>The center of the interval is always the point <m>x=a</m> and the interval stretches from <m>a-R</m> to <m>a+R</m>.
+    </p>
+
+    <p>
+      Note that the theorem says nothing in the 3rd case about the points <m>x=a+R</m> and <m>x=a-R</m>.
+      These are the endpoints of the interval, and must be tested for individually.
+    </p>
+
+    <example>
+      <statement>
+        <p>
+          List the center, the radius of convergence and the interval of convergence of the series: <m>\displaystyle \sum_{n=0}^{\infty}x^{n}</m>, <m>\displaystyle \sum_{n=1}^{\infty}\frac{(x-1)^{n}}{3^{n}\sqrt{n}}</m> and <m>\displaystyle \sum_{n=0}^{\infty}\frac{x^{n}}{n!}</m>
+        </p>
+      </statement>
+
+      <solution>
+        <p>
+          <me>
+            \sum_{n=0}^{\infty}x^{n}
+          </me>
+        </p>
+
+        <p>
+          In this case, above, we found that the series converges for <m>|x| \lt 1</m> and diverges for <m>|x| \geq 1</m>.
+          Thus the radius of convergence is 1 and the interval of convergence is <m>(-1,1)</m>.
+          <me>
+            \sum_{n=0}^{\infty}\frac{x^{n}}{n!}
+          </me>
+        </p>
+
+        <p>
+          In this case, we found that it converged for all <m>x</m>, so the radius of convergence is <m>R=\infty</m> and the interval of convergence is <m>(-\infty, \infty)</m>.
+          <me>
+            \sum_{n=1}^{\infty}\frac{(x-1)^{n}}{3^{n}\sqrt{n}}
+          </me>
+        </p>
+
+        <p>
+          In this case we found that the radius of convergence was <m>R=3</m> and the interval of convergence was <m>[-2,4)</m>.
+        </p>
+      </solution>
+    </example>
+  </subsection>
+
+
+  <subsection>
+    <title>Representations of Functions as Power Series</title>
+
+    <introduction>
+      <p>
+        Power series are extremely important in many ways.
+      </p>
+
+      <p>
+        <ol>
+          <li>
+            <p>
+              How do you compute <m>\sin x</m>? That is find <m>\sin 0.4</m>.
+            </p>
+          </li>
+
+          <li>
+            <p>
+              How do you evaluate integrals that are either extremely difficult to find an antiderivative or one may not exist?
+            </p>
+          </li>
+
+          <li>
+            <p>
+              Some differential equations are very difficult to solve.
+              One method to solve them is to use power series.
+            </p>
+          </li>
+        </ol>
+      </p>
+
+      <p>
+        In short, power series represent functions that we may need to approximate or can't find another representation.
+      </p>
+
+      <p>
+        We saw the power series
+        <me>
+          \frac{1}{1-x} = \sum_{n=0}^{\infty}x^{n}
+        </me>
+        in the previous section.
+        Recall that it is a geometric series that converges when <m>|x| \lt 1</m>.
+      </p>
+
+      <example>
+        <statement>
+          <p>
+            Express <m>1/(1+x^{2})</m> as a power series using the power series above.
+          </p>
+        </statement>
+
+        <solution>
+          <p>
+            If we replace <m>x</m> with <m>(-x^{2})</m> in the function and the geometric series, the we get
+            <me>
+              \begin{aligned} \frac{1}{1-(-x^{2})} \amp = \sum_{n=0}^{\infty}(-x^{2})^{n} \\ \frac{1}{1+x^{2}}\amp= \sum_{n=0}^{\infty}(-1)^{n} x^{2n} \end{aligned}
+            </me>
+          </p>
+        </solution>
+      </example>
+
+      <example>
+        <statement>
+          <p>
+            Create the power series of the function <m>f(x)=\frac{x^{3}}{4+x}</m> using the power series of <m>\frac{1}{1-x}</m>.
+            What is its radius of convergence?
+          </p>
+        </statement>
+
+        <solution>
+          <p>
+            If we write it as
+            <me>
+              \begin{aligned} \frac{x^{3}}{4+x} \amp = \frac{x^{3}}{4(1+x/4)}\\\amp= \frac{x^{3}}{4}\cdot \frac{1}{1+x/4} \end{aligned}
+            </me>
+            now replace <m>x</m> in the power series for <m>1/(1-x)</m> with <m>-x/4</m>, to get
+            <me>
+              \begin{aligned} \frac{x^{3}}{4+x} \amp = \frac{x^{3}}{4}\sum_{n=0}^{\infty}\biggl(-\frac{x}{4}\biggr)^{n} \\\amp= \frac{x^{3}}{4}\sum_{n=0}^{\infty}(-1)^{n} \frac{x^{n}}{4^{n}}\\\amp= \sum_{n=0}^{\infty}(-1)^{n} \frac{x^{n+3}}{4^{n+1}} \end{aligned}
+            </me>
+          </p>
+
+          <p>
+            The radius of convergence could be found using RATFACE, however, it is easier than that.
+          </p>
+
+          <p>
+            Recall that the radius of convergence for <m>1/(1-x)</m> is <m>R=1</m>, since this required that <m>|x| \lt 1</m>.
+            Since we replaced <m>x</m> with <m>-x/4</m>, then the series converges when <m>|x/4| \lt 1</m> so the radius is <m>R=4</m>.
+          </p>
+        </solution>
+      </example>
+    </introduction>
+
+    <subsubsection>
+      <title>Differentiation and Integration of Power Series</title>
+
+      <theorem xml:id="thm-power-series-radius-of-convergence">
+        <statement>
+          <p>
+            If a power series of the form <m>\sum c_{n} (x-a)^{n}</m> has a radius of convergence of <m>R</m>, then the function <m>f</m> defined as
+            <me>
+              f(x)= \sum_{n=0}^{\infty}c_{n} (x-a)^{n}
+            </me>
+            is differentiable on the interval <m>(a-R,a+R)</m> and
+            <me>
+              f'(x) = \sum_{n=1}^{\infty}n c_{n} (x-a)^{n-1}
+            </me>
+            and
+            <me>
+              \int f(x) \, dx = C+\sum_{n=0}^{\infty}\frac{c_{n}}{n+1}(x-a)^{n+1}
+            </me>
+            both have a radius of convergence <m>R</m>.
+            Also, the derivative and the integral of <m>f</m> is performed term by term.
+          </p>
+        </statement>
+      </theorem>
+
+      <p>
+        Note: if <m>f</m> has a particular interval of convergence, the interval of convergence for <m>f'(x)</m> and <m>\int f \, dx</m> may change, however only at the endpoints.
+      </p>
+
+      <example>
+        <statement>
+          <p>
+            Use the power series for <m>1/(1-x)</m> to find the power series for <m>1/(1-x)^{2}</m>.
+          </p>
+        </statement>
+
+        <solution>
+          <p>
+          </p>
+
+          <p>
+            Note that
+            <me>
+              \begin{aligned} \frac{1}{(1-x)^{2}}\amp= - \frac{d}{dx}\frac{1}{1-x}\\\amp= - \frac{d}{dx}\sum_{n=0}^{\infty}x^{n} \\\amp= - \sum_{n=1}^{\infty}n x^{n-1}\\\amp= \sum_{n=1}^{\infty}(-n) x^{n-1} \end{aligned}
+            </me>
+          </p>
+
+          <p>
+            And the radius of convergence of this series is <m>R=1</m>.
+          </p>
+        </solution>
+      </example>
+
+      <example>
+        <statement>
+          <p>
+            Use the power series for <m>1/(1+x^{2})</m> to find the power series for <m>\tan^{-1}x</m>
+          </p>
+        </statement>
+
+        <solution>
+          <p>
+            Recall that from the last chapter we found that
+            <me>
+              \frac{1}{1+x^{2}} = \sum_{n=0}^{\infty}(-1)^{n} x^{2n}.
+            </me>
+          </p>
+
+          <p>
+            Now, we'll integrate both sides of this:
+            <me>
+              \begin{aligned} \tan^{-1}x\amp= \int \frac{1}{1+x^{2}}\, dx \\\amp= \int \sum_{n=0}^{\infty}(-1)^{n} x^{2n}\, dx \\\amp= C + \sum_{n=0}^{\infty}(-1)^{n} \frac{x^{2n+1}}{2n+1} \end{aligned}
+            </me>
+            to determine the value of <m>C</m>, we will substitute in <m>x=0</m>:
+            <me>
+              \tan^{-1}(0) = C = 0
+            </me>
+            so this leads to the power series for arctangent:
+            <me>
+              \tan^{-1}x = \sum_{n=0}^{\infty}(-1)^{n} \frac{x^{2n+1}}{2n+1}.
+            </me>
+          </p>
+        </solution>
+      </example>
+
+      <example>
+        <statement>
+          <p>
+            Evaluate the series above at <m>x=1</m> to establish a series representation for <m>\pi/4</m>.
+          </p>
+        </statement>
+
+        <solution>
+          <p>
+            <me>
+              \begin{aligned} \tan^{-1}1\amp= \sum_{n=0}^{\infty}(-1)^{n} \frac{1^{2n+1}}{2n+1}\\ \frac{\pi}{4}\amp= \sum_{n=0}^{\infty}\frac{(-1)^{n}}{2n+1}\\ \frac{\pi}{4}\amp= 1- \frac{1}{3}+ \frac{1}{5}- \frac{1}{7}+ \cdots.
+              \end{aligned}
+            </me>
+          </p>
+        </solution>
+      </example>
+
+      <example>
+        <statement>
+          <p>
+            Use power series to approximate:
+            <me>
+              \int_{0}^{1/2}\frac{1}{1+x^{5}}\, dx
+            </me>
+          </p>
+        </statement>
+
+        <solution>
+          <p>
+            If you use a CAS (like Maple) to find the antiderivative of this function, then you get a solution that is a mess.
+            Instead, we'll use the power series of <m>1/(1+x^{5})</m> to find the value of the integral to 16 digits.
+          </p>
+
+          <p>
+            Since
+            <me>
+              \frac{1}{1-x} = \sum_{n=0}^{\infty}x^{n}
+            </me>
+            then if we replace <m>x</m> with <m>-x^{5}</m>, we get:
+            <me>
+              \begin{aligned} \frac{1}{1+x^{5}}\amp= \sum_{n=0}^{\infty}(-x^{5})^{n} \\\amp= \sum_{n=0}^{\infty}(-1)^{n} x^{5n} \end{aligned}
+            </me>
+          </p>
+
+          <p>
+            Next, if we integrate this:
+            <me>
+              \begin{aligned} \int_{0}^{1/2}\frac{1}{1+x^{5}}\, dx\amp= \int_{0}^{1/2}\sum_{n=0}^{\infty}(-1)^{n} x^{5n}\, dx \\\amp= \sum_{n=0}^{\infty}(-1)^{n} \frac{x^{5n+1}}{5n+1}\biggr\vert_{0}^{1/2}\\\amp= \sum_{n=0}^{\infty}(-1)^{n} \frac{(1/2)^{5n+1}}{5n+1} \end{aligned}
+            </me>
+          </p>
+
+          <p>
+            To find an approximation, we'll use a partial sum instead of the full series.
+            By the Alternating Series Remainder Theorem, the remainder is bounded by the <m>b_{n+1}</m> term, that is
+            <me>
+              \frac{(1/2)^{5n+6}}{5n+6} \lt  10^{-16}
+            </me>
+          </p>
+
+          <p>
+            If we substitute in values of <m>n</m> until this is reached, then we get <m>n=9</m>, so if we find <m>s_{9}</m> using the series above, then we will successfully find the appropriate approximation.
+            <me>
+              \begin{aligned} \int_{0}^{1/2}\frac{1}{1+x^{5}}\,dx\amp\approx s_{9} = \sum_{n=0}^{9}(-1)^{n} \frac{(1/2)^{5n+1}}{5n+1}\\\amp= 0.49743929101160003470 \end{aligned}
+            </me>
+          </p>
+        </solution>
+      </example>
+
+      <example>
+        <statement>
+          <p>
+            Show that
+            <me>
+              y(x)= \sum_{n=0}^{\infty}\frac{x^{n}}{n!}
+            </me>
+            satisfies the differential equation
+            <me>
+              y'(x) = y(x).
+            </me>
+          </p>
+        </statement>
+
+        <solution>
+          <p>
+            <me>
+              \begin{aligned} y'(x)\amp= \sum_{n=1}^{\infty}n \frac{x^{n-1}}{n!}= \sum_{n=1}^{\infty}\frac{x^{n-1}}{(n-1)!}\\\amp= \sum_{k=0}^{\infty}\frac{x^{k}}{k!}\\\amp= \sum_{n=0}^{\infty}\frac{x^{n}}{n!}\\\amp= y(x) \end{aligned}
+            </me>
+            so the differential equation is satisfied.
+          </p>
+        </solution>
+      </example>
+    </subsubsection>
+  </subsection>
+</section>

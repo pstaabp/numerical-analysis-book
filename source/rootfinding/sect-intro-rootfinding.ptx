@@ -1,0 +1,225 @@
+<section xml:id="sect-intro-rootfinding">
+  <title>Introduction to Rootfinding</title>
+
+  <p>
+    In the beginning of the course, we were introduced to the problem of approximating the square root of 65 using only the four standard operations: addition, subtraction, multiplication and division.
+    As we will see, another way to look at that problem is to show that if <m>f(x) = x^{2}-65</m>, then <m>p=\sqrt{65}</m> is the root, or the value of <m>p</m> such that <m>f(p)=0</m>.
+  </p>
+
+  <p>
+    Examples are prevalent throughout applied sciences, and here's a more geometric one that is similar to problems in many Calculus classes:
+  </p>
+
+  <example>
+    <statement>
+      <p>
+        Find the area bounded by the <m>y</m>-axis, the line <m>y=x</m> and the line <m>y=\cos x</m> in the first quadrant.
+      </p>
+
+      <p>
+        The area sought is the shaded area below:
+      </p>
+
+      <figure xml:id="fig-def-int">
+        <caption></caption>
+        <image width="70%">
+          <shortdescription>
+          </shortdescription>
+          <latex-image>
+          <![CDATA[
+          \begin{tikzpicture}[scale=2]
+            \fill[lightgray] (0,0) -- (0,1) -- (0.2,{cos(0.2 r)}) -- (0.4,{cos(0.4 r)})-- (0.6,{cos(0.6 r)})   -- (0.74,{cos(0.74 r)})   -- (0,0) -- cycle;
+            \draw[->] (-1,0) -- (1.75,0) node [above right] {$x$};
+            \draw[->] (0,-0.5) -- (0,1.25) node [above right] {$y$};
+            \draw[<->] (-0.5,-0.5) -- (1.25,1.25);
+            \draw[<->] plot[domain=-0.1:1.75] (\x,{cos(\x r)});
+            \end{tikzpicture}
+          ]]>
+          </latex-image>
+        </image>
+      </figure>
+
+      <p>
+        The area is the definite integral of the difference of the two curves.
+        However, the limits on the integral depend on the intersection point which means solving:
+        <me>
+          x= \cos x
+        </me>
+        or finding the root of <m>f(x) = x-\cos x</m>.
+      </p>
+    </statement>
+  </example>
+
+  <p>
+    The next example is also a standard Calculus question.
+  </p>
+
+  <example>
+    <statement>
+      <p>
+        Find the maximum of <m>f(x)=x\sin x</m> for <m>x \in [0,\pi]</m>.
+      </p>
+
+      <p>
+      </p>
+
+      <p>
+        This means solving
+        <me>
+          f'(x) = \sin x + x \cos x = 0
+        </me>
+        which does not have a closed form solution.
+      </p>
+    </statement>
+  </example>
+
+  <p>
+    And finally to illustrate that these rootfinding problems arise in other fields, consider an object that falls near the surface of the earth.
+    One model of this that includes drag is that the height <m>y</m> as a function of time <m>t</m> is given by
+    <men xml:id="eq-height-drag">
+      \begin{aligned}y\amp= y_{0} - \frac{v_{\infty}^{2}}{g}\ln \biggl(\cosh \biggl(\frac{gt}{v_{\infty}}\biggr) \biggr) \label{eq:height:drag}\end{aligned}
+    </men>
+    where <m>y_{0}</m> is the initial height of the object, <m>g</m> is the gravitation constant near the earth and
+    <me>
+      \begin{aligned}v_{\infty}\amp= \sqrt{\frac{2mg}{\rho C_{D} A}}\end{aligned}
+    </me>
+    is the terminal velocity with <m>m</m> as the mass, <m>C_{D}</m> is the drag coefficient and <m>A</m> is the cross-sectional area of the object.
+  </p>
+
+  <p>
+    The time the object strikes the ground is given by the root of the function in <xref ref="eq-height-drag"/> knowing all the other parameters.
+  </p>
+
+  <definition xml:id="def-multiplicity">
+    <statement>
+      <p>
+        The <term>root</term> of a function <m>f(x)</m>, is a number <m>p</m> such that <m>f(p)=0</m>.
+        The number <m>p</m> is also often called the <term>zero</term>.
+      </p>
+
+      <p>
+        The root <m>p</m> of a function <m>f</m> has <alert>multiplicity</alert> <m>m</m> if <m>f</m> can be written in the form:
+        <me>
+          f(x) = (x-p)^{m} g(x)
+        </me>
+        where <m>\lim_{x \rightarrow p}g(x) \neq 0</m>.
+      </p>
+    </statement>
+  </definition>
+
+  <p>
+    Multiplicity usually pertain only to roots of polynomials as we saw in <xref ref="sect-polynomials"/>.
+    For example, the polynomial: <m>f(x) = x^{3}+5x^{2}+3x-9</m> can be written as <m>f(x) = (x+3)^{2}(x-1)</m> so the root <m>-3</m> has multiplicity 2.
+    However, look at <m>g(x) = 1-\cos x</m>.
+    The function <m>g</m> has a root at <m>x=0</m>, but what is its multiplicity? It's not clear that you can write <m>x^{m}</m> as a factor of this function.
+    Because of this, we have a nice theorem we can apply:
+  </p>
+
+  <theorem xml:id="thm-multiplicity">
+    <statement>
+      <p>
+        Let <m>f</m> be a continuous function with <m>m</m> continuous derivatives on some open interval containing <m>p</m>.
+        The equation <m>f(x)=0</m> has a root of multiplicity <m>m</m> at <m>x=p</m> if and only if
+        <me>
+          f(p)=f'(p)= \cdots = f^{(m-1)}(p) = 0, \quad \text{however $f^{(m)}(p) \neq 0$}.
+        </me>
+      </p>
+    </statement>
+
+
+    <proof>
+      <p>
+        Since <m>f</m> is continuous and has <m>m</m> continuous derivatives, we can use Taylor's Theorem (<xref ref="thm-taylors"/>) to write:
+        <me>
+          f(x) = \sum_{j=0}^{m-1}\frac{f^{(j)}(p)}{j!}(x-p)^{j} + \frac{f^{(m)}(p)}{m!}(x-p)^{m} + \frac{f^{(m+1)}(\xi(x))}{(m+1)!}(x-p)^{m+1}
+        </me>
+        for some <m>\xi \in [x,p]</m>.
+        Since <m>f^{(j)}(p)=0</m> for <m>j=0,1,\ldots,m-1</m>, all terms in the summation formula above are zero and thus we can write
+        <me>
+          f(x) = \frac{f^{(m)}(p)}{m!}(x-p)^{m} + \frac{f^{(m+1)}(\xi(x))}{(m+1)!}(x-p)^{m+1}
+        </me>
+        factoring out a <m>(x-p)^{m}</m> term
+        <me>
+          f(x) = (x-p)^{m} \biggl( \frac{f^{(m)}(p)}{m!}+ (x-p) \frac{f^{(m+1)}(\xi(x))}{(m+1)!}\biggr),
+        </me>
+        which has a nonzero limit as <m>x \rightarrow p</m>, therefore <m>f(x)</m> has a root at <m>x=p</m> of multiplicity <m>m</m>.
+      </p>
+
+      <p>
+        In converse, assume that <m>f(x)</m> has a root of multiplicity <m>p</m>.
+        This means that we can write
+        <me>
+          f(x) = (x-p)^{m} g(x).
+        </me>
+        with <m>g(p)\neq 0</m>.
+        Obviously <m>f(p)=0</m>.
+        Also if <m>f(x)</m> has <m>m</m> continuous derivatives, then <m>g(x)</m> does as well.
+        <me>
+          \begin{aligned}f'(x)\amp= m (x-p)^{m-1}g(x) + (x-p)^{m} g'(x) \\ f''(x)\amp= m(m-1) (x-p)^{m-2}g(x) + 2 m (x-p)^{m-1}g'(x) + (x-p)^{m} g''(x)\\ f'''(x)\amp= m(m-1)(m-2) (x-p)^{m-3}g(x) + 3 m (m-1) (x-p)^{m-2}g'(x) \\\amp\qquad + 3 m(x-p)^{m-1}g''(x) + (x-p)^{m} g'''(x)
+          \end{aligned}
+        </me>
+        In general, we can write
+        <me>f^{(j)}(x) = \sum_{i=0}^{j}k_{i} (x-p)^{m-j+i}g^{(i)}(x),
+        </me>
+        where <m>k_{i}</m> is a function of <m>m</m> (however the exact form it not needed).
+      </p>
+
+      <p>
+        Evaluating <m>f^{(m-1)}</m> at <m>x=p</m> results in
+        <me>
+          f^{(m-1)}(p) = \sum_{i=0}^{m-1}k_{i} \cdot (p-p)^{i+1}g^{(i)}(p) = 0
+        </me>
+        since <m>(p-p)^{i}=0</m> for <m>i=0,1,2,\ldots,m-1</m> and evaluating <m>f^{(m)}(x)</m> at <m>x=p</m> results in
+        <me>
+          f^{(m)}(p) = \sum_{i=0}^{m} k_{i} (p-p)^{i} g^{(i)}(p) = k_{0} g^{(0)}(p) \neq 0
+        </me>
+        since <m>g^{(0)}(p)=g(p) \neq 0</m>.
+        Therefore the theorem holds.
+      </p>
+    </proof>
+  </theorem>
+
+  <p>
+    This is quite a helpful theorem as we will see below, but to get some idea of using it in a general sense, the following shows how to find the multiplicity of roots of two particular functions.
+  </p>
+
+  <example>
+    <statement>
+      <p>
+        Use the above theorem to find the multiplicity of the following functions at the given root:
+        <ol>
+          <li>
+            <p>
+              <m>f(x)= x^{4}-8x^{3}+24x^{2}-32x+16</m> at <m>p=2</m>
+            </p>
+          </li>
+
+          <li>
+            <p>
+              <m>g(x)=\sin x -\tan x</m> at <m>p=0</m>
+            </p>
+          </li>
+        </ol>
+      </p>
+    </statement>
+
+    <solution>
+      <p>
+        For the first function, differentiate and plug in <m>x=2</m> until the result is not zero.
+        First, <m>f(2)=0</m>, then
+        <me>
+          \begin{aligned}f'(x)\amp= 4x^{3} - 24x^{2} + 48 x -32\amp f'(2)\amp= 0 \\ f''(x)\amp= 12x^{2}-48x +48\amp f''(2)\amp= 0 \\ f'''(x)\amp= 24x - 48\amp f'''(2)\amp= 0 \\ f^{(4)}(x)\amp=24\amp f^{(4)}(2)\amp= 24\end{aligned}
+        </me>
+        and therefore the multiplicity of the root at <m>p=2</m> is 4.
+      </p>
+
+      <p>
+        For the second function <m>g(0)=0</m> and then
+        <me>
+          \begin{aligned}g'(x)\amp= \cos x - \sec^{2} x\amp g'(0)\amp= 0 \\ g''(x)\amp= \sin x - 2 \sec x \sec x \tan x\amp g''(0)\amp= 0 \\ g'''(x)\amp= \cos x - 4 \sec^{3} x \tan^{2} x - 2 \sec^{4} x\amp g'''(0)\amp= -1\end{aligned}
+        </me>
+        and therefore the multiplicity of <m>g</m> at <m>p=0</m> is 3.
+      </p>
+    </solution>
+  </example>
+</section>

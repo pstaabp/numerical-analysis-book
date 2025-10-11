@@ -1,0 +1,336 @@
+<section xml:id="sect-newtons-method">
+  <title>Newton's Method</title>
+
+  <introduction>
+    <p>
+      The most ubiquitous root finding method is <term>Newton's Method</term>, which we saw in Chapter 1 for finding <m>\sqrt{65}</m> by finding the root of <m>f(x)=x^{2}-65</m>.
+    </p>
+
+    <p>
+      Recall that to find <m>\sqrt{a}</m>, we can solve <m>f(x)=x^{2}-a=0</m> using the method:
+      <me>
+        x_{n+1} = \frac{1}{2}\biggl( x_{n} + \frac{a}{x_{n}}\biggr)
+      </me>
+      which converges to <m>\sqrt{a}</m> quadratically for any starting value <m>x_{0} \gt 0</m>.
+      This method is Newton's method for finding the root of <m>f(x)=x^{2}-65</m>.
+    </p>
+
+    <p>
+      In general, Newton's Method to solve <m>f(x)=0</m> can be seen graphically.
+      First, consider <m>x_{0}</m>, a starting point for the method, and plot the function and its tangent at <m>x_{0}</m>:
+    </p>
+
+    <figure xml:id="fig-newton">
+      <caption></caption>
+      <image>
+        <shortdescription>
+        </shortdescription>
+        <latex-image>
+          <![CDATA[
+            \begin{tikzpicture}[xscale=2]
+              \draw[->] (-0.5,0) -- (3.5,0) node [above right] {$x$};
+              \draw[->] (0,-1.5) -- (0,3.5) node [above right] {$y$};
+              \draw[<->] plot[domain=-0.3:2.8] (\x,{pow(\x-0.5,2)-1});
+              \draw[<->] plot[domain=1:2.8] (\x,{4*(\x-2.5)+3});
+              \draw (1.75,0.1) -- (1.75,-0.1);
+              \draw (2.5,0.1) -- (2.5,-0.1) node [below] {$x_0$};
+              \draw (1.75,-0.25) node [below] {$x_1$};
+            \end{tikzpicture}
+          ]]>
+        </latex-image>
+      </image>
+    </figure>
+
+    <p>
+      The iteration proceeds with <m>x_{1}</m> being the root of the tangent line.
+      Since the tangent line to <m>y=f(x)</m> at <m>x=a</m> is
+      <me>
+        y - f(a) = f'(a) (x-a),
+      </me>
+      if we let <m>a=x_{0}</m>, <m>x=x_{1}</m> and <m>y=0</m> and solve for <m>x_{1}</m> to get:
+      <me>
+        x_{1}  = x_{0} - \frac{f(x_{0})}{f'(x_{0})},
+      </me>
+      or for a general step <m>n</m> as
+      <men xml:id="eq-newtons-method">
+        x_{n+1} = x_{n} - \frac{f(x_{n})}{f'(x_{n})}.
+      </men>
+    </p>
+
+    <p>
+      Note that this fits the fixed point iteration scheme with
+      <me>
+        g(x) = x - \frac{f(x)}{f'(x)}
+      </me>
+      so all of the analysis performed in <xref ref="sect-fixed-point"/> applies to Newton's with this definition of <m>g</m>.
+    </p>
+
+    <algorithm xml:id="alg-newtons-method">
+      <statement>
+        <p>
+          <term>Newton's Method</term> for finding a root <m>p</m> to tolerance <m>\epsilon</m> of a function <m>f(x)</m> with initial point <m>x_{0}</m> is given by the following algorithm.
+        </p>
+
+        <p>
+          <ol>
+            <li>
+              <p>
+                Set <m>n=0</m> with given values of <m>x_{0}</m> and <m>\epsilon</m>.
+              </p>
+            </li>
+
+            <li>
+              <p>
+                Find
+                <me>
+                  \begin{aligned}x_{n+1}= x_{n} - \frac{f(x_{n})}{f'(x_{n})}\end{aligned}
+                </me>
+              </p>
+            </li>
+
+            <li>
+              <p>
+                If <m>|x_{n+1}-x_{n}|\leq \epsilon</m> then stop and return <m>x_{n+1}</m>.
+              </p>
+            </li>
+
+            <li>
+              <p>
+                Increment  <m>n</m> by 1 and go to step 2.
+              </p>
+            </li>
+          </ol>
+        </p>
+      </statement>
+    </algorithm>
+
+    <example xml:id="ex-newtons-method">
+      <statement>
+        <p>
+          Use Newton's method to find the intersection of <m>y=\cos x</m> and <m>y=x</m> in the first quadrant.
+        </p>
+      </statement>
+
+      <solution>
+        <p>
+          This means that we find the root of <m>f(x)=\cos x-x</m> and <m>f'(x) = -\sin x - 1</m>.
+          Newton's method for this problem is:
+          <me>
+            \begin{aligned}x_{n+1} \amp = x_{n} - \frac{\cos x_{n} -x_{n}}{-\sin x_{n}-1}\end{aligned}
+          </me>
+        </p>
+
+        <p>
+          If we iterate this method with <m>x_{0}=1</m> we get the results:
+        </p>
+
+        <table>
+          <title>TITLE</title>
+
+          <tabular left="minor">
+            <row bottom="minor">
+              <cell> <m>x_{i}</m> </cell>
+              <cell> <m>f(x_{i})</m> </cell>
+            </row>
+
+            <row>
+              <cell> <m>1</m> </cell>
+              <cell> <m>0.45969769413186023</m> </cell>
+            </row>
+
+            <row>
+              <cell> <m>0.7503638678402439</m> </cell>
+              <cell> <m>0.018923073822117442</m> </cell>
+            </row>
+
+            <row>
+              <cell> <m>0.7391128909113617</m> </cell>
+              <cell> <m>0.00004645589899088254</m> </cell>
+            </row>
+
+            <row>
+              <cell> <m>0.7390851333852839</m> </cell>
+              <cell> <m>2.847204694234051\times 10^{-10}</m> </cell>
+            </row>
+
+            <row>
+              <cell> <m>0.7390851332151606</m> </cell>
+              <cell> <m>-1.1102230246251565\times 10^{-16}</m> </cell>
+            </row>
+
+            <row>
+              <cell> </cell>
+            </row>
+          </tabular>
+        </table>
+
+        <p>
+          And it appears that the sequence <m>\{x_{n}\}</m> is converging as well as the function values at the points are approaching zero.
+          We will analyze the convergence and rate of convergence later in this section.
+        </p>
+      </solution>
+    </example>
+  </introduction>
+
+
+  <subsection>
+    <title>Performing Newton's Method using a Spreadsheet</title>
+
+    <p>
+      Newton's method is relative easy to calculate with a hand calculator if you know the derivative.
+      You can use a spreadsheet to simplify much of the tedium of repeating calculations as the following example shows.
+      We will reproduce the results in Example ex:newtons:method.
+    </p>
+
+    <p>
+      First, start with the following spreadsheet:
+    </p>
+
+    <tabular left="minor">
+      <row bottom="minor">
+        <cell> </cell>
+        <cell>A</cell>
+        <cell>B</cell>
+        <cell>C</cell>
+      </row>
+
+      <row>
+        <cell>1</cell>
+        <cell> <m>x</m> </cell>
+        <cell> <m>f(x)</m> </cell>
+        <cell> <m>f'(x)</m> </cell>
+      </row>
+
+      <row>
+        <cell>2</cell>
+        <cell>1</cell>
+        <cell>0.459697694</cell>
+        <cell>-1.84147</cell>
+      </row>
+    </tabular>
+
+    <p>
+      where
+    </p>
+
+    <p>
+      <ul>
+        <li>
+          <p>
+            cell A2 is the number 1,
+          </p>
+        </li>
+
+        <li>
+          <p>
+            cell B2 is the formula <c>=cos(a2)-a2</c>,
+          </p>
+        </li>
+
+        <li>
+          <p>
+            cell C2 is the formula <c>=-sin(a2)-1</c>, the derivative of the cell in B2
+          </p>
+        </li>
+      </ul>
+    </p>
+
+    <p>
+      Next, in cell A3, enter the formula for Newton's method or <c>=A2-B2/C2</c>.
+      In cells B3 and C3, drag (or copy) down from cells B2 and C2.
+      You should see:
+    </p>
+
+    <table>
+      <title>TITLE</title>
+
+      <tabular left="minor">
+        <row bottom="minor">
+          <cell> </cell>
+          <cell>A</cell>
+          <cell>B</cell>
+          <cell>C</cell>
+        </row>
+
+        <row>
+          <cell>1</cell>
+          <cell><m>x</m></cell>
+          <cell><m>f(x)</m></cell>
+          <cell><m>f'(x)</m></cell>
+        </row>
+
+        <row>
+          <cell>2</cell>
+          <cell>1</cell>
+          <cell>0.459697694</cell>
+          <cell>-1.84147</cell>
+        </row>
+
+        <row>
+          <cell>3</cell>
+          <cell>0.7503639</cell>
+          <cell>-0.0189231</cell>
+          <cell>-1.6819050</cell>
+        </row>
+      </tabular>
+    </table>
+
+    <p>
+      and if the last row is dragged down a few rows, you will get the table in <xref ref="ex-newtons-method"/>.
+    </p>
+  </subsection>
+
+
+  <subsection>
+    <title>Analysis of Newton's Method</title>
+
+    <p>
+      Recall that Newton's Method fits the iteration form of <xref ref="sect-fixed-point"/> with
+      <me>
+        g(x) = x - \frac{f(x)}{f'(x)}
+      </me>
+    </p>
+
+    <p>
+      Using this, we can show that Newton's method is a quadratically converging method if <m>f(a)=0</m> and <m>f'(a) \neq 0</m>.
+      We will use <xref ref="thm-fp-order"/> to show that it convergence quadratically, that is that <m>g(a)=a, g'(a)=0</m> and <m>g''(a) \neq 0</m> or
+      <me>
+        \begin{aligned}g(a) \amp = a - \frac{f(a)}{f'(a)}= a, \\ g'(x) \amp = 1 - \frac{(f'(x))^{2} - f(x) f''(x)}{(f'(x))^{2}}=\frac{f(x)f''(x)}{(f'(x))^{2}}, \\ g'(a) \amp = \frac{f(a)f''(a)}{(f'(a))^{2}}= 0, \\ g''(x) \amp = \frac{(f'(x))^{2}[f(x)f'''(x)+f'(x)f''(x)] - 2 f'(x) f(x)f'''(x)}{(f'(x))^{4}}\\ g''(a) \amp = \frac{f''(a)}{f'(a)}\end{aligned}
+      </me>
+      and if <m>f''(a) \neq 0</m>, then <m>g(a)=a, g'(a)=0, g''(a) \neq 0</m>.
+    </p>
+
+    <p>
+      Lastly, the asymptotic error constant can be found using <xref ref="thm-fp-order"/> as
+      <men xml:id="eq-asymp-error-constant-newtons">
+        \lambda = \frac{g''(a)}{2}= \frac{f''(a)}{2f'(a)}
+      </men>
+    </p>
+
+    <example>
+      <statement>
+        <p>
+          Find the formula for Newton's method for the function <m>f(x)=x^{2}-a</m>, for <m>a \gt 0</m>.
+          In addition, find the asymptotic error constant.
+        </p>
+      </statement>
+
+      <solution>
+        <p>
+          In this case, using Newton's Method from <xref ref="eq-newtons-method"/>,
+          <me>
+            \begin{aligned}x_{n+1} \amp = x_{n} - \frac{x_{n}^{2}-a}{2x_{n}}\\ \amp = \frac{2x_{n}^{2} - (x_{n}^{2}-a)}{2x_{n}}\\ \amp = \frac{x_{n}^{2} + a}{2x_{n}}\end{aligned}
+          </me>
+        </p>
+
+        <p>
+          Also, the asymptotic error constant is found by using  <xref ref="eq-asymp-error-constant-newtons"/>,
+          <me>
+            \lambda = \frac{1}{2!}\frac{f''(a)}{f'(a)}= \frac{2}{2 \cdot 2\sqrt{a}}= \frac{1}{2 \sqrt{a}}
+          </me>
+          which we have shown most recently in <xref ref="ex-sqrt-a-conv-rate"/>.
+        </p>
+      </solution>
+    </example>
+  </subsection>
+</section>

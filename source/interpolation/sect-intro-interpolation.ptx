@@ -1,0 +1,191 @@
+<section xml:id="sect-intro-interpolation">
+  <title>Introduction to Interpolation</title>
+
+  <introduction>
+    <p>
+      Consider part of a table of normal values from a statistics book:
+    </p>
+
+    <tabular>
+      <col right="minor"> </col>
+      <row>
+        <cell> <m>x</m> </cell>
+        <cell>0</cell>
+        <cell>0.25</cell>
+        <cell>0.50</cell>
+        <cell>0.75</cell>
+        <cell>1</cell>
+      </row>
+
+      <row>
+        <cell> </cell>
+      </row>
+
+      <row>
+        <cell> <m>P(X \gt x)</m> </cell>
+        <cell>0.0000</cell>
+        <cell>0.0987</cell>
+        <cell>0.1915</cell>
+        <cell>0.2734</cell>
+        <cell>0.3413</cell>
+      </row>
+
+      <row>
+        <cell> </cell>
+      </row>
+    </tabular>
+
+    <p>
+      What is the value of the function for <m>x=0.27</m> or <m>x=0.514</m>?
+    </p>
+
+    <p>
+      We will eventually learn how to find this function value (which is called the cumulative density function for the normal distribution) using a technique called quadrature, but we would like to be able to approximate a function based on some given values.
+    </p>
+  </introduction>
+
+
+  <subsection>
+    <title>Fundamental Interpolation Problem</title>
+
+    <p>
+      The following is the standard problem that we are looking to solve:
+    </p>
+
+    <p>
+      <em>Given a set of points <m>(x_{i}, f_{i})</m> for <m>i=0,1,2, \ldots, n</m>, where the <m>x_{i}</m> are distinct and <m>f_{i}</m> are the corresponding function values (perhaps either given or <m>f_{i}=f(x_{i})</m> for some <m>f</m>), we wish to find:</em>
+    </p>
+
+    <p>
+      <ul>
+        <li>
+          <p>
+            <em>An approximate value for <m>f</m> at <m>x</m> (other than the given <m>x_{i}</m>) </em>
+          </p>
+        </li>
+
+        <li>
+          <p>
+            <em>Or find a function <m>g</m> such that <m>g(x_{i})=f_{i}</m> and for other <m>x</m> values, <m>g</m> is “reasonable” between the points. Typically “reasonable” needs to be defined clearly.</em>
+          </p>
+        </li>
+      </ul>
+    </p>
+  </subsection>
+
+
+  <subsection>
+    <title>Interpolation Versus Regression</title>
+
+    <p>
+      First, a bit about terminology.
+      You probably have heard the word <em>Regression</em> used in terms of data fitting.
+      For example, linear regression for the data given above may seek to find the line that best fits the data above in the table.
+    </p>
+
+    <p>
+      In the case of finding the values of the cumulative density function above, this is not desirable.
+      Instead, interpolation finds a function <m>g</m> that passes through the given points and approximates (hopefully in a smooth manner) between the points.
+    </p>
+  </subsection>
+
+
+  <subsection>
+    <title>Polynomial Interpolation</title>
+
+    <p>
+      The first function <m>g</m> that we will use to interpolate some data is often a polynomial.
+      Recall that a polynomial of degree <m>n</m> has the form:
+      <me>
+        \begin{aligned}P(x)\amp = a_{0} + a_{1} x + a_{2} x^{2} + \cdots a_{n} x^{n} = \sum_{k=0}^{n} a_{k} x^{k}\end{aligned}
+      </me>
+    </p>
+
+    <p>
+      There are many reasons for using polynomials.
+      From a computational point of view, a polynomial can be evaluated only with four basic operations (<m>+,-,\times,\div{}</m>) that are easily done in computers.
+      Except for Rational Functions (which are usually the second encountered class of interpolated functions), all other functions require some kind of approximation to find function values.
+      In addition, polynomials can be evaluated efficiently.
+      See Section sect:poly:operations for more details.
+    </p>
+
+    <p>
+      Finally (and probably the most-important) is that polynomial can always be used to approximate any other function.
+      This is stated more precisely in the following theorem:
+    </p>
+
+    <theorem>
+      <title>Weierstrauss Approximation Theorem</title>
+
+      <statement>
+        <p>
+          Suppose that <m>f</m> is defined and continuous on <m>[a,b]</m>.
+          For each <m>\epsilon \gt 0</m>, there exists a polynomial <m>P(x)</m> with the property that
+        </p>
+
+        <p>
+          <me>
+            |f(x)-P(x)|&#x3C;\epsilon, \quad \text{for all $x \in [a,b]$}
+          </me>
+        </p>
+      </statement>
+    </theorem>
+
+    <p>
+      The proof of this theorem is rather complicated so will not be presented here, however this is a crucial theorem and can be found in functional analysis texts such as rudin1991.
+      In short, any continuous function can be approximated (to within any value) with a polynomial.
+      This is an important reason for using polynomial in both interpolation and approximation.
+    </p>
+
+    <p>
+      Next, we show a simple example of an interpolation problem.
+    </p>
+
+    <example xml:id="ex-quad-interp-basic">
+      <statement>
+        <p>
+          Find a quadratic function that fits the following data <m>(0,0),(1,1), (3,2)</m>.
+        </p>
+
+        <p>
+          One way to handle this problem is to write a general quadratic function: <m>P(x)=a_{0} + a_{1} x + a_{2} x^{2}</m> and note that the polynomial must satifies the data.
+          <m>P(0)=0, P(1)=1, P(3)=2</m>.
+          <me>
+            \begin{aligned}0\amp = a_{0} \\ 1\amp = a_{0} + a_{1} + a_{2} = a_{1} + a_{2}\\ 2\amp = a_{0} + 3a_{1} + 9a_{2} = 3a_{1} + 9a_{2}\\\end{aligned}
+          </me>
+        </p>
+
+        <p>
+          This is a linear system that can be solve using Gaussian Elimination (or a CAS can solve it directly) as <m>a_{0}=0, a_{1} = 7/6, a_{2} = -1/6</m>.
+          Thus the polynomial that interpolates the given set of points is:
+          <me>
+            \begin{aligned}P(x)\amp = \frac{7}{6}x - \frac{1}{6}x^{2}.\end{aligned}
+          </me>
+        </p>
+
+        <p>
+          A plot of the data and function is shown below:
+        </p>
+
+        <figure xml:id="fig-interp-quadratic">
+          <caption></caption>
+          <image>
+            <shortdescription>
+            </shortdescription>
+            <latex-image>
+      <![CDATA[
+      \begin{tikzpicture}
+\draw[->] (-2.5,0) -- (5.5,0) node [above right] {$x$}; \foreach \x in {-2,-1,1,2,3,4,5} \draw (\x,0.1) -- (\x,-0.1) node [below] {\x};
+ \draw[->] (0,-2.5) -- (0,2.5) node [above right] {$y$};
+\foreach \y in {-2,-1,1,2} \draw (0.1,\y) -- (-0.1,\y) node [left] {\y};
+\draw[<->] plot [domain = -1:6] (\x,{7*\x/6-\x*\x/6});
+\foreach \x/\y in {0/0,1/1,3/2} \fill (\x,\y) circle [radius = 2pt];
+\end{tikzpicture}
+      ]]>
+            </latex-image>
+          </image>
+        </figure>
+      </statement>
+    </example>
+  </subsection>
+</section>

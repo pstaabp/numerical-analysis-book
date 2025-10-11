@@ -1,0 +1,747 @@
+<section xml:id="sect-optimal-pts">
+  <title>Optimal Points for Interpolation</title>
+
+  <introduction>
+    <p>
+      In  <xref ref="ch-interpolation"/>, we investigated the details of interpolation.
+      In most cases we used equally-spaced points as the interpolation nodes.
+      The main problem with using such points is that the error associated with this increases as the number of points increases.
+      For example, recall the plot in Figure ???? On the edges on the interpolation domain, the function swings far above the points.
+      In this section, we look at how to select the interpolation nodes <m>x_{0},x_{1}, \ldots, x_{n}</m> that may do better.
+    </p>
+  </introduction>
+
+
+  <subsection>
+    <title>Chebyshev Polynomials</title>
+
+    <p>
+      In order to determine the optimal points for interpolation, we first examine a set of functions called the Chebyshev polynomials.
+    </p>
+
+    <definition>
+      <statement>
+        <p>
+          For each nonnegative integer, <m>n</m>, the <term>Chebyshev Polynomial</term> <m>T_{n}</m> is defined for <m>x \in [-1,1]</m> by
+          <men xml:id="eq-chebyshev-poly">
+            T_{n}(x) = \cos (n \cos^{-1}x)
+          </men>
+        </p>
+      </statement>
+    </definition>
+
+    <p>
+      These don’t look much like polynomials, but we will see, in fact, they are.
+      To see that they are each polynomials, we first need to establish,
+      <men xml:id="eq-chebyshev-recur-1">
+        \begin{aligned}T_{n+1}(x)\amp = \cos ((n+1) \cos^{-1}x) = \cos (n \cos^{-1}x + \cos^{-1}x)\\
+         \amp \qquad \text{and using the sum formula of cosine, one gets} \\
+         T_{n+1}(x)\amp = \cos (n\cos^{-1}x) \cos(\cos^{-1}x) - \sin(n \cos^{-1}x) \sin (\cos^{-1}x).
+        \end{aligned}
+      </men>
+    </p>
+
+    <p>
+      Also in similar manner,
+      <men xml:id="eq-chebyshev-recur-2">
+        \begin{aligned}T_{n-1}(x)\amp = \cos ((n-1) \cos^{-1}x) = \cos (n \cos^{-1}x -\cos^{-1}x) \\\amp = \cos (n\cos^{-1}x) \cos(\cos^{-1}x) + \sin(n \cos^{-1}x) \sin (\cos^{-1}x).
+        \end{aligned}
+      </men>
+    </p>
+
+    <p>
+      Adding <xref ref="eq-chebyshev-recur-1"/> and <xref ref="eq-chebyshev-recur-2"/>, we get:
+      <me>
+        \begin{aligned}T_{n+1}(x) + T_{n-1}(x)\amp = 2 \cos (n \cos^{-1}x) \cos (\cos^{-1}x) \\\amp = 2x T_{n}(x)\end{aligned}
+      </me>
+      or
+      <men xml:id="eq-recurrence">
+        T_{n+1}(x) = 2x T_{n}(x) - T_{n-1}(x),
+      </men>
+      which is called the <term>recurrence relationship for the Chebyshev polynomials</term>.
+    </p>
+
+    <p>
+      Returning to the definition in <xref ref="eq-chebyshev-poly"/>, and evaluating at <m>n=0</m> and <m>n=1</m>,
+      <me>
+        \begin{aligned}T_{0}(x)\amp = \cos( 0 \cdot \cos^{-1}x) = 1, \\ T_{1}(x)\amp = \cos (\cos^{-1}x) = x .\end{aligned}
+      </me>
+    </p>
+
+    <p>
+      And then using the recurrence relationship in <xref ref="eq-recurrence"/>, we find the Chebyshev polynomials for <m>n=2,3</m> and <m>4</m>,
+      <me>
+        \begin{aligned}T_{2}(x)\amp = 2x T_{1} (x) - T_{0}(x) = 2x^{2} -1 \\ T_{3}(x)\amp = 2x T_{2} (x) - T_{1} (x) = 2x(2x^{2}-1) - x \\\amp = 4x^{3} -3x \\ T_{4}(x)\amp = 2x T_{3}(x) - T_{2}(x) = 2x(4x^{3}-3x) - (2x^{2}-1) \\\amp = 8x^{4} -6x^{2} -2x^{2} + 1 \\\amp = 8x^{4} -8x^{2} + 1\end{aligned}
+      </me>
+    </p>
+
+    <p>
+      The following is a graph of the first five Chebyshev polynomials:
+    </p>
+
+    <figure xml:id="fig-plot-chebyshev5">
+      <caption></caption>
+      <image>
+        <shortdescription>
+        </shortdescription>
+        <latex-image>
+      <![CDATA[
+      \begin{tikzpicture}[scale=2]
+\draw[->] (-1.25,0) -- (1.25,0) node [above right] {$x$}; \foreach \x in {-1,1} \draw (\x,0.1) -- (\x,-0.1) node [below] {\x};
+ \draw[->] (0,-1.25) -- (0,1.25) node [above right] {$y$};
+\foreach \y in {-1,1} \draw (0.1,\y) -- (-0.1,\y) node [left] {\y};
+\draw plot[domain=-1:1] (\x,1);
+\draw plot[domain=-1:1] (\x,\x);
+\draw plot[domain=-1:1,samples=200] (\x,{2*pow(\x,2)-1});
+\draw plot[domain=-1:1,samples=200] (\x,{4*pow(\x,3)-3*\x});
+\draw plot[domain=-1:1,samples=200] (\x,{8*pow(\x,4)-8*pow(\x,2)+1});
+\end{tikzpicture}
+      ]]>
+        </latex-image>
+      </image>
+    </figure>
+
+    <p>
+      The graph of <m>T_{0}</m> is the constant 1 and each successive polynomial has higher degree.
+    </p>
+
+    <p>
+      From the plot one can see one of the most important properties of Chebyshev—on the interval <m>[-1,1]</m>, all the polynomials, <m>T_{n}(x)</m>, satisfy <m>-1 \leq T_{n}(x) \leq 1</m>.
+      The following theorem proves this and other important properties.
+    </p>
+
+    <theorem>
+      <statement>
+        <p>
+          The Chebyshev polynomial, <m>T_{n}(x)</m> has the following properties:
+        </p>
+
+        <p>
+          <ol>
+            <li>
+              <p>
+                <m>T_{n}(x)</m> has <m>n</m> simple zeros in <m>[-1,1]</m>. They are
+                <men xml:id="eq-chebyshev-roots">
+                  z_{k} = \cos \biggl(\frac{2k-1}{2n}\pi \biggr)
+                </men>
+                for <m>k=1,2, \ldots,n</m>.
+              </p>
+            </li>
+
+            <li>
+              <p>
+                The extreme values of <m>T_{n}(x)</m> are located at
+                <me>
+                  z_{k}' = \cos \biggl(\frac{k\pi}{n}\biggr)
+                </me>
+                for <m>k=0,1,2, \ldots, n</m>.
+              </p>
+            </li>
+
+            <li>
+              <p>
+                The function values at the extremes are either <m>1</m> or <m>-1</m>.
+                More specifically,
+                <me>
+                  T_{n}(z_{k}') = (-1)^{k}.
+                </me>
+              </p>
+            </li>
+          </ol>
+        </p>
+      </statement>
+
+
+      <proof>
+        <p>
+          <ol>
+            <li>
+              <p>
+                The zeros of <m>T_{n}</m> are those at <m>z_{k}</m>.
+                Using <xref ref="eq-chebyshev-poly"/>,
+                <me>
+                  \begin{aligned}T_{n}(z_{k})\amp = \cos(n \cos^{-1}z_{k} ), \\\amp = \cos\biggl( n \cos^{-1}\biggl(\cos \biggl(\frac{2k-1}{2n}\pi \biggr) \biggr) \biggr), \\\amp = \cos \biggl( n \frac{2k-1}{2n}\pi \biggr), \\\amp = \cos \biggl( \frac{2k-1}{2}\pi \biggr) = 0 .\end{aligned}
+                </me>
+              </p>
+            </li>
+
+            <li>
+              <p>
+                The extremes of <m>T_{n}(x)</m> are found by first finding the derivative of  <xref ref="eq-chebyshev-poly"/>,
+                <me>
+                  \begin{aligned}T'_{n}(x)\amp = -\sin (n \cos^{-1}x ) \cdot \frac{-1}{\sqrt{1-x^{2}}}, \\\end{aligned}
+                </me>
+                and then evaluate it at <m>z_{k}'</m>:
+                <me>
+                  \begin{aligned}T'_{n}(z_{k}')\amp = \frac{\sin ( n \cos^{-1}z_{k}') }{\sqrt{1-(z_{k}')^{2}}}, \\\amp = \frac{\sin ( n \cos^{-1}(\cos (k\pi/n)) }{\sqrt{1-(z_{k}')^{2}}}, \\\amp = \frac{\sin (n \cdot k\pi/n)}{\sqrt{1-(z_{k}')^{2}}}= \frac{\sin (k\pi)}{\sqrt{1-(z_{k}')^{2}}}=0.\\\end{aligned}
+                </me>
+                and since the derivative is 0, it is an extreme value of <m>T_{n}(x)</m>.
+              </p>
+            </li>
+
+            <li>
+              <p>
+                Lastly, we show that the function values of the extremes are either 1 or <m>-1</m>.
+                <me>
+                  \begin{aligned}T_{n}(z_{k}')\amp = \cos \biggl( n \cos^{-1}\biggl( \cos \biggl(\frac{k\pi}{n}\biggr) \biggr) \biggr) \\\amp = \cos \biggl( n \cdot \frac{k\pi}{n}\biggr) = \cos k \pi =(-1)^{k} .\end{aligned}
+                </me>
+              </p>
+            </li>
+          </ol>
+        </p>
+      </proof>
+    </theorem>
+  </subsection>
+
+
+  <subsection>
+    <title>Monic Polynomials</title>
+
+    <p>
+      We are going to show that the roots of the Chebyshev polynomials will be ideal for choosing interpolation nodes.
+      We will need to show that this will be the best choice and in order to accomplish this we need to discuss of subset of the polynomials called the monic polynomials.
+      These will play an important role.
+    </p>
+
+    <definition>
+      <statement>
+        <p>
+          A polynomial is <term>monic</term> if its leading coefficient is <m>+1</m>.
+          Let <m>\widetilde{\Pi}_{n}</m> denote the set of all monic polynomials of degree <m>n</m>.
+        </p>
+      </statement>
+    </definition>
+
+    <p>
+      And naturally we will define the monic Chebyshev polynomials to be the Chebyshev polynomials with its leading coefficient of <m>1</m>.
+    </p>
+
+    <definition>
+      <statement>
+        <p>
+          Let
+          <me>
+            \begin{aligned}\widetilde{T}_{n}(x)\amp = \begin{cases}T_{0}(x)\amp \text{if $n = 0$}\\ \frac{1}{2^{n-1}}T_{n} (x)\amp \text{otherwise}\end{cases}\end{aligned}
+          </me>
+          be the <term>monic Chebyshev Polynomials</term>
+        </p>
+      </statement>
+    </definition>
+
+    <p>
+      And since these polynomials are monic, <m>\widetilde{T}_{n}(x) \in \widetilde{\Pi}_{n}</m>.
+      The next theorem is the reason that we are studying the Chebyshev polynomials.
+      It shows that the they have the smallest maximum value on <m>[-1,1]</m>.
+    </p>
+
+    <theorem>
+      <statement>
+        <p>
+          The monic Chebyshev polynomial, <m>\widetilde{T}_{n}(x)</m> satisfies
+          <me>
+            \begin{aligned}\frac{1}{2^{n-1}}= \max_{x \in [-1,1]}|\widetilde{T}_{n}(x)| \leq \max_{x \in [-1,1]}|p_{n}(x)|\end{aligned}
+          </me>
+          for any <m>p_{n}(x) \in \widetilde{\Pi}_{n}</m>, and if equality holds then <m>p_{n}(x) \equiv \widetilde{T}_{n}(x)</m>.
+        </p>
+      </statement>
+    </theorem>
+
+
+    <proof>
+      <p>
+        Suppose <m>p_{n} \in \widetilde{\Pi}_{n}</m> with
+        <me>
+          \begin{aligned}\max_{x \in [-1,1]}|p_{n}(x)| \leq \max_{x \in [-1,1]}|\widetilde{T}_{n}(x)| .\end{aligned}
+        </me>
+      </p>
+
+      <p>
+        Let <m>q(x) = \widetilde{T}_{n}(x) - p_{n}(x)</m>.
+        Since <m>\widetilde{T}_{n}</m> and <m>p_{n}</m> are both monic polynomials of degree <m>n</m>, it follows that <m>q</m> is a polynomial of degree at most <m>n-1</m>.
+      </p>
+
+      <p>
+        If we evaluate <m>q</m> at the extrema of <m>\widetilde{T}_{n}</m> (which we called <m>z_{k}'</m>),
+        <me>
+          \begin{aligned}q(z_{k})\amp = \widetilde{T}_{n}(z_{k}') - p_{n}(z_{k}') \\\amp = \frac{(-1)^{k}}{2^{n-1}}- p_{n}(z_{k}')\end{aligned}
+        </me>
+      </p>
+
+      <p>
+        By supposition, <m>|p_{n}(z_{k}')| \leq 2^{1-n}</m> so
+        <me>
+          \begin{aligned}q(z_{k})\amp \geq 0\amp \amp \text{when $k$ is even}\\ q(z_{k})\amp \leq 0\amp \amp \text{when $k$ is odd}\end{aligned}
+        </me>
+        therefore by the intermediate value theorem that there is a root between <m>x_{k}</m> and <m>x_{k+1}</m> for <m>k=0,1,2, \ldots, n-1</m> for a total of <m>n</m> roots.
+        However, <m>q</m> is a polynomial of degree at most <m>n-1</m>, so this implies that <m>q \equiv 0</m> so <m>T_{n}(x)=p_{n}(x)</m>.
+      </p>
+    </proof>
+
+    <p>
+      The previous theorem says that the monic polynomials with smallest maximum norm (or <m>\ell_{\infty}</m>) are the Chebyshev polynomials.
+      Let’s return to the error formula for interpolation.
+      Recall that from Theorem thm:interp:error, if <m>P(x)</m> is the interpolated polynomials using the nodes <m>x_{0}, x_{1}, \ldots, x_{n}</m>, then the error is given by
+      <me>
+        \begin{aligned}|f(x)-P(x)|\amp = \biggl\vert \frac{f^{(n+1)}(\xi(x))}{(n+1)!}\prod_{i=0}^{n} (x-x_{i}) \biggr\vert,\end{aligned}
+      </me>
+      where we examine the polynomial part of the error.
+      Let
+      <me>
+        \begin{aligned}P_{E}(x)\amp = (x-x_{0})(x-x_{1}) \cdots (x-x_{n})\end{aligned}
+      </me>
+      and note that this is a monic polynomial.
+      We seek to examine this polynomial for various interpolation points.
+    </p>
+
+    <p>
+      In the previous section, we saw that when the <m>x_{i}</m> are equally spaced, large oscillations occur toward the edges of the interval <m>[a,b]</m>.
+    </p>
+
+    <p>
+      The previous theorem showed that the Chebyshev Polynomials are the monic polynomials with smallest maximum norm (<m>\ell_{\infty}</m>).
+      This would also translate to the polynomials with roots at the Chebyshev roots of <m>\widetilde{T}_{n+1}</m> which are given in <xref ref="eq-chebyshev-roots"/>.
+    </p>
+
+    <example>
+      <statement>
+        <p>
+          Plot the monic polynomials a) <m>\widetilde{T}_{7}</m>, b) with equally-spaced roots and c) randomly spaced roots.
+        </p>
+
+        <p>
+        </p>
+
+        <p>
+          These three polynomials are
+          <me>
+            \begin{aligned}\widetilde{P}_{7}(x)\amp = (x-1)(x-2/3)(x-1/3)x(x+1/3)(x+2/3)(x+1) \\ \widetilde{T}_{7}(x)\amp = \frac{1}{64}\bigl(64x^{7}-112x^{5}+56x^{3}-7x \bigr) \\ \widetilde{R}_{7}(x)\amp = (x+.3867411)(x+.5507757)(x+.6373457) \\\amp \qquad (x-.7616964)(x-.9693658)(x-0.0796216)(x+.4727200)\end{aligned}
+          </me>
+          and a plot of this is in the following figure.
+        </p>
+
+        <figure xml:id="fig-plot3298098234">
+          <caption></caption>
+          <image>
+            <shortdescription>
+            </shortdescription>
+            <latex-image>
+      <![CDATA[
+      \begin{tikzpicture}[xscale=4,yscale=30]
+\draw[->] (-1.5,0) -- (1.5,0) node [above right] {$x$}; \foreach \x in {-1,1} \draw (\x,0.01) -- (\x,-0.01) node [below] {\x};
+ \draw[->] (0,-0.05) -- (0,0.05) node [above right] {$y$};
+\foreach \y in {-0.04,-0.02,0.02,0.04} \draw (0.1,\y) -- (-0.1,\y) node [left] {\y};
+\draw[dashed] plot[domain=-1:1,samples=200] (\x,{(\x+1)*(\x+2/3)*(\x+1/3)*\x*(\x-1/3)*(\x-2/3)*(\x-1)});
+\draw plot[domain=-1:1,samples=200] (\x,{(64*\x^7-112*\x^5+56*\x^3-7*\x)/64});
+\draw[very thick,dotted] plot[domain=-0.86:1,samples=200] (\x,{(\x+.3867411606)*(\x+.5507757205)*(\x+.6373457828)*(\x-.7616964780)*(\x-.9693658780)*(\x-0.0796216930)*(\x+.4727200781)});
+\end{tikzpicture}
+      ]]>
+            </latex-image>
+          </image>
+        </figure>
+
+        <p>
+          where the solid line is <m>\widetilde{T}_{7}</m>, the dashed line is <m>\widetilde{P}_{7}</m> and the dotted line is <m>\widetilde{R}_{7}</m>.
+          As you can see the polynomial <m>\widetilde{T}_{7}</m> has the smallest value of <m>\max_{x\in[-1,1]}P(x)</m> of these three polynomials, and the theorem above proved this is always true.
+        </p>
+      </statement>
+    </example>
+  </subsection>
+
+
+  <subsection>
+    <title>Interpolation on the Chebyshev roots</title>
+
+    <p>
+      From the discussion above, it appears that if we interpolate on the Chebyshev roots, then we find the best polynomial in the <m>\ell_{\infty}</m> sense.
+      The next example shows how to interpolate through these points.
+    </p>
+
+    <example xml:id="ex-chebyshev-interp-exp">
+      <statement>
+        <p>
+          Find the interpolating polynomial, <m>P_{3}(x)</m> of <m>f(x)=e^{-x}</m> on <m>[-1,1]</m> using the Chebyshev roots.
+        </p>
+      </statement>
+
+      <solution>
+        <p>
+          First, we need to find the values of the roots of <m>\widetilde{T}_{4}</m>.
+          Using:
+          <me>
+            z_{j} = \cos \biggl( \frac{2j+1}{2(n+1)}\pi \biggr)
+          </me>
+          for <m>j=0,1,2,3</m>.
+        </p>
+
+        <p>
+          Next, set up a table of <m>z_{j}</m> and <m>f(z_{j})</m>:
+        </p>
+
+        <tabular>
+          <row bottom="minor">
+            <cell> <m>j</m> </cell>
+            <cell> <m>z_{j}</m> </cell>
+            <cell> <m>f(z_{j})</m> </cell>
+          </row>
+
+          <row>
+            <cell> <m>0</m> </cell>
+            <cell> <m>0.9238795325</m> </cell>
+            <cell> <m>0.3969759686</m> </cell>
+          </row>
+
+          <row>
+            <cell> <m>1</m> </cell>
+            <cell> <m>0.3826834325</m> </cell>
+            <cell> <m>0.6820287733</m> </cell>
+          </row>
+
+          <row>
+            <cell> <m>2</m> </cell>
+            <cell> <m>-0.3826834325</m> </cell>
+            <cell> <m>1.4662138010</m> </cell>
+          </row>
+
+          <row>
+            <cell> <m>3</m> </cell>
+            <cell> <m>-0.9238795325</m> </cell>
+            <cell> <m>2.5190441710</m> </cell>
+          </row>
+
+          <row>
+            <cell> </cell>
+          </row>
+        </tabular>
+
+        <p>
+          We can then use either Newton Divided Differences or Lagrange polynomials to find the interpolant through these points to arrive at:
+          <me>
+            \begin{aligned}p_{4}(x)\amp = -0.1751756924x^{3}+0.5429007218x^{2}-0.9989332286x+0.9946153174\end{aligned}
+          </me>
+          and examining a plot of <m>p_{4}(x)</m> and <m>e^{-x}</m> on <m>[-1,1]</m>, we get:
+        </p>
+
+        <figure xml:id="fig-plot-12341234">
+          <caption></caption>
+          <image>
+            <shortdescription>
+            </shortdescription>
+            <latex-image>
+      <![CDATA[
+      \begin{tikzpicture}[yscale=1.5,xscale=2]
+\draw[->] (-0.5,0) -- (1.5,0) node [above right] {$x$}; \foreach \x in {1} \draw (\x,0.1) -- (\x,-0.1) node [below] {\x};
+ \draw[->] (0,-0.5) -- (0,1.5) node [above right] {$y$};
+\foreach \y in {1} \draw (0.1,\y) -- (-0.1,\y) node [left] {\y};
+\draw[<->] plot [domain=-0.1:1.1] (\x,{exp(-\x)});
+\draw[<->,dashed] plot[domain=-0.1:1.1] (\x,{-0.1751756924*\x*\x*\x+.5429007218*\x*\x-0.9989332286*\x+0.9946153174});
+\end{tikzpicture}
+      ]]>
+            </latex-image>
+          </image>
+        </figure>
+
+        <p>
+          which look identical, but we can see that the difference is:
+        </p>
+
+        <figure xml:id="fig-plot322489">
+          <caption></caption>
+          <image>
+            <shortdescription>
+            </shortdescription>
+            <latex-image>
+      <![CDATA[
+      \begin{tikzpicture}[yscale=75,xscale=2]
+\draw[->] (-0.5,0) -- (1.5,0) node [above right] {$x$}; \foreach \x in {1} \draw (\x,0.001) -- (\x,-0.001) node [below] {\x};
+ \draw[->] (0,-0.005) -- (0,0.025) node [above right] {$y$};
+\foreach \y in {0.01,0.02} \draw (0.03,\y) -- (-0.03,\y) node [left] {\y};
+\draw[<->,dashed] plot[domain=-0.1:1.1] (\x,{abs(exp(-\x) -(-0.1751756924*\x*\x*\x+.5429007218*\x*\x-.9989332286*\x+.9946153174))});
+\end{tikzpicture}
+      ]]>
+            </latex-image>
+          </image>
+        </figure>
+
+        <p>
+          and appears to be about accuracy to 2 decimal places.
+          It also appears that the error is nearly uniformly distributed.
+          It won’t be precisely uniformly distributed due to the function being interpolated.
+        </p>
+      </solution>
+    </example>
+  </subsection>
+
+
+  <subsection>
+    <title>Chebyshev Polynomials on <m>[a,b]</m> </title>
+
+    <p>
+      The Chebyshev polynomials are defined on <m>[-1,1]</m>, however, we may want them on a general interval <m>[a,b]</m>.
+      Thus, we seek a transformation that maps the interval <m>[-1,1]</m> to <m>[a,b]</m>.
+    </p>
+
+    <p>
+      Let <m>z \in [-1,1]</m>, and <m>x \in [a,b]</m>, then
+      <me>
+        \begin{aligned}x = \frac{b-a}{2}z + \frac{a+b}{2}\end{aligned}
+      </me>
+      maps the interval <m>[a,b]</m> to <m>[-1,1]</m>.
+      This is the same transformation as in (eq:convert:interval) of Section sect:gauss:quad.
+    </p>
+
+    <p>
+      Thus, the points
+      <men xml:id="eq-chebyshev-pts-a-b">
+        t_{k} = \frac{b-a}{2}\cos \biggl( \frac{2k-1}{2n}\pi \biggr) + \frac{a+b}{2}
+      </men>
+      for <m>k=1,2,3,\ldots n</m> are the Chebyshev roots on the interval <m>[a,b]</m>.
+      The next example shows how to use this transformation to interpolate a function on the interval <m>[0,2\pi]</m>.
+    </p>
+
+    <example>
+      <statement>
+        <p>
+          Use the points above to find the polynomial interpolant, <m>P_{4}</m> to <m>f(x)=\sin x</m> on <m>[0,2\pi]</m>.
+        </p>
+      </statement>
+
+      <solution>
+        <p>
+          The interpolation points are those in <xref ref="eq-chebyshev-pts-a-b"/> and evaluating the function results in
+        </p>
+
+        <tabular>
+
+          <row bottom="minor">
+            <cell> <m>k</m> </cell>
+            <cell> <m>t_{k}</m> </cell>
+            <cell> <m>f(t_{k})</m> </cell>
+          </row>
+
+          <row>
+            <cell> </cell>
+          </row>
+
+          <row>
+            <cell> <m>1</m> </cell>
+            <cell> <m>6.12942481835027</m> </cell>
+            <cell> <m>-0.153155329681726</m> </cell>
+          </row>
+
+          <row>
+            <cell> <m>2</m> </cell>
+            <cell> <m>4.98817448408867</m> </cell>
+            <cell> <m>-0.962211599609498</m> </cell>
+          </row>
+
+          <row>
+            <cell> <m>3</m> </cell>
+            <cell> <m>3.14159265358397</m> </cell>
+            <cell> <m>0</m> </cell>
+          </row>
+
+          <row>
+            <cell> <m>4</m> </cell>
+            <cell> <m>1.29501082308539</m> </cell>
+            <cell> <m>0.962211599607993</m> </cell>
+          </row>
+
+          <row>
+            <cell> <m>5</m> </cell>
+            <cell> <m>0.15376048883981</m> </cell>
+            <cell> <m>0.153155329692107</m> </cell>
+          </row>
+
+          <row>
+            <cell> </cell>
+          </row>
+        </tabular>
+
+        <p>
+          Use Newton Divided Difference or Lagrange on the set of points <m>\{(t_{k}, f(t_{k}))\}</m> to arrive at
+          <me>
+            \begin{aligned}P_{4} (x)\amp = 0.08515387329\,{x}^{3}- 0.8025563455\,{x}^{2}+ 1.709864800\,x- 0.09108960667\end{aligned}
+          </me>
+        </p>
+
+        <p>
+          Note: due to the symmetry of <m>\sin x</m> as well as the symmetry of the interpolation points, there is no <m>x^{4}</m> term for <m>P_{4}</m>.
+          For a comparison, the 4th degree polynomial that passes through the points <m>x=0,\pi/2,\pi,3\pi/2,2\pi</m> is
+          <me>
+            \begin{aligned}\widehat{P}_{4}(x)\amp = 0 + \frac{2}{\pi}x -\frac{4}{\pi^{2}}x(x-\pi/2) +\frac{8}{3\pi^{3}}x(x-\pi/2)(x-\pi) \\\amp \qquad + 0 x(x-\pi/2)(x-\pi)(x-3\pi/2) \\\end{aligned}
+          </me>
+        </p>
+
+        <figure xml:id="fig-plot23234">
+          <caption></caption>
+          <image>
+            <shortdescription>
+            </shortdescription>
+            <latex-image>
+      <![CDATA[
+      \begin{tikzpicture}[xscale=1.5,yscale=1.25]
+\draw[->] (-0.5,0) -- (6.5,0) node [above right] {$x$};
+\foreach \x/\lab in {1.57/{\frac{\pi}{2}},3.142/\pi,4.712/{\frac{3\pi}{2}},6.284/2\pi} \draw (\x,0.1) -- (\x,-0.1) node [below] {$\lab$};
+ \draw[->] (0,-1.5) -- (0,1.5) node [above right] {$y$};
+\foreach \y in {-1,1} \draw (0.1,\y) -- (-0.1,\y) node [left] {\y};
+\draw[dashed] plot [domain=0:{2*pi},samples=150] (\x,{0.0851538720*\x^3-.8025563394*\x^2+1.7098647890*\x-0.0910896012});
+\draw plot[domain=0:{2*pi},samples=150] (\x,{sin(\x r)});
+\draw[dotted, very thick] plot[domain=0:{2*pi},samples=150] (\x,{2*\x/pi - 4*\x*(\x-pi/2)/(pi*pi) + 8*\x*(\x-pi/2)*(\x-pi)/(3*pi*pi*pi)});
+\draw (4,1.25) -- (4.5,1.25) node [right] {$\sin x$};
+\draw[dashed] (4,0.85) -- (4.5,0.85) node [right] {$P_4(x)$};
+\draw[dotted,very thick] (4,0.45) -- (4.5,0.45) node [right] {$\widehat{P}_4(x)$};
+\end{tikzpicture}
+      ]]>
+            </latex-image>
+          </image>
+        </figure>
+
+        <p>
+          and a plot of the errors
+        </p>
+
+        <figure xml:id="fig-plot323">
+          <caption></caption>
+          <image>
+            <shortdescription>
+            </shortdescription>
+            <latex-image>
+      <![CDATA[
+      \begin{tikzpicture}[xscale=1.25,yscale=15]
+\draw[->] (-0.5,0) -- (6.5,0) node [above right] {$x$};
+\foreach \x/\lab in {1.57/{\frac{\pi}{2}},3.142/\pi,4.712/{\frac{3\pi}{2}},6.284/2\pi} \draw (\x,0.01) -- (\x,-0.01) node [below] {$\lab$};
+ \draw[->] (0,-0.02) -- (0,.22) node [above right] {$y$};
+\foreach \y in {0.1,0.2} \draw (0.1,\y) -- (-0.1,\y) node [left] {\y};
+\draw[dashed] plot [domain=0:{2*pi},samples=150] (\x,{abs(sin(\x r)-(0.0851538720*\x^3-.8025563394*\x^2+1.7098647890*\x-0.0910896012))});
+\draw[dotted, very thick] plot[domain=0:{2*pi},samples=150] (\x,{abs(sin(\x r) -(2*\x/pi - 4*\x*(\x-pi/2)/(pi*pi) + 8*\x*(\x-pi/2)*(\x-pi)/(3*pi*pi*pi)))});
+\draw[dashed] (7,0.1) -- (7.5,0.1) node [right] {$|P_4(x)-\sin x|$};
+\draw[dotted,very thick] (7,0.05) -- (7.5,0.05) node [right] {$|\widehat{P}_4(x)-\sin(x)|$};
+\end{tikzpicture}
+      ]]>
+            </latex-image>
+          </image>
+        </figure>
+      </solution>
+    </example>
+
+    <p>
+      As can be seen from the plot, the Chebyshev approximation, <m>P_{4}(x)</m> has the smaller maximum error (by about 75%) than the Legendre approximation, <m>\widehat{P}_{4}(x)</m>, however neither of these are reasonable approximations in that they still are only accurate to about 1 decimal place.
+      In the next example, we extend the number of points to improve the approximation.
+    </p>
+
+    <example>
+      <statement>
+        <p>
+          Extend the example to 9 points.
+          Provide both the Interpolated Polynomial for equally-spaced points on <m>[0,2\pi]</m> and the Chebyshev points on <m>[0,2\pi]</m>.
+        </p>
+      </statement>
+
+      <solution>
+        <p>
+          Using the points <m>x_{i} = i \frac{\pi}{4}</m> for <m>i=0,1,2,\ldots,8</m> leads to the polynomial that can be written:
+          <me>
+            \begin{aligned}\widehat{P}_{8}(x)\amp ={\frac{8x}{315\pi^{7}}}\biggl( 1280\,\sqrt{2}{x}^{6}-8960\,\sqrt{ 2}{x}^{5}\pi +24752\,\sqrt{2}{x}^{4}{\pi }^{2}\\\amp \qquad -34160\,\sqrt{2}{x}^{3 }{\pi }^{3}+24500\,\sqrt{2}{x}^{2}{\pi }^{4}-8540\,\sqrt{2}x{\pi }^{ 5}\\\amp \qquad +1128\,{\pi }^{6}\sqrt{2}-1792\,{x}^{6}+12544\,{x}^{5}\pi -34720\,{ x}^{4}{\pi }^{2}\\\amp \qquad +48160\,{x}^{3}{\pi }^{3}-34783\,{x}^{2}{\pi }^{4}+ 12061\,x{\pi }^{5}-1470\,{\pi }^{6}\biggr).\end{aligned}
+          </me>
+        </p>
+
+        <p>
+          To find the polynomial that passes through the Chebyshev points, we build a table of <m>t_{j}</m> from (eq:cheby:pts:[a,b]) and <m>f(t_{j})</m>.
+        </p>
+
+        <tabular>
+          <row bottom="minor">
+            <cell> <m>j</m> </cell>
+            <cell> <m>t_{j}</m> </cell>
+            <cell> <m>f(t_{j})</m> </cell>
+          </row>
+
+
+          <row>
+            <cell>1</cell>
+            <cell>6.23545745567117</cell>
+            <cell>-0.0477097333130245</cell>
+          </row>
+
+          <row>
+            <cell>2</cell>
+            <cell>5.86229169995749</cell>
+            <cell>-0.408576233017198</cell>
+          </row>
+
+          <row>
+            <cell>3</cell>
+            <cell>5.16096948600951</cell>
+            <cell>-0.901063626090171</cell>
+          </row>
+
+          <row>
+            <cell>4</cell>
+            <cell>4.21608062324342</cell>
+            <cell>-0.879346445795841</cell>
+          </row>
+
+          <row>
+            <cell>5</cell>
+            <cell>3.14159265358397</cell>
+            <cell>0</cell>
+          </row>
+
+          <row>
+            <cell>6</cell>
+            <cell>2.06710468392645</cell>
+            <cell>0.879346445800469</cell>
+          </row>
+
+          <row>
+            <cell>7</cell>
+            <cell>1.12221582116592</cell>
+            <cell>0.901063626088372</cell>
+          </row>
+
+          <row>
+            <cell>8</cell>
+            <cell>0.420893607226473</cell>
+            <cell>0.408576233021196</cell>
+          </row>
+
+          <row>
+            <cell>9</cell>
+            <cell>0.0477278515232653</cell>
+            <cell>0.0477097333278532</cell>
+          </row>
+
+          <row>
+            <cell> </cell>
+          </row>
+        </tabular>
+
+        <p>
+          The interpolating polynomial that passes through these points is:
+          <me>
+            \begin{aligned}p_{8}(x)\amp = 0.0001448292x^{7}-0.0031849587x^{6}+0.0220637455x^{5} \\\amp \qquad -0.0322337298x^{4}-.1255921078x^{3}-0.0257364715x^{2} \\\amp \qquad +1.0061352440x-0.00002385113\end{aligned}
+          </me>
+        </p>
+
+        <p>
+          The plots of the sine function and the interpolates are nearly identical.
+          The following shows the differences <m>|\sin x - p_{8}(x)|</m> and <m>|\sin x - P_{0,\ldots, 8}(x)|</m>,
+        </p>
+
+        <p>
+          where the solid line is <m>p_{8}(x)</m>, with the Chebyshev nodes and the dashed line is <m>\widehat{P}_{8}(x)</m>, where the equally-spaced nodes have been used.
+          The maximum error using <m>\widehat{P}_{8}(x)</m> is about 5 times larger than the maximum error with <m>p_{8}(x)</m>.
+          Also, as we have seen earlier, the error <m>|p_{8}(x)-f(x)|</m> is distributed uniformly across the interval.
+        </p>
+      </solution>
+    </example>
+
+    <p>
+      As has been seen in this section, when the nodes used for interpolation are those of the roots of the Chebyshev polynomials of appropriate order the maximum error is minimized.
+      Recall that this is the <m>\ell_{\infty}</m> error.
+      As was discussed at the beginning of this chapter, other norms are often used as well.
+      For example, the <m>\ell_{2}</m> norm is very common.
+      We will investigate how to interpolate that minimizes this norm in the next section.
+    </p>
+  </subsection>
+</section>

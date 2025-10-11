@@ -1,0 +1,561 @@
+<section xml:id="sect-intro-approximation">
+  <title>Introduction to Approximation Theory</title>
+
+  <introduction>
+    <p>
+      A very important subject in numerical analysis is that of approximation theory.
+      In a nutshell, one desires to approximate one function by another function.
+      For example, let <m>g(x)=e^{x}</m>.
+      Although most computers and calculators will quickly evaluate this, let’s ignore that fact and try to think of how to do it with only the standard 4 operations: addition, subtraction, multiplication and division.
+    </p>
+
+    <p>
+      In order to evaluate <m>e^{x}</m> for arbitrary values of <m>x</m>, one way from calculus is to use the Maclaurin series
+      <me>
+        e^{x} = 1 + x + \frac{x^{2}}{2!}+ \frac{x^{3}}{3!}+ \cdots + \frac{x^{n}}{n!}+ \cdots.
+      </me>
+    </p>
+
+    <p>
+      We learned in calculus that this series converges for any value of <m>x</m>—the problem is that it may take a huge number of terms to find <m>e^{x}</m> to a desired accuracy.
+      In this section, we learn how to approximate functions like <m>e^{x}</m> or a set of data using other functions, generally polynomials and rational functions.
+    </p>
+  </introduction>
+
+
+  <subsection>
+    <title>Norms of Functions</title>
+
+    <p>
+      As discussed, we seek a function (often a polynomial) that is “close” to the target function.
+      In this section, we define carefully what this means.
+      In order to do this, we discuss norms.
+    </p>
+
+    <definition>
+      <statement>
+        <p>
+          A <alert>norm</alert> is a function <m>|| \cdot ||: V \rightarrow \R</m> over a field <m>F</m>, where <m>V</m> is a vector space, that satisfies the following three properties for all <m>\mathbf{u}, \mathbf{v}\in V</m> and <m>a \in F</m>,
+          <ol>
+            <li>
+              <p>
+                <m>||a \mathbf{u}|| = |a| \; ||\mathbf{u}||</m>,
+              </p>
+            </li>
+
+            <li>
+              <p>
+                <m>||\mathbf{u}+ \mathbf{v}|| \leq ||\mathbf{u}|| + ||\mathbf{v}||,\quad</m> (This is called the triangle inequality.)
+              </p>
+            </li>
+
+            <li>
+              <p>
+                <m>||\mathbf{u}|| \geq 0</m> and <m>||\mathbf{u}||=0</m> if and only if <m>\mathbf{u}=\mathbf{0}</m>, the zero vector.
+              </p>
+            </li>
+          </ol>
+        </p>
+      </statement>
+    </definition>
+
+    <p>
+      Generally the field <m>F</m> is either <m>\R</m> or <m>\mathbb{C}</m>, the sets of reals and complex numbers respectively.
+    </p>
+
+    <p>
+      If the vector space <m>V = \R^{n}</m>, the set of all real vectors of length <m>n</m>, then a often-used norm is the Euclidean norm.
+      If <m>\mathbf{v}\in V</m> and
+      <me>
+        \mathbf{v}= \begin{bmatrix}v_{1} \\ v_{2} \\ \vdots \\ v_{n}\end{bmatrix}
+      </me>
+    </p>
+
+    <p>
+      then the Euclidean norm is
+      <me>
+        ||\mathbf{v}||_{2} = \sqrt{v_{1}^{2} + v_{2}^{2} + \cdots v_{n}^{2}}
+      </me>
+    </p>
+
+    <p>
+      and this can be shown to satisfy the three properties above.
+    </p>
+
+    <p>
+      The Euclidean norm gives the length of the vector in <m>\R^{2}</m> or <m>\R^{3}</m> and can be used to define the length in higher orders.
+      In addition, the norm can be used to determine the distance between two point.
+      If <m>\mathbf{x}</m> and <m>\mathbf{y}</m> are vectors in <m>\R^{n}</m>, then the distance between <m>\mathbf{x}</m> and <m>\mathbf{y}</m> is <m>||\mathbf{x}-\mathbf{y}||_{2}</m> and reduce to the distance between points in <m>\R^{2}</m> and <m>\R^{3}</m>.
+    </p>
+
+    <p>
+      Recall that the notion of vector space is broad.
+      Although it often applies to vectors and matrices, the set of polynomials of a given degree and the set of continuous functions on <m>[a,b]</m> are examples of vector spaces.
+    </p>
+
+    <p>
+      Three standard norms are often called the <m>\ell_{1}, \ell_{2}</m> and <m>\ell_{\infty}</m>.
+      For <m>\mathbf{u}\in \R^{n}</m>, the norms <m>\ell_{1}, \ell_{2}</m> and <m>\ell_{\infty}</m> are defined as
+      <me>
+        \begin{aligned} ||u||_{1} \amp = \sum_{i=1}^{n} |u_{i}|, \\ ||u||_{2} \amp = \biggl(\sum_{i=1}^{n} u_{i}^{2}\biggr)^{1/2}, \\ ||u||_{\infty} \amp= \max_{i=1,2,\ldots,n}|u_{i}|.
+        \end{aligned}
+      </me>
+    </p>
+
+    <p>
+      The <m>\ell_{1}</m>, <m>\ell_{2}</m> and <m>\ell_{\infty}</m> norms of a function <m>f</m> on an interval <m>[a,b]</m> are defined
+      <me>
+        \begin{aligned} ||f||_{1} \amp = \int_{a}^{b} |f(x)| \, dx, \\ ||f||_{2}\amp= \biggl( \int_{a}^{b} f(x)^{2} \, dx \biggr)^{1/2}, \\ ||f||_{\infty} \amp= \max_{x \in[a,b]}|f(x)|.
+        \end{aligned}
+      </me>
+    </p>
+
+    <p>
+      We will see that these norms play a large role in approximation theory.
+      In short, we are looking for a function to approximate another function or a set of data.
+      We will use one of the norms to determine how far the two are away from each other.
+    </p>
+  </subsection>
+
+
+  <subsection>
+    <title>Inner Product Spaces</title>
+
+    <p>
+      The vector space <m>V</m> is called an <alert>inner product space</alert> if for every pair of vectors <m>\bu</m> and <m>\bv</m> in <m>V</m> there is a unique number <m>\langle \bu, \bv \rangle</m>, called the <alert>inner product</alert> of <m>\bu</m> and <m>\bv</m> such that if <m>\bu, \bv</m> and <m>\bw</m> are in <m>V</m> and <m>\alpha \in \R</m> then
+    </p>
+
+    <p>
+      <ol>
+        <li>
+          <p>
+            <m>\langle \bu, \bv \rangle = \langle \bv, \bu \rangle</m>,
+          </p>
+        </li>
+
+        <li>
+          <p>
+            <m>\langle a \bu + b \bv, \bw \rangle = a \langle \bu, \bw \rangle + b \langle \bv, \bw \rangle</m>,
+          </p>
+        </li>
+
+        <li>
+          <p>
+            <m>\langle \bu, \bu \rangle \geq 0</m> and equals 0 if and only if <m>\bu = \bzero</m>.
+          </p>
+        </li>
+      </ol>
+    </p>
+
+    <example>
+      <statement>
+        <p>
+          Show that <m>\R^{n}</m> is an inner product space with <m>\bu=(u_{1}, u_{2}, \ldots, u_{n})^{T}</m> and <m>\bv=(v_{1},v_{2}, \ldots,v_{n})^{T}</m> and <m>\langle \bu, \bv \rangle = \bu^{T} \bv</m>.
+        </p>
+
+        <p>
+        </p>
+
+        <p>
+          First, the set <m>\R^{n}</m> is a vectors space.
+          Next, we need to show that the three properties are satisfied.
+        </p>
+
+        <p>
+          <ol>
+            <li>
+              <p>
+                <me>
+                  \langle \bu, \bv \rangle = \bu^{T} \bv = (\bu^{T} \bv)^{T} = \bv^{T} (\bu^{T})^{T} = \bv^{T} \bu = \langle \bv, \bu \rangle.
+                </me>
+                so the first property is satisfied.
+              </p>
+            </li>
+
+            <li>
+              <me>
+                \begin{aligned} \langle a \bu + b \bv, \bw \rangle\amp= (a \bu + b\bv)^{T} \bw = (a \bu^{T} + b \bv^{T}) \bw \\ \amp= a \bu^{T} \bw + b \bv^{T} \bw = a \langle \bu, \bw \rangle + b \langle \bv, \bw \rangle.
+                \end{aligned}
+              </me>
+            </li>
+
+            <li>
+              <p>
+                <me>
+                  \langle \bu, \bu \rangle = \bu^{T} \bu = u_{1}^{2} + u_{2}^{2} + u_{3}^{2} + \cdots + u_{n}^{2}
+                </me>
+                which satisfies <m>\geq 0</m>.
+                The only time that this quantity equals 0, is when <m>u_{1}=u_{2} = \cdots =u_{n}=0</m> or <m>\bu = \bzero</m>.
+              </p>
+            </li>
+          </ol>
+        </p>
+      </statement>
+    </example>
+
+    <p>
+      The example above shows a standard way of demonstrating that something is an inner product space.
+      Using the definition of the inner product, each property is clearly shown.
+    </p>
+  </subsection>
+
+
+  <subsection>
+    <title>Vector Norms and distance</title>
+
+    <definition>
+      <statement>
+        <p>
+          Let <m>\bu</m> and <m>\bv</m> be elements of an inner product space.
+          The norm of the vector <m>\bu</m> is given by
+          <me>
+            || \bu ||= \sqrt{\langle \bu,\bu \rangle}
+          </me>
+        </p>
+      </statement>
+    </definition>
+
+    <p>
+      Note: if <m>\bu \in \R^{n}</m> then the vector norm is the length of the vector.
+    </p>
+
+    <definition>
+      <statement>
+        <p>
+          The distance between vectors <m>\bu</m> and <m>\bv</m> denoted <m>d(\bu,\bv)</m> and defined as <m>d(\bu,\bv)=||\bu-\bv||</m>.
+        </p>
+      </statement>
+    </definition>
+
+    <p>
+      Note: if <m>\bu</m> and <m>\bv</m> are in <m>\R^{n}</m>, then the distance function is the standard distance function.
+    </p>
+
+    <lemma>
+      <statement>
+        <p>
+          The distance <m>||\bu-\bv||=0</m> if and only if <m>\bu=\bv</m>.
+        </p>
+      </statement>
+    </lemma>
+
+
+    <proof>
+      <p>
+        Let <m>||\bu-\bv||=0</m>, then <m>\langle \bu-\bv,\bu-\bv \rangle=0</m> By definition, this is only zero if <m>\bu-\bv=\bzero</m>, therefore <m>\bu=\bv</m>.
+      </p>
+
+      <p>
+        If <m>\bu=\bv</m>, then <m>||\bu-\bv|| = ||\bzero||=0</m>.
+      </p>
+    </proof>
+  </subsection>
+
+
+  <subsection>
+    <title>Angles between vectors</title>
+
+    <p>
+      If <m>\bu</m> and <m>\bv</m> are vectors in <m>\R^{2}</m> or <m>\R^{3}</m> then
+      <me>
+        \cos \theta = \frac{\langle \bu,\bv \rangle}{||\bu||\, || \bv||}
+      </me>
+    </p>
+
+    <p>
+      and thus the angle between the vectors can be found.
+    </p>
+
+    <p>
+      This notion generalizes to any vectors in an inner product space, <m>V</m>.
+      Most helpful, two vectors meet at a right angle if <m>\langle \bu,\bv\rangle=0</m>.
+    </p>
+  </subsection>
+
+
+  <subsection>
+    <title>Orthonormal sets of vectors</title>
+
+    <definition>
+      <statement>
+        <p>
+          Let <m>\{\bv_{1}, \bv_{2}, \ldots, \bv_{n}\}</m> each be elements of an inner product space, <m>V</m>.
+          The set is called an <alert>orthonormal set</alert> if
+          <me>
+            \langle \bv_{i}, \bv_{j} \rangle= 0 \qquad \text{if $i \neq j$}
+          </me>
+          and
+          <me>
+            ||\bv_{i}|| = \sqrt{\langle \bv_{i}, \bv_{i} \rangle}= 1
+          </me>
+        </p>
+
+        <p>
+          If only the first condition holds, the set is called <term>orthogonal</term>.
+        </p>
+      </statement>
+    </definition>
+
+    <example>
+      <statement>
+        <p>
+          Show that
+          <me>
+            \begin{aligned} \bv_{1}\amp= \begin{bmatrix}1 \\ 0 \\ 0\end{bmatrix},\amp\bv_{2}\amp= \begin{bmatrix}0 \\ 1/\sqrt{2} \\ 1/\sqrt{2}\end{bmatrix},\amp\bv_{3}\amp= \begin{bmatrix}0 \\ 1/\sqrt{2} \\ -1/\sqrt{2}\end{bmatrix} \end{aligned}
+          </me>
+          is an orthonormal set where each vector is an element of <m>\R^{3}</m>.
+        </p>
+
+        <p>
+          Note: this is also a basis for <m>\R^{3}</m>.
+        </p>
+      </statement>
+    </example>
+
+    <theorem>
+      <title>Cauchy-Swartz Inequality</title>
+
+      <statement>
+        <p>
+          If <m>\bu</m> and <m>\bv</m> are elements of an inner product space then
+          <me>
+            | \langle \bu, \bv \rangle| \leq || \bu ||\, ||\bv||
+          </me>
+        </p>
+      </statement>
+
+
+      <proof>
+        <p>
+          If <m>\bv=\bzero</m>, then the inequality is satisfied.
+          Assume <m>\bv \neq \bzero</m> and define
+          <me>
+            \lambda = \langle \bv,\bv \rangle^{-1}\langle \bu,\bv \rangle.
+          </me>
+        </p>
+
+        <p>
+          By definition of the inner product,
+          <me>
+            \begin{aligned}
+
+            0 \leq\amp\langle \bu - \lambda \bv, \bu -\lambda \bv \rangle \\
+            \amp\qquad \text{Using properties of the inner product,}\\
+            0 \leq\amp\langle \bu, \bu \rangle - 2 \lambda \langle \bu, \bv \rangle + \lambda^{2} \langle \bv,\bv \rangle \\
+            =\amp\langle \bu,\bu \rangle - 2 \langle \bv,\bv \rangle^{-1}\langle \bu,\bv \rangle \langle \bu, \bv \rangle + \bigl(\langle \bv,\bv \rangle^{-1}\langle \bu,\bv \rangle \bigr)^{2} \langle \bv,\bv \rangle.
+            \\ =\amp\langle \bu, \bu \rangle - \langle \bv,\bv \rangle^{-1}\langle \bu,\bv \rangle^{2} \\
+            \amp \qquad \text{Multiply through by $\langle \bv,\bv\rangle$}\\
+            =\amp\langle \bu,\bu \rangle \langle \bv,\bv \rangle - \langle \bu,\bv \rangle^{2} \end{aligned}
+          </me>
+        </p>
+
+        <p>
+          This can be rearranged to get:
+          <me>
+            \langle \bu,\bv \rangle^{2} \leq \langle \bu,\bu \rangle \langle \bv, \bv \rangle
+          </me>
+          and taking the square root, you get the desired result.
+        </p>
+      </proof>
+    </theorem>
+  </subsection>
+
+
+  <subsection>
+    <title>Inner Products of functions</title>
+
+    <p>
+      Above, we defined an inner product space and for both motivation as well as the examples shown, we used <m>\R^{n}</m>.
+      This is a good space to become familiar with inner product spaces, because of the familiarity of the spaces <m>\R^{2}</m> and <m>\R^{3}</m>.
+      In this section we will apply an inner product to a function on an interval <m>[a,b]</m>.
+    </p>
+
+    <definition>
+      <statement>
+        <p>
+          The <alert>inner product</alert> between functions <m>f</m> and <m>g</m>, denoted <m>\langle f,g\rangle</m> on the interval <m>[a,b]</m> is defined to be:
+          <men xml:id="eq-inner-prod-function">
+            \langle f,g \rangle = \int_{a}^{b} f(x) g(x) \, dx.
+          </men>
+        </p>
+      </statement>
+    </definition>
+
+    <example>
+      <statement>
+        <p>
+          Show that the set of continuous function on <m>[a,b]</m> with the inner product defined above is an <em>inner product space</em>.
+        </p>
+      </statement>
+
+      <solution>
+        <p>
+          We need to show that the three properties that define the inner product are valid for <xref ref="eq-inner-prod-function"/>.
+        </p>
+
+        <p>
+          <ol>
+            <li>
+              <p>
+                <me>
+                  \langle f, g \rangle = \int_{a}^{b} f(x) g(x) \, dx = \int_{a}^{b} g(x) f(x) \, dx = \langle g, f \rangle.
+                </me>
+              </p>
+            </li>
+
+            <li>
+              <p>
+                For <m>c_{1}</m> and <m>c_{2}</m>, real numbers,
+                <me>
+                  \langle c_{1} f + c_{2} g,h \rangle = \int_{a}^{b} (c_{1} f +c_{2} g)h \, dx = \int_{a}^{b} (c_{1} f h + c_{2} gh) \, dx
+                </me>
+                due to the linearity of integrals,
+                <me>
+                  \phantom{\langle c_{1} f + c_{2} g,h \rangle} = c_{1} \int_{a}^{b} f h \, dx + c_{2} \int_{a}^{b} g h\, dx = c_{1} \langle f, h \rangle + c_{2} \langle g,h \rangle.
+                </me>
+              </p>
+            </li>
+
+            <li>
+              <p>
+                <me>
+                  \langle f, f \rangle = \int_{a}^{b} f^{2} \, dx
+                </me>
+                And since <m>f^{2} \geq 0</m>,
+                <me>
+                  \langle f, f \rangle\geq 0.
+                </me>
+              </p>
+
+              <p>
+                If <m>f \equiv 0</m>, then <m>\int_{a}^{b} f^{2} \, dx =0</m>.
+                If <m>\int_{a}^{b} f^{2} \, dx = 0</m>, then <m>f \equiv 0</m>.
+                The second statement can be shown by contradiction.
+                That is, assume that <m>f \not \equiv 0</m>, and the result is that <m>\int_{a}^{b} f^{2} \, dx \neq 0</m>, therefore the assumption that <m>f \not \equiv 0</m> is not correct cannot hold.
+              </p>
+            </li>
+          </ol>
+        </p>
+
+        <p>
+          So the set of continuous functions on <m>[a,b]</m> with the given inner product is an inner product space.
+        </p>
+      </solution>
+    </example>
+
+    <p>
+      As we saw above with vectors in <m>\R^{n}</m>, there is a relationship between norms and inner products.
+      This is true with functions as well.
+      The <m>\ell_{2}</m>-norm of the function <m>f</m> is given by
+      <me>
+        ||f ||_{2} = \sqrt{\langle f,f \rangle}= \biggl(\int_{a}^{b} f^{2} \, dx\biggr)^{1/2}.
+      </me>
+    </p>
+  </subsection>
+
+
+  <subsection>
+    <title>Weighted Inner Products</title>
+
+    <definition>
+      <statement>
+        <p>
+          The <term>inner product</term> between functions <m>f</m> and <m>g</m> on the interval <m>[a,b]</m> with respect to weight function <m>w(x) \geq 0</m> is defined to be:
+          <me>
+            \langle f,g \rangle_{w} = \int_{a}^{b} f(x) g(x) w(x) \, dx
+          </me>
+        </p>
+      </statement>
+    </definition>
+
+    <p>
+      and in a similar vein,
+      <me>
+        ||f||_{w} = \langle f,f\rangle_{w}^{1/2}
+      </me>
+    </p>
+
+    <example>
+      <statement>
+        <p>
+          Find the weighted inner product between <m>f(x)=x</m> and <m>f(x)=x^{2}</m> with weight function <m>w(x)=e^{-x}</m> on the interval <m>[0,\infty)</m>.
+        </p>
+
+        <p>
+          <me>
+            \langle x,x^{2}\rangle_{e^{-x}}= \int_{0}^{\infty}x^{3} e^{-x}\, dx
+          </me>
+          using tabular integration
+          <me>
+            = -(x^{3}+3x^{2}+6x+6)e^{-x}\biggr|_{0}^{\infty}= 6
+          </me>
+        </p>
+      </statement>
+    </example>
+  </subsection>
+
+
+  <subsection>
+    <title>Orthogonal Functions</title>
+
+    <p>
+      Again, as we saw above, two vectors <m>\bu</m> and <m>\bv</m> in <m>\R^{n}</m> are <em>orthogonal</em> if <m>\langle \bu, \bv \rangle=0</m>.
+      Similarly, we can define two functions <m>f</m> and <m>g</m> to be orthogonal on <m>[a,b]</m> if
+      <me>
+        \langle f, g \rangle = \int_{a}^{b} f g \, dx = 0
+      </me>
+    </p>
+
+    <example>
+      <statement>
+        <p>
+          Show that <m>f(x) = x</m> and <m>g(x) = x^{2}</m> are orthogonal on <m>[-1,1]</m>.
+        </p>
+
+        <p>
+          <me>
+            \langle f, g \rangle = \int_{-1}^{1} x (x^{2}) \,dx = \int_{-1}^{1} x^{3} \, dx =0,
+          </me>
+          since <m>x^{3}</m> is an odd function and the interval is symmetric with respect to 0.
+        </p>
+      </statement>
+    </example>
+
+    <definition>
+      <statement>
+        <p>
+          The set <m>\{ f_{i} \}</m> is an <alert>orthogonal set of functions on <m>[a,b]</m> </alert> if <m>\langle f_{i}, f_{j} \rangle =0</m> for all <m>i,j</m> such that <m>i \neq j</m>.
+          If, in addition, the functions satisfy <m>||f_{i}||=1</m>, for all <m>i</m>, then the set is called <alert>orthonormal</alert>.
+        </p>
+      </statement>
+    </definition>
+
+    <p>
+      Note: a set of functions can be orthogonal with respect to a weight function <m>w(x)</m> if the appropriate inner product is used.
+      The following example shows this.
+    </p>
+
+    <example>
+      <statement>
+        <p>
+          Show that the set of functions <m>\{1, 1-x,x^{2}/2-2x+1 \}</m> are orthogonal with respect to the weight function <m>w(x) = e^{-x}</m> on the interval <m>[0,\infty)</m>.
+        </p>
+
+        <p>
+        </p>
+
+        <p>
+          We need to show that each of the following inner products (integrals) are zero.
+          <me>
+            \begin{aligned}
+            \langle 1,1-x\rangle\amp= \int_{0}^{\infty}1 \cdot (1-x) e^{-x}\, dx = xe^{-x}\biggr\vert_{0}^{\infty}=0 \\ \langle 1,x^{2}/2-2x+1\rangle\amp=\int_{0}^{\infty}1 \cdot (x^{2}/2-2x+1) e^{-x}\, dx \\\amp= e^{-x}(x^{3}/6-x^{2}-x) \biggr\vert_{0}^{\infty}= 0\\ \langle 1-x,x^{2}/2-2x+1\rangle\amp=\int_{0}^{\infty}(1-x)(x^{2}/2-2x+1)e^{-x}\, dx \\\amp= e^{-x}\biggl(-\frac{x^{4}}{8}+\frac{5x^{3}}{6}-\frac{3x^{2}}{2}+x\biggr) \biggl\vert_{0}^{\infty}=0
+            \end{aligned}
+          </me>
+          so these form an orthogonal set.
+          These three polynomials are the first three <term>Laguerre Polynomials</term>.
+          There is an infinite set of these.
+        </p>
+      </statement>
+    </example>
+  </subsection>
+</section>

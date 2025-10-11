@@ -1,0 +1,308 @@
+<section xml:id="sect-orthogonal-polynomials">
+  <title>Orthogonal Polynomials and Least Squares Approximation</title>
+
+  <introduction>
+    <p>
+      Let’s say that we have a function <m>f(x)</m> on an interval <m>[a,b]</m>.
+      We wish to find a polynomial <m>P_{n}(x)</m> that approximates <m>f</m> on the interval.
+      A mathematical statement of this is that we wish to minimize
+      <me>
+        \begin{aligned}\int_{a}^{b} \bigl(f(x)-P_{n}(x))^{2} \,dx = ||f-P_{n}||_{2}\end{aligned}
+      </me>
+    </p>
+
+    <p>
+      If we let <m>P_{n}(x)</m> be a general <m>n</m>th order polynomial, then
+      <me>
+        \begin{aligned}P_{n}(x)\amp = \sum_{k=0}^{n} a_{k} x^{k}\end{aligned}
+      </me>
+    </p>
+
+    <p>
+      Then we wish to minimize
+      <me>
+        \begin{aligned}E(a_{0},a_{1},\ldots, a_{n})\amp = \int_{a}^{b} \biggl( f(x) - \sum_{k=0}^{n} a_{k} x^{k} \biggr)^{2} \, dx \\
+         \amp \qquad \text{which can be written as}\\
+         \amp = \int_{a}^{b} \bigl(f(x))^{2} \, dx - 2 \sum_{k=0}^{n} a_{k} \int_{a}^{b} x^{k} f(x) \, dx + \int_{a}^{b} \biggl( \sum_{k=0}^{n} a_{k} x^{k} \biggr)^{2} \, dx \\
+         \amp \qquad \text{and differentiating we obtain,}\\
+         \frac{\partial E}{\partial a_{j}}\amp = -2 \int_{a}^{b} x^{j} f(x) \, dx + 2 \sum_{k=0}^{n} a_{k} \int_{a}^{b} x^{j+k}\, dx.\end{aligned}
+      </me>
+      and the minimum occurs when <m>\partial E/\partial a_{k}=0</m> for all <m>k</m> or
+      <men xml:id="eq-normal-eqns">
+        \sum_{k=0}^{n} a_{k} \int_{a}^{b} x^{j+k}\, dx = \int_{a}^{b} x^{j} f(x) \, dx
+      </men>
+    </p>
+
+    <p>
+      These are called the <term>normal equations</term>.
+      Since
+      <men xml:id="eq-hilbert-matrix-elements">
+        \int_{a}^{b} x^{j} \, dx = \frac{b^{j+1}-a^{j+1}}{j+1}
+      </men>
+      the normal equations in <xref ref="eq-normal-eqns"/> form an <m>(n+1) \times (n+1)</m> linear system in the unknown <m>a</m>’s.
+      The elements of the matrix have the form in <xref ref="eq-hilbert-matrix-elements"/> and solving a system with such elements is numerically unstable due to rounding errors, thus finding the coefficients of the polynomial <m>P_{n}(x)</m> is not usually a desired way to go.
+    </p>
+
+    <p>
+      Despite this, we will show an interpolation using this form for <m>f(x)=e^{x}</m> on <m>[0,1]</m> in the next example.
+    </p>
+
+    <example>
+      <statement>
+        <p>
+          Use the normal equations in  <xref ref="eq-normal-eqns"/> to find <m>P_{2}(x)</m> that interpolates <m>f(x)=e^{x}</m> on <m>[0,1]</m>.
+        </p>
+      </statement>
+
+      <solution>
+        <p>
+          The equations form the linear equations:
+          <me>
+            \begin{aligned}a_{0} + \frac{1}{2}a_{1} + \frac{1}{3}a_{2}\amp = \int_{0}^{1} e^{x} \,dx = e-1\\ \frac{1}{2}a_{0} + \frac{1}{3}a_{1} + \frac{1}{4}a_{2}\amp = \int_{0}^{1} x e^{x} \, dx = 1\\ \frac{1}{3}a_{0} + \frac{1}{4}a_{1} + \frac{1}{5}a_{2}\amp = \int_{0}^{1} x^{2} e^{x} \, dx = e-2\\\end{aligned}
+          </me>
+          the solution to this (using exact precision is),
+          <me>
+            \begin{aligned} a_{0}\amp = -105+39e,\amp a_{1}\amp = 588-216e,\amp a_{2}\amp = -570+210e.
+            \end{aligned}
+          </me>
+        </p>
+
+        <p>
+          A plot of this polynomial,
+          <me>
+            P_{2}(x) = -105+39e + (588-216e) x +(-570+210e) x^{2}
+          </me>
+          and <m>f(x)=e^{x}</m> is
+        </p>
+
+        <figure xml:id="fig-plot3419843">
+          <caption></caption>
+          <image>
+            <shortdescription>
+            </shortdescription>
+            <latex-image>
+      <![CDATA[
+      \begin{tikzpicture}[yscale=0.75,xscale=2]
+\draw[->] (-0.5,0) -- (1.5,0) node [above right] {$x$}; \foreach \x in {1} \draw (\x,0.05) -- (\x,-0.05) node [below] {\x};
+ \draw[->] (0,-0.5) -- (0,3.5) node [above right] {$y$};
+\foreach \y in {1,2,3} \draw (0.05,\y) -- (-0.05,\y) node [left] {\y};
+\draw[<->] plot [domain=-0.1:1.1] (\x,{exp(\x)});
+\draw[<->,dashed] plot[domain=-0.1:1.1] (\x,{-105+39*exp(1)+(588-216*exp(1))*\x + (-570+210*exp(1))*\x*\x});
+\end{tikzpicture}
+      ]]>
+            </latex-image>
+          </image>
+        </figure>
+      </solution>
+    </example>
+
+    <p>
+      The example above found the interpolating polynomial that minimizes <m>||f-P_{2}||_{2}</m>, however due to the form of the matrix, numerically, this is a poor way find the polynomial.
+    </p>
+
+    <p>
+      Instead, we will use orthogonal polynomials to construct the interpolating polynomial.
+      This has many advantages.
+    </p>
+  </introduction>
+
+
+  <subsection>
+    <title>Orthogonal Polynomials</title>
+
+    <theorem xml:id="thm-orth-poly">
+      <statement>
+        <p>
+          If <m>\{\phi_{0},\phi_{1},\phi_{2}, \ldots, \phi_{n}\}</m> is an orthogonal set of functions on <m>[a,b]</m> with respect to the weight function <m>w</m>, then <m>n</m>th degree polynomial
+          <me>
+            P_{n}(x) = \sum_{k=0}^{n} a_{k} \phi_{k}(x)
+          </me>
+          minimizes <m>||f-P_{n}||_{w}</m> where for each <m>k=0,1,2,\ldots, n</m>,
+          <me>
+            a_{k} = \frac{1}{\alpha_{k}}\int_{a}^{b} w(x) \phi_{k}(x) f(x) \, dx
+          </me>
+          where
+          <me>
+            \alpha_{k}  = \int_{a}^{b} w(x) \bigl(\phi_{k}(x)\bigr)^{2} \, dx.
+          </me>
+        </p>
+      </statement>
+
+
+      <proof>
+        <p>
+          Since <m>\{\phi_{0},\phi_{1},\phi_{2}, \ldots, \phi_{n}\}</m> is an orthogonal set of functions, then
+          <me>
+            \langle \phi_{i} , \phi_{j} \rangle = 0 \qquad \text{for all $i \neq j$.}
+          </me>
+        </p>
+
+        <p>
+          Since
+          <me>
+            \begin{aligned}E\amp = ||f-P_{n}||_{w} = \biggl\vert\biggl\vert f(x) - \sum_{k=0}^{n} a_{k} \phi_{k}(x) \biggr\vert\biggr\vert \\\amp = \int_{a}^{b} w(x) \biggl( f(x) - \sum_{k=0}^{n} a_{k} \phi_{k}(x) \biggr)^{2} \, dx\end{aligned}
+          </me>
+          setting <m>\partial E /\partial a_{j}=0</m> we get, the normal equations,
+          <me>
+            \frac{\partial E}{\partial a_{j}} = -2 \int_{a}^{b} w(x) f(x) \phi_{j} (x) \, dx + 2 \sum_{k=0}^{n} a_{k} \int_{a}^{b} w(x) \phi_{i}(x) \phi_{j}(x) \, dx \\
+          </me>
+          and since <m>\int_{a}^{b} w(x) \phi_{j}\phi_{k} \, dx = 0</m> if <m>j \neq k</m>, then solving for <m>a_{j}</m> results in
+          <me>
+            a_{j} = \frac{ \int_{a}^{b} f(x) w(x) \phi_{j} (x) \, dx}{\int_{a}^{b} w(x) \phi_{j}^{2} \, dx}
+          </me>
+        </p>
+      </proof>
+    </theorem>
+
+    <p>
+      This shows that if we have a set of orthogonal functions, then this theorem provides a way to find the polynomial that minimizes <m>||f-P_{n}||_{w}</m>.
+      After the next section, we will show an example.
+    </p>
+  </subsection>
+
+
+  <subsection>
+    <title>The Gram-Schmidt process for Orthogonalizing Polynomials</title>
+
+    <p>
+      As alluded to above, it is desirable to use orthogonal polynomials (with respect to some weight).
+      The following is called the Gram-Schmidt process for doing this.
+    </p>
+
+    <theorem xml:id="thm-gram-schmidt">
+      <statement>
+        <p>
+          The set of polynomial functions <m>\{ \phi_{0}, \phi_{1}, \phi_{2}\, \ldots \phi_{n}\}</m> defined in the following way is orthogonal on <m>[a,b]</m> with respect to weight function <m>w(x)</m>.
+        </p>
+
+        <p>
+          Let <m>\phi_{0} \equiv 1</m> and <m>\phi_{2} = x-B_{1}</m> where
+          <me>
+            B_{1} = \frac{\int_{a}^{b} x w(x) \bigl(\phi_{0}(x)\bigr)^{2}\, dx}{\int_{a}^{b} w(x) \bigl(\phi_{0}(x)\bigr)^{2} \, dx}
+          </me>
+          and when <m>k\geq 2</m>,
+          <me>
+            \phi_{k}(x) = (x-B_{k})\phi_{k-1}(x) - C_{k}\phi_{k-2}(x),
+          </me>
+          where
+          <me>
+            \begin{aligned}B_{k}\amp = \frac{\int_{a}^{b} x w(x) \bigl(\phi_{k-1}(x)\bigr)^{2}\, dx}{\int_{a}^{b} w(x) \bigl(\phi_{k-1}(x)\bigr)^{2} \, dx}\\ \amp \qquad \text{and}\\ C_{k}\amp = \frac{\int_{a}^{b} x w(x) \phi_{k-1}(x) \phi_{k-2}\, dx}{\int_{a}^{b} w(x) \bigl(\phi_{k-2}(x)\bigr)^{2} \, dx}\end{aligned}
+          </me>
+        </p>
+      </statement>
+    </theorem>
+
+    <p>
+      We saw the Legendre polynomials in <xref ref="sect-gauss-quad"/> on Gaussian Quadrature and we now revisit them in a different context.
+      The following example will show that the Legendre polynomials form an orthogonal set of functions with respect to <m>w(x) \equiv 1</m>.
+    </p>
+
+    <example>
+      <statement>
+        <p>
+          Find the first 4 polynomials that are orthogonal with respect to the weight function <m>w(x) \equiv x</m> on <m>[-1,1]</m> using the Gram-Schmidt process.
+        </p>
+      </statement>
+
+      <solution>
+        <p>
+          <me>
+            \begin{aligned}\phi_{0}\amp \equiv 1,\amp \phi_{1}\amp = x-B_{1}\end{aligned}
+          </me>
+          where
+          <me>
+            B_{1} = \frac{\int_{-1}^{1} x(1)^{2} \, dx}{\int_{-1}^{1} (1)^{2} \, dx}= 0
+          </me>
+          so <m>\phi_{1}=x</m>.
+          Also,
+          <me>
+            \begin{aligned} B_{2}\amp = \frac{\int_{-1}^{1} x^{3} \, dx}{\int_{-1}^{1} x^{2} \, dx}= 0\amp C_{2}\amp = \frac{\int_{-1}^{1} x^{2} \, dx}{\int_{-1}^{1}1 \, dx}= \frac{1}{3}\end{aligned}
+          </me>
+          so
+          <me>
+            \begin{aligned}\phi_{2}\amp = (x-B_{2}) \phi_{1} - C_{2} \phi_{0} = (x-0)x - \frac{1}{3}\cdot 1 = x^{2} - \frac{1}{3}\end{aligned}
+          </me>
+          and then
+          <me>
+            \begin{aligned}B_{3}\amp = \frac{\int_{-1}^{1} x (x^{2}-1/3)^{2} \, dx}{\int_{-1}^{1} (x^{2}-1/3)^{2} \, dx}= 0\amp C_{3}\amp = \frac{\int_{-1}^{1} x (x^{2}-1/3)x \, dx}{\int_{-1}{1}x^{2} \, dx}= \frac{4}{15}\end{aligned}
+          </me>
+          so
+          <me>
+            \begin{aligned}\phi_{3}(x)\amp = (x-B_{3})\phi_{2} - C_{3}\phi_{1} = (x-0)(x^{2}-1/3)- \frac{4}{15}x = x^{3}- \frac{3}{5}x\end{aligned}
+          </me>
+        </p>
+
+        <p>
+          Recall from <xref ref="sect-gauss-quad"/> that the interpolation points for the 2-pt Gaussian Quadrature formula are the roots of <m>\phi_{2}</m> and that for the 3-pt formula was the roots of <m>\phi_{3}</m>.
+        </p>
+      </solution>
+    </example>
+
+    <p>
+      And now that the Legendre Polynomials have been found, we will use them to do interpolation.
+    </p>
+
+    <example>
+      <statement>
+        <p>
+          Use the set <m>\{\phi_{0},\phi_{1},\phi_{2},\phi_{3}\}</m> found above to find the interpolating polynomial <m>P_{3}(x)</m> that minimizes <m>||f-P_{3}||</m> with weight function <m>w(x)\equiv 1</m> where <m>f(x) = \cos (\pi x/2)</m>.
+        </p>
+
+        <p>
+        </p>
+
+        <p>
+          In this case, we will use <xref ref="thm-orth-poly"/> to find the coefficients of
+          <me>
+            P_{3}(x) = a_{0} \phi_{0} + a_{1} \phi_{1} + a_{2} \phi_{2} + a_{3} \phi_{3}
+          </me>
+          where
+          <me>
+            \begin{aligned}a_{k}\amp = \frac{\int_{a}^{b} w(x) \phi_{k}(x) f(x) \, dx}{\int_{a}^{b} w(x) \bigl(\phi_{k}(x)\bigr)^{2} \, dx}\end{aligned}
+          </me>
+          that is,
+          <me>
+            \begin{aligned}a_{0}\amp = \frac{\int_{-1}^{1} \cos (\pi x/2) \, dx }{\int_{-1}^{1} 1 \cdot (1)^{2} \, dx}= \frac{2}{\pi}\\ a_{1}\amp = \frac{\int_{-1}^{1} x \cos (\pi x/2) \, dx }{\int_{-1}^{1} 1 \cdot (x)^{2} \, dx}= 0 \\ a_{2}\amp = \frac{\int_{-1}^{1} (x^{2}-1/3) \cos (\pi x/2) \, dx }{\int_{-1}^{1} 1 \cdot (x^{2}-1/3)^{2} \, dx}= \frac{15(\pi^{2}-12)}{\pi^{3}}\\ a_{3}\amp = \frac{\int_{-1}^{1} (x^{3}-3x/5) \cos (\pi x/2) \, dx }{\int_{-1}^{1} 1 \cdot (x^{3}-3x/5)^{2} \, dx}= 0 \\\end{aligned}
+          </me>
+          and the polynomial is
+          <me>
+            P_{3}(x) = \frac{2}{\pi}+ \frac{15(\pi^{2}-12)}{\pi^{3}}\biggl( x^{2}-\frac{1}{3}\biggr)
+          </me>
+        </p>
+
+        <p>
+          A good way to determine if the above function is correct to plot <m>P_{3}(x)</m> and <m>\cos x</m> together as the following shows:
+        </p>
+
+        <figure xml:id="fig-cos-poly3">
+          <caption></caption>
+          <image>
+            <shortdescription>
+            </shortdescription>
+            <latex-image>
+                <![CDATA[
+                \begin{tikzpicture}[scale=2]
+          \draw[->] (-1.5,0) -- (1.5,0) node [above right] {$x$}; \foreach \x in {-1,1} \draw (\x,0.1) -- (\x,-0.1) node [below] {\x};
+          \draw[->] (0,-0.5) -- (0,1.5) node [above right] {$y$};
+          \foreach \y in {1} \draw (0.1,\y) -- (-0.1,\y) node [left] {\y};
+          \draw plot[domain =-1:1] (\x,{cos(pi*\x/2 r)});
+          \draw[dashed] plot[domain =-1:1] (\x,{2/pi + 15*(pi*pi-12)/pow(pi,3)*(\x*\x-1/3)});
+          \end{tikzpicture}
+                ]]>
+            </latex-image>
+          </image>
+        </figure>
+
+        <p>
+          where the dashed curve is the polynomial.
+          As one can see these are nearly identical as a plot.
+        </p>
+      </statement>
+    </example>
+
+    <p>
+      The main purpose of this section is to show that there is a way to produce a set of orthogonal polynomials and then use them to produce a polynomial that minimizes a weighted norm.
+      In the next section, we examine which norm may be the best.
+    </p>
+  </subsection>
+</section>

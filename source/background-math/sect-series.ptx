@@ -1,0 +1,621 @@
+<section xml:id="sect-series">
+  <title>Infinite Series</title>
+
+  <objectives>
+    <ul>
+      <li>
+        <p>
+          Understand the definition of an <alert>infinite series</alert>.
+        </p>
+      </li>
+
+      <li>
+        <p>
+          Understand the definition of the <alert>convergence</alert> and <alert>divergence</alert> of a series.
+        </p>
+      </li>
+
+      <li>
+        <p>
+          Understand if a series is <alert>geometric</alert> and under what conditions it converges or diverges.
+        </p>
+      </li>
+
+      <li>
+        <p>
+          Learn how to apply convergence tests to other series.
+        </p>
+      </li>
+    </ul>
+  </objectives>
+
+  <introduction>
+    <p>
+      As we will see below, a power series is a function of <m>x</m>, however, recall the definition of the series as well as its convergence.
+    </p>
+
+    <definition>
+      <statement>
+        <p>
+          The sum of the terms of a infinite sequence <m>(a_{1},a_{2},a_{3},\ldots)</m> or
+          <me>
+            a_{1} + a_{2} + a_{3} + \cdots + a_{n} + \cdots
+          </me>
+          is called an <alert>infinite series</alert> (or just a <alert>series</alert>) and is denoted
+          <me>
+            \sum_{n=1}^{\infty}a_{n} \qquad \text{or}\qquad \sum a_{n}
+          </me>
+        </p>
+      </statement>
+    </definition>
+
+    <p>
+      Why would we want to add up an infinite number of terms? Let’s answer this with the following picture.
+    </p>
+
+    <figure xml:id="fig-geom-series">
+      <caption></caption>
+      <image width="50%">
+        <shortdescription>
+        </shortdescription>
+        <latex-image>
+      <![CDATA[
+                  \begin{tikzpicture}[scale=0.75]
+            \draw (0,0) rectangle (8,8);
+            \draw (4,0) -- (4,8);
+            \draw (4,4) -- (8,4);
+            \draw (6,4) -- (6,0);
+            \draw (4,2) -- (6,2);
+            \draw (5,2) -- (5,4);
+            \draw (5,3) -- (6,3);
+            \draw (5.5,2) -- (5.5,3);
+            \draw (5,2.5) -- (5.5,2.5);
+            \draw (5.25,2.5) -- (5.25,3);
+            \draw (5.25,2.75) -- (5.5,2.75);
+            \draw (2,4) node {$a_1=\frac{1}{2}$};
+            \draw (6,6) node {$a_2=\frac{1}{4}$};
+            \draw (7,2) node {$a_3=\frac{1}{8}$};
+            \draw (5,1) node {$a_4=\frac{1}{16}$};
+            \draw (4.5,3) node {$\frac{1}{32}$};
+            \draw (5.5,3.5) node {$\frac{1}{64}$};
+            \end{tikzpicture}
+      ]]>
+        </latex-image>
+      </image>
+    </figure>
+
+    <p>
+      If we look at this as area, the total area is the area of the square or 1.
+      If we look at this as a sum of the areas of rectangles, then the area is
+      <me>
+        \begin{aligned} s\amp= a_{1} + a_{2} + a_{3} + \cdots \\ \amp= \frac{1}{2}+ \frac{1}{4}+ \frac{1}{8}+ \cdots \end{aligned}
+      </me>
+    </p>
+
+    <p>
+      And therefore this infinite sum is 1.
+      This is an example of a geometric series which we will generalize below.
+    </p>
+  </introduction>
+
+
+  <subsection>
+    <title>Convergence of Series</title>
+
+    <p>
+      The example above converged because the infinite sum was a value.
+      We more formally define convergence by looking at a partial sum.
+    </p>
+
+    <definition xml:id="def-nth-partial-sum">
+      <statement>
+        <p>
+          For the series <m>\sum a_{n}</m>, define the <alert> <m>n</m>th partial sum</alert>, <m>s_{n}</m> as
+          <me>
+            s_{n} = \sum_{k=1}^{n} a_{n} = a_{1} + a_{2} + \cdots + a_{n}.
+          </me>
+        </p>
+
+        <p>
+          If the sequence <m>\{ s_{n}\}</m> is convergent and <m>s= \lim_{n\rightarrow \infty}s_{n}</m>, then we write
+          <me>
+            \sum a_{n} = a_{1} + a_{2} + a_{3} + \cdots + a_{n} + \cdots = s
+          </me>
+          and the number <m>s</m> is called the <alert>sum</alert> of the series.
+        </p>
+
+        <p>
+          If <m>\lim_{n \rightarrow \infty}s_{n}</m> does not converge, then we say the series <alert>diverges</alert>.
+        </p>
+      </statement>
+    </definition>
+
+    <p>
+      In summary, to determine if an infinite series converges, then
+    </p>
+
+    <p>
+      <ol>
+        <li>
+          <p>
+            Find the partial sum of the first <m>n</m> terms.
+            Call this <m>s_{n}</m>.
+          </p>
+        </li>
+
+        <li>
+          <p>
+            Determine if the sequence <m>\{ s_{n} \}</m> converges.
+            Use the standard limit theorems to find this.
+          </p>
+        </li>
+      </ol>
+    </p>
+
+    <example xml:id="ex-series-converges">
+      <statement>
+        <p>
+          Show that
+          <me>
+            \sum_{n=1}^{\infty}\frac{1}{n(n+1)}
+          </me>
+          converges and find the sum.
+        </p>
+
+        <p>
+          The way that you need to find this is to recall that you can use partial fractions to write:
+          <me>
+            \frac{1}{n(n+1)} = \frac{1}{n}- \frac{1}{n+1}
+          </me>
+          therefore we can write:
+          <me>
+            \begin{aligned} \sum_{n=0}^{\infty}\frac{1}{n(n+1)}\amp= \sum_{n=0}^{\infty}\biggl( \frac{1}{n}- \frac{1}{n+1}\biggr) \\\amp= \biggl(1- \frac{1}{2}\biggr) + \biggl(\frac{1}{2}- \frac{1}{3}\biggr) + \biggl(\frac{1}{3}- \frac{1}{4}\biggr) + \cdots \end{aligned}
+          </me>
+          and note that the partial sums are
+          <me>
+            \begin{aligned} s_{1}\amp= 1- \frac{1}{2}\\ s_{2}\amp= \biggl(1-\frac{1}{2}\biggr) + \biggl(\frac{1}{2}- \frac{1}{3}\biggr) = 1-\frac{1}{3}\\ s_{3}\amp= \biggl(1-\frac{1}{2}\biggr) + \biggl(\frac{1}{2}- \frac{1}{3}\biggr) + \biggl(\frac{1}{3}- \frac{1}{4}\biggr) = 1- \frac{1}{4}\\ \vdots\amp= \vdots \\ s_{k}\amp= 1- \frac{1}{k+1} \end{aligned}
+          </me>
+          so the sum is
+          <me>
+            s = \lim_{n \rightarrow \infty}s_{k} = \lim_{n \rightarrow \infty}\biggl(1- \frac{1}{k+1}\biggr) = 1
+          </me>
+        </p>
+      </statement>
+    </example>
+  </subsection>
+
+
+  <subsection>
+    <title>Geometric Series</title>
+
+    <p>
+      Above we saw an example of a geometric series.
+      We now generalize this.
+    </p>
+
+    <definition>
+      <statement>
+        <p>
+          A <alert>geometric series</alert> is a series in the form:
+          <me>
+            s = a + ar + ar^{2} + \cdots ar^{k} + \cdots = \sum_{n=0}^{\infty}a r^{n-1}
+          </me>
+          for real numbers <m>a</m> and <m>r</m>.
+        </p>
+      </statement>
+    </definition>
+
+    <p>
+      One nice aspect of a geometric series is that ratios of consecutive terms are constant.
+      This means that:
+      <me>
+        \frac{a_{n+1}}{a_{n}} = \frac{a r^{n}}{ar^{n-1}}= r
+      </me>
+    </p>
+
+    <p>
+      Below is an example that uses this fact to determine if a series is a geometric series.
+      However, we have the following theorem to determine the convergence of a geometric series.
+    </p>
+
+    <theorem xml:id="thm-geometric-series">
+      <title>Convergence of Geometric Series</title>
+
+      <statement>
+        <p>
+        </p>
+
+        <p>
+          Let
+          <me>
+            \sum_{k=0}^{\infty}a_{k} = \sum_{k=0}^{\infty}a r^{k}
+          </me>
+          be a geometric series.
+          If <m>|r| \lt 1</m>, then the series converges.
+          If <m>|r| \geq 1</m>, the series diverges.
+        </p>
+      </statement>
+    </theorem>
+
+
+    <proof>
+      <p>
+        The partial sums of the geometric series are
+        <me>
+          \begin{aligned} s_{1}\amp= a_{1} = a\\ s_{2}\amp= a_{1} + a_{2} =a + ar \\ s_{3}\amp= a_{1} + a_{2} + a_{3} =a + ar+ar^{2} \end{aligned}
+        </me>
+        and the <m>k</m>th partial sum is
+        <me>
+          s_{k} = a_{1} + a_{2} + \cdots + a_{k} = c +cr + \cdots + cr^{k-1}
+        </me>
+      </p>
+
+      <p>
+        If we multiply <m>s_{k}</m> by <m>r</m> we get:
+        <me>
+          \begin{aligned} rs_{k}\amp= r(a + ar + ar^{2} + \cdots ar^{k-1}) \\\amp=ar + ar^{2} + ar^{3} + \cdots ar^{k} \end{aligned}
+        </me>
+        and subtracting <m>rs_{k}</m> from <m>s_{k}</m> we get:
+        <me>
+          \begin{aligned} s_{k} - rs_{k}\amp= \bigr(a + ar + ar^{2} + \cdots ar^{k-1}\bigr) - \bigl(ar + ar^{2} + ar^{3} + \cdots ar^{k}\bigr) \\\amp= a- ar^{k}.
+          \end{aligned}
+        </me>
+      </p>
+
+      <p>
+        Next, we solve for <m>s_{k}</m>:
+        <me>
+          \begin{aligned} s_{k} - rs_{k}\amp= c-cr^{k}\\ s_{k}(1-r)\amp= c-cr^{k}\\ s_{k}\amp= \frac{c-cr^{k}}{1-r} \end{aligned}
+        </me>
+      </p>
+
+      <p>
+        Assume that <m>|r| &lt; 1</m>, then taking the limit,
+        <me>
+          \begin{aligned} s\amp= \lim_{n \rightarrow \infty}s_{n} = \lim_{n \rightarrow \infty}\frac{c-cr^{n}}{1-r}\\\amp= \frac{c}{1-r}\lim_{n \rightarrow \infty}(1 - r^{n}) \\\amp= \frac{c}{1-r} \end{aligned}
+        </me>
+      </p>
+
+      <p>
+        If <m>|r| \gt 1</m>, then
+        <me>
+          \lim_{n \rightarrow \infty}r^{n}
+        </me>
+        does not exist, so this diverges.
+        Lastly, we look at <m>r=1</m> and <m>r=-1</m>.
+        In each case, we return to the series.
+        If <m>r=1</m>,
+        <me>
+          \sum_{n=0}^{\infty}a r^{n} = a+a+a+a+ \cdots
+        </me>
+        and this diverges.
+        If <m>r=-1</m>, then
+        <me>
+          \sum_{n=0}^{\infty}a r^{n} = a-a+a-a+a-a
+        </me>
+        which also diverges, so the theorem holds.
+      </p>
+    </proof>
+
+    <example>
+      <statement>
+        <p>
+          For each of the following, determine if you have a geometric series.
+          If so, find <m>r</m> and <m>c</m>.
+        </p>
+
+        <p>
+          <ol>
+            <li>
+              <p>
+                <m>\displaystyle \sum_{n=1}^{\infty}3 \biggl(\frac{2}{3}\biggr)^{n}</m>
+              </p>
+            </li>
+
+            <li>
+              <p>
+                <m>\displaystyle \sum_{n=0}^{\infty}\frac{1}{n}</m>
+              </p>
+            </li>
+
+            <li>
+              <p>
+                <m>\displaystyle \sum_{n=4}^{\infty}\frac{(-2)^{n}}{32}</m>.
+              </p>
+            </li>
+
+            <li>
+              <p>
+                <m>\displaystyle 0.09090909\ldots = 0.\overline{09}</m>
+              </p>
+            </li>
+          </ol>
+        </p>
+
+        <p>
+        </p>
+
+        <p>
+          In each case above, we try to determine <m>c</m> and <m>r</m>.
+          x
+          <ol>
+            <li>
+              <p>
+                Note that this fits the form of the geometric series with <m>r=2/3</m> and <m>a=2</m>.
+                Since <m>|r| \lt 1</m>, then the series converges to
+                <me>
+                  s= \frac{a}{1-r}= \frac{2}{1-2/3}= 6.
+                </me>
+              </p>
+            </li>
+
+            <li>
+              <p>
+                In this case
+                <me>
+                  \frac{a_{n+1}}{a_{n}}= \frac{1/(n+1)}{1/n}= \frac{n}{n+1}
+                </me>
+                which is not a constant, so this is not geometric.
+              </p>
+            </li>
+
+            <li>
+              <p>
+                In this case the term starts at <m>n=4</m>, however, <m>a</m> is still the first term in the series, or 1/2 and <m>r=-2</m>, so this is geometric.
+                However, since <m>|r| \gt 1</m>, the series does not converge.
+              </p>
+            </li>
+
+            <li>
+              <p>
+                This doesn’t appear to be a geometric series.
+                However if we write it as:
+                <me>
+                  \begin{aligned} s\amp= 0.09 + 0.0009 + 0.000009 + \cdots \\\amp= \frac{9}{100}+ \frac{9}{(100)^{2}}+ \frac{9}{(100)^{3}}+ \cdots \end{aligned}
+                </me>
+                and note that
+                <me>
+                  \frac{a_{n+1}}{a_{n}} = \frac{\frac{9}{(100)^{n+1}}}{\frac{9}{(100)^{n}}}= \frac{1}{100}
+                </me>
+                and since this is constant it is a geometric series with <m>r=1/100</m> and since this satisfies <m>|r| \lt 1</m>, the series converges.
+                The first term is <m>a=9/100</m> and thus the series converges to
+                <me>
+                  \frac{a}{1-r}= \frac{9/100}{1-1/100}= \frac{9/100}{99/100}= \frac{9}{99}= \frac{1}{11}
+                </me>
+              </p>
+            </li>
+          </ol>
+        </p>
+
+        <p>
+          This technique works to find the rational number version of any repeated decimal, which can always be written as a geometric series.
+        </p>
+      </statement>
+    </example>
+  </subsection>
+
+
+  <subsection>
+    <title>Tests for Convergence of Series</title>
+
+    <p>
+      The convergence of a series is a very important concept.
+      Without going over all of tests for series, we refer again to <url href="https://www.apexcalculus.com">APEX Calculus</url>, specifically Chapter 8.
+      We cover a few tests here:
+    </p>
+
+    <theorem xml:id="thm-p-series">
+      <title> <m>p</m>-test for Series</title>
+
+      <statement>
+        <p>
+          The series
+          <me>
+            \sum_{n=1}^{\infty}\frac{1}{n^{p}}
+          </me>
+          converges if <m>p \gt 1</m> and diverges if <m>p \leq 1</m>.
+        </p>
+      </statement>
+    </theorem>
+
+    <theorem xml:id="thm-AST">
+      <title>Alternating Series Test</title>
+
+      <statement>
+        <p>
+          If the alternating series:
+          <me>
+            \sum_{n=1}^{\infty}(-1)^{n+1}b_{n} = b_{1} -b_{2}+b_{3} -b_{4} + b_{5} + \cdots
+          </me>
+          for <m>b_{n} \gt 0</m> satisfies:
+          <ul>
+            <li>
+              <p>
+                <m>b_{n+1}\leq b_{n}</m> for all <m>n</m>, and
+              </p>
+            </li>
+
+            <li>
+              <p>
+                <m>\displaystyle \lim_{n \rightarrow \infty}b_{n} =0</m>
+              </p>
+            </li>
+          </ul>
+          then the series converges.
+        </p>
+      </statement>
+    </theorem>
+
+    <example>
+      <statement>
+        <p>
+          Determine if the following series converge?
+        </p>
+
+        <p>
+          <ol>
+            <li>
+              <p>
+                <m>\displaystyle \sum_{n=1}^{\infty}\frac{(-1)^{n}}{n}</m>
+              </p>
+            </li>
+
+            <li>
+              <p>
+                <m>\displaystyle \sum_{n=1}^{\infty}(-1)^{n} \frac{n}{(n+1)^{2}}</m>
+              </p>
+            </li>
+          </ol>
+        </p>
+
+        <p>
+        </p>
+
+        <p>
+          <ol>
+            <li>
+              <p>
+                In the first case <m>b_{n} = 1/n</m>.
+                Thus <m>b_{n}</m> is positive and decreasing.
+                Also, since
+                <me>
+                  \lim_{n \rightarrow \infty}b_{n} = 0
+                </me>
+              </p>
+
+              <p>
+                Then the series converges.
+              </p>
+            </li>
+
+            <li>
+              <p>
+                In this case <m>b_{n} = n/(n+1)^{2}</m>.
+                Again, this is a positive series.
+                To show that <m>b_{n+1}\leq b_{n}</m>, it’s easier to show that <m>b_{n} = f(n)</m> and <m>f'(x) \lt 0</m>.
+                <me>
+                  \begin{aligned} f(x)\amp= x(x+1)^{-2}\\ f'(x)\amp= (x+1)^{-2}- 2x (x+1)^{-3}= \frac{(x+1) -2x}{(x+1)^{3}}\\\amp= \frac{1-x}{(x+1)^{3}} \end{aligned}
+                </me>
+                which is negative for all <m>x \gt 1</m>, so it is a decreasing function.
+                Also,
+                <me>
+                  \lim_{n \rightarrow \infty}\frac{n}{(n+1)^{2}}= 0
+                </me>
+                so the series converges by the AST.
+              </p>
+            </li>
+          </ol>
+        </p>
+      </statement>
+    </example>
+
+    <p>
+      One of the most robust tests, however, is covered here:
+    </p>
+
+    <theorem xml:id="thm-ratface">
+      <title>Ratio Test for Absolute Convergence (RATFACE)</title>
+
+      <statement>
+        <p>
+          For the series, <m>\sum a_{n}</m>, let
+          <me>
+            L = \lim_{n \rightarrow \infty}\biggl\vert \frac{a_{n+1}}{a_{n}}\biggr\vert
+          </me>
+        </p>
+
+        <p>
+          <ul>
+            <li>
+              <p>
+                if <m>L \lt 1</m>, then <m>\sum a_{n}</m> converges absolutely.
+              </p>
+            </li>
+
+            <li>
+              <p>
+                if <m>L \gt 1</m> or <m>L</m> does not exist, then <m>\sum a_{n}</m> diverges.
+              </p>
+            </li>
+
+            <li>
+              <p>
+                if <m>L=1</m>, the test is inconclusive.
+              </p>
+            </li>
+          </ul>
+        </p>
+      </statement>
+    </theorem>
+
+
+    <proof>
+      <p>
+        Consider the case when <m>L \lt 1</m>.
+        We will compare the series to a geometric series with <m>L \lt r \lt 1</m>.
+        Since
+        <me>
+          \lim_{n \rightarrow \infty}\biggl\vert \frac{a_{n+1}}{a_{n}}\biggr\vert =L
+        </me>
+        converges, then eventually <m>|a_{n+1}/a_{n}|</m> will be less than <m>r</m> and let’s say that this occurs at <m>N</m>, specifically:
+        <me>
+          \biggl\vert \frac{a_{n+1}}{a_{n}}\biggr\vert \lt  r \qquad \text{for all $n\geq N$.}
+        </me>
+      </p>
+
+      <p>
+        This results in
+        <me>
+          \begin{aligned} |a_{N+1}|\amp \lt  |N_{n}| r \\ |a_{N+2}|\amp \lt  |a_{N+1}| r  \lt  |a_{N}| r^{2} \\ \vdots\amp\\ |a_{N+k}|\amp \lt  |a_{N}| r^{k} \end{aligned}
+        </me>
+        for all <m>k\geq 1</m> an
+      </p>
+
+      <p>
+        Recall that we want to show that the series <m>\sum a_{n}</m> converges absolutely, which means that <m>\sum |a_{n}|</m> converges.
+      </p>
+
+      <p>
+        <me>
+          \begin{aligned} \sum_{n=0}^{\infty}|a_{n}|\amp= \sum_{n=1}^{N-1}|a_{n}| + \sum_{n=N}^{\infty}|a_{n}| \\\amp \lt  \sum_{n=1}^{N-1}|a_{n}| +\sum_{n=N}^{\infty}|a_{N}| r^{n} \end{aligned}
+        </me>
+        and since the second series is geometric with <m>r \lt 1</m>, it converges, therefore, <m>\sum |a_{n}|</m> converges and that means that <m>\sum a_{n}</m> converges.
+        Similar techniques can be used to show the results if <m>L \gt 1</m>.
+      </p>
+    </proof>
+
+    <p>
+      The next example shows how to apply the Ratio Test.
+    </p>
+
+    <example>
+      <introduction>
+        <p>
+          Use <xref ref="thm-ratface"/> to determine if the following converge or diverge, if the theorem applies.
+        </p>
+      </introduction>
+
+
+      <task>
+        <statement>
+          <p>
+            <me>
+              \sum_{n=1}^{\infty} \frac{n}{2^n (n-1)!}
+            </me>
+          </p>
+        </statement>
+      </task>
+
+
+      <task>
+        <statement>
+          <p>
+            <me>
+              \sum_{n=1}^{\infty} \frac{2^n}{n^3}
+            </me>
+          </p>
+        </statement>
+      </task>
+    </example>
+  </subsection>
+</section>

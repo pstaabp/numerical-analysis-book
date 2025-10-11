@@ -1,10 +1,20 @@
 <chapter xml:id="ch-background" xmlns:xi="http://www.w3.org/2001/XInclude">
   <title>Important Background Mathematics</title>
 
-  <p>
-    As we will see throughout this course, nearly all of the analysis will be based on theorems from Calculus.
-    In this chapter, we will review the important theorems and concepts from Calculus.
-  </p>
+  <introduction>
+    <p>
+      As we will see throughout this course, nearly all of the analysis will be based on theorems from Calculus.
+      In this chapter, we will review the important theorems and concepts from Calculus.
+    </p>
+    <p>
+      This will be a brief reminder of these topics.  Note that typically these are covered in detailed over three courses: Precalculus, Differential Calculus and Series.  Much of this can be found in more detail in texts like <url href="https://www.apexcalculus.com">APEX Calculus</url>.
+    </p>
+  </introduction>
 
   <xi:include href="./sect-polynomials.ptx" />
+  <xi:include href="./sect-calc-theorems.ptx" />
+  <xi:include href="./sect-sequences.ptx" />
+  <xi:include href="./sect-series.ptx" />
+  <xi:include href="./sect-power-series.ptx" />
+  <xi:include href="./sect-taylor-series.ptx" />
 </chapter>

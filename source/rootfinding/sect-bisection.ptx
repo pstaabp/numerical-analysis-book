@@ -1,0 +1,889 @@
+<section xml:id="sect-bisection">
+  <title>The Bisection Method</title>
+
+  <introduction>
+    <p>
+      We saw the Bisection method in <xref ref="ex-sqrt"/> to find the square root of 65, but can be extended to finding roots of any function.
+      The idea is that if you can find two <m>x</m> values with function values that are different signs, and if the function is continuous, as we can see with <xref ref="thm-ivt"/>, discussed below, there will be a root.
+    </p>
+
+    <example>
+      <statement>
+        <p>
+          Show that the function <m>f(x)=x^{3}+3</m> has a root on <m>[-2,0]</m>.
+        </p>
+      </statement>
+
+      <solution>
+        <p>
+          We know that <m>f</m> is continuous on the interval <m>[-2,0]</m> and <m>f(-2)=-5</m> and <m>f(0)=3</m>, and since this satisfies the IVT, there must exist a number <m>c</m> such that <m>f(c)=0</m>, and this is the definition of a root.
+        </p>
+      </solution>
+    </example>
+
+    <p>
+      Plotting the function above on the given interval:
+    </p>
+
+    <figure xml:id="fig-bisection">
+      <caption></caption>
+      <image>
+        <shortdescription>
+        </shortdescription>
+        <latex-image>
+      <![CDATA[
+      \begin{tikzpicture}[scale=0.75]
+\draw[->] (-5.5,0) -- (5.5,0) node [above right] {$x$};
+ \foreach \x in {-5,...,-1,1,2,...,5} \draw (\x,0.1) -- (\x,-0.1) node [below] {\x};
+\draw[->] (0,-3.5) -- (0,5.5) node [above right] {$y$};
+ \foreach \y in {-3,...,-1,1,2,...,5} \draw (0.1,\y) -- (-0.1,\y) node [left] {\y};
+\draw[<->] plot[domain=-1.7:1.1] (\x,{pow(\x,3)+3});
+\end{tikzpicture}
+      ]]>
+        </latex-image>
+      </image>
+    </figure>
+
+    <p>
+      You can “see” that there is a root and the Intermediate Value Theorem assures that there is one there.
+      Now, how to find it? We will see that the bisection method will start with an interval (with a guaranteed root), find the midpoint of the interval and then choose a new interval ensuring it has a root again.
+      The following section shows this in detail.
+    </p>
+  </introduction>
+
+
+  <subsection>
+    <title>The Bisection Algorithm</title>
+
+    <p>
+      Let <m>f(x)</m> be a function and <m>[a,b]</m> be an interval <m>a \lt b</m>, such that <m>f(a)f(b) \lt 0</m>.
+      The <alert>bisection method</alert> are the steps below to find the root <m>p</m> with tolerance <m>\epsilon</m>.
+      That is if <m>f(p)=0</m>, then return <m>p^{\star}</m> such that <m>|p-p^{\star}| \lt \epsilon</m>.
+    </p>
+
+    <p>
+      <ol>
+        <li>
+          <p>
+            Set <m>a_{0}=a</m>, <m>b_{0}=b</m> and <m>n=0</m>.
+          </p>
+        </li>
+
+        <li>
+          <p>
+            Let <m>c_{n} = \frac{a_{n}+b_{n}}{2}</m>
+            <ul>
+              <li>
+                <p>
+                  If <m>f(a_{n})f(c_{n}) \lt 0</m>, then let <m>a_{n+1}=a_{n}</m>, <m>b_{n+1}=c_{n}</m>.
+                </p>
+              </li>
+
+              <li>
+                <p>
+                  else let <m>a_{n+1}=c_{n}</m>, <m>b_{n+1}=b_{n}</m>.
+                </p>
+              </li>
+            </ul>
+          </p>
+        </li>
+
+        <li>
+          <p>
+            If <m>b_{n+1}-a_{n+1} \lt  \epsilon</m>, then stop, return <m>(a_{n+1}+b_{n+1})/2</m>.
+            If not let <m>n=n+1</m> and return to step 2.
+          </p>
+        </li>
+      </ol>
+    </p>
+
+    <p>
+      The following example applies the bisection method to find <m>\sqrt{65}</m>.
+    </p>
+
+    <example xml:id="ex-bisection-sqrt">
+      <statement>
+        <p>
+          Use the bisection method to find <m>\sqrt{65}</m> using the function <m>f(x)=x^{2}-65</m> on the interval <m>[8,9]</m> to 2 digits.
+        </p>
+
+        <p>
+        </p>
+
+        <p>
+          First, <m>n=0</m>, <m>a_{0}=8</m> and <m>b_{0}=9</m> and <m>c_{0}=8.5</m> is the midpoint of this interval.
+        </p>
+
+        <p>
+          Note that <m>f(a_{0})=-1</m>, <m>f(b_{0})=16</m> and <m>f(c_{0})=7.25</m>.
+          Since <m>f(a_{0})f(c_{0}) \lt 0</m>, <m>a_{1}=8</m>, <m>b_{1}=c_{0}=8.5</m>.
+          This is continued in the table:
+        </p>
+
+        <table>
+          <title>Table of interval Endpoints of the Bisection Method</title>
+
+          <tabular>
+            <row bottom="minor">
+              <cell> <m>n</m> </cell>
+              <cell> <m>a_{n}</m> </cell>
+              <cell> <m>f(a_{n})</m> </cell>
+              <cell> <m>b_{n}</m> </cell>
+              <cell> <m>f(b_{n})</m> </cell>
+              <cell> <m>c_{n}</m> </cell>
+            </row>
+
+            <row>
+              <cell> <m>1</m> </cell>
+              <cell> <m>8</m> </cell>
+              <cell> <m>-1</m> </cell>
+              <cell> <m>9</m> </cell>
+              <cell> <m>16</m> </cell>
+              <cell> <m>8.5</m> </cell>
+            </row>
+
+            <row>
+              <cell> <m>2</m> </cell>
+              <cell> <m>8</m> </cell>
+              <cell> <m>-1</m> </cell>
+              <cell> <m>8.5</m> </cell>
+              <cell> <m>7.25</m> </cell>
+              <cell> <m>8.25</m> </cell>
+            </row>
+
+            <row>
+              <cell> <m>3</m> </cell>
+              <cell> <m>8</m> </cell>
+              <cell> <m>-1</m> </cell>
+              <cell> <m>8.25</m> </cell>
+              <cell> <m>3.0625</m> </cell>
+              <cell> <m>8.125</m> </cell>
+            </row>
+
+            <row>
+              <cell> <m>4</m> </cell>
+              <cell> <m>8</m> </cell>
+              <cell> <m>-1</m> </cell>
+              <cell> <m>8.125</m> </cell>
+              <cell> <m>1.015625</m> </cell>
+              <cell> <m>8.0625</m> </cell>
+            </row>
+
+            <row>
+              <cell> <m>5</m> </cell>
+              <cell> <m>8</m> </cell>
+              <cell> <m>-1</m> </cell>
+              <cell> <m>8.0625</m> </cell>
+              <cell> <m>0.00390625</m> </cell>
+              <cell> <m>8.03125</m> </cell>
+            </row>
+
+            <row>
+              <cell> <m>6</m> </cell>
+              <cell> <m>8.03125</m> </cell>
+              <cell> <m>-0.49902343</m> </cell>
+              <cell> <m>8.0625</m> </cell>
+              <cell> <m>0.00390625</m> </cell>
+              <cell> <m>8.046875</m> </cell>
+            </row>
+
+            <row>
+              <cell> <m>7</m> </cell>
+              <cell> <m>8.046875</m> </cell>
+              <cell> <m>-0.24780273</m> </cell>
+              <cell> <m>8.0625</m> </cell>
+              <cell> <m>0.00390625</m> </cell>
+              <cell> <m>8.0546875</m> </cell>
+            </row>
+
+            <row>
+              <cell> <m>8</m> </cell>
+              <cell> <m>8.0546875</m> </cell>
+              <cell> <m>-0.12200927</m> </cell>
+              <cell> <m>8.0625</m> </cell>
+              <cell> <m>0.00390625</m> </cell>
+              <cell> <m>8.05859375</m> </cell>
+            </row>
+
+            <row>
+              <cell> </cell>
+            </row>
+          </tabular>
+        </table>
+
+        <p>
+          And at this point <m>b_{8}-a_{8}=0.0078125 \lt 0.01</m>, so we stop.
+          Thus the approximation to <m>\sqrt{65}</m> is <m>c_{8}=8.05859375</m>.
+        </p>
+      </statement>
+    </example>
+  </subsection>
+
+
+  <subsection>
+    <title>The Bisection Method with a Spreadsheet</title>
+
+    <p>
+      The bisection method is fairly easy to perform with a simple handheld calculator, however it is tedious.
+      Let's begin by building a spreadsheet with the top row of the table in <xref ref="ex-bisection-sqrt"/>.
+    </p>
+
+    <table>
+      <title>Building a Spreadsheet for the Bisection Method</title>
+
+      <tabular  >
+        <row bottom="minor">
+          <cell> </cell>
+          <cell>A</cell>
+          <cell>B</cell>
+          <cell>C</cell>
+          <cell>D</cell>
+          <cell>E</cell>
+          <cell>F</cell>
+        </row>
+
+        <row>
+          <cell>1</cell>
+          <cell> <m>a</m> </cell>
+          <cell> <m>f(a)</m> </cell>
+          <cell> <m>b</m> </cell>
+          <cell> <m>f(b)</m> </cell>
+          <cell> <m>c</m> </cell>
+          <cell> <m>f(c)</m></cell>
+        </row>
+
+        <row>
+          <cell>2</cell>
+          <cell>8</cell>
+          <cell>-1</cell>
+          <cell>9</cell>
+          <cell>16</cell>
+          <cell>8.5</cell>
+          <cell>7.25</cell>
+        </row>
+
+        <row>
+          <cell>3</cell>
+          <cell> </cell>
+          <cell> </cell>
+          <cell> </cell>
+          <cell> </cell>
+          <cell> </cell>
+          <cell> </cell>
+        </row>
+      </tabular>
+    </table>
+
+    <p>
+      where
+    </p>
+
+    <p>
+      <ul>
+        <li>
+          <p>
+            the cell A2 has been entered as 8
+          </p>
+        </li>
+
+        <li>
+          <p>
+            the cell B2 has been entered as the formula: <c>=a2*a2-65</c>
+          </p>
+        </li>
+
+        <li>
+          <p>
+            the cell C2 has been entered as 9
+          </p>
+        </li>
+
+        <li>
+          <p>
+            the cell D2 has been entered as the formula: <c>=c2*c2-65</c>
+          </p>
+        </li>
+
+        <li>
+          <p>
+            the cell E2 has been entered as the formula: <c>=0.5*(a2+c2)</c>
+          </p>
+        </li>
+
+        <li>
+          <p>
+            the cell F2 has been entered as the formula: <c>=e2*e2-65</c>
+          </p>
+        </li>
+      </ul>
+    </p>
+
+    <p>
+      Note that the formulas in cells B2, D2 and F2 are the functions of the cells to the left of each and the cell in E2 is the midpoint of A2 and B2.
+    </p>
+
+    <p>
+      The next step is to choose new values for the left and right endpoints in columns A and C.
+      To do this, in cell A3 enter the formula: <c>=IF(B3*F3 &lt; 0;A3;E3)</c> (note that some spreadsheets use commas in place of semicolons.) This formula will each choose the same left endpoint or the midpoint <c>c</c> to ensure that there is still a root between the two endpoints.
+      For the same reason, enter <c>=IF(D3*F3 &gt; 0;E3;C3)</c> in cell C3.
+    </p>
+
+    <p>
+      Lastly copy the cells from B2, D2, E2, and F2 into the ones in row 3.
+      You may copy and paste or drag the lower-left corner of each cell.
+      You should have a spreadsheet that looks like:
+    </p>
+
+    <tabular>
+      <row bottom="minor">
+        <cell> </cell>
+        <cell>A</cell>
+        <cell>B</cell>
+        <cell>C</cell>
+        <cell>D</cell>
+        <cell>E</cell>
+        <cell>F</cell>
+      </row>
+
+      <row>
+        <cell>1</cell>
+        <cell> <m>a</m> </cell>
+        <cell> <m>f(a)</m> </cell>
+        <cell> <m>b</m> </cell>
+        <cell> <m>f(b)</m> </cell>
+        <cell> <m>p</m> </cell>
+        <cell> <m>f(p)</m> </cell>
+      </row>
+
+      <row>
+        <cell>2</cell>
+        <cell>8</cell>
+        <cell>-1</cell>
+        <cell>9</cell>
+        <cell>16</cell>
+        <cell>8.5</cell>
+        <cell>7.25</cell>
+      </row>
+
+      <row>
+        <cell>3</cell>
+        <cell>8.00000</cell>
+        <cell>-1.00000</cell>
+        <cell>8.50000</cell>
+        <cell>7.25000</cell>
+        <cell>8.25000</cell>
+        <cell>3.06250</cell>
+      </row>
+    </tabular>
+
+    <p>
+      Lastly, if you selected all cells in the last line, click on the lower left corner and drag down to at least line 12, you will build up a table that looks like the table in <xref ref="ex-bisection-sqrt"/>.
+    </p>
+  </subsection>
+
+
+  <subsection>
+    <title>Graphical look at the Bisection</title>
+
+    <p>
+      Let's look at the last example graphically to understand the bisection method in a different way.
+      First, the plot of <m>f(x)=x^{2}-65</m> is given below.
+    </p>
+
+    <figure xml:id="fig-bisect2">
+      <caption></caption>
+      <image width="70%">
+        <shortdescription>
+        </shortdescription>
+        <latex-image>
+          <![CDATA[
+          \begin{tikzpicture}[yscale=.05]
+            \draw[->] (-1.5,0) -- (9.5,0) node [above right] {$x$};
+            \foreach \x in {1,2,3,4,5,6,7,8,9} \draw (\x,1) -- (\x,-1) node [below] {\x};
+            \draw[->] (0,-70) -- (0,25) node [above right] {$y$};
+            \foreach \y in {-60,-40,-20,20} \draw (0.1,\y) -- (-0.1,\y) node [left] {\y};
+            \draw[<->] plot[domain=-1:9.1] (\x,{\x*\x-65});
+            \end{tikzpicture}
+          ]]>
+        </latex-image>
+      </image>
+    </figure>
+
+    <p>
+      Next, let's plot the first few steps of bisection starting on the domain <m>[8,8.1]</m>.
+      (Note: this is different than above, but more clearly illustrates how bisection works.
+      First, <m>a_{0}=8</m>, <m>b_{0}=8.1</m> and the midpoint is <m>c_{0}=8.05</m> and since <m>f(c_{0}) \lt 0</m> and <m>f(a_{0}) \lt 0</m>, then <m>a_{1}=8.05</m> and <m>b_{1}=b_{0}=8.1</m>.
+    </p>
+
+    <figure xml:id="fig-bisect3">
+      <caption></caption>
+      <image width="70%">
+        <shortdescription>
+        </shortdescription>
+        <latex-image>
+          <![CDATA[
+          \begin{tikzpicture}[yscale=1.25,xscale=1]
+            \draw[->] (-1,0) -- (11,0) node [above right] {$x$};
+            \foreach \x/\lab in {0/8,1/8.01,2/8.02,3/8.03,4/8.04,5/8.05,6/8.06,7/8.07,8/8.08,9/8.09,10/8.1} \draw (\x,0.1) -- (\x,-0.1) node [below] {\lab};
+            \draw[<->] plot[domain=-1:11] (\x,{pow(8+0.01*\x,2)-65});
+            \foreach \x in {0,5,6.25,7.5,10} \draw [thick] (\x,0.1) -- (\x,-0.1);
+            \draw (0,0) node [above] {$a_0$}; \draw (10,0) node [above] {$b_0$};
+            \draw (5,0.5) node [above] {$a_1=c_0$}; \draw (10,0.5) node [above] {$b_1$};
+            \draw (5,1) node [above] {$a_2$}; \draw (7.5,1) node [above] {$b_2=c_1$};
+            \draw (5,1.5) node [above] {$a_3$}; \draw (6.25,1.5) node [above] {$b_3=c_2$};
+            \end{tikzpicture}
+          ]]>
+        </latex-image>
+      </image>
+    </figure>
+
+    <p>
+      Continuing, <m>c_{1}=8.075</m> and to keep the root bracketed (such that <m>f(a_{2})f(b_{2}) \lt 0</m>), then <m>a_{2}=8.05, b_{2}=c_{1}=8.075</m>.
+      This method continues until the root is found to a desired accuracy.
+    </p>
+  </subsection>
+
+
+  <subsection>
+    <title>Analysis of the Bisection Algorithm</title>
+
+    <p>
+      We return to one of our main questions that arise in this area: how to we know that our sequence of points is converging to the correct answer.
+      In short, we will answer this by analyzing the bisection method.
+      The analysis can be summarized in the following theorem.
+    </p>
+
+    <theorem xml:id="thm-bisection-converge">
+      <statement>
+        <p>
+          Let <m>f</m> be a continuous function on the closed interval <m>[a,b]</m> with <m>f(a)f(b) \lt 0</m>.
+          The bisection method generates a sequence <m>\{p_{n}\}</m> which converges to <m>p</m>, a root (where <m>f(p)=0</m> ) within <m>[a,b]</m>, with the property that
+          <men xml:id="eq-bisection-bound">
+            |p-p_{n}| \leq \frac{b-a}{2^{n}}
+          </men>
+        </p>
+      </statement>
+    </theorem>
+
+
+    <proof>
+      <p>
+        The length of the interval <m>\ell_{n} = b_{n}-a_{n}</m> is halved in each step.
+        That is
+        <me>
+          b_{n} - a_{n} = \frac{1}{2}(b_{n-1}-a_{n-1}) = \frac{1}{4}(b_{n-2}-a_{n-2}) = \cdots \frac{1}{2^{n}}(b_{0}-a_{0})
+        </me>
+      </p>
+
+      <p>
+        Since both <m>p</m> and <m>p_{n}</m> are in the interval <m>[a_{n},b_{n}]</m>, thus
+        <me>
+          |p-p_{n}| \leq b_{n} - a_{n} = \frac{1}{2^{n}}(b_{0}-a_{0}) = \frac{b-a}{2^{n}}
+        </me>
+      </p>
+
+      <p>
+        And using the squeeze theorem
+        <me>
+          \begin{aligned}\lim_{n \rightarrow \infty}|p - p_{n}| = \lim_{n \rightarrow \infty}\frac{1}{2^{n}}(b-a) = 0\end{aligned}
+        </me>
+        so the sequence <m>\{ p_{n} \}</m> converges to <m>p</m>.
+      </p>
+    </proof>
+  </subsection>
+
+
+  <subsection>
+    <title>Order and Rate of Convergence of the Bisection Method</title>
+
+    <p>
+      Recall that an iterative method has rate <m>O(\beta_{n})</m> if
+      <me>
+        \begin{aligned}|p_{n}-p| \leq \lambda |\beta_{n}|\end{aligned}
+      </me>
+    </p>
+
+    <p>
+      from <xref ref="eq-bisection-bound"/>, <m>\beta_{n}=1/2^{n}</m> and <m>\lambda = (b-a)</m>, so the bisection method converges with rate <m>O(1/2^{n})</m>.
+    </p>
+
+    <p>
+      It is a bit more difficult to calculate the order of convergence.
+      Since there is not a simple formula for <m>p_{n+1}</m>, it is hard to show that
+      <me>
+        \begin{aligned}\lim_{n \rightarrow \infty}\frac{p_{n+1}- p}{|p_{n} - p|^{\alpha}}= \lambda\end{aligned}
+      </me>
+      exists for some <m>\alpha</m> and <m>\lambda</m>.
+    </p>
+
+    <p>
+      Consider, instead, a linearly convergent sequence <m>\{p_{n}\}</m>.
+      This means that
+      <me>
+        \lim_{n \rightarrow \infty}\frac{|p_{n+1}-p|}{|p_{n}-p|}= \lambda.
+      </me>
+    </p>
+
+    <p>
+      For large <m>n</m>, this means that
+      <me>
+        \frac{|p_{n+1}-p|}{|p_{n} - p|}\approx \lambda
+      </me>
+      or
+      <me>
+        \begin{aligned}|p_{n+1}- p| \amp \approx \lambda |p_{n} - p| \\ \amp \approx \lambda (\lambda |p_{n-1}- p|)\end{aligned}
+      </me>
+      and extending this we can show that
+      <me>
+        |p_{n+1}- p| \approx \lambda^{n} |p_{1} -p|.
+      </me>
+    </p>
+
+    <p>
+      Since
+      <me>
+        |p_{n+1}- p| \leq \frac{b-a}{2^{n+1}}
+      </me>
+      we can say that the bisection is approximately linear with <m>\lambda = 1/2</m>.
+    </p>
+  </subsection>
+
+
+  <subsection>
+    <title>Stopping Conditions for the Bisection Method</title>
+
+    <p>
+      We have shown above that the bisection method converges and <xref ref="thm-bisection-converge"/> shows precisely the number of iterations needed to guarantee an error bound.
+      There are three standard ways to determine when to stop:
+    </p>
+
+    <p>
+      <ol>
+        <li>
+          <p>
+            The absolute error in the location of the root:
+            <me>
+              \begin{aligned}|p_{n}-p| \leq \frac{1}{2^{n}}(b_{0}-a_{0}) \leq \epsilon\end{aligned}
+            </me>
+          </p>
+        </li>
+
+        <li>
+          <p>
+            The relative error in the location of the root:
+            <me>
+              \frac{|p_{n} -p|}{|p_{n}|}\leq \frac{1}{|p_{n}| 2^{n}}(b_{0}-a_{0}) \leq \epsilon.
+            </me>
+          </p>
+        </li>
+
+        <li>
+          <p>
+            The root is reached within <m>\epsilon</m>
+            <me>
+              |f(p_{n})| \leq \epsilon
+            </me>
+          </p>
+        </li>
+      </ol>
+    </p>
+
+    <p>
+      Determination of which method often depends what you are looking for.
+    </p>
+
+    <example>
+      <statement>
+        <p>
+          Consider the function <m>f(x) = 10x^{3} - 2000</m>.
+          Perform the bisection method using the interval <m>[0,10]</m> and using each stopping condition for <m>\epsilon = 0.01</m>.
+          Report the number of steps needs for each.
+        </p>
+      </statement>
+
+      <solution>
+        <p>
+          If we use the Bisection algorithm on this function for the given starting interval, we get the following table.
+          From this we can see when the stopping condition is reached.
+        </p>
+
+        <table>
+          <title>TITLE</title>
+
+          <tabular>
+            <row bottom="minor">
+              <cell> <m>n</m> </cell>
+              <cell> <m>a</m> </cell>
+              <cell> <m>f(a)</m> </cell>
+              <cell> <m>b</m> </cell>
+              <cell> <m>f(b)</m> </cell>
+              <cell> <m>c</m> </cell>
+              <cell> <m>f(c)</m> </cell>
+              <cell>abs. error</cell>
+              <cell>rel. error</cell>
+            </row>
+
+            <row>
+              <cell> </cell>
+            </row>
+
+            <row>
+              <cell> <m>0</m> </cell>
+              <cell> <m>0.00000</m> </cell>
+              <cell> <m>-2000.00</m> </cell>
+              <cell> <m>10.0000</m> </cell>
+              <cell> <m>8000.00</m> </cell>
+              <cell> <m>5.00000</m> </cell>
+              <cell> <m>-750.000</m> </cell>
+              <cell> <m>10.0000</m> </cell>
+              <cell> <m>2.00000</m> </cell>
+            </row>
+
+            <row>
+              <cell> <m>1</m> </cell>
+              <cell> <m>5.00000</m> </cell>
+              <cell> <m>-750.000</m> </cell>
+              <cell> <m>10.0000</m> </cell>
+              <cell> <m>8000.00</m> </cell>
+              <cell> <m>7.50000</m> </cell>
+              <cell> <m>2218.750</m> </cell>
+              <cell> <m>5.00000</m> </cell>
+              <cell> <m>0.66667</m> </cell>
+            </row>
+
+            <row>
+              <cell> <m>2</m> </cell>
+              <cell> <m>5.00000</m> </cell>
+              <cell> <m>-750.000</m> </cell>
+              <cell> <m>7.50000</m> </cell>
+              <cell> <m>2218.75</m> </cell>
+              <cell> <m>6.25000</m> </cell>
+              <cell> <m>441.4063</m> </cell>
+              <cell> <m>2.50000</m> </cell>
+              <cell> <m>0.40000</m> </cell>
+            </row>
+
+            <row>
+              <cell> <m>3</m> </cell>
+              <cell> <m>5.00000</m> </cell>
+              <cell> <m>-750.000</m> </cell>
+              <cell> <m>6.25000</m> </cell>
+              <cell> <m>441.406</m> </cell>
+              <cell> <m>5.62500</m> </cell>
+              <cell> <m>-220.21</m> </cell>
+              <cell> <m>1.25000</m> </cell>
+              <cell> <m>0.22222</m> </cell>
+            </row>
+
+            <row>
+              <cell> <m>4</m> </cell>
+              <cell> <m>5.62500</m> </cell>
+              <cell> <m>-220.215</m> </cell>
+              <cell> <m>6.25000</m> </cell>
+              <cell> <m>441.406</m> </cell>
+              <cell> <m>5.93750</m> </cell>
+              <cell> <m>93.20068</m> </cell>
+              <cell> <m>0.62500</m> </cell>
+              <cell> <m>0.10526</m> </cell>
+            </row>
+
+            <row>
+              <cell> <m>5</m> </cell>
+              <cell> <m>5.62500</m> </cell>
+              <cell> <m>-220.215</m> </cell>
+              <cell> <m>5.93750</m> </cell>
+              <cell> <m>93.2007</m> </cell>
+              <cell> <m>5.78125</m> </cell>
+              <cell> <m>-67.741</m> </cell>
+              <cell> <m>0.31250</m> </cell>
+              <cell> <m>0.05405</m> </cell>
+            </row>
+
+            <row>
+              <cell> <m>6</m> </cell>
+              <cell> <m>5.78125</m> </cell>
+              <cell> <m>-67.7414</m> </cell>
+              <cell> <m>5.93750</m> </cell>
+              <cell> <m>93.2007</m> </cell>
+              <cell> <m>5.85938</m> </cell>
+              <cell> <m>11.65676</m> </cell>
+              <cell> <m>0.15625</m> </cell>
+              <cell> <m>0.02667</m> </cell>
+            </row>
+
+            <row>
+              <cell> <m>7</m> </cell>
+              <cell> <m>5.78125</m> </cell>
+              <cell> <m>-67.7414</m> </cell>
+              <cell> <m>5.85938</m> </cell>
+              <cell> <m>11.6568</m> </cell>
+              <cell> <m>5.82031</m> </cell>
+              <cell> <m>-28.309</m> </cell>
+              <cell> <m>0.07813</m> </cell>
+              <cell bottom="minor"> <m>0.01342</m> </cell>
+            </row>
+
+            <row>
+              <cell> <m>8</m> </cell>
+              <cell> <m>5.82031</m> </cell>
+              <cell> <m>-28.3088</m> </cell>
+              <cell> <m>5.85938</m> </cell>
+              <cell> <m>11.6568</m> </cell>
+              <cell> <m>5.83984</m></cell>
+              <cell> <m>-8.39283</m> </cell>
+              <cell right="minor"> <m>0.03906</m> </cell>
+              <cell bottom="minor" right="minor"><m>0.00669</m></cell>
+            </row>
+
+            <row>
+              <cell> <m>9</m> </cell>
+              <cell> <m>5.83984</m> </cell>
+              <cell> <m>-8.39283</m> </cell>
+              <cell> <m>5.85938</m> </cell>
+              <cell> <m>11.6568</m> </cell>
+              <cell> <m>5.84961</m> </cell>
+              <cell> <m>1.61523</m> </cell>
+              <cell bottom="minor"> <m>0.01953</m> </cell>
+              <cell> <m>0.00334</m> </cell>
+            </row>
+
+            <row>
+              <cell> <m>10</m> </cell>
+              <cell> <m>5.83984</m> </cell>
+              <cell> <m>-8.39283</m> </cell>
+              <cell> <m>5.84961</m> </cell>
+              <cell> <m>1.61523</m> </cell>
+              <cell> <m>5.84473</m></cell>
+              <cell right="minor"> <m>-3.39298</m> </cell>
+              <cell bottom="minor" right="minor"><m>0.00977</m></cell>
+              <cell> <m>0.00167</m> </cell>
+            </row>
+
+            <row>
+              <cell> <m>11</m> </cell>
+              <cell> <m>5.84473</m> </cell>
+              <cell> <m>-3.39298</m> </cell>
+              <cell> <m>5.84961</m> </cell>
+              <cell> <m>1.61523</m> </cell>
+              <cell> <m>5.84717</m> </cell>
+              <cell> <m>-0.88992</m> </cell>
+              <cell> <m>0.00488</m> </cell>
+              <cell> <m>0.00084</m> </cell>
+            </row>
+
+            <row>
+              <cell> <m>12</m> </cell>
+              <cell> <m>5.84717</m> </cell>
+              <cell> <m>-0.88992</m> </cell>
+              <cell> <m>5.84961</m> </cell>
+              <cell> <m>1.61523</m> </cell>
+              <cell> <m>5.84839</m> </cell>
+              <cell> <m>0.36240</m> </cell>
+              <cell> <m>0.00244</m> </cell>
+              <cell> <m>0.00042</m> </cell>
+            </row>
+
+            <row>
+              <cell> <m>13</m> </cell>
+              <cell> <m>5.84717</m> </cell>
+              <cell> <m>-0.88992</m> </cell>
+              <cell> <m>5.84839</m> </cell>
+              <cell> <m>0.36240</m> </cell>
+              <cell> <m>5.84778</m> </cell>
+              <cell> <m>-0.26383</m> </cell>
+              <cell> <m>0.00122</m> </cell>
+              <cell> <m>0.00021</m> </cell>
+            </row>
+
+            <row>
+              <cell> <m>14</m> </cell>
+              <cell> <m>5.84778</m> </cell>
+              <cell> <m>-0.26383</m> </cell>
+              <cell> <m>5.84839</m> </cell>
+              <cell> <m>0.36240</m> </cell>
+              <cell> <m>5.84808</m> </cell>
+              <cell> <m>0.04927</m> </cell>
+              <cell> <m>0.00061</m> </cell>
+              <cell> <m>0.00010</m> </cell>
+            </row>
+
+            <row>
+              <cell> <m>15</m> </cell>
+              <cell> <m>5.84778</m> </cell>
+              <cell> <m>-0.26383</m> </cell>
+              <cell> <m>5.84808</m> </cell>
+              <cell> <m>0.04927</m> </cell>
+              <cell> <m>5.84793</m> </cell>
+              <cell> <m>-0.10728</m> </cell>
+              <cell> <m>0.00031</m> </cell>
+              <cell> <m>0.00005</m> </cell>
+            </row>
+
+            <row>
+              <cell> <m>16</m> </cell>
+              <cell> <m>5.84793</m> </cell>
+              <cell> <m>-0.10728</m> </cell>
+              <cell> <m>5.84808</m> </cell>
+              <cell> <m>0.04927</m> </cell>
+              <cell> <m>5.84801</m> </cell>
+              <cell> <m>-0.02901</m> </cell>
+              <cell> <m>0.00015</m> </cell>
+              <cell> <m>0.00003</m> </cell>
+            </row>
+
+            <row>
+              <cell> <m>17</m> </cell>
+              <cell> <m>5.84801</m> </cell>
+              <cell> <m>-0.02901</m> </cell>
+              <cell> <m>5.84808</m> </cell>
+              <cell> <m>0.04927</m> </cell>
+              <cell> <m>5.84805</m> </cell>
+              <cell bottom="minor"> <m>0.01013</m> </cell>
+              <cell> <m>0.00008</m> </cell>
+              <cell> <m>0.00001</m> </cell>
+            </row>
+
+            <row>
+              <cell> <m>18</m> </cell>
+              <cell> <m>5.84801</m> </cell>
+              <cell> <m>-0.02901</m> </cell>
+              <cell> <m>5.84805</m> </cell>
+              <cell> <m>0.01013</m> </cell>
+              <cell right="minor"> <m>5.84803</m></cell>
+              <cell right="minor" bottom="minor"> <m>-0.00944</m></cell>
+              <cell> <m>0.00004</m> </cell>
+              <cell> <m>0.00001</m> </cell>
+            </row>
+
+            <row>
+              <cell> <m>19</m> </cell>
+              <cell> <m>5.84803</m> </cell>
+              <cell> <m>-0.00944</m> </cell>
+              <cell> <m>5.84805</m> </cell>
+              <cell> <m>0.01013</m> </cell>
+              <cell> <m>5.84804</m> </cell>
+              <cell> <m>0.00034</m> </cell>
+              <cell> <m>0.00002</m> </cell>
+              <cell> <m>0.00000</m> </cell>
+            </row>
+          </tabular>
+        </table>
+
+        <p>
+          The first stopping condition occurs when <m>n=10</m>, the second stopping condition occurs when <m>n=8</m> and the final condition occurs when <m>n=18</m>.
+          Each are boxed above.
+        </p>
+
+        <p>
+          If we stop at different values of <m>n</m>, there is a different approximate root.
+        </p>
+      </solution>
+    </example>
+
+    <p>
+      From the above example, one can see that using different stopping conditions give different results.
+      A natural question to ask is which condition to use and of course the answer is it depends.
+      If you need to ensure that you have reached a certain number of digits of accuracy, then 1) is good, and if you are just trying to find an answer that has a very small function value then 3) is good.
+    </p>
+  </subsection>
+</section>

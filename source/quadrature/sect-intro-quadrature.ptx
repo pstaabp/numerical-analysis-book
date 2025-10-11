@@ -1,0 +1,683 @@
+<section xml:id="sect-intro-quadature">
+  <title>The Basics of Numerical Integration or Quadrature</title>
+
+  <introduction>
+    <p>
+      We now turn to a more-important aspect of numerical calculus, numerical integration or quadrature.
+      It is not difficult to find a function that doesn't have an antiderivative that can written in terms of our standard set of functions.
+      For example, we will use the integral
+      <men xml:id="eq-norm-curve-cum-dist">
+        \int_{0}^{a} e^{-x^2}\, dx
+      </men>
+      that appears in Chapter ch:intro that is related to the normal curve in Probability and Statistics.
+      There is no simple antiderivative of <m>e^{-x^2}</m> and thus we need to resort to other methods to evaluate (eq:norm:curve:cum:dist) for values of <m>a</m>.
+    </p>
+
+    <p>
+      The basic idea behind quadrature is that for a continuous function <m>f</m> on an interval <m>[a,b]</m>, we wish to find
+      <me>
+        I(f) = \int_{a}^{b} f(x) \, dx.
+      </me>
+    </p>
+
+    <p>
+      Most quadrature formulas take on the form:
+      <men xml:id="eq-quad-basic">
+        I(f) \approx I_{n} (f) = \sum_{i=0}^{n} w_{i} f(x_{i})
+      </men>
+      where <m>x_{i}</m> are called the <alert>quadrature points</alert> and <m>w_{i}</m> are called the <alert>weights</alert>.
+      The various methods we will see in this section and subsequent sections will differ based on finding different values of the nodes and weights.
+    </p>
+
+    <p>
+      This may look similar to that of a Riemann sum from Calculus.
+      You may recall that the Riemann sum (for a finite number of rectangles) is an approximation to the area under the curve or the definite integral.
+      Typically, if <m>w_{i}=h=x_{i+1}-x_{i}</m>, that is the points used in evaluation are equally spaced, then (eq:quad:basic) is the Riemann sum.
+    </p>
+  </introduction>
+
+
+  <subsection>
+    <title>Newton-Cotes Formulas</title>
+
+    <p>
+      The first class of formulas for quadrature that we will see are called the <alert>Newton-Cotes Formulas</alert>.
+      In this case, we will use interpolating polynomials (usually using equally-spaced points) to approximate the function, then integrate the polynomial.
+    </p>
+
+    <p>
+      First, write the interpolating polynomial in terms of the Lagrange polynomials, <m>L_{n,i}(x)</m>,
+      <me>
+        P_{n} (x) = \sum_{i=0}^{n} f(x_{i}) L_{n,i}(x).
+      </me>
+    </p>
+
+    <p>
+      Let <m>I_{n}(f)</m> be the definite integral of <m>P_{n}(x)</m> on <m>[a,b]</m> or
+      <me>
+        \begin{aligned}I_{n}(f)\amp = \int_{a}^{b} \sum_{i=0}^{n} f(x_{i}) L_{n,i}(x) \, dx, \\\amp = \sum_{i=0}^{n} f(x_{i}) \int_{a}^{b} L_{n,i}(x) \, dx.
+        \amp \text{This can be written as} \\ I_{n}(f)\amp = \sum_{i=0}^{n} w_{i} f(x_{i}),\end{aligned}
+      </me>
+      where
+      <me>
+        w_{i} = \int_{a}^{b} L_{n,i}(x) \, dx
+      </me>
+    </p>
+
+    <p>
+      We now look at specific cases for <m>n</m>, the order of the interpolating polynomial.
+    </p>
+  </subsection>
+
+
+  <subsection>
+    <title> <m>n=1</m> case</title>
+
+    <p>
+      In this case, there are two points, <m>x_{0}=a</m> and <m>x_{1}=b</m>.
+      <me>
+        \begin{aligned}L_{1,0}(x)\amp = \frac{b-x}{b-a},\amp L_{1,1}(x)\amp = \frac{x-a}{b-a},\end{aligned}
+      </me>
+      therefore the weights are:
+      <me>
+        \begin{aligned}w_{0}\amp = \int_{a}^{b} \frac{b-x}{b-a}\, dx\amp w_{1}\amp = \int_{a}^{b} \frac{x-a}{b-a}\, dx.
+        \\\end{aligned}
+      </me>
+    </p>
+
+    <p>
+      Although these integrals are not difficult to do, they are easier if we change variables.
+      Let <m>x = a+ h t</m> where <m>h=b-a</m>, then these integrals become:
+      <me>
+        \begin{aligned}w_{0}\amp = h\int_{0}^{1} (1-t) \, dt\amp w_{1}\amp = h\int_{0}^{1} t \, dt \\\amp = \frac{h}{2}\amp w_{1}\amp = \frac{h}{2}\end{aligned}
+      </me>
+    </p>
+
+    <p>
+      Thus the quadrature formula is
+      <me>
+        \begin{aligned}I(f) \approx I_{1}(f)\amp = \frac{h}{2}\bigl( f(a) + f(b) \bigr).\end{aligned}
+      </me>
+    </p>
+
+    <p>
+      This formula is called the trapezoid rule, because the integral is equivalent to the area of the trapezoid formed by the points <m>(0,f(a))</m>, <m>(a,f(a))</m>, <m>(b,f(b))</m>, and <m>(0,f(b))</m> as seen in the plot below.
+    </p>
+
+    <figure xml:id="fig-trapezoid">
+      <caption></caption>
+      <image>
+        <shortdescription>
+        </shortdescription>
+        <latex-image>
+      <![CDATA[
+      \begin{tikzpicture}[yscale=0.6]
+\draw (-0.5,0) -- (5,0);
+\draw (0,-1) -- (0,4);
+\fill[lightgray] (1,1) -- (3,3) -- (3,0) -- (1,0) -- cycle;
+\foreach \x/\lab in {1/a,3/b} \draw (\x,0.1) -- (\x,-0.1) node [below] {$\lab$};
+\draw plot [smooth,tension =0.75] coordinates { (0,1.1)(1,1)(2,2)(3,3)(4,2)};
+\end{tikzpicture}
+      ]]>
+        </latex-image>
+      </image>
+    </figure>
+
+    <p>
+      The trapezoid is the shaded area in the plot above and approximates the integral of <m>f</m> from <m>a</m> to <m>b</m>.
+    </p>
+
+    <p>
+      The <term>Trapezoid Rule</term> is an approximation to <m>\int_{a}^{b}f(x) \, dx</m>, given by
+      <men xml:id="eq-trap-rule">
+        I_{1}(f) = \frac{h}{2}\bigl(f(a)+f(b)\bigr).
+      </men>
+    </p>
+  </subsection>
+
+
+  <subsection>
+    <title> <m>n=2</m> case</title>
+
+    <p>
+      In this case, we will use a quadratic function (parabola) that interpolates the data and then will be integrated.
+      To do this, we use the following 3 points to determine the interpolating polynomial:
+      <me>
+        \begin{aligned}x_{0}\amp = a,\amp x_{1}\amp = \frac{a+b}{2},\amp x_{2}\amp = b,\end{aligned}
+      </me>
+      and we will define <m>h = (b-a)/2</m> to be half the total distance between <m>a</m> and <m>b</m>.
+      The Lagrange polynomials through these points are:
+      <me>
+        \begin{aligned}L_{2,0}(x)\amp = \frac{(x-x_{1})(x-x_{2})}{2h^{2}},\amp L_{2,1}(x)\amp = \frac{(x-x_{0})(x-x_{2})}{-h^{2}}, \\ L_{2,2}(x)\amp = \frac{(x-x_{0})(x-x_{1})}{2h^{2}},\end{aligned}
+      </me>
+      and the weights are:
+      <me>
+        \begin{aligned}w_{0}\amp = \int_{a}^{b} L_{2,0}(x) \, dx,\amp w_{1}\amp = \int_{a}^{b} L_{2,1}(x) \, dx,\amp w_{2}\amp = \int_{a}^{b} L_{2,2}(x) \, dx.\end{aligned}
+      </me>
+    </p>
+
+    <p>
+      If we define <m>x=a+th</m>, these can be written:
+      <me>
+        \begin{aligned}w_{0}\amp = \frac{h}{2}\int_{0}^{2} (t-1)(t-2) \, dt = \frac{h}{3},\amp w_{1}\amp = -h \int_{0}^{2} t(t-2) \, dt = \frac{4h}{3}, \\ w_{2}\amp = \frac{h}{2}\int_{0}^{2} t(t-1) \, dt = \frac{h}{3}, \\\end{aligned}
+      </me>
+      so the quadrature formula in this case using the above points and weights and substituting into <xref ref="eq-quad-basic"/> can be written as follows.
+    </p>
+
+    <p>
+      The quadrature formula that uses three equally-spaced points is given by
+      <me>
+        I_{2}(f) = \frac{h}{3}\biggl( f(a) + 4 f\biggl(\frac{a+b}{2}\biggr) + f(b) \biggr)
+      </me>
+      and is called <term>Simpson's Rule</term>.
+    </p>
+
+    <p>
+      We now see a example from the start of this section that uses the trapezoid and Simpson's rule to evaluate an integral.
+    </p>
+
+    <example xml:id="ex-trap-simp">
+      <introduction>
+        <p>
+          Let
+          <men xml:id="eq-int-norm-curve">
+            \int_{0}^{1} e^{-x^2}\,d
+          </men>
+        </p>
+      </introduction>
+
+
+      <task>
+        <statement>
+          <p>
+            Estimate <xref ref="eq-int-norm-curve"/> using the Trapezoid Rule.
+          </p>
+        </statement>
+
+        <solution>
+          <p>
+            In this case <m>h=b-a=1</m>.
+            <me>
+              I_{1} = \frac{h}{2}(1 + e^{-1}) \approx 0.68394
+            </me>
+          </p>
+        </solution>
+      </task>
+
+
+      <task>
+        <statement>
+          <p>
+            Estimate <xref ref="eq-int-norm-curve"/> using Simpson's Rule.
+          </p>
+        </statement>
+
+        <solution>
+          <p>
+            In this case <m>h=(b-a)/2=1/2</m>.
+            <me>
+              \begin{aligned}I_{2}\amp = \frac{h}{3}\biggl( f(a) + 4 f\biggl(\frac{a+b}{2}\biggr) + f(b) \biggr) \\\amp = \frac{1}{6}(e^{0} + 4 e^{-0.25}+ e^{-1}) \approx 0.74718\end{aligned}
+            </me>
+          </p>
+        </solution>
+      </task>
+    </example>
+
+    <p>
+      For comparison, we will later show that
+      <me>
+        \begin{aligned}\int_{0}^{1} e^{-x^2}\, dx \approx 0.7468241328\end{aligned}
+      </me>
+      which shows that Simpson's Rule is correct to 3 decimal places and the trapezoid rule is correct to only 1 digit.
+    </p>
+  </subsection>
+
+
+  <subsection>
+    <title>Other Newton-Cotes</title>
+
+    <p>
+      Other Newton-Cotes formula can be found by taking more points.
+      In the <m>n=3</m> case, there are 4 points and 4 weights and it can be shown that
+      <me>
+        \begin{aligned}w_{0}\amp = \frac{3h}{8},\amp w_{1}\amp = \frac{9h}{8}, \\ w_{1}\amp =\frac{9h}{8},\amp w_{3}\amp = \frac{3h}{8},\end{aligned}
+      </me>
+      so using these weights as well as <m>h=(b-a)/3</m> and <m>x_{i} = a+ih</m> in <xref ref="eq-quad-basic"/> is
+      <me>
+        I_{3}(f) = \frac{3h}{8}\bigl( f(x_{0}) + 3 f(x_{1}) + 3 f(x_{2}) + f(x_{3}) ,\bigr)
+      </me>
+      which is called the <term>3/8-rule</term>.
+    </p>
+
+    <p>
+      Lastly, when <m>n=4</m>, one can show that the weights are
+      <me>
+        \begin{aligned}w_{0} =w_{4}\amp = \frac{14h}{45},\amp w_{1}= w_{3}\amp = \frac{64h}{45},\amp w_{2}\amp = \frac{24 h}{45},\end{aligned}
+      </me>
+      and using <m>h=(b-a)/4</m> with <m>x_{i}=a+ih</m> in (eq:quad:basic) results in <alert>Boole's Rule</alert> for quadrature
+      <me>
+        I_{4}(f) = \frac{h}{45}\bigl( 14 f(x_{0}) + 64 f(x_{1}) + 24 f(x_{2}) + 64 f(x_{3}) + 14 f(x_{4}) \bigr).
+      </me>
+    </p>
+
+    <example>
+      <statement>
+        <p>
+          Use the three-eighths rule and Boole's rule to estimate <xref ref="eq-int-norm-curve"/>.
+        </p>
+
+        <p>
+          In this case, <m>h=1/3</m> and
+          <me>
+            I(f) = \frac{1}{8}\bigl( e^{0} +3 e^{-1/9}+3 e^{-4/9}+ e^{-1}\bigr) \approx 0.7469923196
+          </me>
+          which is accurate to nearly 4 decimal places and with Boole's rule, <m>h=1/4</m> and
+          <me>
+            I_{4}(f) = \frac{1}{4\cdot 45}\bigl(14 e^{0} +64 e^{-1/16}+24 e^{-1/4}+ 64e^{-9/16}+14e^{-1}\bigr) \approx 0.7468337099
+          </me>
+          which is accurate to 5 decimal places.
+        </p>
+      </statement>
+    </example>
+  </subsection>
+
+
+  <subsection>
+    <title>Error Formulas for Newton-Cotes </title>
+
+    <p>
+      In this section, we will find error formulas for the Newton-Cotes rules derived above.
+      That is, we will be able to determine theoretically how close the quadrature formula (approximation) is to the actual integral.
+    </p>
+
+    <definition>
+      <statement>
+        <p>
+          The <term>degree of precision</term> or <term>accuracy</term> of a quadrature rule <m>I_{n}(f)</m> is the positive integer <m>m</m> such that
+          <me>
+            \begin{aligned}I(p)\amp = I_{n}(p) \qquad \text{for every polynomial $p$ of degree $\leq m$}\\ I(p)\amp \neq I_{n}(p) \qquad \text{for some polynomial $p$ of degree $m+1$}\\\end{aligned}
+          </me>
+        </p>
+      </statement>
+    </definition>
+
+    <p>
+      In short the degree of precision of a quadrature formula is the highest degree polynomial that is integrated exactly.
+      Due to the linearly of integration (and hence quadrature), it is sufficient to integrate only powers of <m>x</m> to determine the degree of precision.
+    </p>
+
+    <example>
+      <statement>
+        <p>
+          If a rule integrates 1, <m>x</m> and <m>x^{2}</m> exactly, but not <m>x^{3}</m>, then the degree of precision is 2.
+        </p>
+      </statement>
+    </example>
+
+    <example>
+      <statement>
+        <p>
+          Find the degree of precision for Simpson's Rule.
+        </p>
+
+        <p>
+        </p>
+
+        <p>
+          We build a table of the integrals of <m>x^{n}</m> and Simpson's Rule,
+          <me>
+            I_{2}(f) = \frac{h}{3}\bigl( f(a) + 4 f((a+b)/2) + f(b) \bigr)
+          </me>
+        </p>
+
+        <tabular>
+          <row bottom="minor">
+            <cell> <m>n</m> </cell>
+            <cell> <m>f(x)</m> </cell>
+            <cell> <m>\int_{a}^{b} f(x) \, dx</m> </cell>
+            <cell> <m>I_{2}(f)</m> </cell>
+          </row>
+
+          <row>
+            <cell> </cell>
+          </row>
+
+          <row>
+            <cell>0</cell>
+            <cell>1</cell>
+            <cell> <m>b-a</m> </cell>
+            <cell> <m>\frac{b-a}{2 \cdot 3}(1 + 4 + 1) =b-a</m> </cell>
+          </row>
+
+          <row>
+            <cell>1</cell>
+            <cell> <m>x</m> </cell>
+            <cell> <m>\frac{b^{2}-a^{2}}{2}</m> </cell>
+            <cell> <m>\frac{b-a}{2 \cdot 3}( a + 2(a+b) + b)= \frac{b^{2}-a^{2}}{2}</m> </cell>
+          </row>
+
+          <row>
+            <cell>2</cell>
+            <cell> <m>x^{2}</m> </cell>
+            <cell> <m>\frac{b^{3}-a^{3}}{3}</m> </cell>
+            <cell> <m>\frac{b-a}{6}(a^{2} + 4(a+b)^{2}/4 + b^{2})=\frac{b^{3}-a^{3}}{3}</m> </cell>
+          </row>
+
+          <row>
+            <cell>3</cell>
+            <cell> <m>x^{3}</m> </cell>
+            <cell> <m>\frac{b^{4}-a^{4}}{4}</m> </cell>
+            <cell> <m>\frac{b-a}{6}\bigl(a^{3} + 4 \frac{(a+b)^{3}}{8}+ b^{3}\bigr)= \frac{b^{4}-a^{4}}{4}</m> </cell>
+          </row>
+
+          <row>
+            <cell>4</cell>
+            <cell> <m>x^{4}</m> </cell>
+            <cell> <m>\frac{b^{5}-a^{5}}{5}</m> </cell>
+            <cell> <m>\frac{b-a}{6}\bigl(a^{4} + 4 \frac{(a+b)^{4}}{16}+ b^{4}\bigr) \neq \frac{b^{5}-a^{5}}{5}</m> </cell>
+          </row>
+        </tabular>
+
+        <p>
+          Since Simpson's rule integrates <m>x^{n}</m> exactly for <m>n=0,1,2,3</m> but not <m>x^{4}</m>, the degree of precision is 3.
+        </p>
+      </statement>
+    </example>
+
+    <p>
+      The next example shows that we can use the degree of precision to find the weights.
+      This is an alternative to using the interpolation polynomial to find the <m>w_{i}</m>.
+    </p>
+
+    <example>
+      <statement>
+        <p>
+          Find <m>w_{0}</m> and <m>w_{1}</m> such that the quadrature rule on <m>[a,b]</m> for <m>\int_{a}^{b} f(x) \, dx</m> given by
+          <me>
+            \widetilde{I}_{1}(f) = w_{0} f(a+h) + w_{1} f(a+2h)
+          </me>
+          has as high a degree of precision as possible and <m>h=(b-a)/3</m>.
+        </p>
+      </statement>
+
+      <solution>
+        <p>
+          First, recall that
+          <me>
+            \int_{a}^{b} x^{n} \, dx = \frac{b^{n+1}-a^{n+1}}{n+1}\qquad \text{for $n=0,1,2,3,\ldots$}
+          </me>
+        </p>
+
+        <p>
+          Therefore we need to apply this quadrature formula for <m>f(x) = x^{n}</m>, <m>n</m> as large as possible.
+        </p>
+
+        <p>
+          <ul>
+            <li>
+              <p>
+                If <m>n=0</m>, <m>f(x)=1</m>, so we apply this to the given quadrature rule.
+                <me>
+                  b-a = w_{0} + w_{1}
+                </me>
+              </p>
+            </li>
+
+            <li>
+              <p>
+                If <m>n=1</m>, then <m>f(x)=x</m> and applying this to the quadrature rule,
+                <me>
+                  \frac{b^{2}-a^{2}}{2} = w_{0} (a+h) + w_{1} (a+ 2h)
+                </me>
+              </p>
+
+              <p>
+                Solving the two equations above and using the definition of <m>h</m>, we get:
+                <me>
+                  w_{0} = w_{1} = \frac{b-a}{2}
+                </me>
+              </p>
+            </li>
+          </ul>
+        </p>
+
+        <p>
+          So the quadrature rule becomes:
+          <me>
+            \widetilde{I}_{1}(f) = \frac{b-a}{2}\bigl( f(a+h) + f(a+2h) \bigr)
+          </me>
+        </p>
+
+        <p>
+          If we apply this formula to <m>f(x)=x^{2}</m>, we get
+          <me>
+            \widetilde{I}_{1}(x^{2}) = \frac{b-a}{18}(5a^{2}+8ab+5b^{2})
+          </me>
+          which is not <m>(b^{3}-a^{3})/3</m>, so this quadrature rule has degree of precision 1.
+        </p>
+
+        <p>
+          This is an example of a Newton-Cotes <alert>open</alert> quadrature formula because the points do not include the endpoints.
+        </p>
+      </solution>
+    </example>
+
+    <p>
+      An open quadrature formula does not include the endpoints.
+      This can be useful for calculating improper integrals.
+      For example, <m>\int_{0}^{1} (1/\sqrt{x}) \, dx</m> exists even though the integrand evaluated at <m>x=0</m> does not.
+    </p>
+
+    <p>
+      Next, we examine the error associated with quadrature formulas, but first need the following theorem.
+    </p>
+
+    <theorem>
+      <title>Weighted Mean Value Theorem</title>
+
+      <statement>
+        <p>
+          If <m>f</m> is continuous on <m>[a,b]</m>, <m>g</m> is integrable on <m>[a,b]</m> and <m>g(x)</m> does not change sign on <m>[a,b]</m>, then there exists a number <m>\xi \in [a,b]</m> such that
+          <me>
+            \int_{a}^{b} f(x) g(x) \, dx = f(\xi) \int_{a}^{b} g(x) \, dx .
+          </me>
+        </p>
+      </statement>
+
+
+      <proof>
+        <p>
+          Suppose <m>g(x) \geq 0</m> on <m>[a,b]</m>.
+          Since <m>f</m> is continuous on <m>[a,b]</m>, it reaches a min and max on the interval, or <m>m \leq f(x) \leq M</m> so
+          <me>
+            m g(x) \leq f(x) g(x) \leq M g(x),
+          </me>
+          for all <m>x \in [a,b]</m>.
+          Thus,
+          <me>
+            \begin{aligned}m \int_{a}^{b} g(x) \, dx \leq \int_{a}^{b} f(x) g(x) \, dx \leq M \int_{a}^{b} g(x) \, dx .\end{aligned}
+          </me>
+        </p>
+
+        <p>
+          If <m>\int_{a}^{b} g(x) \,dx = 0</m> then <m>\int_{a}^{b} f(x) g(x) \,dx</m> also equals zero since we assumed that <m>g(x) \geq 0</m>, so any <m>\xi \in [a,b]</m> satisfies the theorem.
+          Otherwise, <m>\int_{a}^{b} g(x) \, dx \gt 0</m>.
+          Therefore
+          <me>
+            m \leq \frac{\int_{a}^{b} f(x) g(x) \, dx}{\int_{a}^{b} g(x) \, dx}\leq M.
+          </me>
+        </p>
+
+        <p>
+          Applying the intermediate value theorem, there exists a number <m>\xi</m>, such that
+          <me>
+            f(\xi) = \frac{\int_{a}^{b} f(x) g(x) \, dx}{\int_{a}^{b} g(x) \, dx}.
+          </me>
+        </p>
+
+        <p>
+          If <m>g(x)&#x3C;0</m>, then a similar argument can be made, thus the theorem holds true.
+        </p>
+      </proof>
+    </theorem>
+
+    <theorem xml:id="thm-error-trap">
+      <title>Error Formula for Trapezoid Rule</title>
+
+      <statement>
+        <p>
+          If <m>f \in C^{2}[a,b]</m>, and <m>I_{1}(f)</m> is the trapezoid rule given in <xref ref="eq-trap-rule"/>, then there exists an <m>\hat{\xi}\in[a,b]</m> such that
+          <me>
+            \int_{a}^{b} f(x) \, dx = I_{1}(f) - \frac{(b-a)^{3}}{12}f''(\hat{\xi}) .
+          </me>
+        </p>
+      </statement>
+
+
+      <proof>
+        <p>
+          First, start with the interpolating polynomial error formula with <m>n=1</m> from <xref ref="thm-interp-error"/>.
+        </p>
+
+        <p>
+          <me>
+            f(x) = P_{1} (x) + \frac{f''(\xi(x))}{2}(x-a)(x-b) .
+          </me>
+        </p>
+
+        <p>
+          If we integrate then
+          <me>
+            \int_{a}^{b} f(x) \, dx = I_{1}(f) + \int_{a}^{b} \frac{f''(\xi(x))}{2}(x-a)(x-b) \, dx,
+          </me>
+          where <m>\int_{a}^{b} P_{1}(x) \, dx = I_{1}(f)</m> as shown above.
+          Since <m>(x-a)(x-b)</m> does not change sign, we can apply the weighted mean value theorem applied to the integral in the last term, there is an <m>\hat{\xi}</m> such that
+          <me>
+            \begin{aligned}\int_{a}^{b} f(x) \, dx\amp = I_{1}(f) + \frac{f''(\hat{\xi})}{2}\int_{a}^{b} (x-a)(x-b) \, dx, \\\amp = I_{1}(f) - \frac{f''(\hat{\xi})}{12}(b-a)^{3} .\end{aligned}
+          </me>
+        </p>
+      </proof>
+    </theorem>
+
+    <p>
+      This theorem is quite useful for finding error bounds when using the trapezoid rule to approximate a definite integral.
+      It also gives the degree of precision for the trapezoid rule.
+      If we integral <m>f(x)=x^{n}</m>, then the error given by the second term in Theorem thm:error:trap which is proportional to <m>f''(\xi)</m> is 0 for <m>x^{0}</m> and <m>x^{1}</m>, but not <m>x^{2}</m>.
+      Therefore the degree of precision is 1.
+    </p>
+
+    <theorem xml:id="thm-error-simp">
+      <title>Error Formula for Simpson's Rule</title>
+
+      <statement>
+        <p>
+          If <m>f \in C^{4}[a,b]</m> and <m>I_{2}(f)</m> is the formula for Simpson's rule applied to <m>f</m> on <m>[a,b]</m>, then there exists a <m>\hat{\xi}\in [a,b]</m> such that
+          <me>
+            \int_{a}^{b} f(x) \, dx = I_{2}(f) - \frac{(b-a)^{5}}{2880}f^{(4)}(\hat{\xi})
+          </me>
+        </p>
+      </statement>
+    </theorem>
+
+    <p>
+      Using an argument similar to that that above about the trapezoid rule, this shows that Simpson's Rule has degree of precision of 3.
+      The proof of this is more difficult than that of the error associated with the trapezoid rule, so is skipped.
+      See Isaacson:1966fj for more information.
+    </p>
+
+    <example>
+      <statement>
+        <p>
+          Use the Error Formula for Simpson's Rule to find a theoretical error bound of <m>\int_{0}^{1} e^{-x^2}\, dx</m>.
+        </p>
+
+        <p>
+        </p>
+
+        <p>
+          First, one can show that if <m>f(x) = e^{-x^2}</m> then
+          <me>
+            f''''(x) = 12 e^{-x^2}-48x^{2} e^{-x^2}+ 16 x^{4} e^{-x^2}
+          </me>
+        </p>
+
+        <p>
+          The maximum of this function on the interval <m>[0,1]</m> occurs when <m>x=0</m> and is 12, so
+          <me>
+            |f''''(\xi)| \leq 12.
+          </me>
+        </p>
+
+        <p>
+          Thus the error, <m>E_{2}(x)</m> defined as
+          <me>
+            \begin{aligned}E_{2}(x)\amp = \biggl|\int_{0}^{1} e^{-x^2}\, dx - I_{2}(f)\biggr|, \\\amp \leq \frac{(b-a)^{5}}{2880}|f''''(\xi)|, \\\amp = \frac{12}{2880}= 0.004285.\end{aligned}
+          </me>
+        </p>
+
+        <p>
+          This means that the value for <m>\int_{0}^{1} e^{-x^2}\, dx</m> in <xref ref="ex-trap-simp"/> is accurate to 0.004285.
+        </p>
+      </statement>
+    </example>
+
+    <p>
+      The next theorem shows that the error formula for any closed Newton-Cotes quadrature rules takes on a certain form and thus the degree of precision can be derived.
+    </p>
+
+    <theorem>
+      <title>Error Formula for Closed Newton-Cotes Quadrature</title>
+
+      <statement>
+        <p>
+          If <m>I_{n}(f)</m> denotes the Closed Newton-Cotes Quadrature Rule with <m>n+1</m> nodes, then
+          <ul>
+            <li>
+              <p>
+                if <m>n</m> is even and <m>f \in C^{n+2}[a,b]</m>, then there exist constants <m>c \in \R</m> and <m>\xi \in [a,b]</m> such that
+                <me>
+                  I(f) = I_{n}(f) - c(b-a)^{n+3}f^{(n+2)}(\xi)
+                </me>
+                and the degree of precision of <m>I_{n}(f)</m> is <m>n+1</m>.
+              </p>
+            </li>
+
+            <li>
+              <p>
+                if <m>n</m> is odd and <m>f \in C^{n+1}[a,b]</m>, then there exists constants <m>c' \in \R</m> and <m>\xi' \in [a,b]</m> such that
+                <me>
+                  I(f) = I_{n}(f) - c'(b-a)^{n+2}f^{(n+1)}(\xi')
+                </me>
+                and the degree of precision is <m>n</m>.
+              </p>
+            </li>
+          </ul>
+        </p>
+      </statement>
+    </theorem>
+
+    <p>
+      The proof of this theorem is not given but can be found in Bradie:2006qy.
+    </p>
+
+    <example>
+      <statement>
+        <p>
+          Use the Error formula for Closed Newton-Cotes quadrature rules above to determine the degree of precision of Boole's rule.
+        </p>
+
+        <p>
+        </p>
+
+        <p>
+          In the case of Boole's rule, <m>n=4</m>, thus the exists constants <m>c</m> and <m>\xi</m> such that
+          <me>
+            I(f) = I_{4}(f) -c(b-a)^{7} f^{(6)}(\xi),
+          </me>
+          where <m>I_{4}(f)</m> is Boole's rule.
+          The error is proportional to <m>f^{(6)}(\xi)</m>, thus the degree of precision is 5.
+        </p>
+      </statement>
+    </example>
+  </subsection>
+</section>

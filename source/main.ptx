@@ -4,15 +4,22 @@
   <!-- we first include a file which contains the docinfo element: -->
   <xi:include href="./docinfo.ptx" />
 
-  <book xml:id="my-great-book">
-    <title>My Great Book</title>
-    <subtitle>An example to get you started</subtitle>
+  <book xml:id="numerical-analysis-staab">
+    <title>Numerical Analysis</title>
+    <subtitle>A look at rootfinding, quadrature and approximation using analytic and computing tools </subtitle>
 
     <!-- Include frontmatter -->
     <xi:include href="./frontmatter.ptx" />
 
     <!-- Include chapters -->
     <xi:include href="./background-math/ch-background-math.ptx" />
+    <xi:include href="./intro-numerical/ch-intro-numerical.ptx" />
+    <xi:include href="./rootfinding/ch-rootfinding.ptx" />
+    <xi:include href="./interpolation/ch-interpolation.ptx" />
+    <xi:include href="./quadrature/ch-quadrature.ptx" />
+    <xi:include href="./approximation/ch-approximation.ptx" />
+    <xi:include href="./linear-algebra/ch-linear-algebra.ptx" />
+    <xi:include href="./validated-numerics/ch-validated-numerics.ptx" />
 
 
     <!-- Include backmatter -->

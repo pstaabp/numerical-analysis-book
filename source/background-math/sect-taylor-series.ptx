@@ -1,0 +1,537 @@
+<section xml:id="sect-taylor-series">
+  <title>Taylor Series</title>
+
+  <subsection>
+    <title>Taylor and Maclaurin Series</title>
+
+    <introduction>
+      <p>
+        We saw in the previous section that we could write power series for functions like <m>\displaystyle \frac{1}{1-x}</m> and related functions like <m>\tan^{-1}x</m> and <m>\displaystyle \frac{1}{1+x^{2}}</m> and others.
+        How about other functions like <m>\sin x</m> or <m>\sqrt{x}</m> or <m>e^{x}</m>? More generally, if I have a function that can be written as the power series centered at <m>x=a</m>, that is
+        <men xml:id="eq-power-series">
+          f(x) = \sum_{n=0}^{\infty}c_{n} (x-a)^{n}
+        </men>
+        how do you find the coefficients <m>c_{n}</m>?
+      </p>
+
+      <p>
+        Answer, follow these steps.
+        Substitute <m>x=a</m> into the function above:
+        <me>
+          \begin{aligned}f(a)\amp= \sum_{n=0}^{\infty}c_{n} (a-a)^{n}\end{aligned}
+        </me>
+        and the only term of the power series that is not zero is <m>c_{0}</m>, so
+        <me>
+          \begin{aligned}f(a)\amp= c_{0}\end{aligned}
+        </me>
+      </p>
+
+      <p>
+        Now take the derivative of <xref ref="eq-power-series"/>,
+        <me>
+          \begin{aligned}f'(x)\amp= \sum_{n=1}^{\infty}n c_{n} (x-a)^{n-1}\end{aligned}
+        </me>
+        and substitute <m>x=a</m>:
+        <me>
+          \begin{aligned}f'(a)\amp= \sum_{n=1}^{\infty}n c_{n} (a-a)^{n-1}\end{aligned}
+        </me>
+        and the only non-zero term of the power series is when <m>n=1</m>,
+        <me>
+          \begin{aligned}f'(a)\amp= c_{1}\end{aligned}
+        </me>
+      </p>
+
+      <p>
+        Now take the second derivative of  <xref ref="eq-power-series"/>,
+        <me>
+          \begin{aligned}f''(x)\amp= \sum_{n=2}^{\infty}n (n-1) c_{n} (x-a)^{n-2}\end{aligned}
+        </me>
+        and substitute <m>x=a</m>:
+        <me>
+          \begin{aligned}f''(a)\amp= \sum_{n=2}^{\infty}n(n-1) c_{n} (a-a)^{n-2}\end{aligned}
+        </me>
+        the only non-zero term of the power series is when <m>n=2</m>:
+        <me>
+          \begin{aligned}f''(a)\amp= 1 \cdot 2 c_{2}\end{aligned}
+        </me>
+        so
+        <me>
+          \begin{aligned}c_{2}\amp= \frac{1}{2}f''(a)\end{aligned}
+        </me>
+      </p>
+
+      <p>
+        Continue one more time.
+        Thrice differentiate  <xref ref="eq-power-series"/>,
+        <me>
+          \begin{aligned}f'''(x)\amp= \sum_{n=3}^{\infty}n (n-1)(n-2) c_{n} (x-a)^{n-3}\end{aligned}
+        </me>
+        plug in <m>x=a</m> and the only non-zero term in the power series is
+        <me>
+          \begin{aligned}f'''(a)\amp= 1 \cdot 2 \cdot 3 c_{3}\end{aligned}
+        </me>
+        so
+        <me>
+          \begin{aligned}c_{3}\amp= \frac{1}{3!}f'''(a)\end{aligned}
+        </me>
+      </p>
+
+      <p>
+        In a similar manner, it can be shown that
+        <me>
+          \begin{aligned}c_{n}\amp= \frac{1}{n!}f^{(n)}(a)\end{aligned}
+        </me>
+      </p>
+    </introduction>
+
+    <subsubsection>
+      <title>Taylor Series</title>
+
+      <p>
+        The <term>Taylor Series</term> of a function <m>f(x)</m> centered at <m>x=a</m> is
+        <me>
+          \begin{aligned}f(x)\amp= \sum_{n=0}^{\infty}\frac{f^{(n)}(a)}{n!}(x-a)^{n} \\\amp= f(a) + f'(a)(x-a) + \frac{f''(a)}{2}(x-a)^{2} + \frac{f'''(a)}{3!}(x-a)^{3} + \cdots\end{aligned}
+        </me>
+        The <alert>Maclaurin Series</alert> of a function <m>f(x)</m> is the Taylor Series centered at <m>x=0</m> or
+        <me>
+          \begin{aligned}f(x)\amp= \sum_{n=0}^{\infty}\frac{f^{(n)}(0)}{n!}x^{n} \\\amp= f(0) + f'(0)x + \frac{f''(0)}{2}x^{2} + \frac{f'''(0)}{3!}x^{3} + \cdots\end{aligned}
+        </me>
+      </p>
+
+      <example xml:id="ex-maclaurin-exp">
+        <statement>
+          <p>
+            Find the Maclaurin Series of <m>f(x)=e^{x}</m>.
+          </p>
+        </statement>
+
+        <solution>
+          <p>
+            Since <m>f(0)=e^{0}=1</m> and <m>f^{(n)}(x)=e^{x}</m> and <m>f^{(n)}(0)=1</m>, then the Maclaurin Series is
+            <me>
+              \begin{aligned}\sum_{n=0}^{\infty}\frac{1}{n!}x^{n}\end{aligned}
+            </me>
+          </p>
+        </solution>
+      </example>
+    </subsubsection>
+
+    <subsubsection>
+      <title>The <m>n</m>th degree Taylor Polynomial</title>
+
+      <p>
+        Let
+        <me>
+          \begin{aligned}T_{n}(x)\amp= \sum_{k=1}^{n}\frac{f^{(k)}(a)}{n!}(x-a)^{k}\end{aligned}
+        </me>
+        be the <m>n</m>th partial sum.
+        This is called the <m>n</m>th degree Taylor Polynomial.
+      </p>
+
+      <example>
+        <statement>
+          <p>
+            Find and plot <m>T_{1}, T_{2}, T_{3}, T_{5}</m> and <m>T_{10}</m> of the Maclaurin Series for <m>e^{x}</m>.
+          </p>
+        </statement>
+
+        <solution>
+          <p>
+            The partial sums are just the first terms of the full series in Example ex:maclaurin:series:ex.
+            <me>
+              \begin{aligned}T_{1}(x)\amp= 1+x \\ T_{2}(x)\amp= 1 + x + \frac{x^{2}}{2}\\ T_{3}(x)\amp= 1+x+\frac{x^{2}}{2}+ \frac{x^{3}}{6} \\ T_{5}(x)\amp= 1+x+\frac{x^{2}}{2}+ \frac{x^{3}}{6}+ \frac{x^{4}}{24}+ \frac{x^{5}}{120}\\ T_{10}(x)\amp= T_{5}(x) + \frac{x^{6}}{6!}+ \cdots + \frac{x^{10}}{10!}\end{aligned}
+            </me>
+          </p>
+
+          <figure xml:id="fig-maclaurin-exp">
+            <caption></caption>
+            <image source="plots/taylor-exp.png" width="75%">
+              <shortdescription>(for accessibility)</shortdescription>
+            </image>
+
+          </figure>
+        </solution>
+      </example>
+    </subsubsection>
+  </subsection>
+
+
+  <subsection>
+    <title>Taylor's Theorem</title>
+
+    <p>
+      Nearly all of the theorems in this course will depend on the basic theorems seen in Calculus.
+      Probably the most important theorem from that class is Taylor's theorem, which says that given a function <m>f</m> there is a polynomial of a desired degree that is “close” to the function <m>f</m>.
+    </p>
+
+    <p>
+      This is very important because most of numerical analysis consists of using approximations.
+      If the approximation that we use is a polynomial (and often it is), then Taylor's theorem often helps us with knowing the error in our approximation.
+    </p>
+
+    <theorem xml:id="thm-taylors">
+      <title>Taylor's Theorem</title>
+
+      <statement>
+        <p>
+          Suppose <m>f</m> is continuous on <m>[a,b]</m> and that <m>f^{(i)}(x)</m> is continuous on <m>[a,b]</m> for <m>k=1,2, \ldots n+1</m>.
+          (The set of functions with this property is called <m>C^{(n+1)}[a,b]</m>.) Let <m>x_{0} \in [a,b]</m>.
+          For every <m>x \in [a,b]</m> there exists a number <m>\xi(x)</m> between <m>x</m> and <m>x_{0}</m> such that
+          <me>
+            \begin{aligned}f(x)\amp = P_{n}(x) + R_{n}(x)\end{aligned}
+          </me>
+          where
+          <me>
+            \begin{aligned}P_{n} (x)\amp = \sum_{k=0}^{n}\frac{f^{(k)}(x_{0})}{k!}(x-x_{0})^{k}\amp R_{n} (x)\amp = \frac{f^{(n+1)}(\xi(x))}{(n+1)!}(x-x_{0})^{k+1}\end{aligned}
+          </me>
+        </p>
+      </statement>
+    </theorem>
+
+    <p>
+      The function <m>P_{n}(x)</m> is called the Taylor Polynomial of degree <m>n</m> and <m>R_{n}(x)</m> is called the remainder term.
+      The Taylor Polynomial approximates the function <m>f</m> on the interval <m>[a,b]</m> and the remainder term is often used to determine the error bound.
+      Often the form used is:
+      <me>
+        \begin{aligned}|f(x) - P_{n}(x)|\amp = |R_{n}(x)| \leq \max_{x \in [a,b]}|f^{(n+1)}(x)| \frac{{|b-a|}^{n+1}}{(n+1)!}\label{eq:taylors:thm}\end{aligned}
+      </me>
+    </p>
+
+    <theorem xml:id="thm-power-series-terms">
+      <statement>
+        <p>
+          <me>
+            \begin{aligned}\lim_{n \rightarrow \infty}\frac{x^{n}}{n!}= 0 \qquad \qquad \text{for every real number $x$.}\end{aligned}
+          </me>
+        </p>
+      </statement>
+
+
+      <proof>
+        <p>
+          Earlier, we showed that
+          <me>
+            \begin{aligned}\sum_{n=0}^{\infty}\frac{x^{n}}{n!}\end{aligned}
+          </me>
+          converges for every real number <m>x</m>.
+          By the convergence theorem, the statement above is true.
+        </p>
+      </proof>
+    </theorem>
+
+    <example>
+      <statement>
+        <p>
+          Prove that <m>e^{x}</m> converges to its Maclaurin Series.
+        </p>
+      </statement>
+        <solution>
+        <p>
+          Since <m>f(x)=e^{x}</m>, recall that <m>f^{(n)}(x) = e^{x}</m> for all <m>n</m>.
+          Let <m>d</m> be any positive number and for <m>|x|\leq d</m>, <m>e^{x} \leq e^{d}</m>, so <m>M=e^{d}</m>.
+          Using Taylor's Inequality,
+          <me>
+            \begin{aligned}R_{n}(x)\amp \leq \frac{M}{(n+1)!}|x-a|^{n+1}= \frac{e^{d}}{(n+1)!}|x|^{n+1}\end{aligned}
+          </me>
+        </p>
+
+        <p>
+          Taking the limit as <m>n \rightarrow \infty</m>
+          <me>
+            \begin{aligned}\lim_{n \rightarrow \infty}R_{n}(x) \leq \lim_{n \rightarrow \infty}\frac{e^{d}}{(n+1)!}|x|^{n+1}= 0\end{aligned}
+          </me>
+          by the theorem above, so since <m>R_{n}(x) \rightarrow 0</m> for all <m>|x|\leq d</m>, this proves that the Maclaurin series converges to <m>e^{x}</m> for all <m>|x|\lt d</m>.
+          Since this is true for any number <m>d</m>, then this is true for any number <m>x</m>.
+          <m>\boxed{\phantom{x}}</m>
+        </p>
+      </solution>
+    </example>
+  </subsection>
+
+
+  <subsection>
+    <title>Taylor Series of <m>\sin x</m> and <m>\cos x</m> </title>
+
+    <example>
+      <statement>
+        <p>
+          Find the Maclaurin Series for <m>\sin x</m>.
+        </p>
+      </statement>
+
+      <solution>
+        <p>
+          <me>
+            \begin{aligned}f(0)\amp = 0\amp f'(0)\amp = 1\amp f''(0)\amp = 0\amp f'''(0)\amp = -1 \\ f^{(4)}(0)\amp = f(0) = 0\end{aligned}
+          </me>
+          So the coefficients are <m>0,1,0,-1,0,1,0,-1,\ldots</m>.
+          <me>
+            \begin{aligned}\sin x\amp = 0 + \frac{1}{1!}x + 0 + \frac{-1}{3!}x^{3} + 0 + \frac{1}{5!}x^{5} + \cdots\\
+            \amp  \text{and this can be written in the form} \\
+            \sin x\amp = \sum_{n=0}^{\infty}\frac{(-1)^{n}}{(2n+1)!}x^{2n+1}\end{aligned}
+          </me>
+        </p>
+      </solution>
+    </example>
+
+    <example>
+      <statement>
+        <p>
+          Find the Maclaurin series for <m>\cos x</m>.
+        </p>
+      </statement>
+
+      <solution>
+        <p>
+          Since <m>\cos x = \frac{d}{dx}\sin x</m>, if we differentiate the above series:
+          <me>
+            \begin{aligned}\cos x\amp = \sum_{n=0}^{\infty}\frac{(-1)^{n} (2n+1)}{(2n+1)!}x^{2n}\\\amp = \sum_{n=0}^{\infty}\frac{(-1)^{n}}{(2n)!}x^{2n}\end{aligned}
+          </me>
+        </p>
+      </solution>
+    </example>
+  </subsection>
+
+
+  <subsection>
+    <title>The Binomial Series</title>
+
+    <p>
+      The binomial series is simply the Maclaurin Series for the function <m>f(x) = (1+x)^{k}</m>.
+      It is extremely useful in that many functions can be written in this form or adapted from this function as we will see.
+    </p>
+
+    <p>
+      <me>
+        \begin{aligned}f(x)\amp = (1+x)^{k}\amp f(0)\amp = 1 \\ f'(x)\amp = k (1+x)^{k-1}\amp f'(0)\amp = k \\ f''(x)\amp = k(k-1) (1+x)^{k-2}\amp f''(0)\amp = k (k-1) \\ f'''(x)\amp = k(k-1)(k-2) (1+x)^{k-3}\amp f'''(0)\amp = k (k-1)(k-2) \\ \vdots \\ f^{(n)}(x)\amp = (1+x)^{k-n}\prod_{j=0}^{n-1}(k-j)\amp f^{(n)}(0)\amp = \prod_{j=0}^{n-1}(k-j)\end{aligned}
+      </me>
+      so substituting this into the formula for Taylor Series, we get:
+      <me>
+        \begin{aligned}f(x)\amp = 1 + \frac{k}{1!}x + \frac{k(k-1)}{2!}x^{2} + \frac{k(k-1)(k-2)}{3!}x^{3} + \cdots\end{aligned}
+      </me>
+      so
+      <me>
+        \begin{aligned}a_{0}\amp = 1\amp a_{n}\amp = \frac{k(k-1)(k-2) \cdots (k-n+1)}{n!}= \frac{1}{n!}\prod_{j=0}^{n-1}(k-j), \quad \text{ for $n \geq 1$}\label{eq:binom:coeffs}\end{aligned}
+      </me>
+    </p>
+
+    <p>
+      Convergence of the Binomial Series.
+      If we apply RATFACE
+      <me>
+        \begin{aligned}\lim_{n \rightarrow \infty}\biggl\vert \frac{\frac{k(k-1)(k-2) \cdots (k-n)x^{n+1}}{(n+1)!}}{\frac{k(k-1)(k-2) \cdots (k-n+1)x^{n}}{n!}}\biggr\vert\amp = \lim_{n \rightarrow \infty}|x| \frac{|k-n-1|}{(n+1)}= |x|\end{aligned}
+      </me>
+      so this converges when <m>|x|\lt 1</m> so the radius of convergence is <m>R=1</m>.
+    </p>
+
+    <p>
+      There are a number of cases for the binomial series.
+    </p>
+
+    <p>
+      <dl>
+      <li>
+        <title><m>k \in \mathbb{Z}^{+}</m></title>
+
+        <p>
+          In this case<fn>Recall that $\mathbb{Z}^{+}$ is a notation that means the positive integers.
+          Also $\mathbb{Z}^{-}$ is the set of all negative integers.</fn> <m>a_{n}=0</m> for <m>n=k+1,k+2,\ldots</m> and the power series reduces to
+          <me>
+            \begin{aligned}(1+x)^{k}\amp = \sum_{n=0}^{k}\binom{k}{n}x^{n}\end{aligned}
+          </me>
+          where
+          <me>
+            \begin{aligned}\binom{k}{n}\amp = \frac{k(k-1)(k-2) \cdots (k-n+1)}{n!}= \frac{k!}{n!(k-n)!}\quad \text{when k \geq 0}\end{aligned}
+          </me>
+        </p>
+      </li>
+
+      <li>
+        <title><m>k \in \mathbb{Z}^-</m></title>
+
+        <p>
+          In this case all of the coefficients are integers however it is an infinite series.
+        </p>
+      </li>
+
+      <li>
+        <title><m>k \in \mathbb{Q}</m></title>
+
+        <p>
+        </p>
+      </li>
+      </dl>
+    </p>
+
+    <p>
+      We show example of the binomial theorem for different values of <m>k</m>.
+    </p>
+
+    <example>
+      <statement>
+        <p>
+          Use the binomial theorem to find an expansion for <m>(1+x)^{5}</m> about <m>x=0</m>.
+        </p>
+      </statement>
+
+      <solution>
+        <p>
+          <me>
+            \begin{aligned}(1+x)^{5}\amp = \binom{5}{0}x^{0} + \binom{5}{1}x^{1} + \binom{5}{2}x^{2} + \binom{5}{3}x^{3} + \binom{5}{4}x^{4} + \binom{5}{5}x^{5} \\\amp = 1 + 5 x + 10 x^{2} + 10x^{3} + 5 x^{4} + x^{5}\end{aligned}
+          </me>
+          which is identical to expansion of the term <m>(1+x)^{5}</m> using techniques learned before.
+        </p>
+      </solution>
+    </example>
+
+    <example>
+      <statement>
+        <p>
+          Use the binomial theorem to find the expansion of <m>(1+x)^{-1}</m> about <m>x=0</m>.
+        </p>
+      </statement>
+
+      <solution>
+        <p>
+          In this case <m>k=-1</m>, and we directly use (eq:binom:coeffs),
+          <me>
+            \begin{aligned}a_{0}\amp = 1\amp a_{1}\amp = \frac{-1}{1!}= -1 \\ a_{2}\amp = \frac{(-1)(-2)}{2!}= 1\amp a_{3}\amp = \frac{(-1)(-2)(-3)}{3!}= -1 \\ \vdots\amp \\ a_{n}\amp = (-1)^{n}\end{aligned}
+          </me>
+          so now we can write the power series as
+          <me>
+            \begin{aligned}(1+x)^{-1}\amp = \sum_{n=0}^{\infty}(-1)^{n} x^{n}\end{aligned}
+          </me>
+          which we also saw using the geometric series.
+        </p>
+      </solution>
+    </example>
+
+    <example xml:id="ex-sqrt-taylor-series">
+      <statement>
+        <p>
+          Use the binomial theorem to find the power series expansion of <m>\sqrt{1+x}</m>.
+        </p>
+      </statement>
+
+      <solution>
+        <p>
+          In this case <m>k=1/2</m>:
+          <me>
+            \begin{aligned}a_{0}\amp = 1 \\ a_{1}\amp = \frac{1/2}{1!}= \frac{1}{2}\\ a_{2}\amp = \frac{(1/2)(-1/2)}{2}= \frac{(-1)}{2^{n} \cdot 2!}\\ a_{3}\amp = \frac{(1/2)(-1/2)(-3/2)}{3!}= \frac{1\cdot 3}{2^{3} \cdot 3!}\\ a_{4}\amp = \frac{(1/2)(-1/2)(-3/2)(-5/2)}{4!}= \frac{-1\cdot 3\cdot 5}{2^{4} \cdot 4!}\\ a_{5}\amp = \frac{(1/2)(-1/2)(-3/2)(-5/2)(-7/2)}{5!}= \frac{1 \cdot 3 \cdot 5 \cdot 7}{2^{5} \cdot 5!}\\ \vdots \\ a_{n}\amp = (-1)^{n+1}\frac{(2n-3)!!}{2^{n} \cdot n!}\end{aligned}
+          </me>
+          where <m>n!! = (n)(n-2)(n-4) \cdots 1</m>.
+        </p>
+
+        <p>
+          The power series representation of <m>\sqrt{1+x}</m> is
+          <me>
+            \begin{aligned}1+ \frac{x}{2}+ \sum_{n=2}^{\infty}(-1)^{n+1}\frac{(2n-3)!!}{2^{n} \cdot n!}x^{n}\end{aligned}
+          </me>
+        </p>
+      </solution>
+    </example>
+  </subsection>
+
+
+  <subsection>
+    <title>Summary of Important Maclaurin Series</title>
+
+    <p>
+      Using the formula for Taylor's Series similar to examples shown above, the following series are found.
+    </p>
+
+    <p>
+      <alert>Important Maclaurin Series</alert>The following are Maclaurin series for the given function as well as <m>R</m>, the radius of convergence:
+      <me>
+        \begin{aligned}e^{x}\amp = \sum_{n=0}^{\infty}\frac{x^{n}}{n!},\amp R\amp =\infty \\ \sin x\amp = \sum_{n=0}^{\infty}(-1)^{n} \frac{x^{2n+1}}{(2n+1)!},\amp R\amp =\infty \\ \cos x\amp = \sum_{n=0}^{\infty}(-1)^{n} \frac{x^{2n+1}}{(2n+1)!},\amp R\amp =\infty \\ \frac{1}{1-x}\amp = \sum_{n=0}^{\infty}x^{n},\amp R\amp =1 \\ \tan^{-1}x\amp = \sum_{n=0}^{\infty}(-1)^{n} \frac{x^{2n+1}}{2n+1},\amp R\amp =1 \\ (1+x)^{k}\amp = \sum_{n=0}^{\infty}\frac{k(k-1)(k-2)\cdots(k-n+1)}{n!}x^{n},\amp R\amp =1\end{aligned}
+      </me>
+    </p>
+
+    <p>
+      We can also find more complicated series based on previous series.
+      Common function include composite functions as well as the sum, difference product and quotient of known series with powers of <m>x</m> as well as the integration or differentiation.
+      The next two examples show how to do this.
+    </p>
+
+    <example>
+      <statement>
+        <p>
+          Find the Maclaurin series of <m>\cos (x^{2})</m>
+        </p>
+      </statement>
+
+      <solution>
+        <p>
+          In this case, we will replace the <m>x</m> in the Maclaurin series of <m>\cos x</m> with <m>x^{2}</m>.
+        </p>
+
+        <p>
+          <me>
+            \begin{aligned}\cos(x^{2}) = \sum_{n=0}^{\infty}(-1)^{n} \frac{(x^{2})^{2n}}{(2n)!}= \sum_{n=0}^{\infty}(-1)^{n} \frac{x^{4n}}{(2n)!}\end{aligned}
+          </me>
+        </p>
+      </solution>
+    </example>
+
+    <example>
+      <statement>
+        <p>
+          Use a given series, differentiation and/or integration to find the Maclaurin series of <m>\sin^{-1}x</m>.
+        </p>
+
+        <p>
+        </p>
+
+        <p>
+          Recall that
+          <me>
+            \begin{aligned}\frac{d}{dx}\sin^{-1}x\amp = \frac{1}{\sqrt{1-x^{2}}}\end{aligned}
+          </me>
+          and
+          <me>
+            \begin{aligned}\frac{d}{dx}\sqrt{1+x}= \frac{1}{2 \sqrt{1+x}}\end{aligned}
+          </me>
+          so the Maclaurin Series of
+          <me>
+            \begin{aligned}\frac{1}{\sqrt{1+x}}\amp = 2 \frac{d}{dx}\sqrt{1+x}\\\amp = 2 \frac{d}{dx}\biggl(1+ \frac{x}{2}+ \sum_{n=2}^{\infty}(-1)^{n+1}\frac{(2n-3)!!}{2^{n} \cdot n!}x^{n} \biggr) \\\amp = 1 + \sum_{n=2}^{\infty}(-1)^{n+1}\frac{n(2n-3)!!}{2^{n-1}n!}x^{n-1}\\\amp = 1+ \sum_{n=1}^{\infty}(-1)^{n} \frac{(n+1)(2n-1)!!}{2^{n} (n+1)!}x^{n}\end{aligned}
+          </me>
+        </p>
+
+        <p>
+          Next, we find the Maclaurin Series for <m>(1-x^{2})^{-1/2}</m> by replacing <m>x</m> above with <m>-x^{2}</m>.
+        </p>
+        <p>
+        <me>
+          \begin{aligned}\frac{1}{\sqrt{1-x^{2}}}\amp = 1+ \sum_{n=1}^{\infty}(-1)^{n} \frac{(n+1)(2n-1)!!}{2^{n} (n+1)!}(-x^{2})^{n} \\\amp = 1+\sum_{n=1}^{\infty}\frac{(n+1)(2n-1)!!}{2^{n} (n+1)!}x^{2n}\\\end{aligned}
+        </me>
+      </p>
+        <p>
+          Lastly, we integrate this to get the Maclaurin series for <m>\sin^{-1}x</m>:
+
+        <me>
+          \begin{aligned}\sin^{-1}x\amp = \int \frac{1}{\sqrt{1-x^{2}}}\, dx \\\amp = \int 1+\sum_{n=1}^{\infty}\frac{(n+1)(2n-1)!!}{2^{n} (n+1)!}x^{2n}\, dx \\\amp =C+ x+ \sum_{n=1}^{\infty}\frac{(n+1)(2n-1)!!}{2^{n}(2n+1) (n+1)!}x^{2n+1}\\\end{aligned}
+        </me>
+      </p>
+        <p>
+          And find <m>C</m> by plugging in <m>x=0</m>.
+          Since <m>\sin^{-1}(0) = C</m>, then <m>C=0</m> and thus
+
+        <me>
+          \begin{aligned}\sin^{-1}x\amp = x+ \sum_{n=1}^{\infty}\frac{(n+1)(2n-1)!!}{2^{n}(2n+1) (n+1)!}x^{2n+1}\\\end{aligned}
+        </me>
+      </p>
+        <p>
+          An alternative to doing this is to use Taylor's Formula, however, if we start differentiating:
+        </p>
+        <p>
+        <me>
+          \begin{aligned}f(x)\amp = \sin^{-1}x\amp f(0)\amp = 0 \\ f'(x)\amp = \frac{1}{\sqrt{1-x^{2}}}\amp f'(0)\amp = 1 \\ f''(x)\amp = x (1-x^{2})^{-3/2}\amp f''(0)\amp = 0 \\ f'''(x)\amp = (1-x^{2})^{-3/2}+ 3x^{2} (1-x^{2})^{-5/2}\amp f'''(0)\amp = 1\end{aligned}
+        </me>
+      </p>
+        <p>
+          and the derivatives get harder each derivative, so the other is easier to do.
+        </p>
+      </statement>
+    </example>
+  </subsection>
+</section>

@@ -1,0 +1,258 @@
+<section xml:id="sect-practical-examples">
+  <title>Practical Mathematical Examples</title>
+
+  <introduction>
+    <p>
+      We start out with a few problems as examples that arise in mathematics where numerical analysis plays an important role.
+    </p>
+
+    <example xml:id="ex-sqrt-65">
+      <statement>
+        <p>
+          <em>Using only the four basic operations <m>+,-,\cdot, /</m> on a calculator, find <m>\sqrt{65}</m> to within 0.001.</em>
+        </p>
+
+        <p>
+          Also, answer the following questions:
+          <ol>
+            <li>
+              <p>
+                Write down the steps (the algorithm) that you used.
+              </p>
+            </li>
+
+            <li>
+              <p>
+                How do you know your answer is correct to 3 decimal places?
+              </p>
+            </li>
+
+            <li>
+              <p>
+                Can you use this technique to find <m>\sqrt{a}</m> to <m>d</m> decimal places for any positive number <m>a</m> and positive integer <m>d</m>? Explain.
+              </p>
+            </li>
+          </ol>
+        </p>
+      </statement>
+    </example>
+
+    <p>
+      The following is a classic example of an example where numerical analysis helps another mathematical field, specifically Statistics.
+      Typically users in an introductory class are given tables of distributions or use software to calculate probabilities.
+      Where do those tables come from? How does the software perform the calculations?  The following specifically asks some questions related to the normal distribution.
+    </p>
+
+    <example xml:id="ex-norm-distribution">
+      <statement>
+        <p>
+          If a random variable, <m>X</m> is normally distributed with mean <m>\mu</m> and standard deviation <m>\sigma</m>, the probability density function can be written as
+          <me>
+            f(x;\mu,\sigma) = \frac{1}{\sigma \sqrt{2\pi}}e^{-(x-\mu)^2/\sigma^2}
+          </me>
+        </p>
+
+        <p>
+          The probability that <m>X</m> is less than <m>a</m> is given by
+        <me>
+          \begin{aligned}P(X \lt a) \amp = \int_{-\infty}^{a} f(x;\mu,\sigma) \, dx \\
+          \amp = \int_{-\infty}^{a} \frac{1}{\sigma \sqrt{2\pi}}e^{-(x-\mu)^2/\sigma^2}\, dx\end{aligned}
+        </me>
+      </p>
+
+      <p>
+        Here's a few standard questions:
+        <ol>
+          <li>
+            <p>
+              If we are given <m>\mu</m>, <m>\sigma</m> and <m>a</m>, how do we calculate <m>P(X&#x3C;a)</m>?
+            </p>
+          </li>
+
+          <li>
+            <p>
+              For a given <m>\mu</m> and <m>\sigma</m> and <m>k</m> for <m>0&#x3C;k&#x3C;1</m>, how do we solve <m>P(X&#x3C;a)=k</m>?
+            </p>
+          </li>
+        </ol>
+      </p>
+    </statement>
+  </example>
+
+  <p>
+    The following shows another common example in which data is given and information needs to be extracted from it.
+  </p>
+
+  <example xml:id="ex-hard-disk-prices">
+    <statement>
+      <p>
+        The following table lists the price of hard drive space from 1980 to 2015.
+        <fn>This was originally found at <c>http://www.jcmit.com/diskprice.htm</c>, however, it is no longer available there.</fn>
+        The price is given in USD per GB.
+      </p>
+
+      <table>
+        <title>Historical Price Data</title>
+
+        <tabular>
+          <row header="yes" bottom="minor">
+            <cell>Year</cell>
+            <cell>Price</cell>
+            <cell>Year</cell>
+            <cell>Price</cell>
+            <cell>Year</cell>
+            <cell>Price</cell>
+            <cell>Year</cell>
+            <cell>Price</cell>
+          </row>
+
+          <row>
+            <cell>'80</cell>
+            <cell>6,328,125</cell>
+            <cell>'89</cell>
+            <cell>124,877</cell>
+            <cell>'98</cell>
+            <cell>1,129</cell>
+            <cell>'07</cell>
+            <cell>45.29</cell>
+          </row>
+
+          <row>
+            <cell>'81</cell>
+            <cell>4,374,218</cell>
+            <cell>'90</cell>
+            <cell>95,947</cell>
+            <cell>'99</cell>
+            <cell>847.93</cell>
+            <cell>'08</cell>
+            <cell>21.45</cell>
+          </row>
+
+          <row>
+            <cell>'82</cell>
+            <cell>1,933,593</cell>
+            <cell>'91</cell>
+            <cell>43,457</cell>
+            <cell>'00</cell>
+            <cell>823.82</cell>
+            <cell>'09</cell>
+            <cell>11.20</cell>
+          </row>
+
+          <row>
+            <cell>'83</cell>
+            <cell>1,933,593</cell>
+            <cell>'92</cell>
+            <cell>31,738</cell>
+            <cell>'01</cell>
+            <cell>297.54</cell>
+            <cell>'10</cell>
+            <cell>19.07</cell>
+          </row>
+
+          <row>
+            <cell>'84</cell>
+            <cell>1,299,479</cell>
+            <cell>'93</cell>
+            <cell>29,296</cell>
+            <cell>'02</cell>
+            <cell>202.52</cell>
+            <cell>'11</cell>
+            <cell>8.34</cell>
+          </row>
+
+          <row>
+            <cell>'85</cell>
+            <cell>703,125</cell>
+            <cell>'94</cell>
+            <cell>33,203</cell>
+            <cell>'03</cell>
+            <cell>112.53</cell>
+            <cell>'12</cell>
+            <cell>4.76</cell>
+          </row>
+
+          <row>
+            <cell>'86</cell>
+            <cell>292,480</cell>
+            <cell>'95</cell>
+            <cell>30,151</cell>
+            <cell>'04</cell>
+            <cell>171.66</cell>
+            <cell>'13</cell>
+            <cell>7.15</cell>
+          </row>
+
+          <row>
+            <cell>'87</cell>
+            <cell>172,037</cell>
+            <cell>'96</cell>
+            <cell>10,986</cell>
+            <cell>'05</cell>
+            <cell>113.48</cell>
+            <cell>'14</cell>
+            <cell>8.34</cell>
+          </row>
+
+          <row>
+            <cell>'88</cell>
+            <cell>178,001</cell>
+            <cell>'97</cell>
+            <cell>4,028</cell>
+            <cell>'06</cell>
+            <cell>80.09</cell>
+            <cell>'15</cell>
+            <cell>4.17</cell>
+          </row>
+        </tabular>
+      </table>
+
+
+      <p>
+        Find a function that gives a prediction of the price per GB for any year after 1980.
+      </p>
+    </statement>
+  </example>
+</introduction>
+
+
+<subsection>
+  <title>What is Numerical Analysis?</title>
+
+  <p>
+    In general, this course and this subject in many ways is about solving problems.
+    Often in math classes, only reasonable problems are given in classes as examples, homework and exam problems and by reasonable, one means a problem that can be solved in a few minutes to maybe an hour using relatively standard techniques.
+    In the real world, however, the problems aren't always so nice, and in short this course will teach you how to attack these harder problems.
+  </p>
+
+  <p>
+    The problems in <xref ref="ex-sqrt-65"/> and <xref ref="ex-hard-disk-prices"/> either arise on occasion or were difficult problems to solve historically.
+    In more detail:
+  </p>
+
+  <p>
+    <ul>
+      <li>
+        <p>
+          As in <xref ref="ex-sqrt-65"/>, finding the square root of any number seems trivial today with calculators and computers, but before 1950 it was difficult.
+          In general this falls into rootfinding which is the subject of <xref ref="ch-rootfinding"/>.
+          Extensions of rootfinding can be found in optimization problems which are sometimes full courses in and of themselves.
+        </p>
+      </li>
+
+      <li>
+        <p>
+          <xref ref="ex-norm-distribution"/> falls into two different categories: probability and statistics as well as numerical integration. This problem uses the definite integral of a function that doesn't have an antiderivative (as a elementary function). We will examine this in
+          <xref ref="ch-quadrature"/>.
+        </p>
+      </li>
+
+      <li>
+        <p>
+          <xref ref="ex-hard-disk-prices"/> falls into the realm of either regression or interpolation. Often a set of data is given and you want to find a function that either passes through all of the data (interpolation) or is closest to some known function (regression). Interpolation will be presented in <xref ref="ch-interpolation"/> and approximation theory like regression will be studied in <xref ref="ch-approximation"/>.
+        </p>
+      </li>
+    </ul>
+  </p>
+</subsection>
+</section>

@@ -1,0 +1,315 @@
+<section xml:id="sect-sequences">
+  <title>Sequences</title>
+
+  <objectives>
+    <ul>
+      <li>
+        <p>
+          Definition of a <alert>sequence</alert>.
+        </p>
+      </li>
+      <li>
+        <p>
+          Definition of the <alert>limit</alert> of a sequence.
+        </p>
+      </li>
+      <li>
+        <p>
+          Definition of the <alert>Monotonic Sequence Theorem</alert>.
+        </p>
+      </li>
+      <li>
+        <p>
+          Presentation of the <alert>Squeeze Theorem</alert>.
+        </p>
+      </li>
+    </ul>
+  </objectives>
+
+
+  <introduction>
+    <definition xml:id="def-sequence">
+      <statement>
+        <p>
+          A <alert>sequence</alert> or equivalently an <alert>infinite sequence</alert> is a function <m>f</m> from the positive integers, <m>\mathbb{Z}^{+}</m> to the reals.
+          The following <m>(a_{1},a_{2},a_{3},\ldots )</m> is a sequence and can more compactly be written <m>(a_{n})_{n=1}^{\infty}</m>.
+        </p>
+      </statement>
+    </definition>
+
+    <example xml:id="ex-sequence">
+      <statement>
+        <p>
+          The following are examples of infinite sequences:
+          <ol>
+            <li>
+              <p>
+                <m>(1,2,3,4,\ldots)</m>
+              </p>
+            </li>
+
+            <li>
+              <p>
+                <m>\displaystyle\biggl(1,\frac{1}{2},\frac{1}{3}, \ldots \biggr)</m>
+              </p>
+            </li>
+
+            <li>
+              <p>
+                <m>(0,1,0,-1,0,1,0,-1,0,\ldots)</m>
+              </p>
+            </li>
+
+            <li>
+              <p>
+                <m>(1,1,2,3,5,8,13,21,\ldots)</m>
+              </p>
+            </li>
+
+            <li>
+              <p>
+                <m>\displaystyle \biggl(1,\frac{1}{2},\frac{2}{3},\frac{3}{5},\frac{5}{8}, \ldots \biggr)</m>
+              </p>
+            </li>
+          </ol>
+        </p>
+      </statement>
+    </example>
+
+    <p>
+      The definition states that a sequence is a function from the positive integers to the reals, it is often nice to write down the function.
+      It isn't always easy to do.
+      For example, the function of the first three sequences in <xref ref="ex-sequence"/>, are <m>a_{n}=n</m>, <m>b_{n}=\frac{1}{n}</m>, <m>c_{n} = -\cos (n\pi/2)</m>.
+      The fourth and fifth ones are not easily written as a function, but instead can be easily written recursively.
+      For example, the fourth sequence is
+      <me>
+        a_{n+1}= a_{n}+a_{n-1}, \qquad a_{1}=a_{2}=1
+      </me>
+      generates what is called the Fibonacci sequence.
+      One may notice the same numbers in the fifth sequence and that can be written:
+      <me>
+        b_{n+1}= \frac{1}{1+b_{n}}\qquad b_{1} = 1
+      </me>
+    </p>
+
+    <p>
+      Despite the fact that we could not write down a formula for the function to generated sequences 4 and 5 in <xref ref="ex-sequence"/>, since a function is a rule, some function actually exists.
+    </p>
+  </introduction>
+
+
+  <subsection>
+    <title>Limits of Sequences</title>
+
+    <p>
+      As we will see or you probably already know, it is important to know if the sequence approaches a number eventually.
+      This is called the limit of the sequence and
+    </p>
+
+    <definition>
+      <statement>
+        <p>
+          The <alert>limit</alert> of the infinite sequence <m>\{a_{n}\}</m> is <m>L</m> if for every <m>\epsilon \gt 0</m>, there exists a number <m>N</m> such that
+          <me>
+            |a_{n} - L| &#x3C; \epsilon
+          </me>
+          for all <m>n\geq N</m>.
+        </p>
+      </statement>
+    </definition>
+
+    <definition>
+      <statement>
+        <p>
+          The sequence <m>\{a_{n}\}</m> <term>converges to a number <m>L</m></term> if
+          <me>
+            \lim_{n \rightarrow \infty}a_{n} = L
+          </me>
+          or
+          <me>
+            \lim_{n \rightarrow \infty}|a_{n} -L| = 0.
+          </me>
+        </p>
+      </statement>
+    </definition>
+  </subsection>
+
+
+  <subsection>
+    <title>Monotonic Sequences</title>
+
+    <p>
+      One important type of sequence is called a <alert>monotonic sequence</alert>, which is a sequence that increases or decreases.
+    </p>
+
+    <definition>
+      <title>Monotonic Sequence</title>
+
+      <statement>
+        <p>
+          A <alert>monotonically increasing sequence</alert> is a sequence <m>a_{n}</m>, such that <m>a_{n+1}\geq a_{n}</m> for all <m>n</m>.
+          A <alert>monotonically decreasing sequence</alert> is a sequence <m>b_{n}</m>, such that <m>b_{n+1}\leq b_{n}</m> for all <m>n</m>.
+          A sequence that is either monotonically increasing or decreasing is called a <alert>monotonic sequence</alert>.
+        </p>
+      </statement>
+    </definition>
+
+    <example>
+      <statement>
+        <p>
+          The following are monotonic sequences:
+        </p>
+
+        <p>
+          <ul>
+            <li>
+              <p>
+                <m>a_{n} = \frac{1}{n}</m>
+              </p>
+            </li>
+
+            <li>
+              <p>
+                <m>b_{n} = \dfrac{n^2+n+1}{n^2+2n+3}</m>
+              </p>
+            </li>
+          </ul>
+        </p>
+
+        <p>
+          The first sequence is fairly obviously decreasing.
+          However, the second is a bit less clear.
+          The second is increasing, and can be shown by examining the derivative.
+          If <m>b_{n}=f(n)</m>, then
+          <me>
+            f'(n) = \frac{n^{2}+4n+1}{(n^{2}+2n+3)^{2}}
+          </me>
+          and this is positive for all <m>n \gt 0</m>, so the sequence is increasing.
+        </p>
+      </statement>
+    </example>
+
+    <p>
+      We will see below that monotonic sequences have some helpful properties, including that bounded ones converge.
+    </p>
+
+    <theorem xml:id="thm-monotonic-seq">
+      <title>Monotonic Sequence Theorem</title>
+
+      <statement>
+        <p>
+          Every bounded, monotonic sequence is convergent.
+        </p>
+      </statement>
+    </theorem>
+
+    <example>
+      <statement>
+        <p>
+          Find the limits of the sequences in <xref ref="ex-sequence"/>.
+        </p>
+
+        <p>
+          <ol>
+            <li>
+              <p>
+                Since <m>a_{n}=n</m>, this sequence grows without bound so the limit does not exist.
+              </p>
+            </li>
+
+            <li>
+              <p>
+                In this case, <m>b_{n}=\frac{1}{n}</m>, which has a limit of 0.
+              </p>
+            </li>
+
+            <li>
+              <p>
+                It is fairly clear that this sequence cycles (repeats) the values <m>0,-1,0,1</m>, so the limit cannot exist.
+              </p>
+            </li>
+
+            <li>
+              <p>
+                As seen above, each element of the sequence is the sum of the previous two, so the limit cannot exist.
+              </p>
+            </li>
+
+            <li>
+              <p>
+                Note that this sequence can be written For <m>b_{n+1}= \frac{1}{1+b_{n}}</m>, with <m>b_{1}=1</m>.
+                Let's assume that the limit exists, then
+                <me>
+                  \lim_{n \rightarrow \infty}b_{n} = L.
+                </me>
+              </p>
+
+              <p>
+                Also
+                <me>
+                  \lim_{n \rightarrow \infty}b_{n+1}= L.
+                </me>
+              </p>
+
+              <p>
+                Taking the limit of both sides of <m>b_{n+1}= \frac{1}{1+b_{n}}</m> leads to
+                <me>
+                  \lim_{n \rightarrow \infty}b_{n+1}= \lim_{n \rightarrow \infty}\frac{1}{1+b_{n}}
+                </me>
+                or
+                <me>
+                  L = \frac{1}{1+L}
+                </me>
+              </p>
+
+              <p>
+                And solving for <m>L</m> leads to <m>L=(-1+\sqrt{5})/2\approx 0.618)</m>.
+                If you take a number of terms of the sequence, you'll see that it appears to be converging to this.
+                We'll see in Section ????? why this actually converges.
+              </p>
+            </li>
+          </ol>
+        </p>
+      </statement>
+    </example>
+  </subsection>
+
+
+  <subsection>
+    <title>The Squeeze Theorem</title>
+
+    <p>
+      Consider the sequence given by <m>\displaystyle a_{n} = \frac{(-1)^{n}}{n}</m>.
+      The first few terms are
+      <me>
+        (-1, \frac{1}{2}, - \frac{1}{3}, \frac{1}{4}, -\frac{1}{5}, \ldots )
+      </me>
+    </p>
+
+    <p>
+      This is actually relative difficult to prove that it converges even though it appears that the sequence is approaching 0.
+      However, the squeeze theorem is quite helpful:
+    </p>
+
+    <theorem xml:id="thm-squeeze">
+      <title>Squeeze Theorem</title>
+
+      <statement>
+        <p>
+          Let <m>a_{n}</m> be a sequence that satisfies <m>b_{n} \leq a_{n} \leq c_{n}</m> for all <m>n</m>, where
+          <me>
+            \lim_{n \rightarrow \infty}b_{n} = \lim_{n \rightarrow \infty}c_{n} = L
+          </me>
+          then
+          <me>
+            \lim_{n \rightarrow \infty}a_{n} = L.
+          </me>
+        </p>
+      </statement>
+    </theorem>
+
+    <p>
+      In more informal terms, if the sequence <m>a_{n}</m> is always between two sequences <m>b_{n}</m> and <m>c_{n}</m> for all <m>n</m>, and the limit is the same for both <m>b_{n}</m> and <m>c_{n}</m>, then the limit of <m>a_{n}</m> is the same.
+    </p>
+  </subsection>
+</section>

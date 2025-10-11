@@ -1,0 +1,12 @@
+<chapter xml:id="ch-interpolation" xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Interpolation Theory and Practice</title>
+  <introduction>
+    <p>
+      Say things here.
+    </p>
+  </introduction>
+  <xi:include href="./sect-intro-interpolation.ptx" />
+  <xi:include href="./sect-lagrange-interp.ptx" />
+  <xi:include href="./sect-newton-divided-diff.ptx" />
+  <xi:include href="./sect-hermite.ptx" />
+</chapter>

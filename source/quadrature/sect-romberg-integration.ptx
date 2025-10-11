@@ -1,0 +1,474 @@
+<section>
+  <title>Richardson Extrapolation and Romberg Integration</title>
+
+  <introduction>
+    <p>
+      We have seen two different types of quadrature formulas here, both Newton-Cotes and Gaussian Quadrature evaluate the function on a fixed number of points, whereas the composite Newton-Cotes formulas refine the interval by breaking it up into subintervals first.
+      This increases the accuracy of the method at the expense of increasing the number of operations.
+    </p>
+
+    <p>
+      In a manner similar to that of acceleration rootfinding as in Section sect:accel:conv, we will see in this section that we can use the Newton-Cotes composite formulas and an acceleration to speed up the rate of convergence of quadrature formulas.
+    </p>
+  </introduction>
+
+
+  <subsection>
+    <title>Richardson Extrapolation</title>
+
+    <p>
+      Suppose that we have a method that has a predictable error formula.
+      For example, let <m>S</m> be the exact answer and <m>A(h)</m> be the approximation that depends on <m>h</m>.
+      Thus consider an approximation such that the error <m>S-A(h)</m> can be expressed,
+      <men xml:id="eq-richard-error-1">
+        S - A(h) = k_{1} h + k_{2} h^{2} + k_{3} h^{3} + \cdots,
+      </men>
+      for some constants <m>k_{1}, k_{2}, \ldots</m>.
+      This method is an <m>O(h)</m> method since
+      <me>
+        \begin{aligned}\lim_{h \rightarrow 0}\frac{S-A(h)}{h}\amp = \frac{k_{1} h + k_{2} h^{2} + k_{3} h^{3}+\cdots}{h}= k_{1}\end{aligned}
+      </me>
+      is non-zero.
+    </p>
+
+    <p>
+      Richard extrapolation exploits knowledge of the order of a method to improve its order of convergence.
+      If we evaluate <xref ref="eq-richard-error-1"/> at <m>h</m> and <m>h/2</m> we get,
+      <md>
+        <mrow xml:id="eq-richard-1" number="yes">S\amp = A(h) + k_{1} h + k_{2} h^{2} + k_{3} h^{3} + \cdots </mrow>
+        <mrow> \amp \qquad \text{and} </mrow>
+        <mrow xml:id="eq-richard-2" number="yes"> S\amp = A\biggl(\frac{h}{2}\biggr) + k_{1} \biggl(\frac{h}{2}\biggr) + k_{2} \biggl(\frac{h}{2}\biggr)^{2} + k_{3} \biggl(\frac{h}{2}\biggr)^{3} + \cdots </mrow>
+      </md>
+    </p>
+
+    <p>
+      Multiplying <xref ref="eq-richard-2"/> by 2 and subtracting <xref ref="eq-richard-1"/> results in
+      <men xml:id="eq-richard-3">
+        2S-S = S = 2 A \biggl(\frac{h}{2}\biggr) - A(h) + \hat{k}_{2} h^{2} + \hat{k}_{3} h^{3} + \cdots
+      </men>
+      where <m>\hat{k}_{2}</m> is a function of <m>k_{2}</m> and <m>\hat{k}_{3}</m> is a function of <m>k_{3}</m>.
+      The <m>h</m> term has canceled.
+      Also, the exact form of <m>\hat{k}_{2}(k_{2})</m> and <m>\hat{k}_{3}(k_{3})</m> does not matter.
+    </p>
+
+    <p>
+      For convenience, we label <m>A_{1}(h) = A(h)</m> and
+      <me>
+        A_{2}(h)= 2A\biggl(\frac{h}{2}\biggr) - A(h) = 2A_{1}\biggl(\frac{h}{2}\biggr) - A_{1}(h),
+      </me>
+      and thus <xref ref="eq-richard-3"/> can be written as:
+      <men xml:id="eq-richard-4">
+        S = A_{2}(h) + \hat{k}_{2} h^{2} + \hat{k}_{3} h^{3} + \cdots
+      </men>
+      and evaluating <xref ref="eq-richard-4"/> at <m>h/2</m> results in
+      <md>
+        <mrow> S\amp = A_{2}\biggl(\frac{h}{2}\biggr) + \hat{k}_{2} \biggl(\frac{h}{2}\biggr)^{2} + \hat{k}_{3} \biggl(\frac{h}{2}\biggr)^{3} + \cdots </mrow>
+        <mrow xml:id="eq-richard-5" number="yes"> \amp = A_{2} \biggl(\frac{h}{2}\biggr) + \frac{1}{4}\hat{k}_{2} h^{2} + \frac{1}{8}\hat{k}_{3} h^{3} + \cdots </mrow>
+      </md>
+      and similar to that above if we multiply <xref ref="eq-richard-5"/> by 4 and subtract <xref ref="eq-richard-4"/> the result is
+      <me>
+        \begin{aligned}3 S\amp = 4 A_{2} \biggl(\frac{h}{2}\biggr) - A_{2}(h) -\frac{1}{2}\hat{k}_{3} h^{3} +O(h^{4})\end{aligned}
+      </me>
+      and dividing by 3 results in
+      <me>
+        \begin{aligned}S\amp = \frac{4}{3}A_{2} \biggl(\frac{h}{2}\biggr) - \frac{1}{3}A_{2}(h) -\frac{1}{6}\hat{k}_{3} h^{3} +O(h^{4})\end{aligned}
+      </me>
+      and define <m>A_{3}</m> as the first two term on the right hand side or
+      <me>
+        \begin{aligned}A_{3}(h)\amp = \frac{4}{3}A_{2} \biggl(\frac{h}{2}\biggr) - \frac{1}{3}A_{2}(h)\end{aligned}
+      </me>
+    </p>
+
+    <p>
+      If we continue this process, then we can define the following:
+      <men xml:id="eq-An-richard-oh">
+        A_{n}(h) = \frac{2^{n-1}}{2^{n-1}-1}A_{n-1}\biggl(\frac{h}{2}\biggr) - \frac{1}{2^{n-1}-1}A_{n-1}(h)
+      </men>
+      and <m>A_{n}(h)</m> is an order <m>O(h^{n})</m> approximation of <m>S</m>.
+    </p>
+
+    <p>
+      The values of <m>A_{n}</m> can be created in a table as follows:
+    </p>
+
+    <tabular>
+      <row bottom="minor">
+        <cell> <m>O(h)</m> </cell>
+        <cell> <m>O(h^{2})</m> </cell>
+        <cell> <m>O(h^{3})</m> </cell>
+        <cell> <m>O(h^{4})</m> </cell>
+        <cell> <m>O(h^{5})</m> </cell>
+        <cell> <m>\cdots</m> </cell>
+      </row>
+
+      <row>
+        <cell> </cell>
+      </row>
+
+      <row>
+        <cell> <m>A_{1}(h)</m> </cell>
+        <cell> </cell>
+        <cell> </cell>
+        <cell> </cell>
+        <cell> </cell>
+        <cell> </cell>
+      </row>
+
+      <row>
+        <cell> <m>A_{1}(h/2)</m> </cell>
+        <cell> <m>A_{2}(h)</m> </cell>
+        <cell> </cell>
+        <cell> </cell>
+        <cell> </cell>
+        <cell> </cell>
+      </row>
+
+      <row>
+        <cell> <m>A_{1}(h/4)</m> </cell>
+        <cell> <m>A_{2}(h/2)</m> </cell>
+        <cell> <m>A_{3} (h)</m> </cell>
+        <cell> </cell>
+        <cell> </cell>
+        <cell> </cell>
+      </row>
+
+      <row>
+        <cell> <m>A_{1}(h/8)</m> </cell>
+        <cell> <m>A_{2}(h/4)</m> </cell>
+        <cell> <m>A_{3} (h/2)</m> </cell>
+        <cell> <m>A_{4}(h)</m> </cell>
+        <cell> </cell>
+        <cell> </cell>
+      </row>
+
+      <row>
+        <cell> <m>A_{1}(h/16)</m> </cell>
+        <cell> <m>A_{2}(h/8)</m> </cell>
+        <cell> <m>A_{3}(h/4)</m> </cell>
+        <cell> <m>A_{4}(h/2)</m> </cell>
+        <cell> <m>A_{5}(h)</m> </cell>
+        <cell> </cell>
+      </row>
+
+      <row>
+        <cell> </cell>
+      </row>
+    </tabular>
+
+    <p>
+      By building up such a table, the values to the right and down are more accurate.
+      Generally, the last diagonal element will be the most accurate.
+    </p>
+
+    <p>
+      The next example shows that we can use this method to improve the <m>O(h)</m> forward difference formula to approximate the derivative.
+    </p>
+
+    <example>
+      <statement>
+        <p>
+          Create a Richardson Extrapolation table to <m>O(h^{5})</m> to find <m>f'(0)</m> for <m>f(x) = \sin x</m> using the <m>O(h)</m> forward difference formula in <xref ref="eq-2pt-forward-difference"/>.
+          Use <m>h=\pi/2</m>.
+        </p>
+
+        <p>
+        </p>
+
+        <p>
+          In this case we build the table above, row by row.
+          We will need the following:
+          <me>
+            \begin{aligned}A_{1}(h)\amp = A_{1}\biggl(\frac{\pi}{2}\biggr) = \frac{f(\pi/2)-f(0)}{\pi/2}= \frac{1}{\pi/2}= \frac{2}{\pi}\approx 0.636619772367581 \\ A_{1}(h/2)\amp = A_{1} \biggl(\frac{\pi}{4}\biggr) = \frac{f(\pi/4)-f(0)}{\pi/4}= \frac{\sqrt{2}/2}{\pi/4}\approx 0.900316316157106 \\ A_{1}(h/4)\amp = A_{1} \biggl(\frac{\pi}{8}\biggr) = \frac{f(\pi/8)-f(0)}{\pi/8}\approx 0.974495358404433 \\ A_{1}(h/8)\amp = A_{1} \biggl(\frac{\pi}{16}\biggr) = \frac{f(\pi/16)-f(0)}{\pi/16}\approx 0.993586851144206 \\ A_{1}(h/16)\amp = A_{1} \biggl(\frac{\pi}{32}\biggr) = \frac{f(\pi/32)-f(0)}{\pi/32}\approx 0.998394393035618\end{aligned}
+          </me>
+        </p>
+
+        <p>
+          Next, we create the table:
+        </p>
+
+        <tabular>
+          <row bottom="minor">
+            <cell> <m>O(h)</m> </cell>
+            <cell> <m>O(h^{2})</m> </cell>
+            <cell> <m>O(h^{3})</m> </cell>
+            <cell> <m>O(h^{4})</m> </cell>
+            <cell> <m>O(h^{5})</m> </cell>
+          </row>
+
+          <row>
+            <cell>0.63661977</cell>
+            <cell> </cell>
+            <cell> </cell>
+            <cell> </cell>
+            <cell> </cell>
+          </row>
+
+          <row>
+            <cell>0.90031631</cell>
+            <cell>1.16401285</cell>
+            <cell> </cell>
+            <cell> </cell>
+            <cell> </cell>
+          </row>
+
+          <row>
+            <cell>0.97449535</cell>
+            <cell>1.04867440</cell>
+            <cell>1.01022825</cell>
+            <cell> </cell>
+            <cell> </cell>
+          </row>
+
+          <row>
+            <cell>0.99358685</cell>
+            <cell>1.01267834</cell>
+            <cell>1.00067965</cell>
+            <cell>0.99931556</cell>
+          </row>
+
+          <row>
+            <cell>0.99839439</cell>
+            <cell>1.00320193</cell>
+            <cell>1.00004313</cell>
+            <cell>0.99995219</cell>
+            <cell>0.99999464</cell>
+          </row>
+        </tabular>
+
+        <p>
+          where the first column in <m>A_{1}(h/2^{k})</m> as seen above and the <m>j</m>th column is <m>A_{j}(h/2^{k})</m>, calculated from <xref ref="eq-An-richard-oh"/> and using the column before it.
+        </p>
+
+        <p>
+          As you can tell, the last row, last column is the most accurate value of <m>f'(0)</m>, valid to 5 digits.
+          This was based using the first column, of which the most accurate in that column was only 2 digits accurate.
+        </p>
+      </statement>
+    </example>
+  </subsection>
+
+
+  <subsection>
+    <title>Richardson Extrapolation for other error schemes</title>
+
+    <p>
+      The Richard Extrapolation explained above relied on the fact that the error between the actual value and the approximation were successive powers of <m>h</m> as seen in <xref ref="eq-richard-error-1"/>.
+      If instead, we had the error structure:
+      <md>
+        <mrow> S - A(h) \amp = k_{1} h^{2} + k_{2} h^{4} + k_{3} h^{6} + \cdots </mrow>
+        <mrow xml:id="eq-richard-oh2" number="yes"> \amp = \sum_{n=0}^{\infty}k_{n} h^{2n} </mrow>
+      </md>
+      is another common error structure and here we will examine how to apply Richardson Extrapolation for such a situation.
+      Solving above for <m>S</m> and evaluating it at <m>h</m> and <m>h/2</m>, the result is
+      <md>
+        <mrow xml:id="eq-richard-oh2-1" number="yes"> S \amp = A(h) + k_{1} h^{2} + k_{2} h^{4} + k_{3} h^{6} + \cdots </mrow>
+        <mrow xml:id="eq-richard-oh2-2" number="yes">S\amp = A\biggl(\frac{h}{2}\biggr) + k_{1}\biggl(\frac{h}{2}\biggr)^{2} + k_{2} \biggl(\frac{h}{2}\biggr)^{4} + k_{3} \biggl(\frac{h}{2}\biggr)^{6} + \cdots </mrow>
+      </md>
+      and taking a linear combination of these to eliminate the <m>h^{2}</m> term one takes 4 times <xref ref="eq-richard-oh2-2"/> and subtracts <xref ref="eq-richard-oh2-1"/> to result in
+      <me>
+        \begin{aligned}3S\amp = 4 A\biggl(\frac{h}{2}\biggr) - A(h) -\frac{3}{4}k_{2} h^{4} -\frac{15}{16}k_{3} h^{6} + \cdots\end{aligned}
+      </me>
+    </p>
+
+    <p>
+      Defining <m>A_{1}(h)=A(h)</m> and then
+      <me>
+        \begin{aligned}A_{2}(h)\amp = \frac{4}{3}A_{1}\biggl(\frac{h}{2}\biggr) - \frac{1}{3}A_{1}(h)\end{aligned}
+      </me>
+    </p>
+
+    <p>
+      Similarly, define
+      <men xml:id="eq-richard-extrap-oh2">
+        A_{n}(h) = \frac{4^{n-1}}{4^{n-1}-1}A_{n-1}\biggl(\frac{h}{2}\biggr) - \frac{1}{4^{n-1}-1}A_{n-1}(h).
+      </men>
+    </p>
+
+    <p>
+      In performing Richardson extrapolation in this case, a table is create with the first column of <m>A_{1}(h/2^{n})</m>, the numerical approximation for the given step size.
+      The remaining columns are filled in with <xref ref="eq-richard-extrap-oh2"/>.
+    </p>
+
+    <p>
+      In the next section, we will see how to apply Richardson extrapolation in this case to that of integration.
+    </p>
+  </subsection>
+
+
+  <subsection>
+    <title>Romberg Integration</title>
+
+    <p>
+      The technique of Richardson Extrapolation can be applied to any situation in which the error formula can be written as powers of <m>h</m>.
+      Romberg integration uses this with composite trapezoid rule to develop a fast-converging quadrature scheme.
+    </p>
+
+    <p>
+      It can be shown that composite trapezoid rule can be written as
+      <me>
+        \begin{aligned}\int_{a}^{b} f(x) \, dx\amp = \frac{h}{2}\biggl( f(x_{0}) + 2 \sum_{i=1}^{n-1}f(x_{i}) + f(x_{n}) \biggr) + \sum_{i=0}^{\infty}k_{i} h^{2i}\end{aligned}
+      </me>
+      which fits the error scheme from <xref ref="eq-richard-oh2"/>.
+      Thus Romberg integration creates a table based on the composite trapezoid rule and Richardson extrapolation.
+    </p>
+
+    <p>
+      The first column in a table will be the composite trapezoid rule.
+      The <m>m</m>th row in this column will be the rule with <m>2^{m-1}</m>.
+      Define <m>h_{k}=(b-a)/2^{k-1}</m>.
+    </p>
+
+    <p>
+      <md>
+        <mrow xml:id="eq-romberg-first"> R_{1,1}\amp = \frac{h_{1}}{2}\bigl( f(a)+f(b) \bigr) = \frac{b-a}{2}\bigl(f(a)+f(b) \bigr) </mrow>
+        <mrow> R_{2,1}\amp = \frac{h_{2}}{2}\bigl(f(a) +f(b) + 2 f(a+h_{2}) \bigr) </mrow>
+        <mrow> \amp = \frac{b-a}{4}\biggl( f(a) + f(b) + 2 f\biggl(a+ \frac{b-a}{2}\biggr) \biggr) \notag \\\amp = \frac{1}{2}\bigl( R_{1,1}+ h_{1} f(a+ h_{2}) \bigr) </mrow>
+        <mrow> R_{3,1}\amp = \frac{h_{3}}{2}\bigl(f(a)+f(b) + 2 [ f(a+h_{3}) +f(a+2h_{3}) + f(a+3h_{3})]\bigr) </mrow>
+        <mrow> \amp = \frac{b-a}{8}\bigl( f(a) + f(b) + 2 f(a+h_{2}) + 2 [ f(a+h_{3}) + f(a+3h_{3})] \bigr) \notag \\\amp = \frac{1}{2}\bigl( R_{2,1}+ h_{2} [f(a+h_{3}) + f(a+3h_{3})]\bigr) </mrow>
+      </md>
+      and extending this in general leads to
+      <men xml:id="eq-romberg-first-col">
+        R_{n,1} = \frac{1}{2}\biggl( R_{n-1,1}+ h_{n-1}\sum_{k=1}^{2^{n-1}}f(a+(2k-1)h_{n}) \biggr).
+      </men>
+    </p>
+
+    <p>
+      Using this formula along with Richardson extrapolation, which applied in this case to <xref ref="eq-richard-extrap-oh2"/> results in
+      <men xml:id="eq-romberg">
+        R_{n,j+1} = \frac{4^{j-1}}{4^{j-1}-1}R_{n,j}- \frac{1}{4^{j-1}-1}R_{n-1,j-1}
+      </men>
+    </p>
+
+    <p>
+      Typically a table is created using 1) <m>R_{n,1}</m> which is the trapezoid rule given in <xref ref="eq-romberg-first-col"/> and 2) the relation in <xref ref="eq-romberg"/>.
+      We will see this in the following example.
+    </p>
+
+    <example>
+      <statement>
+        <p>
+          Perform Romberg integration to evaluate <m>\int_{0}^{\pi/2}\cos x \, dx</m>.
+          Create a table of 4 rows.
+        </p>
+      </statement>
+
+      <solution>
+        <p>
+          The first column, needs to be filled with composite trapezoid rule as explained above.
+          That is, for <m>R_{1,1}</m> apply (eq:romberg:first).
+          The other values of <m>R_{n,1}</m> is found using (eq:romberg:first:col).
+          <me>
+            \begin{aligned}R_{1,1}\amp = \frac{\pi/2}{2}\bigl( f(0) + f(\pi/2)\bigr) \approx 0.785398163397448 \\ R_{2,1}\amp = \frac{1}{2}\bigl(R_{1,1}+ \frac{\pi}{2}f(\pi/4) \bigr) \approx 0.948059448968520 \\ R_{3,1}\amp = \frac{1}{2}\bigl(R_{2,1}+ \frac{\pi}{4}[f(\pi/8)+f(3\pi/8)]\bigr) \approx 0.987115800972775 \\ R_{4,1}\amp = \frac{1}{2}\bigl(R_{3,1}+ \frac{\pi}{8}[f(\pi/16)+f(3\pi/16)+f(5\pi/16)+f(7\pi/16)]\bigr) \\\amp \approx 0.996785171886170 \\\end{aligned}
+          </me>
+        </p>
+
+        <p>
+          Next, using <xref ref="eq-romberg"/>, the columns are filled from left to right to get:
+        </p>
+
+        <tabular>
+          <row>
+            <cell>n</cell>
+            <cell> <m>R_{n,1}</m> </cell>
+            <cell> <m>R_{n,2}</m> </cell>
+            <cell> <m>R_{n,3}</m> </cell>
+            <cell> <m>R_{n,4}</m> </cell>
+          </row>
+
+          <row>
+            <cell>1</cell>
+            <cell>0.7853981633</cell>
+            <cell> </cell>
+          </row>
+
+          <row>
+            <cell>2</cell>
+            <cell>0.9480594489</cell>
+            <cell>1.0022798774</cell>
+          </row>
+
+          <row>
+            <cell>3</cell>
+            <cell>0.9871158009</cell>
+            <cell>1.0001345849</cell>
+            <cell>0.9999915654</cell>
+          </row>
+
+          <row>
+            <cell>4</cell>
+            <cell>0.9967851718</cell>
+            <cell>1.0000082955</cell>
+            <cell>0.9999998762</cell>
+            <cell>1.0000000081</cell>
+          </row>
+        </tabular>
+
+        <p>
+          The result in <m>R_{4,4}</m> has an absolute error of about <m>10^{-8}</m>, which is remarkable in that the best approximation in the first column is only to 2 digits.
+        </p>
+      </solution>
+    </example>
+
+    <p>
+      Generally Romberg integration is performed in a manner that builds up a table until the desired accuracy is found.
+      That is, the table is created row by row until two consecutive numbers on the diagonal are found within the desired level of error.
+      The following example shows this.
+    </p>
+
+    <example>
+      <statement>
+        <p>
+          Use Romberg integration to find <m>\int_{0}^{1} e^{-x^2}\, dx</m> to within <m>10^{-5}</m>.
+        </p>
+
+        <p>
+        </p>
+
+        <p>
+          First, we start by calculating <m>R_{1,1}</m> and <m>R_{2,1}</m> using (eq:romberg:first) and (eq:romberg:first:col)
+          <me>
+            \begin{aligned}R_{1,1}= \frac{1}{2}\bigl( f(0) + f(1) \bigr) \approx 0.683939720585721 \\ R_{2,1}= \frac{1}{2}\bigl(R_{1,1}+ f(1/2) \bigr) \approx 0.731370251828563 \\\end{aligned}
+          </me>
+        </p>
+
+        <p>
+          Then use (eq:romberg) to find <m>R_{2,2}</m>:
+          <me>
+            \begin{aligned}R_{2,2}= \frac{4}{3}R_{2,1}- \frac{1}{3}R_{1,1}= 0.747180428909510\end{aligned}
+          </me>
+        </p>
+
+        <p>
+          Since <m>|R_{2,2}-R_{1,1}| \gt 10^{-5}</m>, another row of the table is built using (eq:romberg:first:col)
+          <me>
+            \begin{aligned}R_{3,1}= \frac{1}{2}\bigl(R_{2,1}+ \frac{1}{2}[f(1/4)+f(3/4)]\bigr) \approx 0.742984097800381\end{aligned}
+          </me>
+        </p>
+
+        <p>
+          Then <m>R_{3,2}</m> and <m>R_{3,3}</m> are computed using (eq:romberg)
+          <me>
+            \begin{aligned}R_{3,2}\amp = \frac{4}{3}R_{3,1}-\frac{1}{3}R_{2,1}= 0.746855379790987 \\ R_{3,3}\amp = \frac{16}{15}R_{3,2}-\frac{1}{15}R_{2,2}= 0.746833709849753\end{aligned}
+          </me>
+        </p>
+
+        <p>
+          Since <m>|R_{3,3}-R_{2,2}|\approx 3 \cdot 10^{-4}</m>, this is still not within the desired error.
+          At least one more row must be calculated.
+          <me>
+            \begin{aligned}R_{4,1}\amp = \frac{1}{2}\bigl(R_{3,1}+ \frac{1}{4}[f(1/8)+f(3/8)+f(5/8)+f(7/8)]\bigr) \\\amp \approx 0.745865614845695\end{aligned}
+          </me>
+        </p>
+
+        <p>
+          Then <m>R_{4,2}</m>, <m>R_{4,3}</m> and <m>R_{4,4}</m> are computed:
+          <me>
+            \begin{aligned}R_{4,2}\amp = \frac{4}{3}R_{4,1}-\frac{1}{3}R_{3,1}= 0.746826120527465 \\ R_{4,3}\amp = \frac{16}{15}R_{4,2}-\frac{1}{15}R_{3,2}= 0.746824169909898 \\ R_{4,4}\amp = \frac{64}{63}R_{4,3}-\frac{1}{63}R_{3,3}= 0.746824018482282\\\end{aligned}
+          </me>
+          and now <m>|R_{4,4}-R_{3,3}|= 9 \cdot 10^{-6}&#x3C;10^{-5}</m>, so we can stop here.
+          The approximate value of the integral is <m>R_{4,4}</m>.
+        </p>
+      </statement>
+    </example>
+  </subsection>
+</section>

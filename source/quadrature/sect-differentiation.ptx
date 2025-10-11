@@ -1,0 +1,357 @@
+<section xml:id="sect-intro-quadrature">
+  <title>Numerical Differentiation</title>
+
+  <introduction>
+    <p>
+      Since
+      <me>
+        f'(x) = \lim_{h \rightarrow 0}\frac{f(x+h)-f(x)}{h}
+      </me>
+      so we can say that
+      <md>
+        <mrow> f'(x_{0})\amp \approx \frac{f(x_{0}+h)-f(x_{0})}{h} </mrow>
+        <mrow xml:id="eq-2pt-forward-difference" number="yes"> \amp = \frac{f(x_{1})-f(x_{0})}{h} </mrow>
+      </md>
+      where <m>x_{1} =x_{0}+h</m>.
+      This formula is called the <term>forward difference formula</term>.
+      Note also that this formula is
+      <me>
+        f[x_{0},x_{1}] = \frac{f(x_{1})-f(x_{0})}{x_{1}-x_{0}}
+      </me>
+      the Newton Divided Difference formula as in <xref ref="eq-newton-divided-diff"/>.
+      Thus, as we mentioned in <xref ref="sect-newton-divided-diff"/>  divided difference formulas are like derivatives.
+    </p>
+  </introduction>
+
+
+  <subsection>
+    <title>Two-Point Difference Formulas</title>
+
+    <p>
+      In this section, we examine the derivative formula as well as errors associated with the derivative.
+      First, we will consider derivative formulas that are based on two points.
+    </p>
+
+    <p>
+      Let
+      <men xml:id="eq-linear-interp-error">
+        f(x) = P_{1}(x) + \frac{f''(\xi(x))}{2!}(x-x_{0})(x-x_{1})
+      </men>
+      where <m>P_{1}(x)</m> is the interpolating polynomial that passes through <m>(x_{0},f(x_{0}))</m> and <m>(x_{1},f(x_{1}))</m> and the second term is the error (as seen in <xref ref="thm-interp-error"/>).
+    </p>
+
+    <p>
+      Since we can write <m>P_{1}(x)</m> as the Lagrange form of the linear interpolating polynomial from <xref ref="eq-lagrange-linear-comps"/> and <xref ref="eq-lagrange-linear-props"/> as
+      <me>
+        \begin{aligned}P_{1}(x)\amp = f(x_{0}) \frac{x-x_{1}}{x_{0}-x_{1}}+ f(x_{1}) \frac{x-x_{0}}{x_{1}-x_{0}}\\\amp = \frac{f(x_{0})}{-h}(x-x_{1}) + \frac{f(x_{1})}{h}(x-x_{0})\end{aligned}
+      </me>
+      and differentiating, the results are
+      <me>
+        \begin{aligned}P_{1}'(x)\amp = \frac{f(x_{1})-f(x_{0})}{h}.\end{aligned}
+      </me>
+    </p>
+
+    <p>
+      Differentiating <xref ref="eq-linear-interp-error"/>, one gets
+      <md>
+        <mrow>f'(x)\amp = P_{1}'(x) + D_{x} \biggl(\frac{f''(\xi(x))}{2!}(x-x_{0})(x-x_{1}) \biggr) </mrow>
+        <mrow> \amp \qquad  \text{Differentiating the second term using the product rule,} </mrow>
+        <mrow> \amp = \frac{f(x_{1})-f(x_{0})}{h}+ D_{x} \biggl(\frac{f''(\xi(x))}{2}\biggr) (x-x_{0})(x-x_{1}) </mrow>
+        <mrow xml:id="eq-num-der-linear-error" number="yes">\amp \qquad + \frac{f''(\xi(x))}{2}( 2x -x_{0} -x_{1} ) </mrow>
+      </md>
+    </p>
+
+    <p>
+      Evaluating <xref ref="eq-num-der-linear-error"/> at both <m>x=x_{0}</m> and <m>x=x_{1}</m>, one gets:
+      <me>
+        \begin{aligned}f'(x_{0})\amp = P_{1}'(x_{0}) + \frac{h}{2}f''(\xi) = \frac{f(x_{1})-f(x_{0})}{h}+ \frac{h}{2}f''(\xi) \\ f'(x_{1})\amp =P_{1}'(x_{1}) + \frac{h}{2}f''(\xi) = \frac{f(x_{1})-f(x_{0})}{h}+ \frac{h}{2}f''(\xi).\end{aligned}
+      </me>
+      The <term>forward difference formula</term> and <term>backwards difference formula</term> for <m>f'(x)</m> are respectively:
+      <me>
+        \begin{aligned}f'(x_{0})\amp \approx \frac{f(x_{1})-f(x_{0})}{h}\\ f'(x_{1})\amp \approx \frac{f(x_{1})-f(x_{0})}{h}\end{aligned}
+      </me>
+      and the error associated with each is <m>O(h)</m>.
+      In particular, the error is <m>(h/2)f''(\xi)</m> for some <m>\xi \in [x_{0},x_{1}]</m>.
+    </p>
+
+    <p>
+      In the case of the 2-point first derivatives, the forward and backward difference formulas are the same.
+      We will see for 3-point (and higher) formulas that they won't be.
+    </p>
+  </subsection>
+
+
+  <subsection>
+    <title> <m>n</m>-point formula for <m>f'(x)</m> </title>
+
+    <p>
+      Now that we have seen the 2-point formulas, we can generalize to <m>n</m>-point formulas using the following steps.
+      If the function is known at the <m>n</m> points: <m>x_{0}</m>, <m>x_{1}</m>, <m>\ldots</m>, <m>x_{n-1}</m>, then to find <m>f'(x)</m> at these points, then
+    </p>
+
+    <p>
+      <ol>
+        <li>
+          <p>
+            Write the general interpolating polynomial, <m>P_{n-1}(x)</m>.
+            through the <m>n</m>-points <m>x_{0},x_{1}, \ldots, x_{n-1}</m>.
+            (Generally the Lagrange form of the polynomial is used.)
+          </p>
+        </li>
+
+        <li>
+          <p>
+            Find <m>P'_{n-1}(x)</m>.
+          </p>
+        </li>
+
+        <li>
+          <p>
+            Evaluate <m>P'_{n-1}(x_{i})</m> for <m>i=0,1,\ldots, n-1</m>.
+          </p>
+        </li>
+      </ol>
+    </p>
+
+    <p>
+      Also, generally, the formulas are found such that <m>x_{i+1}-x_{i}=h</m>, that is the points are equally-spaced with spacing <m>h</m>.
+      If, in addition, the error formula is sought, recall that the polynomial interpolation error <m>E(x)</m> is given as
+      <me>
+        \begin{aligned}f(x)\amp = P_{n-1}(x) + E_{n-1}(x)\end{aligned}
+      </me>
+      where
+      <me>
+        \begin{aligned}E_{n-1}(x)\amp = \frac{f^{(n)}(\xi(x))}{n!}(x-x_{0})(x-x_{1}) \cdots(x-x_{n-1})\end{aligned}
+      </me>
+    </p>
+
+    <p>
+      Then find <m>E'_{n-1}(x_{i})</m> for the desired point <m>x_{i}</m>.
+    </p>
+  </subsection>
+
+
+  <subsection>
+    <title>3- and 5-point formulas for <m>f'(x)</m> </title>
+
+    <p>
+      We now apply the general results to find 3-point formulas for <m>f'(x)</m>.
+      First, to find the 3-point formula we find the interpolated polynomial <m>P_{2}(x)</m>:
+      <me>
+        \begin{aligned}P_{2}(x)\amp = f(x_{0}) \frac{(x-x_{1})(x-x_{2})}{(x_{0} - x_{1})(x_{0} -x_{2})}+f(x_{1}) \frac{(x-x_{0})(x-x_{2})}{(x_{1} - x_{0})(x_{1} -x_{2})}, \\\amp \qquad +f(x_{2}) \frac{(x-x_{0})(x-x_{1})}{(x_{2} - x_{0})(x_{2} -x_{1})},\end{aligned}
+      </me>
+      and let <m>h=x_{1}-x_{0}</m> and <m>h=x_{2}-x_{1}</m>,
+      <md>
+        <mrow>P_{2} (x)\amp = \frac{f(x_{0})}{(-h)(-2h)}(x-x_{1})(x-x_{2}) + \frac{f(x_{1})}{h(-h)}(x-x_{0})(x-x_{2}) + \frac{f(x_{2})}{(2h)(h)}, </mrow>
+        <mrow> \amp = \frac{1}{2h^{2}}\bigl(f(x_{0}) (x-x_{1})(x-x_{2}) -2f(x_{1}) (x-x_{0})(x-x_{2}), </mrow>
+        <mrow> \amp \qquad + f(x_{2}) (x-x_{0})(x-x_{1}) \bigr), </mrow>
+        <mrow> \amp \qquad \quad \text{and differentiating, one gets } </mrow>
+        <mrow>P'_{2}(x)\amp = \frac{1}{2h^{2}}\bigl( f(x_{0}) [(x-x_{1}) + (x-x_{2})] - 2 f(x_{1}) [ (x-x_{0}) + (x-x_{2}) ], </mrow>
+        <mrow xml:id="eq-num-diff-3pt" number="yes"> \amp \qquad \qquad + f(x_{2}) [ (x-x_{0}) + (x-x_{1}) ] \bigr). </mrow>
+      </md>
+    </p>
+
+    <p>
+      There are three formulas for 3-pt difference formulas when <xref ref="eq-num-diff-3pt"/> is evaluated <m>x_{0}</m>, <m>x_{1}</m> and <m>x_{2}</m>.
+      <md>
+        <mrow> P'_{2}(x_{0})\amp = \frac{1}{2h^{2}}\bigl( -3h f(x_{0}) + 4h f(x_{1}) - h f(x_{2}) \bigr),</mrow>
+        <mrow xml:id="eq-num-diff-3pt-forward" number="yes"> \amp = \frac{1}{2h}\bigl( -3 f(x_{0}) +4 f(x_{1}) - f(x_{2}) \bigr). </mrow>
+        <mrow> P'_{2}(x_{1})\amp = \frac{1}{2h^{2}}\bigl(-h f(x_{0}) + h f(x_{2}) \bigr), </mrow>
+        <mrow xml:id="eq-num-diff-3pt-center" number="yes"> \amp = \frac{1}{2h}\bigl( f(x_{2}) -f(x_{0}) \bigr). </mrow>
+        <mrow> P'_{2}(x_{2})\amp = \frac{1}{2h^{2}}\bigl( h f(x_{0}) - 2 (2h) f(x_{1}) + (3h) f(x_{2}) \bigr), </mrow>
+        <mrow xml:id="eq-num-diff-3pt-backward" number="yes"> \amp = \frac{1}{2h}\bigl( f(x_{0}) - 4 f(x_{1}) + 3 f(x_{2}) \bigr), </mrow>
+      </md>
+      where <xref ref="eq-num-diff-3pt-forward"/>  is called the <term>3-point forward difference formula for <m>f'(x)</m> </term>, <xref ref="eq-num-diff-3pt-center"/>  is called the <term>3-point center difference formula for <m>f'(x)</m> </term> and <xref ref="eq-num-diff-3pt-backward"/>  is called the <term>3-point backward difference formula for <m>f'(x)</m> </term>.
+    </p>
+
+    <p>
+      Next, we examine the error formulas for these numerical derivatives.
+      The error formula for the order-2 interpolation is:
+      <me>
+        E_{2}(x) = \frac{f'''(\xi(x))}{3!}(x-x_{0})(x-x_{1})(x-x_{2})
+      </me>
+      and differentiating leads to
+      <md>
+        <mrow> E_{2}'(x)\amp = D_{x} \biggl( \frac{f'''(\xi(x))}{6}(x-x_{0})(x-x_{1})(x-x_{2}), \biggr) </mrow>
+        <mrow> \amp \qquad \text{And using the product rule results in} </mrow>
+        <mrow> \amp = D_{x} \biggl(\frac{f'''(\xi(x))}{6}\biggr) (x-x_{0})(x-x_{1})(x-x_{2}), </mrow>
+        <mrow> \amp \qquad + \frac{f'''(\xi(x))}{6}\bigl( (x-x_{1})(x-x_{2}) + (x-x_{0})(x-x_{2}), </mrow>
+        <mrow xml:id="eq-num-diff-3pt-error-derivative" number="yes"> \amp \qquad + (x-x_{0})(x-x_{1}) \bigr). </mrow>
+      </md>
+    </p>
+
+    <p>
+      To find the error associated with the forward, center and backward difference formulas, evaluate <xref ref="eq-num-diff-3pt-error-derivative"/> at <m>x_{0}, x_{1}</m> and <m>x_{2}</m> to get
+      <me>
+        \begin{aligned}E_{2}'(x_{0})\amp = 0 + \frac{f'''(\xi)}{6}(2h^{2}) = \frac{h^{2}}{3}f'''(\xi) \\ E_{2}'(x_{1})\amp = 0 + \frac{f'''(\xi)}{6}(-h^{2}) = - \frac{h^{2}}{6}f'''(\xi) \\ E_{2}'(x_{2})\amp = 0 + \frac{f'''(\xi)}{6}(2h^{2}) = \frac{h^{2}}{3}f'''(\xi)\end{aligned}
+      </me>
+    </p>
+
+    <p>
+      The main importance of these formulas is that they are all <m>O(h^{2})</m> methods.
+    </p>
+
+    <example>
+      <statement>
+        <p>
+          Use the 3-point forward difference formula in (eq:num:diff:3pt:forward) above to estimate <m>f'(0)</m> if <m>f(x) = \sin x</m> and <m>x_{0}=0, x_{1}=\pi/6</m> and <m>x_{2} =\pi/3</m>.
+          Provide a theoretical error bound and compare it to the actual derivative.
+        </p>
+      </statement>
+
+      <solution>
+        <p>
+          First, the forward difference formula applied to this problem is
+          <me>
+            \begin{aligned}f'(x_{0})\amp \approx \frac{1}{2h}\bigl(- 3 f(0) + 4 f(\pi/6) - f(\pi/3) \bigr) \\\amp = \frac{1}{2\pi/6}\bigl( 0 + 2 - \frac{\sqrt{3}}{2}\bigr) \\\amp \approx 1.083\end{aligned}
+          </me>
+          and recall that <m>f'(0)=\cos 0 =1</m>.
+        </p>
+
+        <p>
+          The theoretical error bound is
+          <me>
+            \begin{aligned}|E_{2}'(x_{0})|\amp = \frac{h^{2}}{3}|f'''(\xi)| \\ \amp \qquad \text{and since $f(x)=\sin x$, $|f'''(\xi)| \leq 1$}\\ \amp \leq \biggl(\frac{\pi}{6}\biggr)^{2} \frac{1}{3}\approx 0.0913\end{aligned}
+          </me>
+          and since the actual error is 0.083, within the theoretical error bound.
+        </p>
+      </solution>
+    </example>
+
+    <p>
+      The next example uses a CAS to do the algebra and calculus to find the 5-point formula for <m>f'(x)</m>.
+    </p>
+
+    <example>
+      <statement>
+        <p>
+          Find the 5-point center difference formula for <m>f'(x)</m> using a Computer Algebra System:
+        </p>
+
+        <p>
+        </p>
+
+        <p>
+          We will use Maple commands here.
+          First, we will need the <em>CurveFitting</em> package.
+        </p>
+
+        <p>
+          <em> with(CurveFitting):</em>
+        </p>
+
+        <p>
+          Create the polynomial:
+        </p>
+
+        <p>
+          <em> Pn:=PolynomialInterpolation([seq([<m>x_{i}</m>,<m>f(x_{i})</m>],i=0..4)],z): </em>
+        </p>
+
+        <p>
+          where the colon is used to suppress the output.
+          You may remove it to see a number of pages of output.
+          Note: this is a polynomial in <m>z</m> because the points are chosen to be in term of <m>x</m>.
+        </p>
+
+        <p>
+          Next, differentiate the interpolating polynomial:
+        </p>
+
+        <p>
+          <em> dPn:=diff(Pn,z): </em>
+        </p>
+
+        <p>
+          and then substitute in the points.
+          The polynomial is to be evaluated at <m>x_{2}</m> and then the other points are written in terms of <m>x_{2}</m> and <m>h</m>.
+        </p>
+
+        <p>
+          <em> simplify(eval(dPn,<m>\{z=x_{2}</m>, <m>x_{0}=x_{2}-2h</m>, <m>x_{1}=x_{2}-h</m>, <m>x_{3}=x_{2}+h</m>, <m>x_{4}=x_{2}+2h\}</m>)) </em>
+        </p>
+
+        <p>
+          and the output should be
+          <me>
+            \begin{aligned}\frac{1}{12}\frac{-8f(x_{2}-h)+f(x_{2}-2h)-f(x_{2}+2h)+8f(x_{2}+h)}{h}\end{aligned}
+          </me>
+          which can be written back in terms of <m>x_{0}, x_{1}, x_{2}, x_{3}, x_{4}</m> as:
+          <me>
+            \begin{aligned}f'(x_{2}) \approx\amp \frac{f(x_{0})-8f(x_{1})+8f(x_{3})-f(x_{4})}{12h}\end{aligned}
+          </me>
+        </p>
+
+        <p>
+          This is the 5-point difference formula for <m>f'(x)</m> at <m>x=x_{2}</m>, the center point.
+          Note that <m>f(x_{2})</m> is missing from the formula.
+          This is similar to the center point missing in the 3-point formula for <m>f'(x)</m> in <xref ref="eq-num-diff-3pt-center"/>.
+        </p>
+      </statement>
+    </example>
+  </subsection>
+
+
+  <subsection>
+    <title>Three-point numerical formulas for <m>f''(x)</m> </title>
+
+    <p>
+      For the 3-point formula for <m>f''(x)</m>, we need to differentiate the order-2 interpolated polynomial, <m>P_{2}(x)</m>.
+      Since we have already found <m>P_{2}'(x)</m>, we then differentiate <xref ref="eq-num-diff-3pt"/>,
+      <md>
+        <mrow> P''_{2}(x)\amp = \frac{1}{2h^{2}}\bigl( 2f(x_{0}) - 4 f(x_{1}) +2 f(x_{2}) \bigr) </mrow>
+        <mrow xml:id="eq-num-diff-3pt-2nd-deriv" number="yes"> \amp = \frac{1}{h^{2}}\bigl( f(x_{0}) - 2f(x_{1}) + f(x_{2}) \bigr) </mrow>
+      </md>
+      and evaluating this at <m>x_{0},x_{1}</m> and <m>x_{2}</m> results in the same formula for each.
+      Thus the <term>3-point forward difference forward for <m>f''(x)</m> </term>, the <term>3-point center difference forward for <m>f''(x)</m> </term>, and the <term>3-point backward difference forward for <m>f''(x)</m> </term> are each the same as given in <xref ref="eq-num-diff-3pt-2nd-deriv"/>.
+    </p>
+
+    <p>
+      To determine the error in this formula, differentiate <xref ref="eq-num-diff-3pt-error-derivative"/>.
+      <me>
+        \begin{aligned}E_{2}''(x)\amp = D^{2}_{x} \biggl(\frac{f'''(\xi(x))}{6}\biggr) (x-x_{0})(x-x_{1})(x-x_{2}) \notag \\\amp \qquad + D_{x} \biggl( \frac{f'''(\xi(x))}{6}\biggr) \bigl( (x-x_{1})(x-x_{2}) + (x-x_{0})(x-x_{2}) \\\amp \qquad \qquad + (x-x_{0})(x-x_{1}) \bigr) \\\amp \qquad + \frac{f'''(\xi(x))}{6}\bigl( 2(x-x_{0}) + 2(x-x_{1}) + 2(x-x_{2}) \bigr) \\\end{aligned}
+      </me>
+      and evaluating this at <m>x_{0}, x_{1}</m> and <m>x_{2}</m> results in
+      <me>
+        \begin{aligned}E_{2}''(x_{0})\amp = D_{x} \biggl( \frac{f'''(\xi(x))}{6}\biggr) (2h^{2}) + 6h \frac{f'''(\xi(x))}{6}\\ E_{2}''(x_{1})\amp = D_{x} \biggl( \frac{f'''(\xi(x))}{6}\biggr) (-h^{2}) \\ E_{2}''(x_{2})\amp = D_{x} \biggl( \frac{f'''(\xi(x))}{6}\biggr) (2h^{2}) + 6h \frac{f'''(\xi(x))}{6}\\\end{aligned}
+      </me>
+    </p>
+
+    <p>
+      Thus the forward and backward difference formulas are <m>O(h)</m> methods and the center difference formula is <m>O(h^{2})</m>.
+    </p>
+  </subsection>
+
+
+  <subsection>
+    <title>Higher Order Numerical derivatives</title>
+
+    <p>
+      The examples in this section show how to derive specific formulas for <m>f'</m> and <m>f''</m>.
+      Following similar techniques, one can derive forward, center and backward difference formulas for any order derivative using the same basic steps:
+    </p>
+
+    <p>
+      <ol>
+        <li>
+          <p>
+            Find an interpolating polynomial, <m>P_{n}(x)</m> that passes through the desired points.
+            (Note: often these are equally spaced in that <m>x_{i+1}-x_{i}=h</m>, however this is not necessary.) The order of the polynomial must be at least one less than the number of points in the formula (That is, a 7-point formula must have a order of at least 6).
+          </p>
+        </li>
+
+        <li>
+          <p>
+            Find the desired derivative of <m>P_{n}(x)</m>.
+          </p>
+        </li>
+
+        <li>
+          <p>
+            Substitute in the value of <m>x</m> where one wants the derivative.
+          </p>
+        </li>
+      </ol>
+    </p>
+  </subsection>
+</section>

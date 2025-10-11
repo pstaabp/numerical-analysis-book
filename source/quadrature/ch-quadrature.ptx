@@ -1,0 +1,30 @@
+<chapter xml:id="ch-quadrature" xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Quadrature</title>
+
+  <introduction>
+    <p>
+      In this chapter, we look at the two main aspects of calculus: differentiation and integration.
+    </p>
+
+    <p>
+      In the first case, we desire to know <m>f'(x)</m>, the derivative of a function <m>f</m> for some value of <m>x</m>.
+      Although most functions can be easily differentiated, if it is too complicated often a numerical derivative is sought instead.
+    </p>
+
+    <p>
+      In the case of integration, we generally would like to find the value of
+      <me>
+        \int_{a}^{b} f(x) \, dx
+      </me>
+      for some continuous function <m>f</m>.
+      This is an important skill in that we don't need to look very far to find functions that we can't take the antiderivative of.
+      In such a case, we will resort to numerical integration or quadrature.
+    </p>
+  </introduction>
+
+  <xi:include href="./sect-differentiation.ptx" />
+  <xi:include href="./sect-intro-quadrature.ptx" />
+  <xi:include href="./sect-composite-newton-cotes.ptx" />
+  <xi:include href="./sect-gauss-quadrature.ptx" />
+  <xi:include href="./sect-romberg-integration.ptx" />
+</chapter>

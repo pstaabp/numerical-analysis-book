@@ -1,0 +1,15 @@
+<chapter xml:id="ch-approximation" xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Approximation Theory</title>
+  <introduction>
+    <p>
+      Say things here.
+    </p>
+  </introduction>
+  <xi:include href="sect-intro-approximation.ptx" />
+  <xi:include href="sect-discrete-least-squares.ptx" />
+  <xi:include href="sect-orthogonal-polynomials.ptx" />
+  <xi:include href="sect-optimal-points.ptx" />
+  <xi:include href="sect-legendre-polys.ptx" />
+  <xi:include href="sect-rational-approx.ptx" />
+  <xi:include href="sect-gauss-quad-revisited.ptx" />
+</chapter>

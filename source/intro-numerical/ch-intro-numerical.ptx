@@ -1,0 +1,15 @@
+<chapter xml:id="ch-intro-numerical" xmlns:xi="http://www.w3.org/2001/XInclude">
+  <title>Introduction to Numerical Analysis</title>
+  <introduction>
+    <p>
+      This chapter will introduce mathematical problems that we will develop methods of solutions in this text.  In many courses as one learns mathematics, the problems that are presented are ones that fall neatly into cases that can be solved.  However, the larger scope of problems often the classes of functions do not readily lend themselves to nice techniques, but we will learn how to develop approximations to such problems.
+    </p>
+    <p>
+      In addition, this chapter will present some basic ways to analyze algorithms as well as the number system that computers use called the floating-point number system.
+    </p>
+  </introduction>
+  <xi:include href="./sect-practical-examples.ptx" />
+  <xi:include href="./sect-algorithms.ptx" />
+  <xi:include href="./sect-convergence-sequences.ptx" />
+  <xi:include href="./sect-floating-point.ptx" />
+</chapter>

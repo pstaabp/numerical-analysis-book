@@ -1,0 +1,317 @@
+<section xml:id="sect-calc-theorems">
+  <title>Important Theorems from Calculus</title>
+
+  <objectives>
+    <ul>
+      <li>
+        <p>
+          Understand basic theorems of functions, like the <alert>Intermediate Value Theorem</alert>, <alert>Rolle's Theorem</alert> and  the <alert>Mean Value Theorem</alert>.
+        </p>
+      </li>
+      <li>
+        <p>
+          Use these theorems to demonstrate properties of functions.
+        </p>
+      </li>
+    </ul>
+  </objectives>
+
+  <p>
+    We now review a number of theorems that are usually presented in Calculus.
+    Here we both state a number of important theorems, but show some examples and then prove most of these.
+    For additional information on these, check any standard Calculus book.
+    A nice open-source one can be found at <url href="https://www.apexcalculus.com">APEX Calculus</url>.
+  </p>
+
+  <theorem xml:id="thm-ivt">
+    <title>Intermediate Value Theorem</title>
+
+    <statement>
+      <p>
+        Let <m>f</m> be a continuous function on <m>[a,b]</m>.
+        Let <m>M=\max(f(a),f(b))</m> and <m>m=\min(f(a),f(b))</m>.
+        The function <m>f</m> takes on all values between <m>m</m> and <m>M</m>.
+        That is, for any value <m>h</m>, such that <m>m\leq h\leq M</m>, then there exists at least one value <m>c</m> such that <m>f(c)=h</m>.
+      </p>
+    </statement>
+  </theorem>
+
+  <p>
+    This is a important theorem, however, there is much background needed to prove this.
+    A good open-source book with a proof is in <url href="https://digitalcommons.trinity.edu/mono/7/">Introduction to Real Analysis by William F.
+    Trench</url><fn>The background and proof of this is in section 2.2</fn>.
+  </p>
+
+  <theorem xml:id="thm-rolles">
+    <title>Rolle's Theorem</title>
+
+    <statement>
+      <p>
+        Let <m>f</m> be a function that satisfies:
+      </p>
+
+      <p>
+        <ol>
+          <li>
+            <p>
+              <m>f</m> is continuous on the closed interval <m>[a,b]</m>,
+            </p>
+          </li>
+
+          <li>
+            <p>
+              <m>f</m> is differentiable on the open interval <m>(a,b)</m>,
+            </p>
+          </li>
+
+          <li>
+            <p>
+              <m>f(a)=f(b)</m>.
+            </p>
+          </li>
+        </ol>
+      </p>
+
+      <p>
+        Then there is a number <m>c</m> in <m>(a,b)</m> such that <m>f'(c)=0</m>.
+      </p>
+    </statement>
+
+
+    <proof>
+      <p>
+        From the Intermediate Value Theorem, <m>f</m> takes on a minimum value, <m>m</m> and maximum value, <m>M</m> on the interval <m>[a,b]</m>.
+        <ol>
+          <li>
+            <p>
+              If <m>m=M</m>, then the function is constant and all values of <m>c</m> in the interval <m>(a,b)</m> satisfy <m>f'(c)=0</m>.
+            </p>
+          </li>
+
+          <li>
+            <p>
+              Otherwise, either the minimum or maximum or both of <m>f</m> occurs in <m>(a,b)</m>.
+              Let <m>c</m> be this value.
+              Since the function is differentiable at <m>c</m> and is a minimum or a maximum, then <m>f'(c)=0</m>.
+            </p>
+          </li>
+        </ol>
+      </p>
+    </proof>
+  </theorem>
+
+  <example>
+    <statement>
+      <p>
+        Show that <m>f(x)=x^{2} +6x</m> on the interval <m>[-6,0]</m> satisfies all the conditions of Rolle's Theorem.
+        Find all of the values of <m>c</m> such that <m>f'(c)=0</m>.
+      </p>
+    </statement>
+
+    <solution>
+      <p>
+        Since <m>f</m> is a quadratic, it is continuous and differentiable everywhere, so the first two conditions are satisfied.
+        Also, <m>f(-6)=(-6)^{2}+6(-6)=0</m> and <m>f(0)=0^{2}+6(0)=0</m>, so the function is equal on the endpoints of the interval and the 3rd condition is satisfied.
+      </p>
+
+      <p>
+        To find the values of <m>c</m> such that <m>f'(c)=0</m>, we solve <m>f'(c)=2c+6=0</m> or <m>c=-3</m>.
+      </p>
+
+      <p>
+        A graphical view of this is as follows:
+      </p>
+
+      <figure xml:id="fig-rolles">
+        <caption></caption>
+        <image>
+          <shortdescription>
+          </shortdescription>
+          <latex-image>
+      <![CDATA[
+      	\begin{tikzpicture}[yscale=0.3]
+        \draw[->] (-6.5,0) -- (1.5,0) node [above right] {$x$}; \foreach \x in {-6,...,-1,1} \draw (\x,0.1) -- (\x,-0.1) node [below] {\x};
+        \draw[->] (0,-12.5) -- (0,2.5) node [above right] {$y$};
+        \foreach \y in {-12,-10,...,-2,2} \draw (0.1,\y) -- (-0.1,\y) node [left] {\y};
+        \draw[<->] plot [domain=-6.2:0.2] (\x,{\x*\x+6*\x});
+        \end{tikzpicture}
+      ]]>
+          </latex-image>
+        </image>
+      </figure>
+
+      <p>
+        and one can see that the function is 0 at both <m>x=-6</m> and <m>x=0</m> and that there is a horizontal tangent line at <m>c=-3</m>.
+      </p>
+    </solution>
+  </example>
+
+  <p>
+    We can extend Rolle's theorem to functions that have more than 2 equal points.
+    We will show an example of the theorem, but in general, this is very important for proving other theorems.
+  </p>
+
+  <theorem xml:id="thm-generalized-rolles">
+    <title>Generalized Rolle's Theorem</title>
+
+    <statement>
+      <p>
+        If <m>f</m> is continuous on <m>[a,b]</m>, has <m>n</m> continuous derivatives on <m>(a,b)</m> and is equal to zero at <m>n+1</m> distinct points in <m>[a,b]</m> then there exists a number <m>c\in(a,b)</m> with <m>f^{(n)}(c) = 0</m>.
+      </p>
+    </statement>
+  </theorem>
+
+
+  <proof>
+    <p>
+      First, for some notation, assume that <m>a_{k}</m> is the <m>k</m>th zero of <m>f</m> for <m>k=1,2,\ldots,n+1</m> and the <m>a_{k}</m> are ordered increasingly.
+      Therefore there are <m>n</m> subintervals of <m>[a,b]</m>, denoted <m>[a_{k},a_{k+1}]</m> such that <m>f(a_{k})=f(a_{k+1})=0</m>.
+      Using Rolle's theorem, for each subinterval, there exists a number <m>c_{k}</m> in <m>(a_{k},a_{k+1})</m> such that <m>f'(c_{k})=0</m>.
+    </p>
+
+    <p>
+      Therefore there are <m>n</m> numbers, <m>c_{k}</m> such that the derivative is 0 or subintervals <m>[c_{k},c_{k+1}]</m> such that <m>f'(c_{k})=f'(c_{k+1})=0</m>.
+      Using Rolle's theorem again, for each <m>k</m>, there exists a number <m>d_{k} \in (c_{k},c_{k+1})</m> such that <m>f''(d_{k})=0</m>.
+    </p>
+
+    <p>
+      Repeat this process <m>n-2</m> times and the theorem holds.
+    </p>
+  </proof>
+
+  <p>
+    The following is a simple example of Generalized Rolle's theorem.
+    We will see this theorem used in a proof later in the text.
+  </p>
+
+  <example>
+    <statement>
+      <p>
+        Let <m>p(x)=(x+2)(x+1)x(x-1)(x-2)</m>.
+        Show that this satisfies Generalized Rolle's theorem on <m>[-2,2]</m> for <m>n=4</m> and find the value of <m>c</m> such that <m>f^{(4)}(c)=0</m>.
+      </p>
+
+      <p>
+      </p>
+
+      <p>
+        First, there are zeros of <m>p</m> at <m>x=-2,-1,0,1,2</m> and since <m>p</m> is a polynomial, it is infinitely differentiable, so it satisfies the conditions of the theorem.
+      </p>
+
+      <p>
+        Also, <m>p</m> can be written:
+      </p>
+
+      <p>
+        <me>
+          p(x) = x(x^{2}-1)(x^{2}-4) = x^{5}-5x^{3}+4x
+        </me>
+      </p>
+
+      <p>
+        and <m>p^{(4)}(x) = 120x</m> and when <m>c=0</m>, <m>p^{(4)}(0)=0</m>.
+      </p>
+    </statement>
+  </example>
+
+  <p>
+    Also, consider a plot of the above situation.
+  </p>
+
+  <figure xml:id="fig-rolles2">
+    <caption></caption>
+    <image width="70%">
+      <shortdescription>
+      </shortdescription>
+      <latex-image>
+        <![CDATA[
+          \begin{tikzpicture}[yscale=0.5]
+            \draw[->] (-3.5,0) -- (3.5,0) node [above right] {$x$}; \foreach \x in {-3,-2,-1,1,2,3} \draw (\x,0.1) -- (\x,-0.1) node [below] {\x};
+            \draw[->] (0,-3.5) -- (0,3.5) node [above right] {$y$};
+            \foreach \y in {-3,-2,-1,1,2,3} \draw (0.1,\y) -- (-0.1,\y) node [left] {\y};
+            \draw[<->] plot [domain=-2.1:2.1,samples=150] (\x,{(\x-2)*(\x-1)*\x*(\x+1)*(\x+2)});
+          \end{tikzpicture}
+        ]]>
+      </latex-image>
+    </image>
+  </figure>
+
+  <p>
+    and as can be seen that the function is 0 at the 5 points <m>x=-2,-1,0,1,2</m> and any function with 5 zeros like this either wiggle a lot like the above function, or is constant.
+  </p>
+
+  <theorem xml:id="thm-mvt">
+    <title>Mean Value Theorem</title>
+
+    <statement>
+      <p>
+        Let <m>f</m> be a function that is continuous on a closed interval <m>[a,b]</m> and differentiable on the interval <m>(a,b)</m>.
+        Then there exists a number <m>\xi \in (a,b)</m> such that
+      </p>
+
+      <p>
+        <me>
+          f'(\xi)= \frac{f(b)-f(a)}{b-a}
+        </me>
+      </p>
+    </statement>
+  </theorem>
+
+
+  <proof>
+    <p>
+      Let
+      <me>
+        g(x) = f(x) +(x-a) \frac{f(b)-f(a)}{b-a}-f(a).
+      </me>
+    </p>
+
+    <p>
+      Then
+      <me>
+        g'(x) = f'(x) -\frac{f(b)-f(a)}{b-a}
+      </me>
+      and evaluated <m>g</m> on the endpoints of the interval shows that
+      <me>
+        \begin{aligned} g(a) \amp = f(a) + (a-a) \frac{f(b)-f(a)}{b-a}- f(a) = 0, \\ g(b)\amp= f(b) + (b-a) \frac{f(b)-f(a)}{b-a}- f(a) = 0.
+        \end{aligned}
+      </me>
+    </p>
+
+    <p>
+      Since <m>f</m> is continuous on <m>[a,b]</m> and differentiable of <m>(a,b)</m>, so is <m>g</m> and therefore <m>g</m> satisfies Rolle's Theorem.
+      Then there exists a number <m>c</m> in the interval <m>(a,b)</m> such that <m>g'(c)=0</m> or
+      <md>
+        <mrow> g'(c) \amp = f'(c) - \frac{f(b)-f(a)}{b-a}= 0</mrow>
+        <mrow>\text{or} \qquad \amp </mrow>
+        <mrow> f'(c) \amp = \frac{f(b)-f(a)}{b-a} </mrow>
+      </md>
+      so the theorem holds.
+    </p>
+  </proof>
+
+  <p>
+    The following example shows a nice consequence of the mean value theorem.
+  </p>
+
+  <example>
+    <statement>
+      <p>
+        Use the Mean Value Theorem to proof that <m>e^{x} \geq x+1</m> for all <m>x\geq 0</m>.
+      </p>
+    </statement>
+
+    <solution>
+      <p>
+        Let <m>f(x) = e^{x}</m>, <m>b=x</m>, <m>a=0</m> then the MVT applied to this situation is
+        <me>
+          e^{\xi} = \frac{e^{x} - 1}{x-0}
+        </me>
+        since <m>e^{\xi}\geq 1</m>, for <m>\xi\geq 0</m>, then
+        <me>
+          \begin{aligned} \frac{e^{x}-1}{x}\amp \geq 1 \\ e^{x} \amp \geq x+1 \end{aligned}
+        </me>
+      </p>
+    </solution>
+  </example>
+</section>

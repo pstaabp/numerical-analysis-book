@@ -1,0 +1,654 @@
+<section xml:id="sect-newton-divided-diff">
+  <title>Newton Divided Differences</title>
+
+  <introduction>
+    <p>
+      We saw above in <xref ref="sect-lagrange-interp"/> that an interpolated polynomial is unique.
+      Therefore the method of finding the polynomial is not important.
+      We will see in this section that another method, Newton Divided Differences has some advantages not seen in the Lagrange form.
+    </p>
+
+    <p>
+      Recall in Section sect:interp:intro that a factored form of the polynomial was shown to have advantage mainly due to evaluation speed.
+      Similar to this form, the <em>Newton form of a polynomial</em> given by
+      <md>
+        <mrow> P_{0,1,2, \ldots, n}(x) \amp = a_{0} + a_{1} (x-x_{0}) + a_{2} (x-x_{0})(x-x_{1}) + </mrow>
+        <mrow> \amp \qquad \qquad \cdots + a_{n} (x-x_{0})(x-x_{1}) \cdots (x-x_{n-1}),</mrow>
+        <mrow xml:id="eq-newton-poly-general"> \amp = \sum_{k=0}^{n} a_{k} \bigl(\prod_{i=0}^{k-1}(x-x_{i}) \bigr), </mrow>
+      </md>
+      has advantages when it comes to interpolations.
+      The number <m>x_{0}, x_{1}, \ldots</m> can be any set of numbers, however when using this form for interpolation, the <m>x</m>-values of the data set is typically used.
+    </p>
+
+    <p>
+      Next, if we introduce the notation that
+      <md>
+        <mrow xml:id="eq-newton-divided-diff0" number="yes"> f[x_{0}]\amp = f(x_{0}), </mrow>
+        <mrow xml:id="eq-newton-divided-diff1" number="yes"> f[x_{0},x_{1}]\amp = \frac{ f[x_{1}]-f[x_{0}]}{x_{1}-x_{0}}, </mrow>
+        <mrow xml:id="eq-newton-divided-diff2" number="yes"> f[x_{0},x_{1},x_{2}]\amp = \frac{ f[x_{1},x_{2}]-f[x_{0},x_{1}]}{x_{2}-x_{0}}, </mrow>
+      </md>
+      and in general the <m>k</m>th divided difference of <m>f</m> with respect to the points <m>x_{i}, x_{i+1}, \ldots, x_{i+k}</m> is:
+      <men xml:id="eq-newton-divided-diff">
+        f[x_{i},x_{i+1}, \ldots,x_{i+k}]= \frac{f[x_{i+1},\ldots,x_{i+k}]-f[x_{i},x_{i+1},\ldots,x_{i+k-1}]}{x_{i+k}-x_{i}}.
+      </men>
+    </p>
+
+    <p>
+      The divided differences that we see above is closely related to derivatives as we will see.
+      That is, <m>f[x_{0},x_{1}]</m> is approximately equal to <m>f'(x_{0})</m> or <m>f'(x_{1})</m>.
+      Similarly <m>f[x_{0},x_{1},x_{2}] \approx f''(x_{1})</m>.
+    </p>
+  </introduction>
+
+
+  <subsection>
+    <title>Newton Divided Difference Form of the Interpolating Polynomial</title>
+
+    <p>
+      Let's now return to the interpolation problem.
+      That is for a set of points <m>\{(x_{i}, f_{i})\}</m>, for <m>i=0,1,\ldots,n</m>, find an <m>n</m>th degree polynomial that passes through all points.
+      In terms of the Newton's Divided Difference formulas, let the polynomial <m>P_{0,1,2,\ldots,n}(x)</m> be that defined in (eq:newton:poly:general).
+    </p>
+
+    <p>
+      Since the polynomial satisfies <m>P_{0,1,2,\ldots,n}(x_{0})=f_{0}</m>, then
+      <me>
+        P_{0,1,2,\ldots,n}(x_{0}) = a_{0} = f(x_{0}) = f[x_{0}].
+      </me>
+    </p>
+
+    <p>
+      Also, since the polynomial passes through <m>(x_{1},f_{1})</m>, then
+      <me>
+        P_{0,1,2,\ldots,n}(x_{1}) = f[x_{1}] = a_{0} + a_{1}(x_{1}-x_{0}),
+      </me>
+      setting <m>a_{0}=f[x_{0}]</m> and solving for <m>a_{1}</m>, we get:
+      <me>
+        a_{1} = \frac{f[x_{1}]-f[x_{0}]}{x_{1}-x_{0}}= f[x_{0},x_{1}] .
+      </me>
+    </p>
+
+    <p>
+      Similarly, we can show that
+      <me>
+        a_{k} = f[x_{0},x_{1},x_{2},\ldots, x_{k}] \qquad \text{for $k=0,1,2,\ldots,n$}.
+      </me>
+    </p>
+
+    <p>
+      And therefore the interpolating polynomial can be written as
+      <men xml:id="eq-newton-poly">
+        P_{0,1,2,\ldots,n}(x) = \sum_{k=0}^{n} f[x_{0},x_{1},x_{2},\ldots,x_{k}] \biggl(\prod_{i=0}^{k-1}(x-x_{i}) \biggr).
+      </men>
+    </p>
+  </subsection>
+
+
+  <subsection>
+    <title>Calculating the Newton Divided Differences</title>
+
+    <p>
+      Although the formula for the interpolation through Newton Divided differences in <xref ref="eq-newton-poly"/> seems complicated, the determination of the divided differences is not very difficult as we can create a Newton Divided Differences table for data <m>(x_{0},f(x_{0}))</m>, <m>(x_{1},f(x_{1}))</m>, <m>(x_{2},f(x_{2}))</m>, <m>(x_{3},f(x_{3}))</m>.
+    </p>
+
+    <tabular>
+      <row>
+        <cell> <m>x_{0}</m> </cell>
+        <cell> <m>f[x_{0}]</m> </cell>
+      </row>
+
+      <row>
+        <cell> </cell>
+        <cell> </cell>
+        <cell> <m>f[x_{0},x_{1}]</m> </cell>
+      </row>
+
+      <row>
+        <cell> <m>x_{1}</m> </cell>
+        <cell> <m>f[x_{1}]</m> </cell>
+        <cell> </cell>
+        <cell> <m>f[x_{0},x_{1},x_{2}]</m> </cell>
+      </row>
+
+      <row>
+        <cell> </cell>
+        <cell> </cell>
+        <cell> <m>f[x_{1},x_{2}]</m> </cell>
+        <cell> </cell>
+        <cell> <m>f[x_{0},x_{1},x_{2},x_{3}]</m> </cell>
+      </row>
+
+      <row>
+        <cell> <m>x_{2}</m> </cell>
+        <cell> <m>f[x_{2}]</m> </cell>
+        <cell> </cell>
+        <cell> <m>f[x_{1},x_{2},x_{3}]</m> </cell>
+      </row>
+
+      <row>
+        <cell> </cell>
+        <cell> </cell>
+        <cell> <m>f[x_{2},x_{3}]</m> </cell>
+      </row>
+
+      <row>
+        <cell> <m>x_{3}</m> </cell>
+        <cell> <m>f[x_{3}]</m> </cell>
+      </row>
+    </tabular>
+
+    <p>
+      where the first column are the <m>x</m>-values and the 2nd column are the <m>y</m> (or <m>f</m>) values.
+      Both of these are typically given.
+      For the remaining columns, the formula in <xref ref="eq-newton-divided-diff"/> is used.
+      Each value in the third column and to the left uses the the divided differences just to the left (above and below) and the <m>x</m>-values given in the divided difference.
+      The following example shows a specific case.
+    </p>
+
+    <example xml:id="ex-divided-diff-table">
+      <statement>
+        <p>
+          Construct a Newton Divided Differences Table for the data in the table:
+        </p>
+
+        <tabular>
+          <col right="minor"> </col> <col> </col> <col> </col> <col> </col> <col> </col>
+          <row>
+            <cell> <m>x</m> </cell>
+            <cell> <m>0</m> </cell>
+            <cell> <m>1</m> </cell>
+            <cell> <m>3</m> </cell>
+            <cell> <m>6</m> </cell>
+          </row>
+
+          <row>
+            <cell> <m>y</m> </cell>
+            <cell> <m>0</m> </cell>
+            <cell> <m>1</m> </cell>
+            <cell> <m>2</m> </cell>
+            <cell> <m>5</m> </cell>
+          </row>
+        </tabular>
+      </statement>
+
+      <solution>
+        <tabular>
+          <row>
+            <cell> <m>x_{0}=0</m> </cell>
+            <cell> <m>f[x_{0}]=0</m> </cell>
+          </row>
+
+          <row>
+            <cell> </cell>
+            <cell> </cell>
+            <cell> <m>f[x_{0},x_{1}]=1</m> </cell>
+          </row>
+
+          <row>
+            <cell> <m>\boxed{x_1=1}</m> </cell>
+            <cell> <m>f[x_{1}]=1</m> </cell>
+            <cell> </cell>
+            <cell> <m>f[x_{0},x_{1},x_{2}]=-1/6</m> </cell>
+          </row>
+
+          <row>
+            <cell> </cell>
+            <cell> </cell>
+            <cell> <m>f[x_{1},x_{2}]=1/2</m> </cell>
+            <cell></cell>
+            <cell> <m>f[x_{0},x_{1},x_{2},x_{3}]=2/45</m> </cell>
+          </row>
+
+          <row>
+            <cell> <m>x_{2}=3</m> </cell>
+            <cell> <m>f[x_{2}]=2</m> </cell>
+            <cell> </cell>
+            <cell> <m>f[x_{1},x_{2},x_{3}]=1/10</m> </cell>
+          </row>
+
+          <row>
+            <cell> </cell>
+            <cell> </cell>
+            <cell> <m>f[x_{2},x_{3}]=1</m> </cell>
+          </row>
+
+          <row>
+            <cell> <m>\boxed{x_3=6}</m> </cell>
+            <cell> <m>f[x_{3}]=5</m> </cell>
+          </row>
+        </tabular>
+
+        <p>
+          The table is built up from left to right.
+          The second column is the <m>y</m> values in the table.
+          The third column is from <xref ref="eq-newton-divided-diff1"/> and so on.
+          For example, using <xref ref="eq-newton-divided-diff2"/>,
+          <me>
+            f[x_{1},x_{2},x_{3}] = \frac{f[x_{2},x_{3}]-f[x_{1},x_{2}]}{x_{3}-x_{1}}= \frac{1 - \frac{1}{2}}{6-1} = - \frac{1}{10}.
+          </me>
+          where the top is always the differences of the two adjacent numbers, but the denominator are the first-column values followed back (see the boxed values above).
+        </p>
+      </solution>
+    </example>
+
+    <example>
+      <introduction>
+        <p>
+          Use the Newton divided difference table above to construct the interpolating polynomial through each of the following sets of points.
+        </p>
+      </introduction>
+
+
+      <task>
+        <statement>
+          <p>
+            <m>(0,0)</m>, <m>(1,1),</m> and <m>(3,2)</m>.
+          </p>
+        </statement>
+
+        <solution>
+          <p>
+            In this case, <m>n=2</m>, so the interpolating polynomial is:
+            <me>
+              \begin{aligned}P_{0,1,2}(x)\amp = f[x_{0}] + f[x_{0},x_{1}] (x-x_{0}) + f[x_{0},x_{1},x_{2}] (x-x_{0})(x-x_{1}),\\ \amp = 0 + 1(x-0) - \frac{1}{6}(x-0)(x-1), \\\amp = -\frac{1}{6}x^{2} + \frac{7}{6}x.\end{aligned}
+            </me>
+          </p>
+
+          <p>
+            This is the same polynomial as we have seen above in <xref ref="ex-quad-interp-basic"/> and <xref ref="ex-lagrange-interp-quad"/>.
+          </p>
+        </solution>
+      </task>
+
+
+      <task>
+        <statement>
+          <p>
+            <m>(0,0)</m>, <m>(1,1),</m> <m>(3,2)</m> and <m>(6,5)</m>.
+          </p>
+        </statement>
+
+        <solution>
+          <p>
+            In this case, this is the same 3 points as above with an additional point added.
+            Due to the nature of the Newton form of the polynomial, only one term needs to be found:
+            <me>
+              \begin{aligned}P_{0,1,2,3}(x)\amp = P_{0,1,2}(x) + f[x_{0},x_{1},x_{2},x_{3}] (x-x_{0})(x-x_{1})(x-x_{2}) \\\amp = -\frac{1}{6}x^{2} + \frac{7}{6}x +\frac{2}{45}x(x-1)(x-3) \\\amp = \frac{2}{45}\,{x}^{3}-\frac{31}{90}\,{x}^{2}+\frac{13}{10}\,x\end{aligned}
+            </me>
+          </p>
+        </solution>
+      </task>
+    </example>
+    <!--
+    <p>
+      In this case, <m>n=2</m>, so the interpolating polynomial is:
+    </p>
+    <me>
+      \begin{aligned}P_{0,1,2}(x)\amp = f[x_{0}] + f[x_{0},x_{1}] (x-x_{0}) + f[x_{0},x_{1},x_{2}] (x-x_{0})(x-x_{1}), \intertext{using the divided difference table in Example \ref{ex:divided:diff:table}, one gets}\amp = 0 + 1(x-0) - \frac{1}{6}(x-0)(x-1), \\\amp = -\frac{1}{6}x^{2} + \frac{7}{6}x.\end{aligned}
+    </me>
+
+    <p>
+      This is the same polynomial as we have seen above in Examples ex:quad:interp:basic and ex:lagrange:interp:quad.
+    </p>
+    </li> -->
+
+    <p>
+      The last example shows that the Newton Divided Difference form of the interpolating polynomial is nice in that the entire polynomial need not be regenerated from scratch as Lagrange needs.
+      In the next example, we interpolate through the point of the cumulative density function of the normal distribution as seen in the beginning of the chapter.
+    </p>
+
+    <example>
+      <statement>
+        <p>
+          Use the Newton Divided Differences to find the interpolating polynomial through the points given by the cumulative density function at the beginning of the chapter.
+        </p>
+
+        <tabular>
+          <col right="minor"> </col> <col></col><col></col><col></col><col></col><col></col>
+          <row>
+            <cell> <m>x</m> </cell>
+            <cell> <m>0</m> </cell>
+            <cell> <m>0.25</m> </cell>
+            <cell> <m>0.50</m> </cell>
+            <cell> <m>0.75</m> </cell>
+            <cell> <m>1</m> </cell>
+          </row>
+
+          <row>
+            <cell> <m>y</m> </cell>
+            <cell> <m>0.0000</m> </cell>
+            <cell> <m>0.0987</m> </cell>
+            <cell> <m>0.1915</m> </cell>
+            <cell> <m>0.2734</m> </cell>
+            <cell> <m>0.3413</m> </cell>
+          </row>
+        </tabular>
+      </statement>
+
+      <solution>
+        <p>
+          First, we build the Newton Divided Difference table:
+        </p>
+
+        <tabular>
+          <row>
+            <cell> <m>i</m> </cell>
+            <cell> <m>x_{i}</m> </cell>
+            <cell> <m>f[x_{i}]</m> </cell>
+            <cell> <m>f[x_{i},x_{i+1}]</m> </cell>
+          </row>
+
+          <row>
+            <cell> </cell>
+          </row>
+
+          <row>
+            <cell>0</cell>
+            <cell> <m>0</m> </cell>
+            <cell> <m>0.0000</m> </cell>
+          </row>
+
+          <row>
+            <cell> </cell>
+            <cell> </cell>
+            <cell> </cell>
+            <cell> <m>0.3948</m> </cell>
+          </row>
+
+          <row>
+            <cell>1</cell>
+            <cell> <m>0.25</m> </cell>
+            <cell> <m>0.0987</m> </cell>
+            <cell> </cell>
+            <cell> <m>-0.0472</m> </cell>
+          </row>
+
+          <row>
+            <cell> </cell>
+            <cell> </cell>
+            <cell> </cell>
+            <cell> <m>0.3712</m> </cell>
+            <cell> </cell>
+            <cell> <m>-0.05333</m> </cell>
+          </row>
+
+          <row>
+            <cell>2</cell>
+            <cell> <m>0.5</m> </cell>
+            <cell> <m>0.1915</m> </cell>
+            <cell> </cell>
+            <cell> <m>-0.0872</m> </cell>
+            <cell> </cell>
+            <cell> <m>0.02026</m> </cell>
+          </row>
+
+          <row>
+            <cell> </cell>
+            <cell> </cell>
+            <cell> </cell>
+            <cell> <m>0.3276</m> </cell>
+            <cell> </cell>
+            <cell> <m>-0.03307</m> </cell>
+          </row>
+
+          <row>
+            <cell>3</cell>
+            <cell> <m>0.75</m> </cell>
+            <cell> <m>0.2734</m> </cell>
+            <cell> </cell>
+            <cell> <m>-0.1120</m> </cell>
+          </row>
+
+          <row>
+            <cell> </cell>
+            <cell> </cell>
+            <cell> </cell>
+            <cell> <m>0.2716</m> </cell>
+          </row>
+
+          <row>
+            <cell>4</cell>
+            <cell> <m>1.0</m> </cell>
+            <cell> <m>0.3413</m> </cell>
+          </row>
+        </tabular>
+
+        <p>
+          And the interpolating polynomial is:
+          <me>
+            \begin{aligned}P_{0,1,2,3,4}(x)\amp = 0 + 0.3948x-0.0472x(x-0.25) -0.053333x(x-0.25)(x-0.5)\\\amp \qquad +0.02026x(x-0.25)(x-0.5)(x-0.75) \\\amp = 0.01923862081x^{4}-0.08107936270x^{3}+0.00479110462x^{2}+0.3983943834x,\end{aligned}
+          </me>
+        </p>
+
+        <p>
+          The coefficients of each term are the upper diagonal elements.
+          The corresponding <m>x</m> terms are the products of the <m>x-x_{i}</m> terms up (but not including the current one).
+          For example, the term associated with <m>-0.0472</m> goes up to <m>i=2</m>.
+          These <m>x</m> terms are <m>(x-x_{0})(x-x_{1}) = (x-0)(x-0.25)</m>.
+          The resulting polynomial is the same as that in <xref ref="ex-interp-normal-dist"/>, which used the Lagrange form of the interpolation polynomial.
+        </p>
+      </solution>
+    </example>
+  </subsection>
+
+
+  <subsection>
+    <title>Errors and Interpolation, revisited</title>
+
+    <p>
+      In <xref ref="ex-interp-error"/>, we found the interpolating polynomial that passes through the sine curve for <m>x=0,\pi/2</m> and <m>\pi</m>.
+      First, let's use Newton's Divided Difference to find this polynomial again.
+    </p>
+
+    <p>
+      The interpolating data will be:
+    </p>
+
+    <tabular>
+      <col right="minor"> </col> <col></col><col></col><col></col>
+      <row>
+        <cell> <m>x</m> </cell>
+        <cell>0</cell>
+        <cell> <m>\pi/2</m> </cell>
+        <cell> <m>\pi</m> </cell>
+      </row>
+
+      <row>
+        <cell> <m>y</m> </cell>
+        <cell>0</cell>
+        <cell>1</cell>
+        <cell>0</cell>
+      </row>
+    </tabular>
+
+    <p>
+      Using Newton's Divided Differences we get the table:
+    </p>
+
+    <tabular>
+      <row>
+        <cell> <m>i</m> </cell>
+        <cell> <m>x_{i}</m> </cell>
+        <cell> <m>f[x_{i}]</m> </cell>
+        <cell> <m>f[x_{i},x_{i+1}]</m> </cell>
+        <cell> <m>f[x_{0},x_{1},x_{2}]</m> </cell>
+      </row>
+
+      <row>
+        <cell>0</cell>
+        <cell> <m>0</m> </cell>
+        <cell> <m>0</m> </cell>
+      </row>
+
+      <row>
+        <cell> </cell>
+        <cell> </cell>
+        <cell> </cell>
+        <cell> <m>2/\pi</m> </cell>
+      </row>
+
+      <row>
+        <cell>1</cell>
+        <cell> <m>\pi/2</m> </cell>
+        <cell> <m>1</m> </cell>
+        <cell> </cell>
+        <cell> <m>-4/\pi^{2}</m> </cell>
+      </row>
+
+      <row>
+        <cell> </cell>
+        <cell> </cell>
+        <cell> </cell>
+        <cell> <m>-2/\pi</m> </cell>
+        <cell> </cell>
+      </row>
+
+      <row>
+        <cell>2</cell>
+        <cell> <m>\pi</m> </cell>
+        <cell> <m>0</m> </cell>
+        <cell> </cell>
+      </row>
+    </tabular>
+
+    <p>
+      and for the interpolating polynomial, we get:
+      <me>
+        \begin{aligned}P_{0,1,2}(x)\amp = 0 + \frac{2}{\pi}x - \frac{4}{\pi^{2}}x(x-\pi/2) \\\amp = -\frac{4}{\pi^{2}}x^{2} + \frac{4}{\pi}x\end{aligned}
+      </me>
+      which is the same as seen in <xref ref="ex-interp-error"/>.
+    </p>
+
+    <p>
+      Next, let's add two additional points on the sine curve when <m>x=\pi/4</m> and <m>x=3\pi/4</m>.
+      We can add these points into the table and expand the table.
+      (Note: even though the <m>x</m>-values are not listed smallest to largest, this does not matter).
+    </p>
+
+    <tabular>
+      <row>
+        <cell> <m>i</m> </cell>
+        <cell> <m>x_{i}</m> </cell>
+        <cell> <m>f[x_{i}]</m> </cell>
+        <cell> <m>f[x_{i},x_{i+1}]</m> </cell>
+      </row>
+
+      <row>
+        <cell> <m>0</m> </cell>
+        <cell> <m>0</m> </cell>
+        <cell> <m>0</m> </cell>
+      </row>
+
+      <row>
+        <cell> </cell>
+        <cell> </cell>
+        <cell> </cell>
+        <cell> <m>2/\pi</m> </cell>
+      </row>
+
+      <row>
+        <cell> <m>1</m> </cell>
+        <cell> <m>\pi/2</m> </cell>
+        <cell> <m>1</m> </cell>
+        <cell> <m>\qquad \qquad-4/\pi^{2}</m> </cell>
+      </row>
+
+      <row>
+        <cell> </cell>
+        <cell> </cell>
+        <cell> </cell>
+        <cell> <m>-2/\pi</m> <m>\qquad \qquad(32\sqrt{2}-48)/(3\pi^{3})</m> </cell>
+      </row>
+
+      <row>
+        <cell> <m>2</m> </cell>
+        <cell> <m>\pi</m> </cell>
+        <cell> <m>0</m> </cell>
+        <cell> <m>\qquad \qquad (8\sqrt{2}-24)/(3\pi^{2})</m> <m>\qquad (192-128\sqrt{2})/(3\pi^{4})</m> </cell>
+      </row>
+
+      <row>
+        <cell> </cell>
+        <cell> </cell>
+        <cell> </cell>
+        <cell> <m>-2\sqrt{2}/(3\pi)</m> <m>\qquad (96-64\sqrt{2})/(3\pi^{3})</m> </cell>
+      </row>
+
+      <row>
+        <cell> <m>3</m> </cell>
+        <cell> <m>\pi/4</m> </cell>
+        <cell> <m>\sqrt{2}/2</m> </cell>
+        <cell> <m>\qquad\qquad -8\sqrt{2}/(3\pi^{2})</m> </cell>
+      </row>
+
+      <row>
+        <cell> </cell>
+        <cell> </cell>
+        <cell> </cell>
+        <cell> <m>0</m> </cell>
+      </row>
+
+      <row>
+        <cell> <m>4</m> </cell>
+        <cell> <m>3\pi/4</m> </cell>
+        <cell> <m>\sqrt{2}/2</m> </cell>
+      </row>
+    </tabular>
+
+    <p>
+      So the interpolation polynomial is:
+      <me>
+        \begin{aligned}P_{0,1,2,3,4}(x)\amp = 0 + \frac{2}{\pi}x -\frac{4}{\pi^{2}}x(x-\pi/2) +\frac{32\sqrt{2}-48}{3\pi^{3}}x(x-\pi/2)(x-\pi) \\\amp \qquad + \frac{192-128\sqrt{2}}{3\pi^{4}}x(x-\pi/2)(x-\pi)(x-\pi/4)\end{aligned}
+      </me>
+    </p>
+
+    <p>
+      From the error formula given in <xref ref="thm-interp-error"/>.
+      <me>
+        \begin{aligned}|f(x)-P(x)|\amp = \biggl\vert \frac{f^{(n+1)}(\xi(x))}{(n+1)!}\prod_{i=0}^{n} (x-x_{i}) \biggr\vert\end{aligned}
+      </me>
+    </p>
+
+    <p>
+      in this case <m>|f^{(n+1)}(x)| \leq 1</m> so
+      <me>
+        \begin{aligned}|f(x)-P(x)| \leq \frac{1}{(n+1)!}\prod_{i=0}^{n} (x-x_{i})\end{aligned}
+      </me>
+    </p>
+
+    <p>
+      It can be shownThis is quite difficult to show and is not a very tight bound, but is sufficient for this example.
+      See ???? for a reference.
+      that if the <m>x_{i}</m> are equally-spaced on the interval <m>[a,b]</m>, that
+      <me>
+        \begin{aligned}\prod_{i=0}^{n} (x-x_{i}) \leq (b-a)^{n} \frac{n!}{n^{n}}.\end{aligned}
+      </me>
+    </p>
+
+    <p>
+      Therefore the error in this situation can be shown to be:
+      <me>
+        \begin{aligned}|f(x)-P(x)|\amp \leq \frac{1}{(n+1)!}\frac{\pi^{n} n!}{n^{n}}\\\amp = \frac{(\pi)^{n}}{(n+1) n^{n}}\end{aligned}
+      </me>
+      and in the case of <m>n=4</m>, this is
+
+    <me>
+      \begin{aligned}|f(x)-P(x)| \leq 0.0761.\end{aligned}
+    </me>
+  </p>
+
+  <p>
+    Therefore theoretically, the maximum error between the sine function and the interpolated polynomial through the five equally-space points on <m>[0,\pi</m>] is bounded by 0.0761.
+  </p>
+</subsection>
+
+
+<subsection>
+  <title>Summary</title>
+
+  <p>
+    This section showed a second method called Newton Divided Difference method for finding an interpolated polynomial through a set of points.
+    The two advantages to this method is that the polynomial can be found by finding a divided difference table and that additional points can be added without recalculating the entire polynomial.
+  </p>
+</subsection>
+</section>

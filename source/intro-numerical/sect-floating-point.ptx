@@ -1,0 +1,458 @@
+<section xml:id="sect-floating-point">
+  <title>Floating Point Number Systems</title>
+
+  <objectives>
+    <ul>
+      <li>
+        <p>
+          Understand the impracticality of using the standard number types in mathematics.
+        </p>
+      </li>
+
+      <li>
+        <p>
+          Understand the definition of a <alert>floating-point number system</alert>
+        </p>
+      </li>
+
+      <li>
+        <p>
+          Understand the limitations of a floating-point number system including <alert>underflow</alert>, <alert>overflow</alert> and <alert>rounding errors</alert>.
+        </p>
+      </li>
+    </ul>
+  </objectives>
+
+  <introduction>
+    <p>
+      Another important subject needed for numerical analysis is that of floating point numbers.
+      In mathematics, we have numbers such as integers, rationals, reals and complex.
+      These are great for doing mathematics, however when we try to use them for computations, they aren’t so great.
+      For example, how do you store the number <m>x=\sqrt{2}</m>? In a computer, you have to limit the number of stored digits for a decimal number.
+      Also, how do you store the number of atoms in the universe? It’s an integer, but it’s big.
+    </p>
+
+    <p>
+      If we look at the integers, we could store an arbitrary integer just by writing down the decimal digits according to any integer.
+      However, this is not very practical (although it can be done), and for most situations, arbitrary-size integers are not needed.
+      Therefore most computer software packages have an upper and lower limit on the integers.
+    </p>
+
+    <p>
+      We can also do something similar with the rationals, because of the fact that any rational is a ratio of integers, and I will skip this discussion.
+    </p>
+
+    <p>
+      Storage of a real is also a problem, and most computer software use a <alert>floating point number</alert> as an approximation.
+      Before discussing details about these, we will review writing a number in scientific notation.
+    </p>
+  </introduction>
+
+
+  <subsection>
+    <title>Scientific Notation</title>
+
+    <p>
+      Recall that any number written in decimal form with only a finite number of digits can be written in scientific notation that is in the form:
+      <me>
+        \begin{aligned}a \times 10^{b}\end{aligned}
+      </me>
+      where <m>1&#x3C;|a|&#x3C;10</m> and <m>b</m> is an integer.
+      For example <m>4003.23</m> can be written as <m>4.00323 \times 10^{3}</m>, so <m>a=4.00323</m> and <m>b=3</m>.
+    </p>
+
+    <p>
+      In this form the number <m>a</m> is often called the <alert>significand</alert> or <alert>mantissa</alert> and the number <m>b</m> is <alert>exponent</alert>.
+      This example has the base 10, however other bases are common (generally base 2).
+    </p>
+
+    <p>
+      One major advantage to using numbers in this form is the simple multiplication and division.
+      Consider multiplying <m>x=3.4 \times 10^{2}</m> and <m>y=-4.7 \times 10^{-3}</m>.
+      Using properties of exponentials we get
+      <me>
+        \begin{aligned}xy \amp = (3.4)(-4.7) \times 10^{2-3}= -15.98 \times 10^{-1}\end{aligned}
+      </me>
+      and typically we would like to put this back into scientific notation by shifting the exponent so <m>xy=-1.598 \times 10^{0}</m>.
+    </p>
+
+    <p>
+      Division can be done in a similar manner and perhaps surprisingly, addition and subtraction are more difficult due to the fact that the exponents of the two numbers need to be equal before adding and subtracting.
+    </p>
+  </subsection>
+
+
+  <subsection>
+    <title>Floating Point Numbers of a given size</title>
+
+    <p>
+      The reason for using floating point numbers in calculations is twofold.
+      First, there is a finite size of storage for a number and secondly, routines for performing operations on floating-point numbers are fast and usually encoded on a computer chip.
+    </p>
+
+    <p>
+      Consider a floating point of a given size, say 64 bits generally called a <em>double precision floating point number</em>.
+      The first bit is generally used for the sign, the next 11 are the exponent and the final 52 bits store the mantissa.
+      A floating point number has two limitations and that is the precision (how many digits that can be stored) and the magnitude (the largest number).
+      Double precision numbers are store in binary and converted to decimal with the form:
+      <me>
+        \begin{aligned}(-1)^{s} 2^{c-1023}(1+f)\end{aligned}
+      </me>
+      where <m>s</m> is the sign <m>c</m> is the exponent and <m>f</m> stores the mantissa.
+      For example, consider the following number:
+      <me>
+        \begin{aligned}0\;10000000101\;0111011010000000000000000000000000000000000000000000\end{aligned}
+      </me>
+      where spaces separate out <m>s</m>, <m>c</m> and <m>f</m>.
+      Converting <m>c</m> to decimal:
+      <me>
+        \begin{aligned}c \amp = 1 \cdot 2^{10}+ 0 \cdot 2^{9} + \cdots + 1 \cdot 2^{2} + 0 \cdot 2^{1} + 1 \cdot 2^{0} = 1029\end{aligned}
+      </me>
+    </p>
+
+    <p>
+      The mantissa is calculated in the following way
+      <me>
+        \begin{aligned}f \amp = 0 \cdot \biggl(\frac{1}{2}\biggr)^{1} + 1 \cdot \biggl(\frac{1}{2}\biggr)^{2} + 1 \cdot \biggl(\frac{1}{2}\biggr)^{3} + 1 \cdot \biggl(\frac{1}{2}\biggr)^{4} + 0 \cdot \biggl(\frac{1}{2}\biggr)^{5} + 1 \cdot \biggl(\frac{1}{2}\biggr)^{6} \\ \amp \qquad + 1 \cdot \biggl(\frac{1}{2}\biggr)^{7} + 0 \cdot \biggl(\frac{1}{2}\biggr)^{8} + 1 \cdot \biggl(\frac{1}{2}\biggr)^{9} = \frac{237}{512}\end{aligned}
+      </me>
+      and thus the floating point number is:
+      <me>
+        \begin{aligned}(-1)^{0} 2^{1029-1023}\biggl(1+\frac{237}{512}\biggr) = 93.625\end{aligned}
+      </me>
+    </p>
+
+    <p>
+      The double precision number system falls into a class of number systems that we can commonly call floating-point number systems:
+    </p>
+
+    <definition>
+      <title>Floating Point Number System</title>
+
+      <statement>
+        <p>
+          A <alert>floating point number system</alert>, <m>\mathbf{F}(\beta, k, m, M)</m> is a subset of the real numbers characterized by the parameters:
+        </p>
+
+        <table>
+          <title>TITLE</title>
+
+          <tabular>
+            <row>
+              <cell> <m>\beta:</m> </cell>
+              <cell> </cell>
+              <cell>the base</cell>
+            </row>
+
+            <row>
+              <cell> <m>k</m>:</cell>
+              <cell> </cell>
+              <cell>the number of digits in the mantissa</cell>
+            </row>
+
+            <row>
+              <cell> <m>m</m>:</cell>
+              <cell> </cell>
+              <cell>the minimum exponent</cell>
+            </row>
+
+            <row>
+              <cell> <m>M</m>:</cell>
+              <cell> </cell>
+              <cell>the maximum exponent</cell>
+            </row>
+          </tabular>
+        </table>
+
+        <p>
+          Elements of <m>\mathbf{F}</m> have the form:
+          <me>
+            \begin{aligned}\pm(0.d_{1}d_{2}\ldots d_{k}) \times \beta^{e}\end{aligned}
+          </me>
+          where <m>d_{1}</m> is nonzero (except when representing the number 0) and <m>d_{i} \in \{0,1,2, \ldots, \beta\}</m> and <m>m\leq e \leq M</m>.
+        </p>
+      </statement>
+    </definition>
+
+    <p>
+      The double precision number system listed above is <m>\mathbf{F}(2,52,-1023,1024)</m>.
+    </p>
+
+    <example>
+      <statement>
+        <p>
+          Consider the floating point system <m>\mathbf{F}(10,2,0,2)</m>, a very simple but illustrative as an example.
+          The following numbers are element of this set.
+        </p>
+
+        <p>
+          <me>
+            \begin{aligned}0, \amp \pm 0.10, \pm 0.11, \pm 0.12, \ldots, \pm 0.19 \\ \amp \pm 0.20, \pm 0.21, \pm 0.22 \dots, \pm 0.29 \\ \amp \vdots \\ \amp \pm 0.90, \pm 0.91, \pm 0.92 \ldots, \pm 0.99 \\ \amp \pm 1.0, \pm 1.1, \pm 1.2, \ldots, \pm 1.9 \\ \amp \pm 2.0, \pm 2.0, \pm 2.2, \ldots, \pm 2.9 \\ \amp \vdots \\ \amp \pm 9.0, \pm 9.1, \pm 9.2, \ldots, \pm 9.9 \\ \amp \pm 10, \pm 11, \pm 12, \ldots, \pm 19 \\ \amp \pm 20, \pm 20, \pm 22, \ldots, \pm 29 \\ \amp \vdots \\ \amp \pm 90, \pm 91, \pm 92, \ldots, \pm 99\end{aligned}
+          </me>
+        </p>
+
+        <p>
+          There are a total of 271 numbers in this system.
+        </p>
+      </statement>
+    </example>
+
+    <p>
+      There are a few things to notice about a floating point number system.
+      The set of numbers is finite and not distributed evenly.
+    </p>
+  </subsection>
+
+
+  <subsection>
+    <title>Rounding Floating Point Numbers</title>
+
+    <p>
+      As we saw above, an issue with floating-point numbers is the precision and size of the number, a more significant issue is that of rounding error when performing operations with such numbers.
+    </p>
+
+    <p>
+      Consider the FPS we saw above <m>\textbf{F}(10,2,0,2)</m>.
+      If we take two of the numbers in the system, <m>x=2.1</m> and <m>y=0.26</m> and add, we get <m>x+y=2.36</m>, which is not represented in the system.
+      In this case there are two options that are typically available: rounding and chopping.
+    </p>
+
+    <p>
+      In rounding, if <m>x</m> cannot be represented in the system, the nearest number to <m>x</m> is used.
+      In the example above, 2.4 would be used.
+    </p>
+
+    <p>
+      In chopping, if <m>x</m> cannot be represented in the system, the number found by chopping the extra digits is used.
+      In the example above, 2.3 would be used.
+    </p>
+  </subsection>
+
+
+  <subsection>
+    <title>Overflow and Underflow</title>
+
+    <p>
+      If a operation results in a number between 0 and the number in the system closest to 0, this is called <alert>underflow</alert>.
+      For example, if we took <m>0.20</m> and divided by <m>50</m> in the system used above, the result is 0.004, which cannot be represented, so an underflow occurs.
+    </p>
+
+    <p>
+      If an operation results in a number larger in magnitude to the largest number in the system, then this is called <alert>overflow</alert>.
+      For example, if we multiply 44 and 50 in the system above, the result is 2200, which is larger than 99 (the largest number), so overflow occurs.
+    </p>
+  </subsection>
+
+
+  <subsection>
+    <title>Rounding Error</title>
+
+    <p>
+      Regardless of the number of digits used in the floating point system, rounding or chopping occurs with nearly every operation.
+      The difference between the actual result and the number used is called the <alert>rounding error</alert>.
+      (It doesn’t matter if numbers are round or chopped.)
+    </p>
+
+    <definition>
+      <statement>
+        <p>
+          Let <m>p^{\star}</m> be an approximation to the number <m>p</m>.
+          The <alert>absolute error</alert> is
+          <me>
+            |p^{\star}- p|
+          </me>
+          and the <alert>relative error</alert> is
+          <me>
+            \frac{|p^{\star}-p|}{|p|}
+          </me>
+        </p>
+      </statement>
+    </definition>
+
+    <example>
+      <statement>
+        <p>
+          Let <m>p=\sqrt{3}</m> and <m>p^{\star}=1.73</m>.
+          Find the absolute and relative errors.
+        </p>
+
+        <p>
+        </p>
+
+        <p>
+          The absolute error is:
+          <me>
+            \begin{aligned}|p^{\star}-p| \amp = |1.73-\sqrt{3}| = 0.00205\end{aligned}
+          </me>
+          and the relative error is
+          <me>
+            \begin{aligned}\frac{|p^{\star}-p|}{|p|} \amp = \frac{|1.73-\sqrt{3}|}{|\sqrt{3}|}= \frac{0.00205}{\sqrt{3}}= 0.00118\end{aligned}
+          </me>
+        </p>
+      </statement>
+    </example>
+  </subsection>
+
+
+  <subsection>
+    <title>Practical Effects of Floating-Point Arithmetic</title>
+
+    <introduction>
+      <p>
+        We saw a simple example of a floating-point system above and although it was quite simple, the floating-point systems that most computers employ have similar limitations.
+        We will see these affects in a simple example from using the quadratic formula as well as solving a linear system.
+      </p>
+    </introduction>
+
+    <subsubsection>
+      <title>Cancellation Error</title>
+
+      <p>
+        One of the biggest sources of error arises when subtracting two comparable numbers.
+        The best example comes from a familiar place.
+      </p>
+
+      <p>
+        Consider the following example.
+        Solve <m>0.27x^{2} - 99.4x + 4.2 =0</m> using the quadratic formula.
+      </p>
+
+      <p>
+        In this case, to emphasize the importance of floating-point numbers, let’s use 4 digits of precision to compute:
+        <me>
+          \begin{aligned}x \amp = \frac{-b \pm \sqrt{b^{2} -4ac}}{2a}\\ \amp = \frac{99.4 \pm \sqrt{9880.36 - 4.536}}{0.54} \amp  \amp \text{round to 4 digits}\\ \amp \approx \frac{99.4 \pm \sqrt{9880 - 4.536}}{0.54}\\ \amp = \frac{99.4 \pm \sqrt{9875.464}}{0.54} \amp  \amp \text{round to 4 digits}\\ \amp \approx \frac{99.4 \pm \sqrt{9875}}{0.54}\\ \amp = \frac{99.4 \pm 99.373}{0.54} \amp  \amp \text{round to 4 digits}\\ \amp \approx \frac{99.40 \pm 99.37}{0.54}\\ \amp = \frac{0.03}{0.54}, \frac{198.8}{0.54} \amp  \amp \text{round to 4 digits}\\ \amp = 0.05555555, 368.148 \\ \amp \approx 0.05555, 368.1\end{aligned}
+        </me>
+      </p>
+
+      <p>
+        When solving this using no roundoff, the roots are <m>368.1058898, 0.0422584</m>, therefore the larger of the two is correct to 4 digits, but the smaller is off and way off in relative terms it is 31%.
+      </p>
+
+      <p>
+        What’s going on here? The issue with this problem is that the two terms in the numerator the <m>-b</m> and the <m>\sqrt{b^{2}-4ac}</m> are close to one another resulting in cancellation.
+      </p>
+
+      <p>
+        One way to solve this problem is on the first term where <m>-b</m> and <m>\sqrt{b^{2}+4ac}</m> are added, that is
+        <me>
+          \begin{aligned}x_{1} \amp = \frac{-b+\sqrt{b^{2}-4ac}}{2a}\end{aligned}
+        </me>
+        if we rationalize the numerator, we can write:
+        <me>
+          \begin{aligned}x_{1} \amp = \frac{(-b+\sqrt{b^{2}-4ac})(-b-\sqrt{b^{2}-4ac})}{2a(-b-\sqrt{b^2-4ac}}\\ \amp = \frac{4ac}{2a(-b-\sqrt{b^2-4ac})}\\ \amp = \frac{2c}{-b-\sqrt{b^{2}-4ac}}\end{aligned}
+        </me>
+        and get an analogous form of the quadratic formula.
+        If we use <m>a=0.27</m>, <m>b=99.4</m> and <m>c=4.2</m>, we get 0.04225, identical to 4 digits using the result above.
+      </p>
+    </subsubsection>
+
+    <subsubsection>
+      <title>Matrices and Roundoff Errors</title>
+
+      <p>
+        One of the major places that roundoff errors occur is in matrix operations.
+        Consider for example performing Gaussian Elimination on the following matrix:
+        <me>
+          \left[\begin{array}{rrr|r} 6  \amp  1  \amp  5  \amp  13 \\ 2  \amp  1/3  \amp  -9  \amp  -17 \\ 1  \amp  4  \amp  2  \amp  34/5 \end{array}\right]
+        </me>
+      </p>
+
+      <p>
+        If we use rational numbers to solve this problem, then we get for the first step:
+        <me>
+          \begin{array}{r}-\frac{1}{3} R_1 + R_2 \rightarrow R_2 \\ -\frac{1}{6} R_1 + R_3 \rightarrow R_3\end{array} \qquad \left[\begin{array}{rrr|r} 6  \amp  1  \amp  5  \amp  13 \\ 0  \amp  0  \amp  -32/3  \amp  -64/3 \\ 0  \amp  23/6  \amp  7/6  \amp  139/30 \end{array}\right]
+        </me>
+      </p>
+
+      <p>
+        From the second row, you can see that <m>-32/3 z = -64/3</m> or <m>z=2</m>, the other two rows and back substitution can get you the results that <m>x=2/5</m> and <m>y=3/5</m>.
+      </p>
+
+      <p>
+        If instead we use floating point arithmetic with 4 decimal places of accuracy, then the original matrix is:
+        <me>
+          \left[\begin{array}{rrr|r} 6.0  \amp  1.0  \amp  5.0  \amp  13.0 \\ 2.0  \amp  0.3333  \amp  -9.0  \amp  -17.0 \\ 1.0  \amp  4.0  \amp  2.0  \amp  6.8 \end{array}\right]
+        </me>
+        and performing the same two operations, you get:
+        <me>
+          \begin{array}{r}-\frac{1}{3} R_1 + R_2 \rightarrow R_2 \\ -\frac{1}{6} R_1 + R_3 \rightarrow R_3\end{array} \qquad \left[\begin{array}{rrr|r} 6.0  \amp  1.0  \amp  5.0  \amp  13.0 \\ 0.0  \amp  -3.333 \times 10^{-5}  \amp  -10.66  \amp  -21.33 \\ 0.0  \amp  3.833  \amp  1.166  \amp  4.633\end{array}\right]
+        </me>
+      </p>
+
+      <p>
+        Lastly, eliminating the 3rd row, 2nd column, we get:
+        <me>
+          \begin{array}{r}-1.15 \times 10^{-5} R_2 +R_3 \rightarrow R_3\end{array} \qquad \left[\begin{array}{rrr|r} 6.0  \amp  1.0  \amp  5.0  \amp  13.0 \\ 0.0  \amp  -3.333 \times 10^{-5}  \amp  -10.66  \amp  -21.33 \\ 0.0  \amp  0  \amp  1226000  \amp  2453000\end{array} \right]
+        </me>
+      </p>
+
+      <p>
+        Now, using back substitution, we can get that <m>z=2.001</m>.
+        Using the second row, we get that
+        <me>
+          y = \frac{-21.33 + 10.66(2.001)}{-3.333 \times 10^{-5}}= 0.0001
+        </me>
+        and then
+        <me>
+          x  = \frac{13.0 - 0.001 - 5(2.001)}{6} = 0.499
+        </me>
+      </p>
+
+      <p>
+        Compared with the results using rational numbers, the solutions are off by a tremendous amount.
+        We will see in <xref ref="ch-linear-algebra"/> how to perform matrix row operations to minimize such errors.
+      </p>
+    </subsubsection>
+  </subsection>
+
+
+  <subsection>
+    <title>Why not just use Rational Numbers?</title>
+
+    <p>
+      With the results of the previous problem, one solution would be to just use rational numbers.
+      In many cases, this is a great idea, however in general, as the size of the matrix increase, the computations become costly.
+      Also, there are limitation in storage for rational numbers as well, so it may not be practical.
+    </p>
+  </subsection>
+  <!--
+  <subsection>
+    <title>Evaluating Functions</title>
+
+    <p>
+      REDO THIS SECTION
+    </p>
+
+    <p>
+      The last example of round off you might be familiar with in Maple.
+      For example, if we plot the function:
+      <me>
+        f(x) = e^{x} - \biggl(1 + x + \frac{x^{2}}{2}+ \frac{x^{3}}{6}\biggr)
+      </me>
+      on the plotting domain <m>-0.001 \leq x \leq 0.001</m>, then Maple used to generate the following plot on the right:Since about the version released in 2015, Maple’s plotting routine has gotten better and the artifacts seen on the plot are no longer there.
+    </p>
+
+    <table>
+      <title>TITLE</title>
+
+      <tabular>
+        <row>
+          <cell>
+          <image source="plot">
+          </image>
+          </cell>
+          <cell>
+          <image source="plot2">
+          </image>
+          </cell>
+        </row>
+      </tabular>
+    </table>
+
+    <p>
+      Knowing that the function <m>f</m> is continuous and differentiable, you should be surprised to see a jagged plot.
+      This is due to roundoff error (yes even Maple), which uses double precision as a default for computations.
+      If the number of significant digits used is increased, then you get the expect results on the right.
+    </p>
+  </subsection>
+  -->
+</section>

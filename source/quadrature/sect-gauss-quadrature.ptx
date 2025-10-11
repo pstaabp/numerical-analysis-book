@@ -1,0 +1,246 @@
+<section xml:id="sect-gauss-quad">
+  <title>Gaussian Quadrature</title>
+
+  <introduction>
+    <p>
+      Recall that a quadrature rule approximates <m>\int_{a}^{b} f(x) \, dx</m> with a formula
+      <me>
+        \begin{aligned}I_{n} (f)\amp = \sum_{i=0}^{n} w_{i} f(x_{i}),\end{aligned}
+      </me>
+      for <m>x_{i}</m> nodes (or quadrature points) and <m>w_{i}</m> are the weights.
+      The concept of Gaussian Quadrature is the formula that determines the weights and nodes with the highest degree of precision.
+    </p>
+
+    <p>
+      Also, in the derivations below, we will find the integral with <m>a=-1</m> and <m>b=1</m> for simplicity.
+      For general intervals, a linear conversion can be made.
+    </p>
+  </introduction>
+
+
+  <subsection>
+    <title>2-point Gaussian Quadrature Formula</title>
+
+    <p>
+      In this case the quadrature formula will be
+      <me>
+        I_{2} (f) = w_{0} f(x_{0}) + w_{1} f(x_{1})
+      </me>
+      and we want to find <m>x_{0}, x_{1}, w_{0}, w_{1}</m>, which is in contrast to Newton-Cotes formulas where we knew <m>x_{0}</m> and <m>x_{1}</m>.
+    </p>
+
+    <p>
+      <men xml:id="eq-int-power-x">
+        \int_{-1}^{1} x^{n} \, dx = \begin{cases}\frac{2}{n+1} \amp  \text{for $n$ even} \\ 0 \amp  \text{for $n$ odd}\end{cases}
+      </men>
+    </p>
+
+    <p>
+      Applying this formula for <m>n=0,1,2,3</m> results in the following nonlinear system:
+      <md>
+        <mrow xml:id="eq-gq-1" number="yes"> 2\amp = w_{0} + w_{1} </mrow>
+        <mrow xml:id="eq-gq-2" number="yes"> 0\amp = w_{0} x_{0} + w_{1} x_{1} </mrow>
+        <mrow xml:id="eq-gq-3" number="yes"> \frac{2}{3}\amp = w_{0} x_{0}^{2} + w_{1} x_{1}^{2} </mrow>
+        <mrow xml:id="eq-gq-4" number="yes"> 0\amp = w_{0} x_{0}^{3} + w_{1} x_{1}^{3}</mrow>
+      </md>
+    </p>
+
+    <p>
+      Next, we solve this nonlinear system.
+      First, find <m>w_{0}</m> in <xref ref="eq-gq-2"/>,
+      <men xml:id="eq-gq-5">
+        w_{0} = -\frac{w_{1} x_{1}}{x_{0}}
+      </men>
+      and substitute this into <xref ref="eq-gq-4"/> to arrive at
+      <me>
+        \begin{aligned}0\amp = - \frac{w_{1} x_{1}}{x_{0}}x_{0}^{3} + w_{1} x_{1}^{3} \\\amp = w_{1} x_{1} ( x_{0}^{2}-x_{1}^{2}).\end{aligned}
+      </me>
+    </p>
+
+    <p>
+      This results in either <m>w_{1}=0</m>, <m>x_{1}=0</m>, <m>x_{0}=x_{1}</m> or <m>x_{0}=-x_{1}</m>.
+    </p>
+
+    <p>
+      If <xref ref="eq-gq-5"/> is substituted into <xref ref="eq-gq-3"/>, one gets
+      <me>
+        \begin{aligned}\frac{2}{3}\amp = - w_{1} \frac{x_{1}}{x_{0}}x_{0}^{2} + w_{1} x_{1}^{2}, \\ \frac{2}{3}\amp = w_{1} x_{1} (x_{1}-x_{0}).\end{aligned}
+      </me>
+    </p>
+
+    <p>
+      If <m>w_{1}=0</m>, <m>x_{1}=0</m> or <m>x_{1}=x_{0}</m>, there is no solution to this, therefore, <m>x_{0}=-x_{1}</m>.
+      Using this result in <xref ref="eq-gq-2"/> means that <m>w_{0}=w_{1}</m> and from <xref ref="eq-gq-1"/>, both weights must be 1.
+    </p>
+
+    <p>
+      Lastly, substituting <m>x_{0}=-x_{1}</m>, <m>w_{0}=w_{1}=1</m> into <xref ref="eq-gq-3"/>, we get:
+      <men xml:id="eq-roots-gauss-quad">
+        \begin{aligned}\frac{2}{3}\amp = x_{1}^{2} + x_{1}^{2} \\ \text{or} \\ x_{1}^{2} - \frac{1}{3}\amp = 0 \end{aligned}
+      </men>
+    </p>
+
+    <p>
+      so <m>x_{1} = \sqrt{1/3}</m> and <m>x_{0}=-\sqrt{1/3}</m>.
+    </p>
+
+    <p>
+      The 2-point Gaussian Quadrature formula for <m>f(x)</m> on <m>[-1,1]</m> is given by
+      <men xml:id="eq-2pt-gauss-quad">
+        I_{2} (f) = f\biggl( \sqrt{\frac{1}{3}}\biggr) + f\biggl( -\sqrt{\frac{1}{3}}\biggr)
+      </men>
+    </p>
+
+    <p>
+      We will see in <xref ref="ch-approximation"/> that the quadratic in <xref ref="eq-roots-gauss-quad"/> is special.
+      It is called a Legendre polynomial and the roots of it are the nodes for Gaussian Quadrature.
+      The next example shows an application of Gaussian quadrature.
+    </p>
+
+    <example>
+      <statement>
+        <p>
+          Use the two-point Gaussian Quadrature formula in <xref ref="eq-2pt-gauss-quad"/>  to approximate <m>\int_{-1}^{1} \cos (\pi x/2) \, dx</m>.
+        </p>
+
+        <p>
+        </p>
+
+        <p>
+          In this case,
+          <me>
+            \begin{aligned}I_{2} (f)\amp = \cos \biggl( \frac{\pi}{2}\sqrt{\frac{1}{3}}\biggr) + \cos \biggl( -\frac{\pi}{2}\sqrt{\frac{1}{3}}\biggr) \approx 1.23238101695912\end{aligned}
+          </me>
+        </p>
+
+        <p>
+          Note that the actual value of the integral is <m>4/\pi \approx 1.27323954473516</m>.
+        </p>
+      </statement>
+    </example>
+
+    <p>
+      The above example shows the usefulness of Gaussian quadrature.
+      Since <m>f</m> evaluated at each endpoint is 0, the trapezoid rule applied to this is 0 and Simpson's rule is 4/3.
+      By selecting other nodes, Gaussian quadrature is often much more accurate than the Newton-Cotes formulas.
+    </p>
+  </subsection>
+
+
+  <subsection>
+    <title>Gaussian Quadrature on <m>[a,b]</m> </title>
+
+    <p>
+      In this case, we translate the interval <m>[-1,1]</m> to <m>[a,b]</m> as we have seen before.
+      If <m>x \in [-1,1]</m> and <m>z \in [a,b]</m> then
+      <men xml:id="eq-convert-interval">
+        z = \frac{a+b}{2}+ x \frac{b-a}{2}.
+      </men>
+    </p>
+
+    <p>
+      Therefore the 2-point Gaussian quadrature formula in <xref ref="eq-2pt-gauss-quad"/> can be written as
+      <md>
+        <mrow> \int_{a}^{b} f(z) \, dz\amp = \frac{b-a}{2}\int_{-1}^{1} f\biggl(\frac{a+b}{2}+ x \frac{b-a}{2}\biggr) \, dx, </mrow>
+        <mrow xml:id="eq-2pt-gauss-quad-a-b" number="yes"> \amp \approx \frac{b-a}{2}\biggl( f\biggl(\frac{a+b}{2}-\frac{b-a}{2\sqrt{3}}\biggr) + f\biggl(\frac{a+b}{2}+ \frac{b-a}{2\sqrt{3}}\biggr) </mrow>
+      </md>
+    </p>
+
+    <example>
+      <statement>
+        <p>
+          Use <xref ref="eq-2pt-gauss-quad-a-b"/> to approximate <m>\int_{0}^{1} e^{-x^2}\, dx</m>.
+        </p>
+        </statement>
+        <solution>
+
+        <p>
+          In this case <m>a=0</m>, <m>b=1</m> and we get
+          <me>
+            \begin{aligned}\int_{0}^{1} e^{-x^2}\, dx\amp \approx \frac{1}{2}\biggl( f\biggl(\frac{1}{2}- \frac{1}{2\sqrt{3}}\biggr) + f\biggl(\frac{1}{2}+ \frac{1}{2\sqrt{3}}\biggr) \biggr) \\\amp = 0.7465946882\end{aligned}
+          </me>
+          which has error of 2.29 <m>\times 10^{-4}</m>.
+          Note that this error is better than the composite trapezoid rule with <m>n=10</m> seen in the previous section in <xref ref="ex-comp-trap"/>.
+        </p>
+      </solution>
+    </example>
+  </subsection>
+
+
+  <subsection>
+    <title>3-point Gaussian Quadrature Formula</title>
+
+    <p>
+      The next more-accurate Gaussian Quadrature Formula is using 3 nodes.
+      That is, if we let
+      <me>
+        \begin{aligned}I_{3}(f)\amp = w_{0} f(x_{0}) + w_{1} f(x_{1}) + w_{2} f(x_{2})\end{aligned}
+      </me>
+      to have the highest precision on the interval <m>[-1,1]</m>.
+      If we apply <xref ref="eq-int-power-x"/> for <m>n=0,1,\ldots,5</m>, the result is:
+      <me>
+        \begin{aligned}2\amp = w_{0} +w_{1}+w_{2}\amp 0\amp = w_{0} x_{0} + w_{1} x_{1} + w_{2} x_{2} \\ \frac{2}{3}\amp = w_{0} x_{0}^{2} + w_{1} x_{1}^{2} + w_{2} x_{2}^{2}\amp 0\amp = w_{0} x_{0}^{3} + w_{1} x_{1}^{3} + w_{2} x_{2}^{3} \\ \frac{2}{5}\amp = w_{0} x_{0}^{4} + w_{1} x_{1}^{4} + w_{2} x_{2}^{4}\amp 0\amp = w_{0} x_{0}^{5} + w_{1} x_{1}^{5} + w_{2} x_{2}^{5} \\\end{aligned}
+      </me>
+    </p>
+
+    <p>
+      Although this may be a nightmare to try to solve by hand, a CAS (like Maple) can generate the solution as:
+      <me>
+        \begin{aligned}w_{0}\amp = \frac{5}{9}\amp w_{1}\amp = \frac{8}{9}\amp w_{2}\amp = \frac{5}{9}\\ x_{0}\amp = -\sqrt{\frac{3}{5}}\amp x_{1}\amp = 0\amp x_{2}\amp = \sqrt{\frac{3}{5}}.\end{aligned}
+      </me>
+      The 3-point Gaussian Quadrature formula for approximating <m>\int_{-1}^{1} f(x) \, dx</m> is:
+      <men xml:id="eq-3pt-gauss-quad">
+        \int_{-1}^{1}f(x) \, dx \approx \frac{5}{9}f\biggl( -\sqrt{\frac{3}{5}}\biggr) + \frac{8}{9}f(0) + \frac{5}{9}f\biggl( \sqrt{\frac{3}{5}}\biggr)
+      </men>
+    </p>
+
+    <p>
+      Note, the solutions for <m>x_{i}</m> above are the roots of the polynomial
+      <me>
+        P(x) = x^{3} - \frac{3}{5}x
+      </me>
+      which is also a Legendre polynomial.
+      We will discuss this is more generality in <xref ref="ch-approximation"/>.
+    </p>
+
+    <example>
+      <statement>
+        <p>
+          Use the 3-point Gaussian Quadrature formula in <xref ref="eq-3pt-gauss-quad"/> as well as the interval conversion in <xref ref="eq-convert-interval"/> to find an approximation to
+          <me>
+            \int_{0}^{1} e^{-x^2}\, dx
+          </me>
+        </p>
+      </statement>
+
+      <solution>
+        <p>
+          Using <xref ref="eq-convert-interval"/>, the three points <m>z_{0},z_{1},z_{2}</m> become:
+          <me>
+            \begin{aligned}z_{0}\amp = \frac{1}{2}+ \frac{1}{2}x_{0} = \frac{1}{2}- \frac{1}{2}\sqrt{\frac{3}{5}}\\ z_{1}\amp = \frac{1}{2}+ \frac{1}{2}x_{1} = \frac{1}{2}\\ z_{2}\amp = \frac{1}{2}+ \frac{1}{2}x_{2} = \frac{1}{2}+ \frac{1}{2}\sqrt{\frac{3}{5}}\\\end{aligned}
+          </me>
+          and using <m>f(x)=e^{-x^2}</m>,
+          <me>
+            \begin{aligned}\int_{0}^{1} e^{-x^2}\amp = \frac{1}{2}\biggl(\frac{5}{9}f\biggl(\frac{1}{2}- \frac{1}{2}\sqrt{\frac{3}{5}}\biggr) + \frac{8}{9}f\biggl(\frac{1}{2}\biggr) + \frac{5}{9}f\biggl(\frac{1}{2}+ \frac{1}{2}\sqrt{\frac{3}{5}}\biggr) \biggr) \\\amp \approx 0.7468145842\end{aligned}
+          </me>
+        </p>
+
+        <p>
+          Note that the <m>1/2</m> that multiplies in front is the term <m>(b-a)/2</m> due to the change in length of the interval.
+          Also, the quadrature result is within <m>10^{-5}</m> of the correct answer.
+        </p>
+      </solution>
+    </example>
+  </subsection>
+
+
+  <subsection>
+    <title>Error Formula of Gaussian Quadrature</title>
+
+    <p>
+      The error associated with Gaussian quadrature can be found in much the same manner that we found for the Newton-Cotes formulas in <xref ref="sect-intro-quadature"/>.
+      In short the error associated with the interpolated polynomial is used and upon integration an error formula can be found.
+      We won't go into the details here mainly because the irregular spacing of the nodes (roots of Legendre polynomials) make the calculation more difficult than we saw for Newton-Cotes.
+    </p>
+  </subsection>
+</section>

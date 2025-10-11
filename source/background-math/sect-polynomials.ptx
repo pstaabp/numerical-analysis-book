@@ -1,6 +1,32 @@
 <section xml:id="sect-polynomials">
   <title>Polynomials</title>
 
+  <objectives>
+    <ul>
+      <li>
+        <p>
+          Understand the general, factored and horner forms of a <alert>polynomial</alert>.
+        </p>
+      </li>
+      <li>
+        <p>
+          Find the <alert>roots</alert> and <alert>multiplicity</alert> of a polynomial.
+        </p>
+      </li>
+      <li>
+        <p>
+          Use the roots and multiplicity to sketch both the <alert>sign chart</alert> and the <alert>graph</alert> of a polynomial.
+        </p>
+      </li>
+      <li>
+        <p>
+          Learn the <alert>Fundamental Theorem of Algebra</alert>.
+        </p>
+      </li>
+    </ul>
+  </objectives>
+
+
   <introduction>
     <p>
       Recall that a polynomial is a function of the form:
@@ -44,7 +70,7 @@
     </p>
 
     <tabular>
-      <row>
+      <row bottom="minor">
         <cell>degree</cell>
         <cell>form</cell>
         <cell>type</cell>
@@ -90,7 +116,7 @@
       The graph of <m>f(x) = x^{n}</m> for <m>n=0,1,2,3,4,5,6</m>:
     </p>
 
-    <figure xml:id="fig-xfewfe">
+    <figure xml:id="fig-power-functions">
       <caption></caption>
       <image width="50%">
         <shortdescription>
@@ -98,13 +124,13 @@
         <latex-image>
           <![CDATA[
             \begin{tikzpicture}[yscale=0.5,xscale=1.5]
-\draw[->] (-3.5,0) -- (3.5,0) node [above right] {$x$}; \foreach \x in {-3,-2,-1,1,2,3} \draw (\x,0.1) -- (\x,-0.1) node [below] {\x};
- \draw[->] (0,-12) -- (0,12) node [above right] {$y$};
-\foreach \y in {-10,-8,-6,-4,-2,2,4,6,8,10} \draw (0.1,\y) -- (-0.1,\y) node [left] {\y};
-\clip (-2,-10) rectangle (2,10);
-\foreach \n in {2,4,6} \draw plot[domain=-2:2,samples=150] (\x,{pow(\x,\n)});
-\foreach \n in {1,3,5} \draw[dashed] plot[domain=-2:2,samples=150] (\x,{pow(\x,\n)});
-\end{tikzpicture}
+              \draw[->] (-3.5,0) -- (3.5,0) node [above right] {$x$}; \foreach \x in {-3,-2,-1,1,2,3} \draw (\x,0.1) -- (\x,-0.1) node [below] {\x};
+              \draw[->] (0,-12) -- (0,12) node [above right] {$y$};
+              \foreach \y in {-10,-8,-6,-4,-2,2,4,6,8,10} \draw (0.1,\y) -- (-0.1,\y) node [left] {\y};
+              \clip (-2,-10) rectangle (2,10);
+              \foreach \n in {2,4,6} \draw plot[domain=-2:2,samples=150] (\x,{pow(\x,\n)});
+              \foreach \n in {1,3,5} \draw[dashed] plot[domain=-2:2,samples=150] (\x,{pow(\x,\n)});
+            \end{tikzpicture}
           ]]>
         </latex-image>
       </image>
@@ -162,7 +188,7 @@
 
         <p>
           Additionally, the graph near each zero behaves like the multiplicity of zero.
-          An example is given below in ???
+          An example is given below in <xref ref="ex-features-poly"/>.
         </p>
       </li>
 
@@ -180,7 +206,7 @@
         </p>
 
         <p>
-          it is in <alert>Horner’s Form</alert>, which is generally an efficient way of evaluating the polynomial at a point, both in terms of efficiency of operations and in terms of rounding errors as will be seen in ????
+          it is in <alert>Horner’s Form</alert>, which is generally an efficient way of evaluating the polynomial at a point, both in terms of efficiency of operations and in terms of rounding errors as will be seen in <xref ref="sect-convergence-sequence"/>.
         </p>
       </li>
       </dl>
@@ -192,7 +218,7 @@
     <title>Graphs of Polynomials</title>
 
     <p>
-      The graph of a polynomial is most easily understood in factored form (eq:poly:factored:form).
+      The graph of a polynomial is most easily understood in factored form <xref ref="eq-poly-factored-form"/>.
       The following can be determined directly from this form:
     </p>
 
@@ -201,6 +227,13 @@
         <li>
           <p>
             The <m>x</m>-intercepts are the roots of the polynomial, <m>x_{0}, x_{1}, \ldots, x_{m}</m>.
+          </p>
+        </li>
+
+        <li>
+          <p>
+            The multiplicity of the root <m>x_i</m> is denoted <m>k_i</m>, which is the power of the term <m>x-x_i</m> in the factored form.
+            We will see in <xref ref="sect-intro-rootfinding"/> an alternative way to find the multiplicity including the multiplicity of roots for functions other than polynomials.
           </p>
         </li>
 
@@ -229,89 +262,81 @@
       The following few examples shows how to both manipulate polynomials as well as pull out the important information.
     </p>
 
-    <example>
-      <statement>
+    <example xml:id="ex-features-poly">
+      <introduction>
         <p>
-          Consider the polynomial <m>f(x) = 3x(x+1)(x-2)^{2}</m>.
+          Consider the polynomial
+          <men xml:id="eq-poly-deg4">
+            f(x) = 3x(x+1)(x-2)^{2}
+          </men>.
         </p>
+      </introduction>
 
-        <p>
-          <ol>
-            <li>
-              <p>
-                List all real zeros of the polynomial and the multiplicity of each.
-              </p>
-            </li>
 
-            <li>
-              <p>
-                Determine the <m>x</m>-intercepts and if the cross or just touch at each.
-              </p>
-            </li>
+      <task>
+        <statement>
+          <p>
+            List all real zeros of the polynomial and the multiplicity of each.
+          </p>
+        </statement>
 
-            <li>
-              <p>
-                Find the power function that the polynomial resembles for large <m>|x|</m>.
-              </p>
-            </li>
+        <solution>
+          <p>
+            The zeros are <m>x=0</m> (with multiplicity 1), <m>x=-1</m> (with multiplicity  1) and <m>x=2</m> (with multiplicity 2).
+          </p>
+        </solution>
+      </task>
 
-            <li>
-              <p>
-                Find intervals where the graph is above or below the <m>x</m>-axis.
-              </p>
-            </li>
 
-            <li>
-              <p>
-                Determine the graph of <m>f</m> near each zero.
-              </p>
-            </li>
+      <task>
+        <statement>
+          <p>
+            Determine the <m>x</m>-intercepts and if the cross or just touch at each.
+          </p>
+        </statement>
 
-            <li>
-              <p>
-                With all given information, plot <m>y=f(x)</m> with the graphs in #5.
-              </p>
-            </li>
-          </ol>
-        </p>
-      </statement>
+        <solution>
+          <p>
+            The <m>x</m>-intercepts cross at <m>x=0,-1</m> and just touch <m>x=2</m>.
+          </p>
+        </solution>
+      </task>
 
-      <solution>
-        <p>
-          <ol>
-            <li>
-              <p>
-                The zeros are <m>x=0</m> (mult.
-                1), <m>x=-1</m> (mult.
-                1) and <m>x=2</m> mult.
-                2
-              </p>
-            </li>
 
-            <li>
-              <p>
-                The <m>x</m>-intercepts cross at <m>x=0,-1</m> and just touch <m>x=2</m>.
-              </p>
-            </li>
+      <task>
+        <statement>
+          <p>
+            Find the power function that the polynomial resembles for large <m>|x|</m>.
+          </p>
+        </statement>
 
-            <li>
-              <p>
-                The power function is <m>y=3x^{4}</m>.
-              </p>
-            </li>
+        <solution>
+          <p>
+            The power function is <m>y=3x^{4}</m>, where the 3 arises from the coefficient in front of the terms in <xref ref="eq-poly-deg4"/> amd the 4 is the degree of the polynomial, the sum of all of the multiplicities.
+          </p>
+        </solution>
+      </task>
 
-            <li>
-              <p>
-                Since the power function for large <m>|x|</m> is <m>3x^{4}</m>, left of <m>-1</m> and right of <m>2</m> the function is positive.
-                Recalling that the polynomial changes sign over roots of odd multiplicity however doesn’t over even multiplicity, one gets the following sign chart:
-              </p>
 
-              <figure xml:id="fig-ex-power">
-                <caption></caption>
-                <image width="70%">
-                  <shortdescription>
-                  </shortdescription>
-                  <latex-image>
+      <task>
+        <statement>
+          <p>
+            Find intervals where the graph is above and below the <m>x</m>-axis.
+          </p>
+        </statement>
+
+        <solution>
+          <p>
+            Since the power function for large <m>|x|</m> is <m>3x^{4}</m>, left of <m>-1</m> and right of <m>2</m> the function is positive.
+            Recalling that the polynomial changes sign over roots of odd multiplicity however doesn’t over even multiplicity, one gets the following sign chart:
+          </p>
+
+          <figure xml:id="fig-ex-power">
+            <caption></caption>
+            <image width="70%">
+              <shortdescription>
+              </shortdescription>
+              <latex-image>
                     <![CDATA[
                     \begin{tikzpicture}
                       \draw[->] (-3,0) -- (4,0);
@@ -319,28 +344,70 @@
                       \foreach \x/\sign in {-2/+,-0.5/-,1/+,3/+} \draw (\x,0.1) node [above] {$\sign$};
                       \end{tikzpicture}
                     ]]>
-                  </latex-image>
-                </image>
-              </figure>
-            </li>
+              </latex-image>
+            </image>
+          </figure>
+        </solution>
+      </task>
 
-            <li>
-              <p>
-                The graph of <m>p</m> near each of the zeros will take on the form <m>b_{i}(x-x_{i})^{k_i}</m> or
-              </p>
-            </li>
 
-            <li>
-              <p>
-                A graph of the polynomial and the three transformed power functions (as dashed curves):
-              </p>
+      <task>
+        <statement>
+          <p>
+            Determine the graph of <m>f</m> near each zero.
+          </p>
+        </statement>
 
-              <figure xml:id="fig-">
-                <caption></caption>
-                <image>
-                  <shortdescription>
-                  </shortdescription>
-                  <latex-image>
+        <solution>
+          <p>
+            The graph of <m>p</m> near each of the zeros will take on the form <m>b_{i}(x-x_{i})^{k_i}</m>.
+          </p>
+
+          <p>
+            At the root <m>x_0 = -1</m>
+            <me>
+              b_0 = \lim_{x \to -1} \frac{3x(x+1)(x-2)^2}{x+1} = -27
+            </me>
+            so the form will be <m>y=-81(x+1)</m>
+          </p>
+
+          <p>
+            At the root <m>x_1 = 0</m>
+            <me>
+              b_1  = \lim_{x \to 0} \frac{3x(x+1)(x-2)^2}{x} = 12
+            </me>
+            so the form will be <m>y=4(x-0) = 4x</m>
+          </p>
+
+          <p>
+            At the root <m>x_2=2</m>
+            <me>
+              b_2 = \lim_{x \to 2} \frac{3x(x+1)(x-2)^2}{(x-2)^2} = 18
+            </me>
+            so the form will be <m>y=18(x-2)^2</m>
+          </p>
+        </solution>
+      </task>
+
+
+      <task>
+        <statement>
+          <p>
+            With all given information, plot <m>y=f(x)</m> with the graphs in #5.
+          </p>
+        </statement>
+
+        <solution>
+          <p>
+            A graph of the polynomial and the three transformed power functions (as dashed curves):
+          </p>
+
+          <figure xml:id="fig-poly-deg4">
+            <caption></caption>
+            <image>
+              <shortdescription>
+              </shortdescription>
+              <latex-image>
                     <![CDATA[
                     \begin{tikzpicture}[yscale=0.2,xscale=1]
                     \draw[->] (-3.5,0) -- (3.5,0) node [above right] {$x$}; \foreach \x in {-3,-2,-1,1,2,3} \draw (\x,0.1) -- (\x,-0.1) node [below] {\x};
@@ -353,13 +420,11 @@
                     \draw[<->,dashed] plot[domain=1.2:2.8] (\x,{18*pow(\x-2,2)});
                     \end{tikzpicture}
                     ]]>
-                  </latex-image>
-                </image>
-              </figure>
-            </li>
-          </ol>
-        </p>
-      </solution>
+              </latex-image>
+            </image>
+          </figure>
+        </solution>
+      </task>
     </example>
 
     <p>
@@ -373,11 +438,13 @@
         </p>
 
         <p>
-          <me>
+          <men xml:id="eq-poly-deg6">
             p(x)= -\frac{1}{5}(x-2)^{3}(x+1)^{2}(x+3) \\
-          </me>
+          </men>
         </p>
+      </statement>
 
+      <solution>
         <p>
           This polynomial is in factored form.
           The roots are <m>2, -1</m> and <m>-3</m> with multiplicities 3, 2 and 1 respectively.
@@ -393,18 +460,20 @@
         </p>
 
         <figure xml:id="fig-poly2">
-          <caption></caption>
-          <image>
+          <caption>A graph of the sign chart of <xref ref="eq-poly-deg6"/>
+          .
+          </caption>
+          <image width="70%">
             <shortdescription>
             </shortdescription>
             <latex-image>
-      <![CDATA[
-      \begin{tikzpicture}
-\draw[->] (-5,0) -- (4,0);
-\foreach \x in {-3,-1,2} \draw (\x,0.1) -- (\x,-0.1) node [below] {\x};
-\foreach \x/\lab in {-4/-,-2/+,0.5/+,3/-} \draw (\x,0.25) node [above] {$\lab$};
-\end{tikzpicture}
-      ]]>
+              <![CDATA[
+              \begin{tikzpicture}
+        \draw[->] (-5,0) -- (4,0);
+        \foreach \x in {-3,-1,2} \draw (\x,0.1) -- (\x,-0.1) node [below] {\x};
+        \foreach \x/\lab in {-4/-,-2/+,0.5/+,3/-} \draw (\x,0.25) node [above] {$\lab$};
+        \end{tikzpicture}
+              ]]>
             </latex-image>
           </image>
         </figure>
@@ -420,12 +489,12 @@
 
             <p>
               <me>
-                b_1 = \lim_{x \rightarrow -3} \frac{p(x)}{(x+3)} = \lim_{x \rightarrow -3} -\frac{1}{5}(x-2)^3(x+1)^2  = -100
+                b_1 = \lim_{x \rightarrow -3} \frac{p(x)}{(x+3)} = \lim_{x \rightarrow -3} -\frac{1}{5}(x-2)^3(x+1)^2  = 100
               </me>
             </p>
 
             <p>
-              so near <m>x=-3</m>, the graph is <m>-100(x+3)</m>
+              so near <m>x=-3</m>, the graph is <m>100(x+3)</m>
             </p>
           </li>
 
@@ -448,7 +517,7 @@
           </li>
 
           <li>
-            <title>When <m>x=0</m></title>
+            <title>When <m>x=2</m></title>
 
             <p>
               The multiplicity is 2 and the coefficient in front is
@@ -456,16 +525,9 @@
 
             <p>
               <me>
-                b_2 = \lim_{x \rightarrow 0} \frac{f(x)}{x} = \lim_{x \rightarrow 0} 3(x+1)(x-2)^2 = 12
+                b_3 = \lim_{x \rightarrow 2} \frac{p(x)}{(x-2)^3} = \lim_{x \rightarrow 2} -\frac{1}{5}(x+1)^2(x+3) = -9
               </me>
-            </p>
-          </li>
-
-          <li>
-            <title>When <m>x=2</m></title>
-
-            <p>
-              The multiplicity is 2 and the coefficient in front is
+              so near <m>x=2</m>, the graph is m -<m>-9(x-2)^{3}</m>.
             </p>
           </li>
           </dl>
@@ -476,23 +538,25 @@
         </p>
 
         <figure xml:id="fig-poly">
-          <caption></caption>
-          <image>
+          <caption>A graph of the polynomial in <xref ref="eq-poly-deg6"/>
+          together with the power functions near each of the roots.
+          </caption>
+          <image width="70%">
             <shortdescription>
             </shortdescription>
             <latex-image>
-      <![CDATA[
-      \begin{tikzpicture}[yscale=0.2,xscale=1]
-\draw[->] (-3.5,0) -- (3.5,0) node [above right] {$x$}; \foreach \x in {-3,-2,-1,1,2,3} \draw (\x,0.1) -- (\x,-0.1) node [below] {\x};
- \draw[->] (0,-12) -- (0,21) node [above right] {$y$};
-\foreach \y in {-10,-5,5,10,15,20} \draw (0.1,\y) -- (-0.1,\y) node [left] {\y};
-\clip (-4,-10) rectangle (3,22);
-\draw[<->] plot[domain=-1.6:3,samples=150] (\x,{3*\x*(\x+1)*pow(\x-2,2)});
-\draw[<->,dashed] plot[domain=-1.5:-0.5] (\x,{-27*(\x+1)});
-\draw[<->,dashed] plot[domain=-1:1] (\x,{12*\x});
-\draw[<->,dashed] plot[domain=1.2:2.8] (\x,{18*pow(\x-2,2)});
-\end{tikzpicture}
-      ]]>
+              <![CDATA[
+              \begin{tikzpicture}[yscale=0.2,xscale=1]
+        \draw[->] (-3.5,0) -- (3.5,0) node [above right] {$x$}; \foreach \x in {-3,-2,-1,1,2,3} \draw (\x,0.1) -- (\x,-0.1) node [below] {\x};
+        \draw[->] (0,-12) -- (0,21) node [above right] {$y$};
+        \foreach \y in {-10,-5,5,10,15,20} \draw (0.1,\y) -- (-0.1,\y) node [left] {\y};
+        \clip (-4,-10) rectangle (3,22);
+        \draw[<->] plot[domain=-3.2:2.8,samples=150] (\x,{-1/5*(\x-2)^3*(\x+1)^2*(\x+3)});
+        \draw[<->,dashed] plot[domain=-3.2:-2.8] (\x,{100*(\x+3)});
+        \draw[<->,dashed] plot[domain=-1.5:-0.5] (\x,{54/5*(\x+1)^2});
+        \draw[<->,dashed] plot[domain=1.1:2.9] (\x,{-9*pow(\x-2,3)});
+        \end{tikzpicture}
+              ]]>
             </latex-image>
           </image>
         </figure>
@@ -500,8 +564,13 @@
         <p>
           and one can see the similarity between the power functions and the polynomial near each of the roots.
         </p>
-      </statement>
+      </solution>
     </example>
+
+    <p>
+      Above the general form, factored form and Horner form of a polynomial was defined.
+      The following example shows how to convert between these forms.
+    </p>
 
     <example>
       <statement>
@@ -540,7 +609,7 @@
     </example>
 
     <p>
-      Also as we will see in section sect:optimal:pts, some polynomials have properties that seem to be nice may not be so nice.
+      Also as we will see in <xref ref="sect-optimal-pts"/>, some polynomials have properties that seem to be nice may not be so nice.
       For example a polynomial with equally spaced roots have a nice form, but the local extrema get very large.
       The following example is a polynomial with equally-spaced roots.
     </p>
@@ -551,17 +620,20 @@
           A <alert>Wilkinson polynomial</alert> is a polynomial of some degree <m>n</m> (an integer) with the following property: the polynomial as roots at <m>1,2,3, \ldots, n</m>, each of which has multiplicity 1.
           Write down the Wilkinson polynomial of degree 5.
         </p>
+      </statement>
 
-        <p>
-        </p>
-
+      <solution>
         <p>
           <me>
             f(x) = (x-1)(x-2)(x-3)(x-4)(x-5)
           </me>
         </p>
-      </statement>
+      </solution>
     </example>
+
+    <p>
+      For the next example, we show how to find an polynomial function with properties such as roots and multiplicity.
+    </p>
 
     <example>
       <statement>
@@ -588,10 +660,9 @@
         <p>
           and satisfies <m>f(3)=-4</m>.
         </p>
+      </statement>
 
-        <p>
-        </p>
-
+      <solution>
         <p>
           First, we write a general polynomial that satisfies the roots property with appropriate multiplicity:
         </p>
@@ -621,11 +692,11 @@
             f(x) = -\frac{1}{4}(x-1)^{2}(x+1)(x-2)^{3}
           </me>
         </p>
-      </statement>
+      </solution>
     </example>
 
     <p>
-      In Section ????, we will cover how to find a polynomial that passes through a given set of points.
+      In <xref ref="ch-interpolation"/>, we will cover how to find a polynomial that passes through a given set of points.
       The next example is a fundamental building block of such polynomials called a Lagrange polynomial.
     </p>
 
@@ -680,5 +751,30 @@
         </p>
       </statement>
     </example>
+  </subsection>
+
+
+  <subsection xml:id="sect-fundamental-theorem-algebra">
+    <title>Fundamental Theorem of Algebra</title>
+
+    <p>
+      One of the most important analytical aspects of polynomials is the Fundamental Theorem of Algebra, which states that the number of roots of a polynomial equals the degree.
+    </p>
+
+    <theorem xml:id="thm-fund-algebra">
+      <title>Fundamental Theorem of Algebra</title>
+
+      <statement>
+        <p>
+          Let <m>P(x)</m> be a non-constant single-variable polynomial with complex roots and degree <m>n</m>.
+          Then <m>P</m> has exactly <m>n</m> roots if each root is counted relative to its multiplicity.
+        </p>
+      </statement>
+    </theorem>
+
+    <p>
+      Although the statement is quite simple, the proof is not as it generally requires significant knowledge of Complex Analysis as is generally shown at the end of the course.
+      See <url href="https://complexanalysis.org/web/root-1-2-2.html" >Complex Analysis by Howell and Mathews</url> as a nice open-source text.<fn>The proof is shown in Chapter 6 of that text.</fn>
+    </p>
   </subsection>
 </section>

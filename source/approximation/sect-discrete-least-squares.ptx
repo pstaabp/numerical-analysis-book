@@ -1,0 +1,506 @@
+<section xml:id="sect-discrete-least-squares">
+  <title>Discrete Least Squares</title>
+
+  <introduction>
+    <p>
+      Data is ubiquitous throughout today's society and our ability to process and understand it is a necessity.
+      A manageable example is that of understanding the population growth of a state, the United States or the entire world.
+      Consider the population of the state of Massachusetts from 1900 through 2000 which is given in the following table and plotted below:
+    </p>
+
+    <tabular>
+      <col> </col> <col right="minor"> </col> <col> </col> <col> </col>
+      <row>
+        <cell>year</cell>
+        <cell>Population (in millions)</cell>
+        <cell>year</cell>
+        <cell>Population (in millions)</cell>
+      </row>
+
+      <row>
+        <cell> </cell>
+      </row>
+
+      <row>
+        <cell>1900</cell>
+        <cell>2.805</cell>
+        <cell>1950</cell>
+        <cell>4.690</cell>
+      </row>
+
+      <row>
+        <cell>1910</cell>
+        <cell>3.366</cell>
+        <cell>1960</cell>
+        <cell>5.148</cell>
+      </row>
+
+      <row>
+        <cell>1920</cell>
+        <cell>3.852</cell>
+        <cell>1970</cell>
+        <cell>5.689</cell>
+      </row>
+
+      <row>
+        <cell>1930</cell>
+        <cell>4.249</cell>
+        <cell>1980</cell>
+        <cell>5.737</cell>
+      </row>
+
+      <row>
+        <cell>1940</cell>
+        <cell>4.316</cell>
+        <cell>1990</cell>
+        <cell>6.016</cell>
+      </row>
+
+      <row>
+        <cell> </cell>
+        <cell> </cell>
+        <cell>2000</cell>
+        <cell>6.349</cell>
+      </row>
+    </tabular>
+
+    <figure xml:id="fig-pop-mass">
+      <caption></caption>
+      <image>
+        <shortdescription>
+        </shortdescription>
+        <latex-image>
+        <![CDATA[
+        \begin{tikzpicture}[xscale=0.06,yscale=0.6]
+          \draw[->] (-5,0) -- (105,0) node [above right] {$t$ (years since 1900)}; \foreach \x in {10,20,...,100} \draw (\x,0.1) -- (\x,-0.1) node [below] {\x};
+          \draw[->] (0,-0.5) -- (0,7) node [above right] {Population (in millions)};
+          \foreach \y in {1,2,...,6} \draw (0.5,\y) -- (-0.5,\y) node [left] {\y};
+          \foreach \x/\y in {0/2.8,10/3.4,20/3.8,30/4.2,40/4.3,50/4.7,60/5.1,70/5.7,80/5.7,90/6.0,100/6.3} \fill (\x,\y) ellipse [x radius = 20pt, y radius=2pt];
+        \end{tikzpicture}
+        ]]>
+        </latex-image>
+      </image>
+    </figure>
+
+    <p>
+      The reason that the data is only available on the decades is because of the U.S.
+      census, which only collects data on these years.
+      It is desirable to know the population in years between the known points and in light of this, we may consider using an interpolating polynomial.
+      We skip the details from <xref ref="ch-interpolation"/>, and plot the data and the interpolating polynomial.
+      The result is the following plot
+    </p>
+
+    <figure xml:id="fig-poly-pop">
+      <caption></caption>
+      <image>
+        <shortdescription>
+        </shortdescription>
+        <latex-image>
+      <![CDATA[
+      \begin{tikzpicture}[xscale=0.06,yscale=0.6]
+\draw[->] (-5,0) -- (105,0) node [above right] {$t$ (years since 1900)}; \foreach \x in {10,20,...,100} \draw (\x,0.1) -- (\x,-0.1) node [below] {\x};
+ \draw[->] (0,-0.5) -- (0,7) node [above right] {Population (in millions)};
+\foreach \y in {1,2,...,6} \draw (0.5,\y) -- (-0.5,\y) node [left] {\y};
+\foreach \x/\y in {0/2.805,10/3.366,20/3.852,30/4.249,40/4.316,50/4.69,60/5.148,70/5.689,80/5.737,90/6.016,100/6.349} \fill (\x,\y) ellipse [x radius = 20pt, y radius=2pt];
+\draw plot[domain=0:100,samples=200] (\x,{2.805+0.0561*\x*(1-0.006684491978609645*(\x-10)*(1+0.006222222222222105*(\x-20)*(1+0.4053571428571492*(\x-30)*(1-0.09735682819383261*(\x-40)*(1-0.042880844645550566*(\x-50)*(1-0.028455856489623666*(\x-60)*(1-0.022872152569309582*(\x-70)*(1-0.021029831220914046*(\x-80)*(1-0.02047776871303284*(\x-90)))))))))});
+\end{tikzpicture}
+]]>
+        </latex-image>
+      </image>
+    </figure>
+
+    <p>
+      In the middle of the plotting domain, the function reasonably fits the data and an expected trend.
+      However for <m>x \gt 90</m> and <m>x \lt 10</m>, the function seems to oscillate more than expected.
+    </p>
+
+    <p>
+      The problem that occurs in this example is that a high-order (in this case the degree is 10) polynomial is probably not the best functional form to represent the data, where either a lower order polynomial (perhaps 2nd or 3rd order) may be better or perhaps another function like an exponential.
+    </p>
+
+    <p>
+      To explain how we can fit data , let's look at a simpler example.
+      Consider the data <m>\{(1,1.5)</m>, <m>(3,2)</m>, <m>(5,3)</m>, <m>(6,4)\}</m>, which is plotted below:
+    </p>
+
+    <figure xml:id="fig-poly-simple">
+      <caption></caption>
+      <image>
+        <shortdescription>
+        </shortdescription>
+        <latex-image>
+      <![CDATA[
+      \begin{tikzpicture}
+        \draw[->] (-0.5,0) -- (7.5,0) node [above right] {$x$}; \foreach \x in {1,...,7} \draw (\x,0.1) -- (\x,-0.1) node [below] {\x};
+        \draw[->] (0,-0.5) -- (0,5.5) node [above right] {$y$};
+        \foreach \y in {1,...,5} \draw (0.1,\y) -- (-0.1,\y) node [left] {\y};
+        \foreach \x/\y in {1/1.5,3/2,5/3,6/4} \fill (\x,\y) circle [radius=2pt];
+      \end{tikzpicture}
+      ]]>
+        </latex-image>
+      </image>
+    </figure>
+
+    <p>
+      It is fairly clear that no line can pass through all four of these points, so we seek a line that is “close”.
+      One way to fit a line to the data would be to find <m>a</m> and <m>b</m> for the function <m>L(x)=ax+b</m> such that
+      <me>
+        S(a,b)=\sum_{i=1}^{n} |L(x_{i})-y_{i}|,
+      </me>
+      is minimized.
+      This can be written as the <m>\ell_{1}</m> norm,
+      <me>
+        S(a,b)= ||L(\mathbf{x}) -\mathbf{y}||_{1}.
+      </me>
+    </p>
+
+    <p>
+      Geometrically, this sum is the total vertical distance from the line <m>L(x)</m> to the data and we desire to find the minimum value of <m>S</m>.
+    </p>
+
+    <p>
+      Typically when finding a minimum, we would seek the values of <m>a</m> and <m>b</m> such that
+      <me>
+        \begin{aligned} \frac{\partial S}{\partial a}\amp= 0,\amp\frac{\partial S}{\partial b}\amp= 0, \end{aligned}
+      </me>
+      however the presence of the absolute values in the definition of <m>S</m> results in function <m>S</m> which is non differentiable at a number of points.
+    </p>
+
+    <p>
+      There is a number of techniques that allow one to find such a minimum, however we won't go into the details here.
+      A minimization technique for this problem results in <m>a=0.3749</m> and <m>b=1.1255</m>.
+      A plot of the line and the data is:
+    </p>
+
+    <figure xml:id="fig-L1-min">
+      <caption></caption>
+      <image>
+        <shortdescription>
+        </shortdescription>
+        <latex-image>
+      <![CDATA[
+      \begin{tikzpicture}
+\draw[->] (-0.5,0) -- (7.5,0) node [above right] {$x$}; \foreach \x in {1,...,7} \draw (\x,0.1) -- (\x,-0.1) node [below] {\x};
+ \draw[->] (0,-0.5) -- (0,5.5) node [above right] {$y$};
+\foreach \y in {1,...,5} \draw (0.1,\y) -- (-0.1,\y) node [left] {\y};
+\foreach \x/\y in {1/1.5,3/2,5/3,6/4} \fill (\x,\y) circle [radius=2pt];
+\draw[<->] plot [domain=0:6.5] (\x,{1.1255+0.3749*\x});
+\end{tikzpicture}
+      ]]>
+        </latex-image>
+      </image>
+    </figure>
+
+    <p>
+      and as can be seen, the line appears to pass through the first and third points.
+    </p>
+
+    <p>
+      Because <m>S</m> is not differentiable, this is a difficult problem to solve and most do not solve the problem as stated above.
+    </p>
+
+    <p>
+      An alternative is to define
+      <men xml:id="eq-sum-least-squares">
+        S(a,b)= \sum_{i=1}^{n} (L(x_{i})-y_{i})^{2} = \sum_{i=1}^{n} \bigl( ax_{i}+b-y_{i})^{2}
+      </men>
+      which can be written using the <m>\ell_{2}</m> norm,
+      <me>
+        S(a,b) = ||L(\mathbf{x})-\mathbf{y}||_{2}^{2}.
+      </me>
+    </p>
+
+    <p>
+      The function <m>S(a,b)</m> is differentiable and thus when solving <m>\partial S/\partial a=0</m> and <m>\partial S/\partial b=0</m>, it can be shown to have a unique solution.
+    </p>
+
+    <p>
+      To find the minimum of this problem as is typically done, is to find the derivatives with respect to <m>a</m> and <m>b</m> and set them to zero.
+    </p>
+
+    <p>
+      <me>
+        \begin{aligned} \frac{\partial S}{\partial a}\amp= \sum_{i=1}^{n} 2 \bigl(ax_{i} + b-y_{i}) x_{i} = 0,\amp\frac{\partial S}{\partial b}\amp= \sum_{i=1}^{n} 2 \bigl(ax_{i} + b-y_{i}) = 0,\\ \amp \text{dividing by 2 and distributing:}\\ \amp= a \sum_{i=1}^{n} x_{i}^{2} + b \sum_{i=1}^{n} x_{i} - \sum_{i=1}^{n} x_{i} y_{i} = 0,\amp\amp= a \sum_{i=1}^{n} x_{i} + b n - \sum_{i=1}^{n} y_{i} = 0.
+        \end{aligned}
+      </me>
+    </p>
+
+    <p>
+      These two equations are linear in <m>a</m> and <m>b</m> and can easily be solved as:
+      <men xml:id="eq-least-sq-line">
+        \begin{aligned}a\amp= \frac{\displaystyle n \sum_{i=1}^{n} x_{i} y_{i} - \biggl(\sum_{i=1}^{n} x_{i} \biggr)\biggl(\sum_{i=1}^{n} y_{i} \biggr)}{\displaystyle n \sum_{i=1}^{n} x_{i}^{2} - \biggl(\sum_{i=1}^{n} x_{i} \biggr)^{2} },\amp b\amp= \frac{1}{n}\biggl( \sum_{i=1}^{n} y_{i} - a\sum_{i=1}^{n} x_{i} \biggr) .
+        \end{aligned}
+      </men>
+    </p>
+
+    <example xml:id="ex-ls-line">
+      <statement>
+        <p>
+          Find the least squares regression line to fit the data <m>\{(1,1.5),(3,2),(5,3),(6,4)\}</m>.
+        </p>
+      </statement>
+
+      <solution>
+        <p>
+          For this problem, using the formulas in <xref ref="eq-least-sq-line"/>, the results are <m>a=0.48305</m> and <m>b=0.81355</m>.
+          A plot of this line and the data is:
+        </p>
+
+        <figure xml:id="fig-ls-line-example">
+          <caption></caption>
+          <image>
+            <shortdescription>
+            </shortdescription>
+            <latex-image>
+      <![CDATA[
+      \begin{tikzpicture}[yscale=0.9]
+\draw[->] (-0.5,0) -- (7.5,0) node [above right] {$x$}; \foreach \x in {1,...,7} \draw (\x,0.1) -- (\x,-0.1) node [below] {\x};
+ \draw[->] (0,-0.5) -- (0,5.5) node [above right] {$y$};
+\foreach \y in {1,...,5} \draw (0.1,\y) -- (-0.1,\y) node [left] {\y};
+\foreach \x/\y in {1/1.5,3/2,5/3,6/4} \fill (\x,\y) circle [radius=2pt];
+\draw[<->] plot [domain=-0.5:6.5] (\x,{0.81355+0.48305*\x});
+\end{tikzpicture}
+      ]]>
+            </latex-image>
+          </image>
+        </figure>
+      </solution>
+    </example>
+
+    <p>
+      The line in this plot differs from the last one.
+      First of all, the line above does not pass through any of the points, whereas the one on page plot:L1:min passes through two of the points.
+      In short, there are two different best fit lines because each is minimizing a different norm.
+    </p>
+  </introduction>
+
+
+  <subsection>
+    <title>Matrix Form of the Least Squares Regression</title>
+
+    <p>
+      Although the formulas in <xref ref="eq-least-sq-line"/> are not that difficult, we will generalize to other functional forms and if we can write the problem in a more-convenient manner, then the results will be easier to follow.
+    </p>
+
+    <p>
+      Let
+      <me>
+        \begin{aligned}\mathbf{X}\amp= \begin{bmatrix}1\amp x_{1} \\ 1\amp x_{2} \\ \vdots\amp\\ 1\amp x_{n}\end{bmatrix}\amp\mathbf{y}\amp= \begin{bmatrix}y_{1} \\ y_{2} \\ \vdots \\ y_{n}\end{bmatrix},\end{aligned}
+      </me>
+      Then <xref ref="eq-sum-least-squares"/> can be written as
+      <men xml:id="eq-matrix-form-ls">
+        S =\bigl(\mathbf{X}\mathbf{a}- \mathbf{y}\bigr)^{T} \bigl(\mathbf{X}\mathbf{a}- \mathbf{y}\bigr) \qquad \text{where $\displaystyle \mathbf{a}= \begin{bmatrix}a \\ b\end{bmatrix}$}.
+      </men>
+    </p>
+
+    <p>
+      The sum <m>S</m> can be written as <m>||\mathbf{X}\mathbf{a}-\mathbf{y}||_{2}</m>.
+      Using the fact that <m>D_{x} \mathbf{F(x)}^{T} \mathbf{F(x)}= \mathbf{F'(x)}^{T}\mathbf{F(x)}</m> the derivative of <m>S</m> with respect to <m>\mathbf{a}</m> is
+      <me>
+        \begin{aligned}S_{\mathbf{a}}\amp= \mathbf{X}^{T} \bigl(\mathbf{X}\mathbf{a}- \mathbf{y}\bigr)\end{aligned}
+      </me>
+    </p>
+
+    <p>
+      Setting <m>S_{\mathbf{a}}=0</m> and solving for <m>a</m> results in:
+      <men xml:id="eq-ls-matrix-coeff">
+        \mathbf{a}= \begin{bmatrix}a \\ b\end{bmatrix}=(\mathbf{X}^{T}\mathbf{X})^{-1}\mathbf{X}^{T} \mathbf{y}\label
+      </men>
+      where <m>a</m> and <m>b</m> are that in <xref ref="eq-least-sq-line"/>.
+    </p>
+
+    <p>
+      The next example shows how to use the matrix form of the least-squares line to find the best-fit line from <xref ref="ex-ls-line"/>.
+    </p>
+
+    <example>
+      <statement>
+        <p>
+          Find the least-squares line that best fits the data in Example ex:ls:line using the matrix form in <xref ref="eq-ls-matrix-coeff"/>.
+        </p>
+      </statement>
+
+      <solution>
+        <p>
+          In this case,
+          <me>
+            \begin{aligned}\mathbf{X}\amp= \begin{bmatrix}1 \amp 1 \\ 1 \amp 3 \\ 1 \amp 5 \\ 1 \amp 6 \\\end{bmatrix},\amp\mathbf{y}\amp= \begin{bmatrix}1.5 \\ 2 \\ 3 \\ 4\end{bmatrix},\end{aligned}
+          </me>
+          and <m>\mathbf{X}^{T}\mathbf{X}</m> and it inverse are
+          <me>
+            \begin{aligned}\mathbf{X}^{T}\mathbf{X}\amp= \begin{bmatrix}4\amp15 \\ 15\amp17\end{bmatrix},\amp(\mathbf{X}^{T}\mathbf{X})^{-1}\amp= \frac{1}{59}\begin{bmatrix}71\amp-15 \\ -15\amp4\end{bmatrix},\end{aligned}
+          </me>
+          and finally using <xref ref="eq-ls-matrix-coeff"/>,
+          <me>
+            \begin{aligned} \mathbf{a}\amp= (\mathbf{X}^{T}\mathbf{X})^{-1}\mathbf{X}^{T} \mathbf{y}\\\amp= \frac{1}{59}\begin{bmatrix}71\amp-15 \\ -15\amp4\end{bmatrix} \begin{bmatrix}1 \amp 1 \amp 1 \amp 1 \\ 1 \amp 3 \amp 5 \amp 6\end{bmatrix} \begin{bmatrix}1.5 \\ 2 \\ 3 \\ 4\end{bmatrix}, \\\amp= \begin{bmatrix}48/59 \\ 57/118\end{bmatrix} \approx \begin{bmatrix}0.813559 \\ 0.483051\end{bmatrix}.
+            \end{aligned}
+          </me>
+        </p>
+
+        <p>
+          The vector <m>\mathbf{a}</m> represents the <m>y</m>-intercept (first component) and slope (second component) of the line, so the least squares line for this problem is:
+          <me>
+            \begin{aligned}L(x)\amp= 0.813559+ 0.483051 x\end{aligned}
+          </me>
+          and this is the same result as the problem in Example ex:ls:line.
+        </p>
+      </solution>
+    </example>
+
+    <p>
+      The previous example put the least-squares line in a different context.
+      However, this formulation allows us to extend from a least-squares line to any polynomial as we will see in the next section.
+    </p>
+  </subsection>
+
+
+  <subsection>
+    <title>Least-Squares Polynomials</title>
+
+    <p>
+      Now that the matrix form of the least-squares line has been derived, we can actually show that same formula exists for higher-order polynomials.
+      If the data is given as <m>\{(x_{1},y_{1}),(x_{2},y_{2}),\ldots,(x_{n},y_{n})\}</m> and let
+      <me>
+        \begin{aligned}\mathbf{X}\amp= \begin{bmatrix}1\amp x_{1}\amp x_{1}^{2}\amp\cdots\amp x_{1}^{m} \\ 1\amp x_{2}\amp x_{2}^{2}\amp\cdots\amp x_{2}^{m} \\ 1\amp x_{3}\amp x_{3}^{2}\amp\cdots\amp x_{3}^{m} \\ \vdots\amp\amp\amp\ddots\amp\vdots \\ 1\amp x_{n}\amp x_{n}^{2}\amp\cdots\amp x_{n}^{m} \\\end{bmatrix},\amp\mathbf{y}\amp= \begin{bmatrix}y_{1} \\ y_{2} \\ \vdots \\ y_{n}\end{bmatrix}.\end{aligned}
+      </me>
+    </p>
+
+    <p>
+      We now desire to find the <m>m</m>th degree polynomial
+      <me>
+        P(x) = a_{0} + a_{1} x + a_{2} x^{2} + \cdots x_{m} x^{m},
+      </me>
+      that best fits the given data in the least squares sense.
+      More precisely, we seek the coefficients <m>a_{0}, a_{1}, a_{2}, \ldots, a_{m}</m> that minimize
+      <men xml:id="eq-matrix-form-ls-norm">
+        S= ||P(\mathbf{x})-\mathbf{y}||_{2} = \sum_{i=1}^{n} (P(x_{i})-y_{i})^{2} = ||\mathbf{X}\mathbf{a}-\mathbf{y}||_{2}
+      </men>
+      where <m>\mathbf{x}</m> is the column vector with the <m>x</m>-coordinates of the data and <m>P(\mathbf{x})</m> is the column vector consisting of the polynomial evaluated at each <m>x</m> value.
+      Also,
+      <men xml:id="eq-ls-poly-matrix-coeffs">
+        \mathbf{a} = \begin{bmatrix}a_{0} \\ a_{1} \\ a_{2} \\ \vdots \\ a_{m}\end{bmatrix}.
+      </men>
+    </p>
+
+    <p>
+      Since <xref ref="eq-matrix-form-ls-norm"/> is the same as that in <xref ref="eq-matrix-form-ls"/>, solving <m>S_{\mathbf{a}}=0</m> results in
+      <men xml:id="eq-ls-poly-matrix">
+        \mathbf{a} = ( \mathbf{X}^{T}\mathbf{X})^{-1}\mathbf{X}^{T} \mathbf{y},
+      </men>
+      the same as <xref ref="eq-ls-matrix-coeff"/>.
+    </p>
+
+    <p>
+      The next example uses this analysis to find the cubic polynomial that best fits in the least-squares sense.
+    </p>
+
+    <example>
+      <statement>
+        <p>
+          Find the cubic polynomial that best fits the population data at the beginning of this section.
+        </p>
+      </statement>
+
+      <solution>
+        <p>
+          In this case, <m>m=3</m>, and
+          <me>
+            \begin{aligned}\mathbf{X}\amp= \begin{bmatrix}1\amp0\amp0^{2}\amp0^{3} \\ 1\amp10\amp10^{2}\amp10^{3} \\ 1\amp20\amp20^{2}\amp20^{3} \\ \vdots\amp\amp\amp\vdots \\ 1\amp100\amp100^{2}\amp100^{3}\end{bmatrix},\amp\mathbf{y}\amp= \begin{bmatrix}2.805 \\ 3.366 \\ \vdots \\ 6.349\end{bmatrix}.\end{aligned}
+          </me>
+        </p>
+
+        <p>
+          The matrix <m>\mathbf{X}^{T} \mathbf{X}</m> and its inverse is:
+          <me>
+            \begin{aligned}\mathbf{X}^{T} \mathbf{X}\amp= \begin{bmatrix}11\amp550\amp38500\amp3025000 \\ 550\amp38500\amp3025000\amp253330000 \\ 38500\amp3025000\amp253330000\amp22082500000 \\ 3025000\amp253330000\amp22082500000\amp1978405000000\end{bmatrix}, \\ (\mathbf{X}^{T} \mathbf{X})^{-1}\amp= \frac{1}{6177600000}\begin{bmatrix}4881600000\amp-342000000\amp6480000\amp-36000 \\ -342000000\amp40480000\amp-930000\amp5720 \\ 6480000\amp-930000\amp23220\amp-150 \\ -36000\amp5720\amp-150\amp1\end{bmatrix}.\end{aligned}
+          </me>
+        </p>
+
+        <p>
+          And finally the vector <m>\mathbf{a}</m> is
+          <me>
+            \begin{aligned}\mathbf{a}\amp= ( \mathbf{X}^{T}\mathbf{X})^{-1}\mathbf{X}^{T} \mathbf{y}, \\\amp= \begin{bmatrix}2.87025174825175 \\ 0.0478714452214452 \\ -0.000211491841491841 \\ 8.12354312354316 \times 10^{-7}\end{bmatrix}.\end{aligned}
+          </me>
+        </p>
+
+        <p>
+          This means that the best fit cubic in the least-squares sense is:
+          <me>
+            \begin{aligned}P(x)\amp= 2.87025 + 0.0478714 x -0.00021149 x^{2}+ 8.12354 \times 10^{-7}x^{3} .\end{aligned}
+          </me>
+        </p>
+      </solution>
+    </example>
+
+    <p>
+      To visualize this cubic, we plot it as well as the data:
+    </p>
+
+    <figure xml:id="fig-line-pop">
+      <caption></caption>
+      <image>
+        <shortdescription>
+        </shortdescription>
+        <latex-image>
+      <![CDATA[
+      \begin{tikzpicture}[xscale=0.08,yscale=0.6]
+\draw[->] (-5,0) -- (105,0) node [above right] {$x$ (years since 1900)}; \foreach \x in {10,20,...,100} \draw (\x,0.1) -- (\x,-0.1) node [below] {\x};
+ \draw[->] (0,-0.5) -- (0,7) node [above right] {Population (in millions)};
+\foreach \y in {1,2,...,6} \draw (0.5,\y) -- (-0.5,\y) node [left] {\y};
+\foreach \x/\y in {0/2.8,10/3.4,20/3.8,30/4.2,40/4.3,50/4.7,60/5.1,70/5.7,80/5.7,90/6.0,100/6.3} \fill (\x,\y) ellipse [x radius = 20pt, y radius=2pt];
+\draw[<->] plot[domain=-3:105, samples=200] (\x,{2.87025+0.0478714*\x*(1-0.0044179121919872295*\x*(1-0.0038410669017959484*\x))});
+\end{tikzpicture}
+      ]]>
+        </latex-image>
+      </image>
+    </figure>
+
+    <p>
+      As one can tell, the cubic approximates the data quite well.
+    </p>
+  </subsection>
+
+
+  <subsection>
+    <title>Least-Squares and Interpolation</title>
+
+    <p>
+      The idea of least-square polynomial fitting is that the number of data points exceeds that of the number of coefficients of the polynomial (degree of polynomial plus one).
+      In interpolation the degree of the polynomial is chosen to be one fewer than the number of data points.
+    </p>
+
+    <p>
+      We can write the interpolation problem using the matrix form of the least-squares problem in the section above.
+    </p>
+
+    <example>
+      <statement>
+        <p>
+          Find the quadratic polynomial that interpolates the data <m>\{(0,0),(1,1),(3,2)\}</m> using the matrix least-squares formulation in <xref ref="eq-ls-poly-matrix"/> and <xref ref="eq-ls-poly-matrix-coeffs"/>.
+        </p>
+      </statement>
+
+      <solution>
+        <p>
+          In this case,
+          <me>
+            \begin{aligned}\mathbf{X}\amp= \begin{bmatrix}1 \amp 0 \amp 0 \\ 1 \amp 1 \amp 1 \\ 1 \amp 3 \amp 9\end{bmatrix}\amp\mathbf{y}\amp= \begin{bmatrix}0 \\ 1 \\ 2\end{bmatrix}\end{aligned}
+          </me>
+          and the matrix <m>\mathbf{X}^{T} \mathbf{X}</m> and its inverse is:
+          <me>
+            \begin{aligned}\mathbf{X}^{T} \mathbf{X}\amp= \begin{bmatrix}3\amp4\amp10\\ 4\amp10\amp28 \\ 10\amp28\amp82\end{bmatrix}\amp(\mathbf{X}^{T} \mathbf{X})^{-1}\amp= \frac{1}{18}\begin{bmatrix}18\amp-24\amp6\\ -24\amp73\amp-22 \\ 6\amp-22\amp7\end{bmatrix}\end{aligned}
+          </me>
+          and finally using <xref ref="eq-ls-poly-matrix"/>,
+          <me>
+            \begin{aligned}\mathbf{a}\amp= (\mathbf{X}^{T} \mathbf{X})^{-1}\mathbf{X}^{T} \mathbf{y}\\\amp= \begin{bmatrix}0 \\ 7/6 \\ -1/6\end{bmatrix}\end{aligned}
+          </me>
+          so the quadratic is
+          <me>
+            \begin{aligned}P(x)\amp= \frac{7}{6}x - \frac{1}{6}x^{2}\end{aligned}
+          </me>
+          which is the same result as in <xref ref="ex-quad-interp-basic"/> and <xref ref="ex-lagrange-interp-quad"/>.
+        </p>
+      </solution>
+    </example>
+  </subsection>
+</section>
