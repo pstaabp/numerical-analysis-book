@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en-US" dir="ltr">
+<!--******************************************-->
+<!--*  Authored with PreTeXt                 *-->
+<!--*  pretextbook.org                       *-->
+<!--*  Theme: salem                          *-->
+<!--*  Palette:                              *-->
+<!--******************************************-->
+
+<!--********************************************-->
+<!--*       Generated from PreTeXt source      *-->
+<!--*                                          *-->
+<!--*         https://pretextbook.org          *-->
+<!--*                                          *-->
+<!--********************************************-->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="robots" content="noindex, nofollow">
+</head>
+<body class="ignore-math">
+<article class="theorem theorem-like"><h3 class="heading">
+<span class="type">Theorem</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">3.3.7</span><span class="period heading-divison-mark heading-divison-mark__period">.</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="title">Fixed Point Theorem.</span>
+</h3>
+<div class="para">Let <span class="process-math">\(g\)</span> be a continuous function on the closed interval <span class="process-math">\([a,b]\)</span> with <span class="process-math">\(g: [a,b] \rightarrow [a,b]\text{.}\)</span> Then <span class="process-math">\(g\)</span> has a fixed point <span class="process-math">\(p \in [a,b]\text{.}\)</span> Furthermore, if <span class="process-math">\(g\)</span> is differentiable on <span class="process-math">\((a,b)\)</span> and there exists a positive constant <span class="process-math">\(k \lt 1\)</span> such that <span class="process-math">\(|g'(x)|\leq k  \lt 1\)</span> for all <span class="process-math">\(x \in (a,b)\text{,}\)</span> then the fixed point in <span class="process-math">\([a,b]\)</span> is unique.<div class="autopermalink" data-description="Paragraph"><a href="#thm-fixed-pt-2-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" data-description="Theorem 3.3.7: Fixed Point Theorem"><a href="#thm-fixed-pt" title="Copy heading and permalink for Theorem 3.3.7: Fixed Point Theorem" aria-label="Copy heading and permalink for Theorem 3.3.7: Fixed Point Theorem">🔗</a></div></article><details class="hiddenproof born-hidden-knowl"><summary class="knowl__link"><h3 class="heading"><span class="type">Proof<span class="period heading-divison-mark heading-divison-mark__period">.</span></span></h3></summary><article class="hiddenproof knowl__content"><div class="para">First, we will prove the existence of a fixed point. Let <span class="process-math">\(h(x) = g(x)-x\text{.}\)</span> Since both <span class="process-math">\(g(x)\)</span> and <span class="process-math">\(x\)</span> are continuous, then <span class="process-math">\(h\)</span> is continuous on <span class="process-math">\([a,b]\text{.}\)</span> The roots of <span class="process-math">\(h\)</span> are the fixed points of <span class="process-math">\(g\text{.}\)</span><div class="autopermalink" data-description="Paragraph"><a href="#thm-fixed-pt-3-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="para logical">
+<div class="para">Because the range of <span class="process-math">\(g\)</span> is a subset of <span class="process-math">\([a,b]\text{,}\)</span> <span class="process-math">\(\min_{x \in [a,b]}g(x) \geq a\)</span> and <span class="process-math">\(\max_{x \in [a,b]}g(x) \leq b\text{.}\)</span> Therefore</div>
+<div class="displaymath process-math">
+\begin{equation*}
+\begin{aligned}
+h(a) \amp = g(a)-a \geq 0 \amp \text{and} \amp \amp h(b) \amp = g(b)-b \leq 0
+\end{aligned}
+\end{equation*}
+</div>
+<div class="autopermalink" data-description="Paragraph"><a href="#thm-fixed-pt-3-2" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="para">If either <span class="process-math">\(h(a)=0\)</span> or <span class="process-math">\(h(b)=0\text{,}\)</span> then we have found a root of <span class="process-math">\(h\)</span> and therefore a fixed point of <span class="process-math">\(g\text{.}\)</span> If not, the condition <span class="process-math">\(h(b) \lt 0 \lt h(a)\)</span> and the intermediate value theorem guarantees a value <span class="process-math">\(p \in (a,b)\)</span> such that <span class="process-math">\(h(p)=0\text{,}\)</span> and thus <span class="process-math">\(p\)</span> is a fixed point of <span class="process-math">\(g\)</span> or <span class="process-math">\(g(p)=p\text{.}\)</span><div class="autopermalink" data-description="Paragraph"><a href="#thm-fixed-pt-3-3" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="para logical">
+<div class="para">The next step is to prove the uniqueness of the fixed point. Suppose that both <span class="process-math">\(q\)</span> and <span class="process-math">\(p\)</span> are fixed points of <span class="process-math">\(g\text{.}\)</span> That is <span class="process-math">\(g(p)=p\)</span> and <span class="process-math">\(g(q)=q\text{.}\)</span> Therefore,</div>
+<div class="displaymath process-math">
+\begin{equation*}
+\begin{aligned}|p-q| \amp = |g(p)-g(q)| \amp  \amp \text{By MVT}\\ \amp = |g'(\xi)(p-q)| \\ \amp = |g'(\xi)| |p-q| \amp  \amp \text{Using $|g'(x)|\leq k  \lt  1$}\\ \amp \leq k |p-q|  \lt  |p-q|\end{aligned}
+\end{equation*}
+</div>
+<div class="para">which is a contradiction therefore the fixed point is unique.</div>
+<div class="autopermalink" data-description="Paragraph"><a href="#thm-fixed-pt-3-4" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" data-description="Proof 3.3.7.1"><a href="#thm-fixed-pt-3" title="Copy heading and permalink for Proof 3.3.7.1" aria-label="Copy heading and permalink for Proof 3.3.7.1">🔗</a></div></article></details><span class="incontext"><a class="internal" href="sect-fixed-point.html#thm-fixed-pt">in-context</a></span>
+</body>
+</html>

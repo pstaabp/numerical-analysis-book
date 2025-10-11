@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en-US" dir="ltr">
+<!--******************************************-->
+<!--*  Authored with PreTeXt                 *-->
+<!--*  pretextbook.org                       *-->
+<!--*  Theme: salem                          *-->
+<!--*  Palette:                              *-->
+<!--******************************************-->
+
+<!--********************************************-->
+<!--*       Generated from PreTeXt source      *-->
+<!--*                                          *-->
+<!--*         https://pretextbook.org          *-->
+<!--*                                          *-->
+<!--********************************************-->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="robots" content="noindex, nofollow">
+</head>
+<body class="ignore-math">
+<article class="example example-like"><h4 class="heading">
+<span class="type">Example</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">2.2.7</span><span class="period heading-divison-mark heading-divison-mark__period">.</span>
+</h4>
+<div class="para">Use Newton’s Method to find <span class="process-math">\(\sqrt{65}\)</span> to 3 digits.<div class="autopermalink" data-description="Paragraph"><a href="#ex-newton-method-sqrt-65-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="solutions"><details class="solution solution-like born-hidden-knowl"><summary class="knowl__link"><span class="type">Solution</span><span class="period heading-divison-mark heading-divison-mark__period">.</span></summary><div class="solution solution-like knowl__content">
+<div class="para">In this case, we will use a spreadsheet again. The first column will be <span class="process-math">\(n\)</span> and the 2nd column will be <span class="process-math">\(x_{n}\text{.}\)</span> In the first row, enter <span class="process-math">\(0\)</span> and <span class="process-math">\(65\text{.}\)</span> In the second row enter <code class="code-inline tex2jax_ignore">=a1+1</code> and <code class="code-inline tex2jax_ignore">=b1/2+65/(2*b1)</code>. Select these two cells and in the bottom left corner, drag down a number of rows. You should see:<div class="autopermalink" data-description="Paragraph"><a href="#ex-newton-method-sqrt-65-2-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<figure class="table table-like"><figcaption><span class="type">Table</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">2.2.8<span class="period heading-divison-mark heading-divison-mark__period">.</span></span><span class="space heading-divison-mark heading-divison-mark__space"> </span>Newton’s Method to Find <span class="process-math">\(\sqrt{65}\)</span><div class="autopermalink" data-description="Table 2.2.8: Newton’s Method to Find \sqrt{65}"><a href="#ex-newton-method-sqrt-65-2-2" title="Copy heading and permalink for Table 2.2.8: Newton’s Method to Find \sqrt{65}" aria-label="Copy heading and permalink for Table 2.2.8: Newton’s Method to Find \sqrt{65}">🔗</a></div></figcaption><div class="tabular-box natural-width"><table class="tabular">
+<tr>
+<td class="l m b1 r0 l0 t0 lines"><span class="process-math">\(n\)</span></td>
+<td class="l m b1 r0 l0 t0 lines"><span class="process-math">\(x_{n}\)</span></td>
+<td class="l m b1 r0 l0 t0 lines"><span class="process-math">\(|x_{n+1}-x_{n}|\)</span></td>
+</tr>
+<tr>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(0\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(1.00000000\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"></td>
+</tr>
+<tr>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(1\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(33.00000000\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(32.00000000\)</span></td>
+</tr>
+<tr>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(2\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(17.48484848\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(15.51515152\)</span></td>
+</tr>
+<tr>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(3\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(10.60117641\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(6.88367208\)</span></td>
+</tr>
+<tr>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(4\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(8.36628570\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(2.23489071\)</span></td>
+</tr>
+<tr>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(5\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(8.06778188\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(0.29850382\)</span></td>
+</tr>
+<tr>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(6\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(8.06225964\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(0.00552224\)</span></td>
+</tr>
+<tr>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(7\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(8.06225775\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(0.00000189\)</span></td>
+</tr>
+</table></div></figure><div class="para">and since <span class="process-math">\(|x_{7}-x_{6}| \lt 10^{-3}\text{,}\)</span> we can stop. To 3 digits, <span class="process-math">\(\sqrt{65}\)</span> is 8.062.<div class="autopermalink" data-description="Paragraph"><a href="#ex-newton-method-sqrt-65-2-3" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" data-description="Solution 2.2.7.1"><a href="#ex-newton-method-sqrt-65-2" title="Copy heading and permalink for Solution 2.2.7.1" aria-label="Copy heading and permalink for Solution 2.2.7.1">🔗</a></div>
+</div></details></div>
+<div class="autopermalink" data-description="Example 2.2.7"><a href="#ex-newton-method-sqrt-65" title="Copy heading and permalink for Example 2.2.7" aria-label="Copy heading and permalink for Example 2.2.7">🔗</a></div></article><span class="incontext"><a class="internal" href="sect-algorithms.html#ex-newton-method-sqrt-65">in-context</a></span>
+</body>
+</html>

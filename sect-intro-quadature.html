@@ -1,0 +1,1081 @@
+<!DOCTYPE html>
+<!--********************************************-->
+<!--*       Generated from PreTeXt source      *-->
+<!--*                                          *-->
+<!--*         https://pretextbook.org          *-->
+<!--*                                          *-->
+<!--********************************************-->
+<html lang="en-US" dir="ltr">
+<!--******************************************-->
+<!--*  Authored with PreTeXt                 *-->
+<!--*  pretextbook.org                       *-->
+<!--*  Theme: salem                          *-->
+<!--*  Palette:                              *-->
+<!--******************************************-->
+<head xmlns:og="http://ogp.me/ns#" xmlns:book="https://ogp.me/ns/book#">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>The Basics of Numerical Integration or Quadrature</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0">
+<link href="_static/pretext/css/theme.css" rel="stylesheet" type="text/css">
+<script>
+var runestoneMathReady = new Promise((resolve) => window.rsMathReady = resolve);
+window.MathJax = {
+  "tex": {
+    "inlineMath": [
+      [
+        "\\(",
+        "\\)"
+      ]
+    ],
+    "tags": "none",
+    "tagSide": "right",
+    "tagIndent": ".8em",
+    "packages": {
+      "[+]": [
+        "base",
+        "extpfeil",
+        "ams",
+        "amscd",
+        "color",
+        "newcommand",
+        "knowl"
+      ]
+    }
+  },
+  "options": {
+    "ignoreHtmlClass": "tex2jax_ignore|ignore-math",
+    "processHtmlClass": "process-math"
+  },
+  "chtml": {
+    "scale": 0.98,
+    "mtextInheritFont": true
+  },
+  "loader": {
+    "load": [
+      "input/asciimath",
+      "[tex]/extpfeil",
+      "[tex]/amscd",
+      "[tex]/color",
+      "[tex]/newcommand",
+      "[pretext]/mathjaxknowl3.js"
+    ],
+    "paths": {
+      "pretext": "_static/pretext/js/lib"
+    }
+  },
+  "startup": {
+    pageReady() {
+      return MathJax.startup.defaultPageReady().then(function () {
+      console.log("in ready function");
+      rsMathReady();
+      }
+    )}
+  }
+};
+</script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script><meta name="Keywords" content="Authored in PreTeXt">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta property="og:type" content="book">
+<meta property="book:title" content="Numerical Analysis">
+<meta property="book:author" content="Peter Staab">
+<script src="_static/pretext/js/lib/jquery.min.js"></script><script src="_static/pretext/js/lib/jquery.sticky.js"></script><script src="_static/pretext/js/lib/jquery.espy.min.js"></script><script src="_static/pretext/js/pretext.js"></script><script src="_static/pretext/js/pretext_add_on.js?x=1"></script><script src="_static/pretext/js/user_preferences.js"></script><!--** eBookCongig is necessary to configure interactive       **-->
+<!--** Runestone components to run locally in reader's browser **-->
+<!--** No external communication:                              **-->
+<!--**     log level is 0, Runestone Services are disabled     **-->
+<script type="text/javascript">
+eBookConfig = {};
+eBookConfig.useRunestoneServices = false;
+eBookConfig.host = 'http://127.0.0.1:8000';
+eBookConfig.course = 'PTX_Course_Title_Here';
+eBookConfig.basecourse = 'PTX_Base_Course';
+eBookConfig.isLoggedIn = false;
+eBookConfig.email = '';
+eBookConfig.isInstructor = false;
+eBookConfig.logLevel = 0;
+eBookConfig.username = '';
+eBookConfig.readings = null;
+eBookConfig.activities = null;
+eBookConfig.downloadsEnabled = false;
+eBookConfig.allow_pairs = false;
+eBookConfig.enableScratchAC = false;
+eBookConfig.build_info = "";
+eBookConfig.python3 = null;
+eBookConfig.runestone_version = '7.9.13';
+eBookConfig.jobehost = '';
+eBookConfig.proxyuri_runs = '';
+eBookConfig.proxyuri_files = '';
+eBookConfig.enable_chatcodes =  false;
+</script>
+<!--*** Runestone Services ***-->
+<script src="_static/prefix-runtime.9f7f6b353cd8c357.bundle.js"></script><script src="_static/prefix-723.3e6434f80549315a.bundle.js"></script><script src="_static/prefix-runestone.629fdbd852876870.bundle.js"></script><link rel="stylesheet" type="text/css" href="_static/prefix-723.3bccd435914aa0ff.css">
+<link rel="stylesheet" type="text/css" href="_static/prefix-runestone.557d81b04b3ec0e4.css">
+<script src="_static/pretext/js/lti_iframe_resizer.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/lunr.js/2.3.9/lunr.min.js" integrity="sha512-4xUl/d6D6THrAnXAwGajXkoWaeMNwEKK4iNfq5DotEbLPAfk6FSxSP3ydNxqDgCw1c/0Z1Jg6L8h2j+++9BZmg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><script src="lunr-pretext-search-index.js" async=""></script><script src="_static/pretext/js/pretext_search.js"></script><script src="_static/pretext/js/lib/knowl.js"></script><!--knowl.js code controls Sage Cells within knowls--><script>sagecellEvalName='Evaluate (Sage)';
+</script>
+</head>
+<body id="numerical-analysis-staab" class="pretext book ignore-math">
+<a class="assistive" href="#ptx-content">Skip to main content</a><header id="ptx-masthead" class="ptx-masthead"><div class="ptx-banner"><div class="title-container">
+<h1 class="heading"><a href="numerical-analysis-staab.html"><span class="title">Numerical Analysis</span> <span class="subtitle">A look at rootfinding, quadrature and approximation using analytic and computing tools</span></a></h1>
+<p class="byline">Peter Staab</p>
+</div></div></header><nav id="ptx-navbar" class="ptx-navbar navbar"><div class="ptx-navbar-contents">
+<button class="toc-toggle button" title="Contents"><span class="icon material-symbols-outlined" aria-hidden="true">&#xe5d2;</span><span class="name">Contents</span></button><div class="searchbox">
+<div class="searchwidget"><button id="searchbutton" class="searchbutton button" type="button" title="Search book"><span class="icon material-symbols-outlined" aria-hidden="true">&#xe8b6;</span><span class="name">Search Book</span></button></div>
+<div id="searchresultsplaceholder" class="searchresultsplaceholder" style="display: none">
+<div class="search-results-controls">
+<input aria-label="Search term" id="ptxsearch" class="ptxsearch" type="text" name="terms" placeholder="Search term"><button title="Close search" id="closesearchresults" class="closesearchresults"><span class="material-symbols-outlined">close</span></button>
+</div>
+<h2 class="search-results-heading">Search Results: </h2>
+<div id="searchempty" class="searchempty"><span>No results.</span></div>
+<ol id="searchresults" class="searchresults"></ol>
+</div>
+</div>
+<span class="nav-other-controls"><button id="light-dark-button" class="light-dark-button button" title="Dark Mode"><span class="icon material-symbols-outlined" aria-hidden="true">&#xe51c;</span><span class="name">Dark Mode</span></button></span><span class="treebuttons"><a class="previous-button button" href="sect-intro-quadrature.html" title="Previous"><span class="icon material-symbols-outlined" aria-hidden="true">&#xe5cb;</span><span class="name">Prev</span></a><a class="up-button button" href="ch-quadrature.html" title="Up"><span class="icon material-symbols-outlined" aria-hidden="true">&#xe5ce;</span><span class="name">Up</span></a><a class="next-button button" href="sect-composite-newton-cotes.html" title="Next"><span class="name">Next</span><span class="icon material-symbols-outlined" aria-hidden="true">&#xe5cc;</span></a></span>
+</div></nav><div id="latex-macros" class="hidden-content process-math" style="display:none"><span class="process-math">\(\newcommand{\N}{\mathbb N}
+\newcommand{\Z}{\mathbb Z}
+\newcommand{\Q}{\mathbb Q}
+\newcommand{\R}{\mathbb R}
+\newcommand{\bu}{\boldsymbol{u}}
+\newcommand{\bv}{\boldsymbol{v}}
+\newcommand{\bw}{\boldsymbol{w}}
+\newcommand{\bzero}{\boldsymbol{0}}
+\newcommand{\lt}{&lt;}
+\newcommand{\gt}{&gt;}
+\newcommand{\amp}{&amp;}
+\definecolor{fillinmathshade}{gray}{0.9}
+\newcommand{\fillinmath}[1]{\mathchoice{\colorbox{fillinmathshade}{$\displaystyle     \phantom{\,#1\,}$}}{\colorbox{fillinmathshade}{$\textstyle        \phantom{\,#1\,}$}}{\colorbox{fillinmathshade}{$\scriptstyle      \phantom{\,#1\,}$}}{\colorbox{fillinmathshade}{$\scriptscriptstyle\phantom{\,#1\,}$}}}
+\)</span></div>
+<div class="ptx-page">
+<div id="ptx-sidebar" class="ptx-sidebar"><nav id="ptx-toc" class="ptx-toc depth2 focused" data-preexpanded-levels="0" data-max-levels="2"><ul class="structural toc-item-list contains-active">
+<li class="toc-item toc-frontmatter"><div class="toc-title-box"><a href="frontmatter.html" class="internal"><span class="title">Front Matter</span></a></div></li>
+<li class="toc-item toc-chapter">
+<div class="toc-title-box"><a href="ch-background.html" class="internal"><span class="codenumber">1</span> <span class="title">Important Background Mathematics</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-section">
+<div class="toc-title-box"><a href="sect-polynomials.html" class="internal"><span class="codenumber">1.1</span> <span class="title">Polynomials</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-polynomials.html#sect-polynomials-4" class="internal"><span class="codenumber">1.1.1</span> <span class="title">Power Functions</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-polynomials.html#sect-polynomials-5" class="internal"><span class="codenumber">1.1.2</span> <span class="title">Forms of Polynomials</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-polynomials.html#sect-polynomials-6" class="internal"><span class="codenumber">1.1.3</span> <span class="title">Graphs of Polynomials</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-polynomials.html#sect-fundamental-theorem-algebra" class="internal"><span class="codenumber">1.1.4</span> <span class="title">Fundamental Theorem of Algebra</span></a></div></li>
+</ul>
+</li>
+<li class="toc-item toc-section"><div class="toc-title-box"><a href="sect-calc-theorems.html" class="internal"><span class="codenumber">1.2</span> <span class="title">Important Theorems from Calculus</span></a></div></li>
+<li class="toc-item toc-section">
+<div class="toc-title-box"><a href="sect-sequences.html" class="internal"><span class="codenumber">1.3</span> <span class="title">Sequences</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-sequences.html#sect-sequences-4" class="internal"><span class="codenumber">1.3.1</span> <span class="title">Limits of Sequences</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-sequences.html#sect-sequences-5" class="internal"><span class="codenumber">1.3.2</span> <span class="title">Monotonic Sequences</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-sequences.html#sect-sequences-6" class="internal"><span class="codenumber">1.3.3</span> <span class="title">The Squeeze Theorem</span></a></div></li>
+</ul>
+</li>
+<li class="toc-item toc-section">
+<div class="toc-title-box"><a href="sect-series.html" class="internal"><span class="codenumber">1.4</span> <span class="title">Infinite Series</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-series.html#sect-series-4" class="internal"><span class="codenumber">1.4.1</span> <span class="title">Convergence of Series</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-series.html#sect-series-5" class="internal"><span class="codenumber">1.4.2</span> <span class="title">Geometric Series</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-series.html#sect-series-6" class="internal"><span class="codenumber">1.4.3</span> <span class="title">Tests for Convergence of Series</span></a></div></li>
+</ul>
+</li>
+<li class="toc-item toc-section">
+<div class="toc-title-box"><a href="sect-power-series.html" class="internal"><span class="codenumber">1.5</span> <span class="title">Power Series</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-power-series.html#sect-power-series-4" class="internal"><span class="codenumber">1.5.1</span> <span class="title">Power Series</span></a></div></li>
+<li class="toc-item toc-subsection">
+<div class="toc-title-box"><a href="sect-power-series.html#sect-power-series-5" class="internal"><span class="codenumber">1.5.2</span> <span class="title">Representations of Functions as Power Series</span></a></div>
+<ul class="structural toc-item-list"><li class="toc-item toc-subsubsection"><div class="toc-title-box"><a href="sect-power-series.html#sect-power-series-5-3" class="internal"><span class="codenumber">1.5.2.1</span> <span class="title">Differentiation and Integration of Power Series</span></a></div></li></ul>
+</li>
+</ul>
+</li>
+<li class="toc-item toc-section">
+<div class="toc-title-box"><a href="sect-taylor-series.html" class="internal"><span class="codenumber">1.6</span> <span class="title">Taylor Series</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-subsection">
+<div class="toc-title-box"><a href="sect-taylor-series.html#sect-taylor-series-2" class="internal"><span class="codenumber">1.6.1</span> <span class="title">Taylor and Maclaurin Series</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-subsubsection"><div class="toc-title-box"><a href="sect-taylor-series.html#sect-taylor-series-2-3" class="internal"><span class="codenumber">1.6.1.1</span> <span class="title">Taylor Series</span></a></div></li>
+<li class="toc-item toc-subsubsection"><div class="toc-title-box"><a href="sect-taylor-series.html#sect-taylor-series-2-4" class="internal"><span class="codenumber">1.6.1.2</span> <span class="title">The <span class="process-math">\(n\)</span>th degree Taylor Polynomial</span></a></div></li>
+</ul>
+</li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-taylor-series.html#sect-taylor-series-3" class="internal"><span class="codenumber">1.6.2</span> <span class="title">Taylor’s Theorem</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-taylor-series.html#sect-taylor-series-4" class="internal"><span class="codenumber">1.6.3</span> <span class="title">Taylor Series of <span class="process-math">\(\sin x\)</span> and <span class="process-math">\(\cos x\)</span></span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-taylor-series.html#sect-taylor-series-5" class="internal"><span class="codenumber">1.6.4</span> <span class="title">The Binomial Series</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-taylor-series.html#sect-taylor-series-6" class="internal"><span class="codenumber">1.6.5</span> <span class="title">Summary of Important Maclaurin Series</span></a></div></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-item toc-chapter">
+<div class="toc-title-box"><a href="ch-intro-numerical.html" class="internal"><span class="codenumber">2</span> <span class="title">Introduction to Numerical Analysis</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-section">
+<div class="toc-title-box"><a href="sect-practical-examples.html" class="internal"><span class="codenumber">2.1</span> <span class="title">Practical Mathematical Examples</span></a></div>
+<ul class="structural toc-item-list"><li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-practical-examples.html#sect-practical-examples-3" class="internal"><span class="codenumber">2.1.1</span> <span class="title">What is Numerical Analysis?</span></a></div></li></ul>
+</li>
+<li class="toc-item toc-section">
+<div class="toc-title-box"><a href="sect-algorithms.html" class="internal"><span class="codenumber">2.2</span> <span class="title">Algorithms</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-algorithms.html#sect-algorithms-3" class="internal"><span class="codenumber">2.2.1</span> <span class="title">Newtons’ Method: A Better Square Root Algorithm</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-algorithms.html#sect-algorithms-4" class="internal"><span class="codenumber">2.2.2</span> <span class="title">YASRA: Yet Another Square Root Algorithm</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-algorithms.html#sect-algorithms-5" class="internal"><span class="codenumber">2.2.3</span> <span class="title">Analyzing Algorithms</span></a></div></li>
+</ul>
+</li>
+<li class="toc-item toc-section">
+<div class="toc-title-box"><a href="sect-convergence-sequence.html" class="internal"><span class="codenumber">2.3</span> <span class="title">Convergence of Sequences</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-subsection">
+<div class="toc-title-box"><a href="sect-convergence-sequence.html#sect-convergence-sequence-4" class="internal"><span class="codenumber">2.3.1</span> <span class="title">Big “O” Notation</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-subsubsection"><div class="toc-title-box"><a href="sect-convergence-sequence.html#sect-poly-operations" class="internal"><span class="codenumber">2.3.1.1</span> <span class="title">Order of operations and evaluating polynomials</span></a></div></li>
+<li class="toc-item toc-subsubsection"><div class="toc-title-box"><a href="sect-convergence-sequence.html#sect-convergence-sequence-4-4" class="internal"><span class="codenumber">2.3.1.2</span> <span class="title">Order of Convergence</span></a></div></li>
+<li class="toc-item toc-subsubsection"><div class="toc-title-box"><a href="sect-convergence-sequence.html#sect-convergence-sequence-4-5" class="internal"><span class="codenumber">2.3.1.3</span> <span class="title">Numerically Determining the order of convergence</span></a></div></li>
+</ul>
+</li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-convergence-sequence.html#sect-convergence-sequence-5" class="internal"><span class="codenumber">2.3.2</span> <span class="title">Determining Convergence Rates Theoretically</span></a></div></li>
+</ul>
+</li>
+<li class="toc-item toc-section">
+<div class="toc-title-box"><a href="sect-floating-point.html" class="internal"><span class="codenumber">2.4</span> <span class="title">Floating Point Number Systems</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-floating-point.html#sect-floating-point-4" class="internal"><span class="codenumber">2.4.1</span> <span class="title">Scientific Notation</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-floating-point.html#sect-floating-point-5" class="internal"><span class="codenumber">2.4.2</span> <span class="title">Floating Point Numbers of a given size</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-floating-point.html#sect-floating-point-6" class="internal"><span class="codenumber">2.4.3</span> <span class="title">Rounding Floating Point Numbers</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-floating-point.html#sect-floating-point-7" class="internal"><span class="codenumber">2.4.4</span> <span class="title">Overflow and Underflow</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-floating-point.html#sect-floating-point-8" class="internal"><span class="codenumber">2.4.5</span> <span class="title">Rounding Error</span></a></div></li>
+<li class="toc-item toc-subsection">
+<div class="toc-title-box"><a href="sect-floating-point.html#sect-floating-point-9" class="internal"><span class="codenumber">2.4.6</span> <span class="title">Practical Effects of Floating-Point Arithmetic</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-subsubsection"><div class="toc-title-box"><a href="sect-floating-point.html#sect-floating-point-9-3" class="internal"><span class="codenumber">2.4.6.1</span> <span class="title">Cancellation Error</span></a></div></li>
+<li class="toc-item toc-subsubsection"><div class="toc-title-box"><a href="sect-floating-point.html#sect-floating-point-9-4" class="internal"><span class="codenumber">2.4.6.2</span> <span class="title">Matrices and Roundoff Errors</span></a></div></li>
+</ul>
+</li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-floating-point.html#sect-floating-point-10" class="internal"><span class="codenumber">2.4.7</span> <span class="title">Why not just use Rational Numbers?</span></a></div></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-item toc-chapter">
+<div class="toc-title-box"><a href="ch-rootfinding.html" class="internal"><span class="codenumber">3</span> <span class="title">Rootfinding</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-section"><div class="toc-title-box"><a href="sect-intro-rootfinding.html" class="internal"><span class="codenumber">3.1</span> <span class="title">Introduction to Rootfinding</span></a></div></li>
+<li class="toc-item toc-section">
+<div class="toc-title-box"><a href="sect-bisection.html" class="internal"><span class="codenumber">3.2</span> <span class="title">The Bisection Method</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-bisection.html#sect-bisection-3" class="internal"><span class="codenumber">3.2.1</span> <span class="title">The Bisection Algorithm</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-bisection.html#sect-bisection-4" class="internal"><span class="codenumber">3.2.2</span> <span class="title">The Bisection Method with a Spreadsheet</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-bisection.html#sect-bisection-5" class="internal"><span class="codenumber">3.2.3</span> <span class="title">Graphical look at the Bisection</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-bisection.html#sect-bisection-6" class="internal"><span class="codenumber">3.2.4</span> <span class="title">Analysis of the Bisection Algorithm</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-bisection.html#sect-bisection-7" class="internal"><span class="codenumber">3.2.5</span> <span class="title">Order and Rate of Convergence of the Bisection Method</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-bisection.html#sect-bisection-8" class="internal"><span class="codenumber">3.2.6</span> <span class="title">Stopping Conditions for the Bisection Method</span></a></div></li>
+</ul>
+</li>
+<li class="toc-item toc-section">
+<div class="toc-title-box"><a href="sect-fixed-point.html" class="internal"><span class="codenumber">3.3</span> <span class="title">Fixed Point Iteration Schemes</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-fixed-point.html#sect-fixed-point-3" class="internal"><span class="codenumber">3.3.1</span> <span class="title">Additional Analysis of Fixed Point Iterations</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-fixed-point.html#sect-fixed-point-4" class="internal"><span class="codenumber">3.3.2</span> <span class="title">Linear Convergence of Fixed Point Iterations</span></a></div></li>
+</ul>
+</li>
+<li class="toc-item toc-section">
+<div class="toc-title-box"><a href="sect-newtons-method.html" class="internal"><span class="codenumber">3.4</span> <span class="title">Newton’s Method</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-newtons-method.html#sect-newtons-method-3" class="internal"><span class="codenumber">3.4.1</span> <span class="title">Performing Newton’s Method using a Spreadsheet</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-newtons-method.html#sect-newtons-method-4" class="internal"><span class="codenumber">3.4.2</span> <span class="title">Analysis of Newton’s Method</span></a></div></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-item toc-chapter">
+<div class="toc-title-box"><a href="ch-interpolation.html" class="internal"><span class="codenumber">4</span> <span class="title">Interpolation Theory and Practice</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-section">
+<div class="toc-title-box"><a href="sect-intro-interpolation.html" class="internal"><span class="codenumber">4.1</span> <span class="title">Introduction to Interpolation</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-intro-interpolation.html#sect-intro-interpolation-3" class="internal"><span class="codenumber">4.1.1</span> <span class="title">Fundamental Interpolation Problem</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-intro-interpolation.html#sect-intro-interpolation-4" class="internal"><span class="codenumber">4.1.2</span> <span class="title">Interpolation Versus Regression</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-intro-interpolation.html#sect-intro-interpolation-5" class="internal"><span class="codenumber">4.1.3</span> <span class="title">Polynomial Interpolation</span></a></div></li>
+</ul>
+</li>
+<li class="toc-item toc-section">
+<div class="toc-title-box"><a href="sect-lagrange-interp.html" class="internal"><span class="codenumber">4.2</span> <span class="title">The Lagrange Form of the Interpolating Polynomial</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-lagrange-interp.html#sect-lagrange-interp-3" class="internal"><span class="codenumber">4.2.1</span> <span class="title">Quadratic Lagrange Polynomials</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-lagrange-interp.html#sect-lagrange-interp-4" class="internal"><span class="codenumber">4.2.2</span> <span class="title">General Lagrange Polynomial</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-lagrange-interp.html#sect-lagrange-interp-5" class="internal"><span class="codenumber">4.2.3</span> <span class="title">Error in the interpolating polynomial</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-lagrange-interp.html#sect-lagrange-interp-6" class="internal"><span class="codenumber">4.2.4</span> <span class="title">Advantages and Disadvantages of the Lagrange form</span></a></div></li>
+</ul>
+</li>
+<li class="toc-item toc-section">
+<div class="toc-title-box"><a href="sect-newton-divided-diff.html" class="internal"><span class="codenumber">4.3</span> <span class="title">Newton Divided Differences</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-newton-divided-diff.html#sect-newton-divided-diff-3" class="internal"><span class="codenumber">4.3.1</span> <span class="title">Newton Divided Difference Form of the Interpolating Polynomial</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-newton-divided-diff.html#sect-newton-divided-diff-4" class="internal"><span class="codenumber">4.3.2</span> <span class="title">Calculating the Newton Divided Differences</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-newton-divided-diff.html#sect-newton-divided-diff-5" class="internal"><span class="codenumber">4.3.3</span> <span class="title">Errors and Interpolation, revisited</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-newton-divided-diff.html#sect-newton-divided-diff-6" class="internal"><span class="codenumber">4.3.4</span> <span class="title">Summary</span></a></div></li>
+</ul>
+</li>
+<li class="toc-item toc-section">
+<div class="toc-title-box"><a href="ch-interpolation-6.html" class="internal"><span class="codenumber">4.4</span> <span class="title">Hermite Interpolation</span></a></div>
+<ul class="structural toc-item-list"><li class="toc-item toc-subsection"><div class="toc-title-box"><a href="ch-interpolation-6.html#ch-interpolation-6-3" class="internal"><span class="codenumber">4.4.1</span> <span class="title">Hermite Interpolation Implementation</span></a></div></li></ul>
+</li>
+</ul>
+</li>
+<li class="toc-item toc-chapter contains-active">
+<div class="toc-title-box"><a href="ch-quadrature.html" class="internal"><span class="codenumber">5</span> <span class="title">Quadrature</span></a></div>
+<ul class="structural toc-item-list contains-active">
+<li class="toc-item toc-section">
+<div class="toc-title-box"><a href="sect-intro-quadrature.html" class="internal"><span class="codenumber">5.1</span> <span class="title">Numerical Differentiation</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-intro-quadrature.html#sect-intro-quadrature-3" class="internal"><span class="codenumber">5.1.1</span> <span class="title">Two-Point Difference Formulas</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-intro-quadrature.html#sect-intro-quadrature-4" class="internal"><span class="codenumber">5.1.2</span> <span class="title"><span class="process-math">\(n\)</span>-point formula for <span class="process-math">\(f'(x)\)</span></span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-intro-quadrature.html#sect-intro-quadrature-5" class="internal"><span class="codenumber">5.1.3</span> <span class="title">3- and 5-point formulas for <span class="process-math">\(f'(x)\)</span></span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-intro-quadrature.html#sect-intro-quadrature-6" class="internal"><span class="codenumber">5.1.4</span> <span class="title">Three-point numerical formulas for <span class="process-math">\(f''(x)\)</span></span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-intro-quadrature.html#sect-intro-quadrature-7" class="internal"><span class="codenumber">5.1.5</span> <span class="title">Higher Order Numerical derivatives</span></a></div></li>
+</ul>
+</li>
+<li class="toc-item toc-section contains-active">
+<div class="toc-title-box"><a href="sect-intro-quadature.html" class="internal"><span class="codenumber">5.2</span> <span class="title">The Basics of Numerical Integration or Quadrature</span></a></div>
+<ul class="structural toc-item-list active">
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-intro-quadature.html#sect-intro-quadature-3" class="internal"><span class="codenumber">5.2.1</span> <span class="title">Newton-Cotes Formulas</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-intro-quadature.html#sect-intro-quadature-4" class="internal"><span class="codenumber">5.2.2</span> <span class="title"><span class="process-math">\(n=1\)</span> case</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-intro-quadature.html#sect-intro-quadature-5" class="internal"><span class="codenumber">5.2.3</span> <span class="title"><span class="process-math">\(n=2\)</span> case</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-intro-quadature.html#sect-intro-quadature-6" class="internal"><span class="codenumber">5.2.4</span> <span class="title">Other Newton-Cotes</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-intro-quadature.html#sect-intro-quadature-7" class="internal"><span class="codenumber">5.2.5</span> <span class="title">Error Formulas for Newton-Cotes</span></a></div></li>
+</ul>
+</li>
+<li class="toc-item toc-section">
+<div class="toc-title-box"><a href="sect-composite-newton-cotes.html" class="internal"><span class="codenumber">5.3</span> <span class="title">Composite Newton-Cotes Quadrature</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-composite-newton-cotes.html#sect-composite-newton-cotes-3" class="internal"><span class="codenumber">5.3.1</span> <span class="title">Composite Trapezoid</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-composite-newton-cotes.html#sect-composite-newton-cotes-4" class="internal"><span class="codenumber">5.3.2</span> <span class="title">Rate of Convergence</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-composite-newton-cotes.html#sect-composite-newton-cotes-5" class="internal"><span class="codenumber">5.3.3</span> <span class="title">Composite Simpson’s Rule</span></a></div></li>
+</ul>
+</li>
+<li class="toc-item toc-section">
+<div class="toc-title-box"><a href="sect-gauss-quad.html" class="internal"><span class="codenumber">5.4</span> <span class="title">Gaussian Quadrature</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-gauss-quad.html#sect-gauss-quad-3" class="internal"><span class="codenumber">5.4.1</span> <span class="title">2-point Gaussian Quadrature Formula</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-gauss-quad.html#sect-gauss-quad-4" class="internal"><span class="codenumber">5.4.2</span> <span class="title">Gaussian Quadrature on <span class="process-math">\([a,b]\)</span></span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-gauss-quad.html#sect-gauss-quad-5" class="internal"><span class="codenumber">5.4.3</span> <span class="title">3-point Gaussian Quadrature Formula</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-gauss-quad.html#sect-gauss-quad-6" class="internal"><span class="codenumber">5.4.4</span> <span class="title">Error Formula of Gaussian Quadrature</span></a></div></li>
+</ul>
+</li>
+<li class="toc-item toc-section">
+<div class="toc-title-box"><a href="ch-quadrature-7.html" class="internal"><span class="codenumber">5.5</span> <span class="title">Richardson Extrapolation and Romberg Integration</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="ch-quadrature-7.html#ch-quadrature-7-3" class="internal"><span class="codenumber">5.5.1</span> <span class="title">Richardson Extrapolation</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="ch-quadrature-7.html#ch-quadrature-7-4" class="internal"><span class="codenumber">5.5.2</span> <span class="title">Richardson Extrapolation for other error schemes</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="ch-quadrature-7.html#ch-quadrature-7-5" class="internal"><span class="codenumber">5.5.3</span> <span class="title">Romberg Integration</span></a></div></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-item toc-chapter">
+<div class="toc-title-box"><a href="ch-approximation.html" class="internal"><span class="codenumber">6</span> <span class="title">Approximation Theory</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-section">
+<div class="toc-title-box"><a href="sect-intro-approximation.html" class="internal"><span class="codenumber">6.1</span> <span class="title">Introduction to Approximation Theory</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-intro-approximation.html#sect-intro-approximation-3" class="internal"><span class="codenumber">6.1.1</span> <span class="title">Norms of Functions</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-intro-approximation.html#sect-intro-approximation-4" class="internal"><span class="codenumber">6.1.2</span> <span class="title">Inner Product Spaces</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-intro-approximation.html#sect-intro-approximation-5" class="internal"><span class="codenumber">6.1.3</span> <span class="title">Vector Norms and distance</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-intro-approximation.html#sect-intro-approximation-6" class="internal"><span class="codenumber">6.1.4</span> <span class="title">Angles between vectors</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-intro-approximation.html#sect-intro-approximation-7" class="internal"><span class="codenumber">6.1.5</span> <span class="title">Orthonormal sets of vectors</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-intro-approximation.html#sect-intro-approximation-8" class="internal"><span class="codenumber">6.1.6</span> <span class="title">Inner Products of functions</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-intro-approximation.html#sect-intro-approximation-9" class="internal"><span class="codenumber">6.1.7</span> <span class="title">Weighted Inner Products</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-intro-approximation.html#sect-intro-approximation-10" class="internal"><span class="codenumber">6.1.8</span> <span class="title">Orthogonal Functions</span></a></div></li>
+</ul>
+</li>
+<li class="toc-item toc-section">
+<div class="toc-title-box"><a href="sect-discrete-least-squares.html" class="internal"><span class="codenumber">6.2</span> <span class="title">Discrete Least Squares</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-discrete-least-squares.html#sect-discrete-least-squares-3" class="internal"><span class="codenumber">6.2.1</span> <span class="title">Matrix Form of the Least Squares Regression</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-discrete-least-squares.html#sect-discrete-least-squares-4" class="internal"><span class="codenumber">6.2.2</span> <span class="title">Least-Squares Polynomials</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-discrete-least-squares.html#sect-discrete-least-squares-5" class="internal"><span class="codenumber">6.2.3</span> <span class="title">Least-Squares and Interpolation</span></a></div></li>
+</ul>
+</li>
+<li class="toc-item toc-section">
+<div class="toc-title-box"><a href="sect-orthogonal-polynomials.html" class="internal"><span class="codenumber">6.3</span> <span class="title">Orthogonal Polynomials and Least Squares Approximation</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-orthogonal-polynomials.html#sect-orthogonal-polynomials-3" class="internal"><span class="codenumber">6.3.1</span> <span class="title">Orthogonal Polynomials</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-orthogonal-polynomials.html#sect-orthogonal-polynomials-4" class="internal"><span class="codenumber">6.3.2</span> <span class="title">The Gram-Schmidt process for Orthogonalizing Polynomials</span></a></div></li>
+</ul>
+</li>
+<li class="toc-item toc-section">
+<div class="toc-title-box"><a href="sect-optimal-pts.html" class="internal"><span class="codenumber">6.4</span> <span class="title">Optimal Points for Interpolation</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-optimal-pts.html#sect-optimal-pts-3" class="internal"><span class="codenumber">6.4.1</span> <span class="title">Chebyshev Polynomials</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-optimal-pts.html#sect-optimal-pts-4" class="internal"><span class="codenumber">6.4.2</span> <span class="title">Monic Polynomials</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-optimal-pts.html#sect-optimal-pts-5" class="internal"><span class="codenumber">6.4.3</span> <span class="title">Interpolation on the Chebyshev roots</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-optimal-pts.html#sect-optimal-pts-6" class="internal"><span class="codenumber">6.4.4</span> <span class="title">Chebyshev Polynomials on <span class="process-math">\([a,b]\)</span></span></a></div></li>
+</ul>
+</li>
+<li class="toc-item toc-section">
+<div class="toc-title-box"><a href="sect-legendre-polys.html" class="internal"><span class="codenumber">6.5</span> <span class="title">Legendre Polynomials and Interpolation</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-legendre-polys.html#sect-legendre-polys-3" class="internal"><span class="codenumber">6.5.1</span> <span class="title">Approximating functions using Legendre Polynomials</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-legendre-polys.html#sect-legendre-polys-4" class="internal"><span class="codenumber">6.5.2</span> <span class="title">Chebyshev Polynomials</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-legendre-polys.html#sect-legendre-polys-5" class="internal"><span class="codenumber">6.5.3</span> <span class="title">Summary of Polynomial Interpolation</span></a></div></li>
+</ul>
+</li>
+<li class="toc-item toc-section">
+<div class="toc-title-box"><a href="sect-rational-interp.html" class="internal"><span class="codenumber">6.6</span> <span class="title">Rational Interpolation and Approximation</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-rational-interp.html#sect-rational-interp-3" class="internal"><span class="codenumber">6.6.1</span> <span class="title">Padé Approximations</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-rational-interp.html#sect-rational-interp-4" class="internal"><span class="codenumber">6.6.2</span> <span class="title">A Hermite-Type Rational Approximation</span></a></div></li>
+</ul>
+</li>
+<li class="toc-item toc-section"><div class="toc-title-box"><a href="sect-gauss-quad-revisit.html" class="internal"><span class="codenumber">6.7</span> <span class="title">Gaussian Quadrature: revisited</span></a></div></li>
+</ul>
+</li>
+<li class="toc-item toc-chapter">
+<div class="toc-title-box"><a href="ch-linear-algebra.html" class="internal"><span class="codenumber">7</span> <span class="title">Numerical Linear Algebra</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-section"><div class="toc-title-box"><a href="sect-intro-linear-algebra.html" class="internal"><span class="codenumber">7.1</span> <span class="title">Introduction to Linear Algebra</span></a></div></li>
+<li class="toc-item toc-section">
+<div class="toc-title-box"><a href="ch-linear-algebra-4.html" class="internal"><span class="codenumber">7.2</span> <span class="title">Linear Systems and Gaussian Elimination</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="ch-linear-algebra-4.html#ch-linear-algebra-4-3" class="internal"><span class="codenumber">7.2.1</span> <span class="title">Operation Counts of Gaussian Elimination</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="ch-linear-algebra-4.html#ch-linear-algebra-4-4" class="internal"><span class="codenumber">7.2.2</span> <span class="title">Comparison to Cramer’s Rule</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="ch-linear-algebra-4.html#ch-linear-algebra-4-5" class="internal"><span class="codenumber">7.2.3</span> <span class="title">Pivoting Strategies</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="ch-linear-algebra-4.html#ch-linear-algebra-4-6" class="internal"><span class="codenumber">7.2.4</span> <span class="title">Partial Pivoting</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="ch-linear-algebra-4.html#ch-linear-algebra-4-7" class="internal"><span class="codenumber">7.2.5</span> <span class="title">Scaled Partial Pivoting</span></a></div></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-item toc-chapter">
+<div class="toc-title-box"><a href="ch-validated-numerics.html" class="internal"><span class="codenumber">8</span> <span class="title">Validated Numerics</span></a></div>
+<ul class="structural toc-item-list"><li class="toc-item toc-section"><div class="toc-title-box"><a href="sect-interval-arithemtic.html" class="internal"><span class="codenumber">8.1</span> <span class="title">Interval Arithmetic</span></a></div></li></ul>
+</li>
+<li class="toc-item toc-backmatter"><div class="toc-title-box"><a href="backmatter.html" class="internal"><span class="title">Backmatter</span></a></div></li>
+</ul></nav></div>
+<main class="ptx-main"><div id="ptx-content" class="ptx-content"><section class="section" id="sect-intro-quadature"><h2 class="heading hide-type">
+<span class="type">Section</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">5.2</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="title">The Basics of Numerical Integration or Quadrature</span>
+</h2>
+<section class="introduction" id="sect-intro-quadature-2"><div class="para logical" id="sect-intro-quadature-2-1">
+<div class="para">We now turn to a more-important aspect of numerical calculus, numerical integration or quadrature. It is not difficult to find a function that doesn’t have an antiderivative that can written in terms of our standard set of functions. For example, we will use the integral</div>
+<div class="displaymath process-math" id="eq-norm-curve-cum-dist">
+\begin{equation}
+\int_{0}^{a} e^{-x^2}\, dx\tag{5.2.1}
+\end{equation}
+</div>
+<div class="para">that appears in Chapter ch:intro that is related to the normal curve in Probability and Statistics. There is no simple antiderivative of <span class="process-math">\(e^{-x^2}\)</span> and thus we need to resort to other methods to evaluate (eq:norm:curve:cum:dist) for values of <span class="process-math">\(a\text{.}\)</span>
+</div>
+<div class="autopermalink" data-description="Paragraph"><a href="#sect-intro-quadature-2-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="para logical" id="sect-intro-quadature-2-2">
+<div class="para">The basic idea behind quadrature is that for a continuous function <span class="process-math">\(f\)</span> on an interval <span class="process-math">\([a,b]\text{,}\)</span> we wish to find</div>
+<div class="displaymath process-math">
+\begin{equation*}
+I(f) = \int_{a}^{b} f(x) \, dx.
+\end{equation*}
+</div>
+<div class="autopermalink" data-description="Paragraph"><a href="#sect-intro-quadature-2-2" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="para logical" id="sect-intro-quadature-2-3">
+<div class="para">Most quadrature formulas take on the form:</div>
+<div class="displaymath process-math" id="eq-quad-basic">
+\begin{equation}
+I(f) \approx I_{n} (f) = \sum_{i=0}^{n} w_{i} f(x_{i})\tag{5.2.2}
+\end{equation}
+</div>
+<div class="para">where <span class="process-math">\(x_{i}\)</span> are called the <em class="alert">quadrature points</em> and <span class="process-math">\(w_{i}\)</span> are called the <em class="alert">weights</em>. The various methods we will see in this section and subsequent sections will differ based on finding different values of the nodes and weights.</div>
+<div class="autopermalink" data-description="Paragraph"><a href="#sect-intro-quadature-2-3" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="para" id="sect-intro-quadature-2-4">This may look similar to that of a Riemann sum from Calculus. You may recall that the Riemann sum (for a finite number of rectangles) is an approximation to the area under the curve or the definite integral. Typically, if <span class="process-math">\(w_{i}=h=x_{i+1}-x_{i}\text{,}\)</span> that is the points used in evaluation are equally spaced, then (eq:quad:basic) is the Riemann sum.<div class="autopermalink" data-description="Paragraph"><a href="#sect-intro-quadature-2-4" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div></section><section class="subsection" id="sect-intro-quadature-3"><h3 class="heading hide-type">
+<span class="type">Subsection</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">5.2.1</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="title">Newton-Cotes Formulas</span>
+</h3>
+<div class="para" id="sect-intro-quadature-3-2">The first class of formulas for quadrature that we will see are called the <em class="alert">Newton-Cotes Formulas</em>. In this case, we will use interpolating polynomials (usually using equally-spaced points) to approximate the function, then integrate the polynomial.<div class="autopermalink" data-description="Paragraph"><a href="#sect-intro-quadature-3-2" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="para logical" id="sect-intro-quadature-3-3">
+<div class="para">First, write the interpolating polynomial in terms of the Lagrange polynomials, <span class="process-math">\(L_{n,i}(x)\text{,}\)</span>
+</div>
+<div class="displaymath process-math">
+\begin{equation*}
+P_{n} (x) = \sum_{i=0}^{n} f(x_{i}) L_{n,i}(x).
+\end{equation*}
+</div>
+<div class="autopermalink" data-description="Paragraph"><a href="#sect-intro-quadature-3-3" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="para logical" id="sect-intro-quadature-3-4">
+<div class="para">Let <span class="process-math">\(I_{n}(f)\)</span> be the definite integral of <span class="process-math">\(P_{n}(x)\)</span> on <span class="process-math">\([a,b]\)</span> or</div>
+<div class="displaymath process-math">
+\begin{equation*}
+\begin{aligned}I_{n}(f)\amp = \int_{a}^{b} \sum_{i=0}^{n} f(x_{i}) L_{n,i}(x) \, dx, \\\amp = \sum_{i=0}^{n} f(x_{i}) \int_{a}^{b} L_{n,i}(x) \, dx.
+\amp \text{This can be written as} \\ I_{n}(f)\amp = \sum_{i=0}^{n} w_{i} f(x_{i}),\end{aligned}
+\end{equation*}
+</div>
+<div class="para">where</div>
+<div class="displaymath process-math">
+\begin{equation*}
+w_{i} = \int_{a}^{b} L_{n,i}(x) \, dx
+\end{equation*}
+</div>
+<div class="autopermalink" data-description="Paragraph"><a href="#sect-intro-quadature-3-4" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="para" id="sect-intro-quadature-3-5">We now look at specific cases for <span class="process-math">\(n\text{,}\)</span> the order of the interpolating polynomial.<div class="autopermalink" data-description="Paragraph"><a href="#sect-intro-quadature-3-5" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" data-description="Subsection 5.2.1: Newton-Cotes Formulas"><a href="#sect-intro-quadature-3" title="Copy heading and permalink for Subsection 5.2.1: Newton-Cotes Formulas" aria-label="Copy heading and permalink for Subsection 5.2.1: Newton-Cotes Formulas">🔗</a></div></section><section class="subsection" id="sect-intro-quadature-4"><h3 class="heading hide-type">
+<span class="type">Subsection</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">5.2.2</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="title"><span class="process-math">\(n=1\)</span> case</span>
+</h3>
+<div class="para logical" id="sect-intro-quadature-4-2">
+<div class="para">In this case, there are two points, <span class="process-math">\(x_{0}=a\)</span> and <span class="process-math">\(x_{1}=b\text{.}\)</span>
+</div>
+<div class="displaymath process-math">
+\begin{equation*}
+\begin{aligned}L_{1,0}(x)\amp = \frac{b-x}{b-a},\amp L_{1,1}(x)\amp = \frac{x-a}{b-a},\end{aligned}
+\end{equation*}
+</div>
+<div class="para">therefore the weights are:</div>
+<div class="displaymath process-math">
+\begin{equation*}
+\begin{aligned}w_{0}\amp = \int_{a}^{b} \frac{b-x}{b-a}\, dx\amp w_{1}\amp = \int_{a}^{b} \frac{x-a}{b-a}\, dx.
+\\\end{aligned}
+\end{equation*}
+</div>
+<div class="autopermalink" data-description="Paragraph"><a href="#sect-intro-quadature-4-2" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="para logical" id="sect-intro-quadature-4-3">
+<div class="para">Although these integrals are not difficult to do, they are easier if we change variables. Let <span class="process-math">\(x = a+ h t\)</span> where <span class="process-math">\(h=b-a\text{,}\)</span> then these integrals become:</div>
+<div class="displaymath process-math">
+\begin{equation*}
+\begin{aligned}w_{0}\amp = h\int_{0}^{1} (1-t) \, dt\amp w_{1}\amp = h\int_{0}^{1} t \, dt \\\amp = \frac{h}{2}\amp w_{1}\amp = \frac{h}{2}\end{aligned}
+\end{equation*}
+</div>
+<div class="autopermalink" data-description="Paragraph"><a href="#sect-intro-quadature-4-3" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="para logical" id="sect-intro-quadature-4-4">
+<div class="para">Thus the quadrature formula is</div>
+<div class="displaymath process-math">
+\begin{equation*}
+\begin{aligned}I(f) \approx I_{1}(f)\amp = \frac{h}{2}\bigl( f(a) + f(b) \bigr).\end{aligned}
+\end{equation*}
+</div>
+<div class="autopermalink" data-description="Paragraph"><a href="#sect-intro-quadature-4-4" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="para" id="sect-intro-quadature-4-5">This formula is called the trapezoid rule, because the integral is equivalent to the area of the trapezoid formed by the points <span class="process-math">\((0,f(a))\text{,}\)</span> <span class="process-math">\((a,f(a))\text{,}\)</span> <span class="process-math">\((b,f(b))\text{,}\)</span> and <span class="process-math">\((0,f(b))\)</span> as seen in the plot below.<div class="autopermalink" data-description="Paragraph"><a href="#sect-intro-quadature-4-5" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<figure class="figure figure-like" id="fig-trapezoid"><div class="image-box" style="width: 100%; margin-left: 0%; margin-right: 0%;"><img src="generated/latex-image/fig-trapezoid-2.svg" role="img" class="contained" alt=""></div>
+<figcaption><span class="type">Figure</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">5.2.1<span class="period heading-divison-mark heading-divison-mark__period">.</span></span><span class="space heading-divison-mark heading-divison-mark__space"> </span><div class="autopermalink" data-description="Figure 5.2.1"><a href="#fig-trapezoid" title="Copy heading and permalink for Figure 5.2.1" aria-label="Copy heading and permalink for Figure 5.2.1">🔗</a></div></figcaption></figure><div class="para" id="sect-intro-quadature-4-7">The trapezoid is the shaded area in the plot above and approximates the integral of <span class="process-math">\(f\)</span> from <span class="process-math">\(a\)</span> to <span class="process-math">\(b\text{.}\)</span><div class="autopermalink" data-description="Paragraph"><a href="#sect-intro-quadature-4-7" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="para logical" id="sect-intro-quadature-4-8">
+<div class="para">The <dfn class="terminology">Trapezoid Rule</dfn> is an approximation to <span class="process-math">\(\int_{a}^{b}f(x) \, dx\text{,}\)</span> given by</div>
+<div class="displaymath process-math" id="eq-trap-rule">
+\begin{equation}
+I_{1}(f) = \frac{h}{2}\bigl(f(a)+f(b)\bigr).\tag{5.2.3}
+\end{equation}
+</div>
+<div class="autopermalink" data-description="Paragraph"><a href="#sect-intro-quadature-4-8" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" data-description="Subsection 5.2.2: n=1 case"><a href="#sect-intro-quadature-4" title="Copy heading and permalink for Subsection 5.2.2: n=1 case" aria-label="Copy heading and permalink for Subsection 5.2.2: n=1 case">🔗</a></div></section><section class="subsection" id="sect-intro-quadature-5"><h3 class="heading hide-type">
+<span class="type">Subsection</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">5.2.3</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="title"><span class="process-math">\(n=2\)</span> case</span>
+</h3>
+<div class="para logical" id="sect-intro-quadature-5-2">
+<div class="para">In this case, we will use a quadratic function (parabola) that interpolates the data and then will be integrated. To do this, we use the following 3 points to determine the interpolating polynomial:</div>
+<div class="displaymath process-math">
+\begin{equation*}
+\begin{aligned}x_{0}\amp = a,\amp x_{1}\amp = \frac{a+b}{2},\amp x_{2}\amp = b,\end{aligned}
+\end{equation*}
+</div>
+<div class="para">and we will define <span class="process-math">\(h = (b-a)/2\)</span> to be half the total distance between <span class="process-math">\(a\)</span> and <span class="process-math">\(b\text{.}\)</span> The Lagrange polynomials through these points are:</div>
+<div class="displaymath process-math">
+\begin{equation*}
+\begin{aligned}L_{2,0}(x)\amp = \frac{(x-x_{1})(x-x_{2})}{2h^{2}},\amp L_{2,1}(x)\amp = \frac{(x-x_{0})(x-x_{2})}{-h^{2}}, \\ L_{2,2}(x)\amp = \frac{(x-x_{0})(x-x_{1})}{2h^{2}},\end{aligned}
+\end{equation*}
+</div>
+<div class="para">and the weights are:</div>
+<div class="displaymath process-math">
+\begin{equation*}
+\begin{aligned}w_{0}\amp = \int_{a}^{b} L_{2,0}(x) \, dx,\amp w_{1}\amp = \int_{a}^{b} L_{2,1}(x) \, dx,\amp w_{2}\amp = \int_{a}^{b} L_{2,2}(x) \, dx.\end{aligned}
+\end{equation*}
+</div>
+<div class="autopermalink" data-description="Paragraph"><a href="#sect-intro-quadature-5-2" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="para logical" id="sect-intro-quadature-5-3">
+<div class="para">If we define <span class="process-math">\(x=a+th\text{,}\)</span> these can be written:</div>
+<div class="displaymath process-math" data-contains-math-knowls="./knowl/xref/eq-quad-basic.html">
+\begin{equation*}
+\begin{aligned}w_{0}\amp = \frac{h}{2}\int_{0}^{2} (t-1)(t-2) \, dt = \frac{h}{3},\amp w_{1}\amp = -h \int_{0}^{2} t(t-2) \, dt = \frac{4h}{3}, \\ w_{2}\amp = \frac{h}{2}\int_{0}^{2} t(t-1) \, dt = \frac{h}{3}, \\\end{aligned}
+\end{equation*}
+</div>
+<div class="para">so the quadrature formula in this case using the above points and weights and substituting into <a href="sect-intro-quadature.html#eq-quad-basic" class="xref" data-knowl="./knowl/xref/eq-quad-basic.html" data-reveal-label="Reveal" data-close-label="Close" title="Equation 5.2.2">(5.2.2)</a> can be written as follows.</div>
+<div class="autopermalink" data-description="Paragraph"><a href="#sect-intro-quadature-5-3" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="para logical" id="sect-intro-quadature-5-4">
+<div class="para">The quadrature formula that uses three equally-spaced points is given by</div>
+<div class="displaymath process-math">
+\begin{equation*}
+I_{2}(f) = \frac{h}{3}\biggl( f(a) + 4 f\biggl(\frac{a+b}{2}\biggr) + f(b) \biggr)
+\end{equation*}
+</div>
+<div class="para">and is called <dfn class="terminology">Simpson’s Rule</dfn>.</div>
+<div class="autopermalink" data-description="Paragraph"><a href="#sect-intro-quadature-5-4" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="para" id="sect-intro-quadature-5-5">We now see a example from the start of this section that uses the trapezoid and Simpson’s rule to evaluate an integral.<div class="autopermalink" data-description="Paragraph"><a href="#sect-intro-quadature-5-5" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<details id="ex-trap-simp" class="example example-like born-hidden-knowl"><summary class="knowl__link"><h4 class="heading">
+<span class="type">Example</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">5.2.2</span><span class="period heading-divison-mark heading-divison-mark__period">.</span>
+</h4></summary><article class="example example-like knowl__content"><div class="introduction" id="ex-trap-simp-1"><div class="para logical" id="ex-trap-simp-1-1">
+<div class="para">Let</div>
+<div class="displaymath process-math" id="eq-int-norm-curve">
+\begin{equation}
+\int_{0}^{1} e^{-x^2}\,d\tag{5.2.4}
+\end{equation}
+</div>
+<div class="autopermalink" data-description="Paragraph"><a href="#ex-trap-simp-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div></div>
+<article class="task exercise-like" id="ex-trap-simp-2"><h5 class="heading"><span class="codenumber">(a)</span></h5>
+<div class="para" id="ex-trap-simp-2-1-1">Estimate <a href="sect-intro-quadature.html#eq-int-norm-curve" class="xref" data-knowl="./knowl/xref/eq-int-norm-curve.html" data-reveal-label="Reveal" data-close-label="Close" title="Equation 5.2.4">(5.2.4)</a> using the Trapezoid Rule.<div class="autopermalink" data-description="Paragraph"><a href="#ex-trap-simp-2-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="solutions"><details id="ex-trap-simp-2-2" class="solution solution-like born-hidden-knowl"><summary class="knowl__link"><span class="type">Solution</span><span class="period heading-divison-mark heading-divison-mark__period">.</span></summary><div class="solution solution-like knowl__content">
+<div class="para logical" id="ex-trap-simp-2-2-1">
+<div class="para">In this case <span class="process-math">\(h=b-a=1\text{.}\)</span>
+</div>
+<div class="displaymath process-math">
+\begin{equation*}
+I_{1} = \frac{h}{2}(1 + e^{-1}) \approx 0.68394
+\end{equation*}
+</div>
+<div class="autopermalink" data-description="Paragraph"><a href="#ex-trap-simp-2-2-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" data-description="Solution 5.2.2.a.1"><a href="#ex-trap-simp-2-2" title="Copy heading and permalink for Solution 5.2.2.a.1" aria-label="Copy heading and permalink for Solution 5.2.2.a.1">🔗</a></div>
+</div></details></div>
+<div class="autopermalink" data-description="Task 5.2.2.a"><a href="#ex-trap-simp-2" title="Copy heading and permalink for Task 5.2.2.a" aria-label="Copy heading and permalink for Task 5.2.2.a">🔗</a></div></article><article class="task exercise-like" id="ex-trap-simp-3"><h5 class="heading"><span class="codenumber">(b)</span></h5>
+<div class="para" id="ex-trap-simp-3-1-1">Estimate <a href="sect-intro-quadature.html#eq-int-norm-curve" class="xref" data-knowl="./knowl/xref/eq-int-norm-curve.html" data-reveal-label="Reveal" data-close-label="Close" title="Equation 5.2.4">(5.2.4)</a> using Simpson’s Rule.<div class="autopermalink" data-description="Paragraph"><a href="#ex-trap-simp-3-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="solutions"><details id="ex-trap-simp-3-2" class="solution solution-like born-hidden-knowl"><summary class="knowl__link"><span class="type">Solution</span><span class="period heading-divison-mark heading-divison-mark__period">.</span></summary><div class="solution solution-like knowl__content">
+<div class="para logical" id="ex-trap-simp-3-2-1">
+<div class="para">In this case <span class="process-math">\(h=(b-a)/2=1/2\text{.}\)</span>
+</div>
+<div class="displaymath process-math">
+\begin{equation*}
+\begin{aligned}I_{2}\amp = \frac{h}{3}\biggl( f(a) + 4 f\biggl(\frac{a+b}{2}\biggr) + f(b) \biggr) \\\amp = \frac{1}{6}(e^{0} + 4 e^{-0.25}+ e^{-1}) \approx 0.74718\end{aligned}
+\end{equation*}
+</div>
+<div class="autopermalink" data-description="Paragraph"><a href="#ex-trap-simp-3-2-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" data-description="Solution 5.2.2.b.1"><a href="#ex-trap-simp-3-2" title="Copy heading and permalink for Solution 5.2.2.b.1" aria-label="Copy heading and permalink for Solution 5.2.2.b.1">🔗</a></div>
+</div></details></div>
+<div class="autopermalink" data-description="Task 5.2.2.b"><a href="#ex-trap-simp-3" title="Copy heading and permalink for Task 5.2.2.b" aria-label="Copy heading and permalink for Task 5.2.2.b">🔗</a></div></article><div class="autopermalink" data-description="Example 5.2.2"><a href="#ex-trap-simp" title="Copy heading and permalink for Example 5.2.2" aria-label="Copy heading and permalink for Example 5.2.2">🔗</a></div></article></details><div class="para logical" id="sect-intro-quadature-5-7">
+<div class="para">For comparison, we will later show that</div>
+<div class="displaymath process-math">
+\begin{equation*}
+\begin{aligned}\int_{0}^{1} e^{-x^2}\, dx \approx 0.7468241328\end{aligned}
+\end{equation*}
+</div>
+<div class="para">which shows that Simpson’s Rule is correct to 3 decimal places and the trapezoid rule is correct to only 1 digit.</div>
+<div class="autopermalink" data-description="Paragraph"><a href="#sect-intro-quadature-5-7" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" data-description="Subsection 5.2.3: n=2 case"><a href="#sect-intro-quadature-5" title="Copy heading and permalink for Subsection 5.2.3: n=2 case" aria-label="Copy heading and permalink for Subsection 5.2.3: n=2 case">🔗</a></div></section><section class="subsection" id="sect-intro-quadature-6"><h3 class="heading hide-type">
+<span class="type">Subsection</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">5.2.4</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="title">Other Newton-Cotes</span>
+</h3>
+<div class="para logical" id="sect-intro-quadature-6-2">
+<div class="para">Other Newton-Cotes formula can be found by taking more points. In the <span class="process-math">\(n=3\)</span> case, there are 4 points and 4 weights and it can be shown that</div>
+<div class="displaymath process-math" data-contains-math-knowls="./knowl/xref/eq-quad-basic.html">
+\begin{equation*}
+\begin{aligned}w_{0}\amp = \frac{3h}{8},\amp w_{1}\amp = \frac{9h}{8}, \\ w_{1}\amp =\frac{9h}{8},\amp w_{3}\amp = \frac{3h}{8},\end{aligned}
+\end{equation*}
+</div>
+<div class="para">so using these weights as well as <span class="process-math">\(h=(b-a)/3\)</span> and <span class="process-math">\(x_{i} = a+ih\)</span> in <a href="sect-intro-quadature.html#eq-quad-basic" class="xref" data-knowl="./knowl/xref/eq-quad-basic.html" data-reveal-label="Reveal" data-close-label="Close" title="Equation 5.2.2">(5.2.2)</a> is</div>
+<div class="displaymath process-math" data-contains-math-knowls="./knowl/xref/eq-quad-basic.html">
+\begin{equation*}
+I_{3}(f) = \frac{3h}{8}\bigl( f(x_{0}) + 3 f(x_{1}) + 3 f(x_{2}) + f(x_{3}) ,\bigr)
+\end{equation*}
+</div>
+<div class="para">which is called the <dfn class="terminology">3/8-rule</dfn>.</div>
+<div class="autopermalink" data-description="Paragraph"><a href="#sect-intro-quadature-6-2" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="para logical" id="sect-intro-quadature-6-3">
+<div class="para">Lastly, when <span class="process-math">\(n=4\text{,}\)</span> one can show that the weights are</div>
+<div class="displaymath process-math">
+\begin{equation*}
+\begin{aligned}w_{0} =w_{4}\amp = \frac{14h}{45},\amp w_{1}= w_{3}\amp = \frac{64h}{45},\amp w_{2}\amp = \frac{24 h}{45},\end{aligned}
+\end{equation*}
+</div>
+<div class="para">and using <span class="process-math">\(h=(b-a)/4\)</span> with <span class="process-math">\(x_{i}=a+ih\)</span> in (eq:quad:basic) results in <em class="alert">Boole’s Rule</em> for quadrature</div>
+<div class="displaymath process-math">
+\begin{equation*}
+I_{4}(f) = \frac{h}{45}\bigl( 14 f(x_{0}) + 64 f(x_{1}) + 24 f(x_{2}) + 64 f(x_{3}) + 14 f(x_{4}) \bigr).
+\end{equation*}
+</div>
+<div class="autopermalink" data-description="Paragraph"><a href="#sect-intro-quadature-6-3" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<details id="sect-intro-quadature-6-4" class="example example-like born-hidden-knowl"><summary class="knowl__link"><h4 class="heading">
+<span class="type">Example</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">5.2.3</span><span class="period heading-divison-mark heading-divison-mark__period">.</span>
+</h4></summary><article class="example example-like knowl__content"><div class="para" id="sect-intro-quadature-6-4-1-1">Use the three-eighths rule and Boole’s rule to estimate <a href="sect-intro-quadature.html#eq-int-norm-curve" class="xref" data-knowl="./knowl/xref/eq-int-norm-curve.html" data-reveal-label="Reveal" data-close-label="Close" title="Equation 5.2.4">(5.2.4)</a>.<div class="autopermalink" data-description="Paragraph"><a href="#sect-intro-quadature-6-4-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div> <div class="para logical" id="sect-intro-quadature-6-4-1-2">
+<div class="para">In this case, <span class="process-math">\(h=1/3\)</span> and</div>
+<div class="displaymath process-math">
+\begin{equation*}
+I(f) = \frac{1}{8}\bigl( e^{0} +3 e^{-1/9}+3 e^{-4/9}+ e^{-1}\bigr) \approx 0.7469923196
+\end{equation*}
+</div>
+<div class="para">which is accurate to nearly 4 decimal places and with Boole’s rule, <span class="process-math">\(h=1/4\)</span> and</div>
+<div class="displaymath process-math">
+\begin{equation*}
+I_{4}(f) = \frac{1}{4\cdot 45}\bigl(14 e^{0} +64 e^{-1/16}+24 e^{-1/4}+ 64e^{-9/16}+14e^{-1}\bigr) \approx 0.7468337099
+\end{equation*}
+</div>
+<div class="para">which is accurate to 5 decimal places.</div>
+<div class="autopermalink" data-description="Paragraph"><a href="#sect-intro-quadature-6-4-1-2" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" data-description="Example 5.2.3"><a href="#sect-intro-quadature-6-4" title="Copy heading and permalink for Example 5.2.3" aria-label="Copy heading and permalink for Example 5.2.3">🔗</a></div></article></details><div class="autopermalink" data-description="Subsection 5.2.4: Other Newton-Cotes"><a href="#sect-intro-quadature-6" title="Copy heading and permalink for Subsection 5.2.4: Other Newton-Cotes" aria-label="Copy heading and permalink for Subsection 5.2.4: Other Newton-Cotes">🔗</a></div></section><section class="subsection" id="sect-intro-quadature-7"><h3 class="heading hide-type">
+<span class="type">Subsection</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">5.2.5</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="title">Error Formulas for Newton-Cotes</span>
+</h3>
+<div class="para" id="sect-intro-quadature-7-2">In this section, we will find error formulas for the Newton-Cotes rules derived above. That is, we will be able to determine theoretically how close the quadrature formula (approximation) is to the actual integral.<div class="autopermalink" data-description="Paragraph"><a href="#sect-intro-quadature-7-2" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<article class="definition definition-like" id="sect-intro-quadature-7-3"><h4 class="heading">
+<span class="type">Definition</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">5.2.4</span><span class="period heading-divison-mark heading-divison-mark__period">.</span>
+</h4>
+<div class="para logical" id="sect-intro-quadature-7-3-1-1">
+<div class="para">The <dfn class="terminology">degree of precision</dfn> or <dfn class="terminology">accuracy</dfn> of a quadrature rule <span class="process-math">\(I_{n}(f)\)</span> is the positive integer <span class="process-math">\(m\)</span> such that</div>
+<div class="displaymath process-math">
+\begin{equation*}
+\begin{aligned}I(p)\amp = I_{n}(p) \qquad \text{for every polynomial $p$ of degree $\leq m$}\\ I(p)\amp \neq I_{n}(p) \qquad \text{for some polynomial $p$ of degree $m+1$}\\\end{aligned}
+\end{equation*}
+</div>
+<div class="autopermalink" data-description="Paragraph"><a href="#sect-intro-quadature-7-3-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" data-description="Definition 5.2.4"><a href="#sect-intro-quadature-7-3" title="Copy heading and permalink for Definition 5.2.4" aria-label="Copy heading and permalink for Definition 5.2.4">🔗</a></div></article><div class="para" id="sect-intro-quadature-7-4">In short the degree of precision of a quadrature formula is the highest degree polynomial that is integrated exactly. Due to the linearly of integration (and hence quadrature), it is sufficient to integrate only powers of <span class="process-math">\(x\)</span> to determine the degree of precision.<div class="autopermalink" data-description="Paragraph"><a href="#sect-intro-quadature-7-4" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<details id="sect-intro-quadature-7-5" class="example example-like born-hidden-knowl"><summary class="knowl__link"><h4 class="heading">
+<span class="type">Example</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">5.2.5</span><span class="period heading-divison-mark heading-divison-mark__period">.</span>
+</h4></summary><article class="example example-like knowl__content"><div class="para" id="sect-intro-quadature-7-5-1-1">If a rule integrates 1, <span class="process-math">\(x\)</span> and <span class="process-math">\(x^{2}\)</span> exactly, but not <span class="process-math">\(x^{3}\text{,}\)</span> then the degree of precision is 2.<div class="autopermalink" data-description="Paragraph"><a href="#sect-intro-quadature-7-5-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" data-description="Example 5.2.5"><a href="#sect-intro-quadature-7-5" title="Copy heading and permalink for Example 5.2.5" aria-label="Copy heading and permalink for Example 5.2.5">🔗</a></div></article></details><details id="sect-intro-quadature-7-6" class="example example-like born-hidden-knowl"><summary class="knowl__link"><h4 class="heading">
+<span class="type">Example</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">5.2.6</span><span class="period heading-divison-mark heading-divison-mark__period">.</span>
+</h4></summary><article class="example example-like knowl__content"><div class="para" id="sect-intro-quadature-7-6-1-1">Find the degree of precision for Simpson’s Rule.<div class="autopermalink" data-description="Paragraph"><a href="#sect-intro-quadature-7-6-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div> <div class="para" id="sect-intro-quadature-7-6-1-2"><div class="autopermalink" data-description="Paragraph"><a href="#sect-intro-quadature-7-6-1-2" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div></div> <div class="para logical" id="sect-intro-quadature-7-6-1-3">
+<div class="para">We build a table of the integrals of <span class="process-math">\(x^{n}\)</span> and Simpson’s Rule,</div>
+<div class="displaymath process-math">
+\begin{equation*}
+I_{2}(f) = \frac{h}{3}\bigl( f(a) + 4 f((a+b)/2) + f(b) \bigr)
+\end{equation*}
+</div>
+<div class="autopermalink" data-description="Paragraph"><a href="#sect-intro-quadature-7-6-1-3" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div> <div class="tabular-box natural-width"><table class="tabular">
+<tr>
+<td class="l m b1 r0 l0 t0 lines"><span class="process-math">\(n\)</span></td>
+<td class="l m b1 r0 l0 t0 lines"><span class="process-math">\(f(x)\)</span></td>
+<td class="l m b1 r0 l0 t0 lines"><span class="process-math">\(\int_{a}^{b} f(x) \, dx\)</span></td>
+<td class="l m b1 r0 l0 t0 lines"><span class="process-math">\(I_{2}(f)\)</span></td>
+</tr>
+<tr><td class="l m b0 r0 l0 t0 lines"></td></tr>
+<tr>
+<td class="l m b0 r0 l0 t0 lines">0</td>
+<td class="l m b0 r0 l0 t0 lines">1</td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(b-a\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(\frac{b-a}{2 \cdot 3}(1 + 4 + 1) =b-a\)</span></td>
+</tr>
+<tr>
+<td class="l m b0 r0 l0 t0 lines">1</td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(x\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(\frac{b^{2}-a^{2}}{2}\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(\frac{b-a}{2 \cdot 3}( a + 2(a+b) + b)= \frac{b^{2}-a^{2}}{2}\)</span></td>
+</tr>
+<tr>
+<td class="l m b0 r0 l0 t0 lines">2</td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(x^{2}\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(\frac{b^{3}-a^{3}}{3}\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(\frac{b-a}{6}(a^{2} + 4(a+b)^{2}/4 + b^{2})=\frac{b^{3}-a^{3}}{3}\)</span></td>
+</tr>
+<tr>
+<td class="l m b0 r0 l0 t0 lines">3</td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(x^{3}\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(\frac{b^{4}-a^{4}}{4}\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(\frac{b-a}{6}\bigl(a^{3} + 4 \frac{(a+b)^{3}}{8}+ b^{3}\bigr)= \frac{b^{4}-a^{4}}{4}\)</span></td>
+</tr>
+<tr>
+<td class="l m b0 r0 l0 t0 lines">4</td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(x^{4}\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(\frac{b^{5}-a^{5}}{5}\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(\frac{b-a}{6}\bigl(a^{4} + 4 \frac{(a+b)^{4}}{16}+ b^{4}\bigr) \neq \frac{b^{5}-a^{5}}{5}\)</span></td>
+</tr>
+</table></div> <div class="para" id="sect-intro-quadature-7-6-1-5">Since Simpson’s rule integrates <span class="process-math">\(x^{n}\)</span> exactly for <span class="process-math">\(n=0,1,2,3\)</span> but not <span class="process-math">\(x^{4}\text{,}\)</span> the degree of precision is 3.<div class="autopermalink" data-description="Paragraph"><a href="#sect-intro-quadature-7-6-1-5" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" data-description="Example 5.2.6"><a href="#sect-intro-quadature-7-6" title="Copy heading and permalink for Example 5.2.6" aria-label="Copy heading and permalink for Example 5.2.6">🔗</a></div></article></details><div class="para" id="sect-intro-quadature-7-7">The next example shows that we can use the degree of precision to find the weights. This is an alternative to using the interpolation polynomial to find the <span class="process-math">\(w_{i}\text{.}\)</span><div class="autopermalink" data-description="Paragraph"><a href="#sect-intro-quadature-7-7" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<details id="sect-intro-quadature-7-8" class="example example-like born-hidden-knowl"><summary class="knowl__link"><h4 class="heading">
+<span class="type">Example</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">5.2.7</span><span class="period heading-divison-mark heading-divison-mark__period">.</span>
+</h4></summary><article class="example example-like knowl__content"><div class="para logical" id="sect-intro-quadature-7-8-1-1">
+<div class="para">Find <span class="process-math">\(w_{0}\)</span> and <span class="process-math">\(w_{1}\)</span> such that the quadrature rule on <span class="process-math">\([a,b]\)</span> for <span class="process-math">\(\int_{a}^{b} f(x) \, dx\)</span> given by</div>
+<div class="displaymath process-math">
+\begin{equation*}
+\widetilde{I}_{1}(f) = w_{0} f(a+h) + w_{1} f(a+2h)
+\end{equation*}
+</div>
+<div class="para">has as high a degree of precision as possible and <span class="process-math">\(h=(b-a)/3\text{.}\)</span>
+</div>
+<div class="autopermalink" data-description="Paragraph"><a href="#sect-intro-quadature-7-8-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="solutions"><details id="sect-intro-quadature-7-8-2" class="solution solution-like born-hidden-knowl"><summary class="knowl__link"><span class="type">Solution</span><span class="period heading-divison-mark heading-divison-mark__period">.</span></summary><div class="solution solution-like knowl__content">
+<div class="para logical" id="sect-intro-quadature-7-8-2-1">
+<div class="para">First, recall that</div>
+<div class="displaymath process-math">
+\begin{equation*}
+\int_{a}^{b} x^{n} \, dx = \frac{b^{n+1}-a^{n+1}}{n+1}\qquad \text{for $n=0,1,2,3,\ldots$}
+\end{equation*}
+</div>
+<div class="autopermalink" data-description="Paragraph"><a href="#sect-intro-quadature-7-8-2-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="para" id="sect-intro-quadature-7-8-2-2">Therefore we need to apply this quadrature formula for <span class="process-math">\(f(x) = x^{n}\text{,}\)</span> <span class="process-math">\(n\)</span> as large as possible.<div class="autopermalink" data-description="Paragraph"><a href="#sect-intro-quadature-7-8-2-2" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="para logical" id="sect-intro-quadature-7-8-2-3">
+<ul class="disc" id="sect-intro-quadature-7-8-2-3-1">
+<li id="sect-intro-quadature-7-8-2-3-1-1">
+<div class="para logical" id="sect-intro-quadature-7-8-2-3-1-1-1">
+<div class="para">If <span class="process-math">\(n=0\text{,}\)</span> <span class="process-math">\(f(x)=1\text{,}\)</span> so we apply this to the given quadrature rule.</div>
+<div class="displaymath process-math">
+\begin{equation*}
+b-a = w_{0} + w_{1}
+\end{equation*}
+</div>
+<div class="autopermalink" data-description="Paragraph"><a href="#sect-intro-quadature-7-8-2-3-1-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" data-description="Item"><a href="#sect-intro-quadature-7-8-2-3-1-1" title="Copy heading and permalink for Item" aria-label="Copy heading and permalink for Item">🔗</a></div>
+</li>
+<li id="sect-intro-quadature-7-8-2-3-1-2">
+<div class="para logical" id="sect-intro-quadature-7-8-2-3-1-2-1">
+<div class="para">If <span class="process-math">\(n=1\text{,}\)</span> then <span class="process-math">\(f(x)=x\)</span> and applying this to the quadrature rule,</div>
+<div class="displaymath process-math">
+\begin{equation*}
+\frac{b^{2}-a^{2}}{2} = w_{0} (a+h) + w_{1} (a+ 2h)
+\end{equation*}
+</div>
+<div class="autopermalink" data-description="Paragraph"><a href="#sect-intro-quadature-7-8-2-3-1-2-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="para logical" id="sect-intro-quadature-7-8-2-3-1-2-2">
+<div class="para">Solving the two equations above and using the definition of <span class="process-math">\(h\text{,}\)</span> we get:</div>
+<div class="displaymath process-math">
+\begin{equation*}
+w_{0} = w_{1} = \frac{b-a}{2}
+\end{equation*}
+</div>
+<div class="autopermalink" data-description="Paragraph"><a href="#sect-intro-quadature-7-8-2-3-1-2-2" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" data-description="Item"><a href="#sect-intro-quadature-7-8-2-3-1-2" title="Copy heading and permalink for Item" aria-label="Copy heading and permalink for Item">🔗</a></div>
+</li>
+</ul>
+<div class="autopermalink" data-description="Paragraph"><a href="#sect-intro-quadature-7-8-2-3" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="para logical" id="sect-intro-quadature-7-8-2-4">
+<div class="para">So the quadrature rule becomes:</div>
+<div class="displaymath process-math">
+\begin{equation*}
+\widetilde{I}_{1}(f) = \frac{b-a}{2}\bigl( f(a+h) + f(a+2h) \bigr)
+\end{equation*}
+</div>
+<div class="autopermalink" data-description="Paragraph"><a href="#sect-intro-quadature-7-8-2-4" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="para logical" id="sect-intro-quadature-7-8-2-5">
+<div class="para">If we apply this formula to <span class="process-math">\(f(x)=x^{2}\text{,}\)</span> we get</div>
+<div class="displaymath process-math">
+\begin{equation*}
+\widetilde{I}_{1}(x^{2}) = \frac{b-a}{18}(5a^{2}+8ab+5b^{2})
+\end{equation*}
+</div>
+<div class="para">which is not <span class="process-math">\((b^{3}-a^{3})/3\text{,}\)</span> so this quadrature rule has degree of precision 1.</div>
+<div class="autopermalink" data-description="Paragraph"><a href="#sect-intro-quadature-7-8-2-5" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="para" id="sect-intro-quadature-7-8-2-6">This is an example of a Newton-Cotes <em class="alert">open</em> quadrature formula because the points do not include the endpoints.<div class="autopermalink" data-description="Paragraph"><a href="#sect-intro-quadature-7-8-2-6" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" data-description="Solution 5.2.7.1"><a href="#sect-intro-quadature-7-8-2" title="Copy heading and permalink for Solution 5.2.7.1" aria-label="Copy heading and permalink for Solution 5.2.7.1">🔗</a></div>
+</div></details></div>
+<div class="autopermalink" data-description="Example 5.2.7"><a href="#sect-intro-quadature-7-8" title="Copy heading and permalink for Example 5.2.7" aria-label="Copy heading and permalink for Example 5.2.7">🔗</a></div></article></details><div class="para" id="sect-intro-quadature-7-9">An open quadrature formula does not include the endpoints. This can be useful for calculating improper integrals. For example, <span class="process-math">\(\int_{0}^{1} (1/\sqrt{x}) \, dx\)</span> exists even though the integrand evaluated at <span class="process-math">\(x=0\)</span> does not.<div class="autopermalink" data-description="Paragraph"><a href="#sect-intro-quadature-7-9" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="para" id="sect-intro-quadature-7-10">Next, we examine the error associated with quadrature formulas, but first need the following theorem.<div class="autopermalink" data-description="Paragraph"><a href="#sect-intro-quadature-7-10" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<article class="theorem theorem-like" id="sect-intro-quadature-7-11"><h4 class="heading">
+<span class="type">Theorem</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">5.2.8</span><span class="period heading-divison-mark heading-divison-mark__period">.</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="title">Weighted Mean Value Theorem.</span>
+</h4>
+<div class="para logical" id="sect-intro-quadature-7-11-2-1">
+<div class="para">If <span class="process-math">\(f\)</span> is continuous on <span class="process-math">\([a,b]\text{,}\)</span> <span class="process-math">\(g\)</span> is integrable on <span class="process-math">\([a,b]\)</span> and <span class="process-math">\(g(x)\)</span> does not change sign on <span class="process-math">\([a,b]\text{,}\)</span> then there exists a number <span class="process-math">\(\xi \in [a,b]\)</span> such that</div>
+<div class="displaymath process-math">
+\begin{equation*}
+\int_{a}^{b} f(x) g(x) \, dx = f(\xi) \int_{a}^{b} g(x) \, dx .
+\end{equation*}
+</div>
+<div class="autopermalink" data-description="Paragraph"><a href="#sect-intro-quadature-7-11-2-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" data-description="Theorem 5.2.8: Weighted Mean Value Theorem"><a href="#sect-intro-quadature-7-11" title="Copy heading and permalink for Theorem 5.2.8: Weighted Mean Value Theorem" aria-label="Copy heading and permalink for Theorem 5.2.8: Weighted Mean Value Theorem">🔗</a></div></article><details id="sect-intro-quadature-7-11-3" class="hiddenproof born-hidden-knowl"><summary class="knowl__link"><h4 class="heading"><span class="type">Proof<span class="period heading-divison-mark heading-divison-mark__period">.</span></span></h4></summary><article class="hiddenproof knowl__content"><div class="para logical" id="sect-intro-quadature-7-11-3-1">
+<div class="para">Suppose <span class="process-math">\(g(x) \geq 0\)</span> on <span class="process-math">\([a,b]\text{.}\)</span> Since <span class="process-math">\(f\)</span> is continuous on <span class="process-math">\([a,b]\text{,}\)</span> it reaches a min and max on the interval, or <span class="process-math">\(m \leq f(x) \leq M\)</span> so</div>
+<div class="displaymath process-math">
+\begin{equation*}
+m g(x) \leq f(x) g(x) \leq M g(x),
+\end{equation*}
+</div>
+<div class="para">for all <span class="process-math">\(x \in [a,b]\text{.}\)</span> Thus,</div>
+<div class="displaymath process-math">
+\begin{equation*}
+\begin{aligned}m \int_{a}^{b} g(x) \, dx \leq \int_{a}^{b} f(x) g(x) \, dx \leq M \int_{a}^{b} g(x) \, dx .\end{aligned}
+\end{equation*}
+</div>
+<div class="autopermalink" data-description="Paragraph"><a href="#sect-intro-quadature-7-11-3-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="para logical" id="sect-intro-quadature-7-11-3-2">
+<div class="para">If <span class="process-math">\(\int_{a}^{b} g(x) \,dx = 0\)</span> then <span class="process-math">\(\int_{a}^{b} f(x) g(x) \,dx\)</span> also equals zero since we assumed that <span class="process-math">\(g(x) \geq 0\text{,}\)</span> so any <span class="process-math">\(\xi \in [a,b]\)</span> satisfies the theorem. Otherwise, <span class="process-math">\(\int_{a}^{b} g(x) \, dx \gt 0\text{.}\)</span> Therefore</div>
+<div class="displaymath process-math">
+\begin{equation*}
+m \leq \frac{\int_{a}^{b} f(x) g(x) \, dx}{\int_{a}^{b} g(x) \, dx}\leq M.
+\end{equation*}
+</div>
+<div class="autopermalink" data-description="Paragraph"><a href="#sect-intro-quadature-7-11-3-2" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="para logical" id="sect-intro-quadature-7-11-3-3">
+<div class="para">Applying the intermediate value theorem, there exists a number <span class="process-math">\(\xi\text{,}\)</span> such that</div>
+<div class="displaymath process-math">
+\begin{equation*}
+f(\xi) = \frac{\int_{a}^{b} f(x) g(x) \, dx}{\int_{a}^{b} g(x) \, dx}.
+\end{equation*}
+</div>
+<div class="autopermalink" data-description="Paragraph"><a href="#sect-intro-quadature-7-11-3-3" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="para" id="sect-intro-quadature-7-11-3-4">If <span class="process-math">\(g(x)&lt;0\text{,}\)</span> then a similar argument can be made, thus the theorem holds true.<div class="autopermalink" data-description="Paragraph"><a href="#sect-intro-quadature-7-11-3-4" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" data-description="Proof 5.2.8.1"><a href="#sect-intro-quadature-7-11-3" title="Copy heading and permalink for Proof 5.2.8.1" aria-label="Copy heading and permalink for Proof 5.2.8.1">🔗</a></div></article></details><article class="theorem theorem-like" id="thm-error-trap"><h4 class="heading">
+<span class="type">Theorem</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">5.2.9</span><span class="period heading-divison-mark heading-divison-mark__period">.</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="title">Error Formula for Trapezoid Rule.</span>
+</h4>
+<div class="para logical" id="thm-error-trap-2-1">
+<div class="para">If <span class="process-math">\(f \in C^{2}[a,b]\text{,}\)</span> and <span class="process-math">\(I_{1}(f)\)</span> is the trapezoid rule given in <a href="sect-intro-quadature.html#eq-trap-rule" class="xref" data-knowl="./knowl/xref/eq-trap-rule.html" data-reveal-label="Reveal" data-close-label="Close" title="Equation 5.2.3">(5.2.3)</a>, then there exists an <span class="process-math">\(\hat{\xi}\in[a,b]\)</span> such that</div>
+<div class="displaymath process-math" data-contains-math-knowls="./knowl/xref/eq-trap-rule.html">
+\begin{equation*}
+\int_{a}^{b} f(x) \, dx = I_{1}(f) - \frac{(b-a)^{3}}{12}f''(\hat{\xi}) .
+\end{equation*}
+</div>
+<div class="autopermalink" data-description="Paragraph"><a href="#thm-error-trap-2-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" data-description="Theorem 5.2.9: Error Formula for Trapezoid Rule"><a href="#thm-error-trap" title="Copy heading and permalink for Theorem 5.2.9: Error Formula for Trapezoid Rule" aria-label="Copy heading and permalink for Theorem 5.2.9: Error Formula for Trapezoid Rule">🔗</a></div></article><details id="thm-error-trap-3" class="hiddenproof born-hidden-knowl"><summary class="knowl__link"><h4 class="heading"><span class="type">Proof<span class="period heading-divison-mark heading-divison-mark__period">.</span></span></h4></summary><article class="hiddenproof knowl__content"><div class="para" id="thm-error-trap-3-1">First, start with the interpolating polynomial error formula with <span class="process-math">\(n=1\)</span> from <a href="sect-lagrange-interp.html#thm-interp-error" class="xref" data-knowl="./knowl/xref/thm-interp-error.html" data-reveal-label="Reveal" data-close-label="Close" title="Theorem 4.2.6">Theorem 4.2.6</a>.<div class="autopermalink" data-description="Paragraph"><a href="#thm-error-trap-3-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="para logical" id="thm-error-trap-3-2">
+<div class="displaymath process-math">
+\begin{equation*}
+f(x) = P_{1} (x) + \frac{f''(\xi(x))}{2}(x-a)(x-b) .
+\end{equation*}
+</div>
+<div class="autopermalink" data-description="Paragraph"><a href="#thm-error-trap-3-2" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="para logical" id="thm-error-trap-3-3">
+<div class="para">If we integrate then</div>
+<div class="displaymath process-math">
+\begin{equation*}
+\int_{a}^{b} f(x) \, dx = I_{1}(f) + \int_{a}^{b} \frac{f''(\xi(x))}{2}(x-a)(x-b) \, dx,
+\end{equation*}
+</div>
+<div class="para">where <span class="process-math">\(\int_{a}^{b} P_{1}(x) \, dx = I_{1}(f)\)</span> as shown above. Since <span class="process-math">\((x-a)(x-b)\)</span> does not change sign, we can apply the weighted mean value theorem applied to the integral in the last term, there is an <span class="process-math">\(\hat{\xi}\)</span> such that</div>
+<div class="displaymath process-math">
+\begin{equation*}
+\begin{aligned}\int_{a}^{b} f(x) \, dx\amp = I_{1}(f) + \frac{f''(\hat{\xi})}{2}\int_{a}^{b} (x-a)(x-b) \, dx, \\\amp = I_{1}(f) - \frac{f''(\hat{\xi})}{12}(b-a)^{3} .\end{aligned}
+\end{equation*}
+</div>
+<div class="autopermalink" data-description="Paragraph"><a href="#thm-error-trap-3-3" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" data-description="Proof 5.2.9.1"><a href="#thm-error-trap-3" title="Copy heading and permalink for Proof 5.2.9.1" aria-label="Copy heading and permalink for Proof 5.2.9.1">🔗</a></div></article></details><div class="para" id="sect-intro-quadature-7-13">This theorem is quite useful for finding error bounds when using the trapezoid rule to approximate a definite integral. It also gives the degree of precision for the trapezoid rule. If we integral <span class="process-math">\(f(x)=x^{n}\text{,}\)</span> then the error given by the second term in Theorem thm:error:trap which is proportional to <span class="process-math">\(f''(\xi)\)</span> is 0 for <span class="process-math">\(x^{0}\)</span> and <span class="process-math">\(x^{1}\text{,}\)</span> but not <span class="process-math">\(x^{2}\text{.}\)</span> Therefore the degree of precision is 1.<div class="autopermalink" data-description="Paragraph"><a href="#sect-intro-quadature-7-13" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<article class="theorem theorem-like" id="thm-error-simp"><h4 class="heading">
+<span class="type">Theorem</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">5.2.10</span><span class="period heading-divison-mark heading-divison-mark__period">.</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="title">Error Formula for Simpson’s Rule.</span>
+</h4>
+<div class="para logical" id="thm-error-simp-2-1">
+<div class="para">If <span class="process-math">\(f \in C^{4}[a,b]\)</span> and <span class="process-math">\(I_{2}(f)\)</span> is the formula for Simpson’s rule applied to <span class="process-math">\(f\)</span> on <span class="process-math">\([a,b]\text{,}\)</span> then there exists a <span class="process-math">\(\hat{\xi}\in [a,b]\)</span> such that</div>
+<div class="displaymath process-math">
+\begin{equation*}
+\int_{a}^{b} f(x) \, dx = I_{2}(f) - \frac{(b-a)^{5}}{2880}f^{(4)}(\hat{\xi})
+\end{equation*}
+</div>
+<div class="autopermalink" data-description="Paragraph"><a href="#thm-error-simp-2-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" data-description="Theorem 5.2.10: Error Formula for Simpson’s Rule"><a href="#thm-error-simp" title="Copy heading and permalink for Theorem 5.2.10: Error Formula for Simpson’s Rule" aria-label="Copy heading and permalink for Theorem 5.2.10: Error Formula for Simpson’s Rule">🔗</a></div></article><div class="para" id="sect-intro-quadature-7-15">Using an argument similar to that that above about the trapezoid rule, this shows that Simpson’s Rule has degree of precision of 3. The proof of this is more difficult than that of the error associated with the trapezoid rule, so is skipped. See Isaacson:1966fj for more information.<div class="autopermalink" data-description="Paragraph"><a href="#sect-intro-quadature-7-15" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<details id="sect-intro-quadature-7-16" class="example example-like born-hidden-knowl"><summary class="knowl__link"><h4 class="heading">
+<span class="type">Example</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">5.2.11</span><span class="period heading-divison-mark heading-divison-mark__period">.</span>
+</h4></summary><article class="example example-like knowl__content"><div class="para" id="sect-intro-quadature-7-16-1-1">Use the Error Formula for Simpson’s Rule to find a theoretical error bound of <span class="process-math">\(\int_{0}^{1} e^{-x^2}\, dx\text{.}\)</span><div class="autopermalink" data-description="Paragraph"><a href="#sect-intro-quadature-7-16-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div> <div class="para" id="sect-intro-quadature-7-16-1-2"><div class="autopermalink" data-description="Paragraph"><a href="#sect-intro-quadature-7-16-1-2" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div></div> <div class="para logical" id="sect-intro-quadature-7-16-1-3">
+<div class="para">First, one can show that if <span class="process-math">\(f(x) = e^{-x^2}\)</span> then</div>
+<div class="displaymath process-math">
+\begin{equation*}
+f''''(x) = 12 e^{-x^2}-48x^{2} e^{-x^2}+ 16 x^{4} e^{-x^2}
+\end{equation*}
+</div>
+<div class="autopermalink" data-description="Paragraph"><a href="#sect-intro-quadature-7-16-1-3" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div> <div class="para logical" id="sect-intro-quadature-7-16-1-4">
+<div class="para">The maximum of this function on the interval <span class="process-math">\([0,1]\)</span> occurs when <span class="process-math">\(x=0\)</span> and is 12, so</div>
+<div class="displaymath process-math">
+\begin{equation*}
+|f''''(\xi)| \leq 12.
+\end{equation*}
+</div>
+<div class="autopermalink" data-description="Paragraph"><a href="#sect-intro-quadature-7-16-1-4" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div> <div class="para logical" id="sect-intro-quadature-7-16-1-5">
+<div class="para">Thus the error, <span class="process-math">\(E_{2}(x)\)</span> defined as</div>
+<div class="displaymath process-math">
+\begin{equation*}
+\begin{aligned}E_{2}(x)\amp = \biggl|\int_{0}^{1} e^{-x^2}\, dx - I_{2}(f)\biggr|, \\\amp \leq \frac{(b-a)^{5}}{2880}|f''''(\xi)|, \\\amp = \frac{12}{2880}= 0.004285.\end{aligned}
+\end{equation*}
+</div>
+<div class="autopermalink" data-description="Paragraph"><a href="#sect-intro-quadature-7-16-1-5" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div> <div class="para" id="sect-intro-quadature-7-16-1-6">This means that the value for <span class="process-math">\(\int_{0}^{1} e^{-x^2}\, dx\)</span> in <a href="sect-intro-quadature.html#ex-trap-simp" class="xref" data-knowl="./knowl/xref/ex-trap-simp.html" data-reveal-label="Reveal" data-close-label="Close" title="Example 5.2.2">Example 5.2.2</a> is accurate to 0.004285.<div class="autopermalink" data-description="Paragraph"><a href="#sect-intro-quadature-7-16-1-6" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" data-description="Example 5.2.11"><a href="#sect-intro-quadature-7-16" title="Copy heading and permalink for Example 5.2.11" aria-label="Copy heading and permalink for Example 5.2.11">🔗</a></div></article></details><div class="para" id="sect-intro-quadature-7-17">The next theorem shows that the error formula for any closed Newton-Cotes quadrature rules takes on a certain form and thus the degree of precision can be derived.<div class="autopermalink" data-description="Paragraph"><a href="#sect-intro-quadature-7-17" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<article class="theorem theorem-like" id="sect-intro-quadature-7-18"><h4 class="heading">
+<span class="type">Theorem</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">5.2.12</span><span class="period heading-divison-mark heading-divison-mark__period">.</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="title">Error Formula for Closed Newton-Cotes Quadrature.</span>
+</h4>
+<div class="para logical" id="sect-intro-quadature-7-18-2-1">
+<div class="para">If <span class="process-math">\(I_{n}(f)\)</span> denotes the Closed Newton-Cotes Quadrature Rule with <span class="process-math">\(n+1\)</span> nodes, then</div>
+<ul class="disc" id="sect-intro-quadature-7-18-2-1-3">
+<li id="sect-intro-quadature-7-18-2-1-3-1">
+<div class="para logical" id="sect-intro-quadature-7-18-2-1-3-1-1">
+<div class="para">if <span class="process-math">\(n\)</span> is even and <span class="process-math">\(f \in C^{n+2}[a,b]\text{,}\)</span> then there exist constants <span class="process-math">\(c \in \R\)</span> and <span class="process-math">\(\xi \in [a,b]\)</span> such that</div>
+<div class="displaymath process-math">
+\begin{equation*}
+I(f) = I_{n}(f) - c(b-a)^{n+3}f^{(n+2)}(\xi)
+\end{equation*}
+</div>
+<div class="para">and the degree of precision of <span class="process-math">\(I_{n}(f)\)</span> is <span class="process-math">\(n+1\text{.}\)</span>
+</div>
+<div class="autopermalink" data-description="Paragraph"><a href="#sect-intro-quadature-7-18-2-1-3-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" data-description="Item"><a href="#sect-intro-quadature-7-18-2-1-3-1" title="Copy heading and permalink for Item" aria-label="Copy heading and permalink for Item">🔗</a></div>
+</li>
+<li id="sect-intro-quadature-7-18-2-1-3-2">
+<div class="para logical" id="sect-intro-quadature-7-18-2-1-3-2-1">
+<div class="para">if <span class="process-math">\(n\)</span> is odd and <span class="process-math">\(f \in C^{n+1}[a,b]\text{,}\)</span> then there exists constants <span class="process-math">\(c' \in \R\)</span> and <span class="process-math">\(\xi' \in [a,b]\)</span> such that</div>
+<div class="displaymath process-math">
+\begin{equation*}
+I(f) = I_{n}(f) - c'(b-a)^{n+2}f^{(n+1)}(\xi')
+\end{equation*}
+</div>
+<div class="para">and the degree of precision is <span class="process-math">\(n\text{.}\)</span>
+</div>
+<div class="autopermalink" data-description="Paragraph"><a href="#sect-intro-quadature-7-18-2-1-3-2-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" data-description="Item"><a href="#sect-intro-quadature-7-18-2-1-3-2" title="Copy heading and permalink for Item" aria-label="Copy heading and permalink for Item">🔗</a></div>
+</li>
+</ul>
+<div class="autopermalink" data-description="Paragraph"><a href="#sect-intro-quadature-7-18-2-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" data-description="Theorem 5.2.12: Error Formula for Closed Newton-Cotes Quadrature"><a href="#sect-intro-quadature-7-18" title="Copy heading and permalink for Theorem 5.2.12: Error Formula for Closed Newton-Cotes Quadrature" aria-label="Copy heading and permalink for Theorem 5.2.12: Error Formula for Closed Newton-Cotes Quadrature">🔗</a></div></article><div class="para" id="sect-intro-quadature-7-19">The proof of this theorem is not given but can be found in Bradie:2006qy.<div class="autopermalink" data-description="Paragraph"><a href="#sect-intro-quadature-7-19" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<details id="sect-intro-quadature-7-20" class="example example-like born-hidden-knowl"><summary class="knowl__link"><h4 class="heading">
+<span class="type">Example</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">5.2.13</span><span class="period heading-divison-mark heading-divison-mark__period">.</span>
+</h4></summary><article class="example example-like knowl__content"><div class="para" id="sect-intro-quadature-7-20-1-1">Use the Error formula for Closed Newton-Cotes quadrature rules above to determine the degree of precision of Boole’s rule.<div class="autopermalink" data-description="Paragraph"><a href="#sect-intro-quadature-7-20-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div> <div class="para" id="sect-intro-quadature-7-20-1-2"><div class="autopermalink" data-description="Paragraph"><a href="#sect-intro-quadature-7-20-1-2" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div></div> <div class="para logical" id="sect-intro-quadature-7-20-1-3">
+<div class="para">In the case of Boole’s rule, <span class="process-math">\(n=4\text{,}\)</span> thus the exists constants <span class="process-math">\(c\)</span> and <span class="process-math">\(\xi\)</span> such that</div>
+<div class="displaymath process-math">
+\begin{equation*}
+I(f) = I_{4}(f) -c(b-a)^{7} f^{(6)}(\xi),
+\end{equation*}
+</div>
+<div class="para">where <span class="process-math">\(I_{4}(f)\)</span> is Boole’s rule. The error is proportional to <span class="process-math">\(f^{(6)}(\xi)\text{,}\)</span> thus the degree of precision is 5.</div>
+<div class="autopermalink" data-description="Paragraph"><a href="#sect-intro-quadature-7-20-1-3" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" data-description="Example 5.2.13"><a href="#sect-intro-quadature-7-20" title="Copy heading and permalink for Example 5.2.13" aria-label="Copy heading and permalink for Example 5.2.13">🔗</a></div></article></details><div class="autopermalink" data-description="Subsection 5.2.5: Error Formulas for Newton-Cotes"><a href="#sect-intro-quadature-7" title="Copy heading and permalink for Subsection 5.2.5: Error Formulas for Newton-Cotes" aria-label="Copy heading and permalink for Subsection 5.2.5: Error Formulas for Newton-Cotes">🔗</a></div></section><div class="autopermalink" data-description="Section 5.2: The Basics of Numerical Integration or Quadrature"><a href="#sect-intro-quadature" title="Copy heading and permalink for Section 5.2: The Basics of Numerical Integration or Quadrature" aria-label="Copy heading and permalink for Section 5.2: The Basics of Numerical Integration or Quadrature">🔗</a></div></section></div>
+<div id="ptx-content-footer" class="ptx-content-footer">
+<a class="previous-button button" href="sect-intro-quadrature.html" title="Previous"><span class="icon material-symbols-outlined" aria-hidden="true">&#xe5cb;</span><span class="name">Prev</span></a><a class="top-button button" href="#" title="Top"><span class="icon material-symbols-outlined" aria-hidden="true">&#xe5ce;</span><span class="name">Top</span></a><a class="next-button button" href="sect-composite-newton-cotes.html" title="Next"><span class="name">Next</span><span class="icon material-symbols-outlined" aria-hidden="true">&#xe5cc;</span></a>
+</div></main>
+</div>
+<div id="ptx-page-footer" class="ptx-page-footer">
+<a class="pretext-link" href="https://pretextbook.org" title="PreTeXt"><div class="logo"><svg xmlns="http://www.w3.org/2000/svg" height="100%" viewBox="338 3000 8772 6866" role="img"><title>PreTeXt logo</title><g style="stroke-width:.025in; stroke:currentColor; fill:none"><polyline points="472,3590 472,9732 " style="stroke-width:174; stroke-linejoin:miter; stroke-linecap:round; "></polyline><path style="stroke-width:126;stroke-linecap:butt;" d="M 4724,9448 A 4660 4660  0  0  1  8598  9259"></path><path style="stroke-width:174;stroke-linecap:butt;" d="M 4488,9685 A 4228 4228  0  0  0   472  9732"></path><path style="stroke-width:126;stroke-linecap:butt;" d="M 4724,3590 A 4241 4241  0  0  1  8598  3496"></path><path style="stroke-width:126;stroke-linecap:round;" d="M 850,3496  A 4241 4241  0  0  1  4724  3590"></path><path style="stroke-width:126;stroke-linecap:round;" d="M 850,9259  A 4507 4507  0  0  1  4724  9448"></path><polyline points="5385,4299 4062,8125" style="stroke-width:300; stroke-linejoin:miter; stroke-linecap:round;"></polyline><polyline points="8598,3496 8598,9259" style="stroke-width:126; stroke-linejoin:miter; stroke-linecap:round;"></polyline><polyline points="850,3496 850,9259" style="stroke-width:126; stroke-linejoin:miter; stroke-linecap:round;"></polyline><polyline points="4960,9685 4488,9685" style="stroke-width:174; stroke-linejoin:miter; stroke-linecap:round;"></polyline><polyline points="3070,4582 1889,6141 3070,7700" style="stroke-width:300; stroke-linejoin:miter; stroke-linecap:round;"></polyline><polyline points="6418,4582 7600,6141 6418,7700" style="stroke-width:300; stroke-linejoin:miter; stroke-linecap:round;"></polyline><polyline points="8976,3590 8976,9732" style="stroke-width:174; stroke-linejoin:miter; stroke-linecap:round;"></polyline><path style="stroke-width:174;stroke-linecap:butt;" d="M 4960,9685 A 4228 4228  0  0  1  8976  9732"></path></g></svg></div></a><a class="runestone-link" href="https://runestone.academy" title="Runestone Academy"><img class="logo" src="https://runestone.academy/runestone/static/images/RAIcon_cropped.png" alt="Runstone Academy logo"></a><a class="mathjax-link" href="https://www.mathjax.org" title="MathJax"><img class="logo" src="https://www.mathjax.org/badge/badge-square-2.png" alt="MathJax logo"></a>
+</div>
+</body>
+</html>

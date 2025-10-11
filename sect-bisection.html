@@ -1,0 +1,1147 @@
+<!DOCTYPE html>
+<!--********************************************-->
+<!--*       Generated from PreTeXt source      *-->
+<!--*                                          *-->
+<!--*         https://pretextbook.org          *-->
+<!--*                                          *-->
+<!--********************************************-->
+<html lang="en-US" dir="ltr">
+<!--******************************************-->
+<!--*  Authored with PreTeXt                 *-->
+<!--*  pretextbook.org                       *-->
+<!--*  Theme: salem                          *-->
+<!--*  Palette:                              *-->
+<!--******************************************-->
+<head xmlns:og="http://ogp.me/ns#" xmlns:book="https://ogp.me/ns/book#">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>The Bisection Method</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0">
+<link href="_static/pretext/css/theme.css" rel="stylesheet" type="text/css">
+<script>
+var runestoneMathReady = new Promise((resolve) => window.rsMathReady = resolve);
+window.MathJax = {
+  "tex": {
+    "inlineMath": [
+      [
+        "\\(",
+        "\\)"
+      ]
+    ],
+    "tags": "none",
+    "tagSide": "right",
+    "tagIndent": ".8em",
+    "packages": {
+      "[+]": [
+        "base",
+        "extpfeil",
+        "ams",
+        "amscd",
+        "color",
+        "newcommand",
+        "knowl"
+      ]
+    }
+  },
+  "options": {
+    "ignoreHtmlClass": "tex2jax_ignore|ignore-math",
+    "processHtmlClass": "process-math"
+  },
+  "chtml": {
+    "scale": 0.98,
+    "mtextInheritFont": true
+  },
+  "loader": {
+    "load": [
+      "input/asciimath",
+      "[tex]/extpfeil",
+      "[tex]/amscd",
+      "[tex]/color",
+      "[tex]/newcommand",
+      "[pretext]/mathjaxknowl3.js"
+    ],
+    "paths": {
+      "pretext": "_static/pretext/js/lib"
+    }
+  },
+  "startup": {
+    pageReady() {
+      return MathJax.startup.defaultPageReady().then(function () {
+      console.log("in ready function");
+      rsMathReady();
+      }
+    )}
+  }
+};
+</script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script><meta name="Keywords" content="Authored in PreTeXt">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta property="og:type" content="book">
+<meta property="book:title" content="Numerical Analysis">
+<meta property="book:author" content="Peter Staab">
+<script src="_static/pretext/js/lib/jquery.min.js"></script><script src="_static/pretext/js/lib/jquery.sticky.js"></script><script src="_static/pretext/js/lib/jquery.espy.min.js"></script><script src="_static/pretext/js/pretext.js"></script><script src="_static/pretext/js/pretext_add_on.js?x=1"></script><script src="_static/pretext/js/user_preferences.js"></script><!--** eBookCongig is necessary to configure interactive       **-->
+<!--** Runestone components to run locally in reader's browser **-->
+<!--** No external communication:                              **-->
+<!--**     log level is 0, Runestone Services are disabled     **-->
+<script type="text/javascript">
+eBookConfig = {};
+eBookConfig.useRunestoneServices = false;
+eBookConfig.host = 'http://127.0.0.1:8000';
+eBookConfig.course = 'PTX_Course_Title_Here';
+eBookConfig.basecourse = 'PTX_Base_Course';
+eBookConfig.isLoggedIn = false;
+eBookConfig.email = '';
+eBookConfig.isInstructor = false;
+eBookConfig.logLevel = 0;
+eBookConfig.username = '';
+eBookConfig.readings = null;
+eBookConfig.activities = null;
+eBookConfig.downloadsEnabled = false;
+eBookConfig.allow_pairs = false;
+eBookConfig.enableScratchAC = false;
+eBookConfig.build_info = "";
+eBookConfig.python3 = null;
+eBookConfig.runestone_version = '7.9.13';
+eBookConfig.jobehost = '';
+eBookConfig.proxyuri_runs = '';
+eBookConfig.proxyuri_files = '';
+eBookConfig.enable_chatcodes =  false;
+</script>
+<!--*** Runestone Services ***-->
+<script src="_static/prefix-runtime.9f7f6b353cd8c357.bundle.js"></script><script src="_static/prefix-723.3e6434f80549315a.bundle.js"></script><script src="_static/prefix-runestone.629fdbd852876870.bundle.js"></script><link rel="stylesheet" type="text/css" href="_static/prefix-723.3bccd435914aa0ff.css">
+<link rel="stylesheet" type="text/css" href="_static/prefix-runestone.557d81b04b3ec0e4.css">
+<script src="_static/pretext/js/lti_iframe_resizer.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/lunr.js/2.3.9/lunr.min.js" integrity="sha512-4xUl/d6D6THrAnXAwGajXkoWaeMNwEKK4iNfq5DotEbLPAfk6FSxSP3ydNxqDgCw1c/0Z1Jg6L8h2j+++9BZmg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><script src="lunr-pretext-search-index.js" async=""></script><script src="_static/pretext/js/pretext_search.js"></script><script src="_static/pretext/js/lib/knowl.js"></script><!--knowl.js code controls Sage Cells within knowls--><script>sagecellEvalName='Evaluate (Sage)';
+</script>
+</head>
+<body id="numerical-analysis-staab" class="pretext book ignore-math">
+<a class="assistive" href="#ptx-content">Skip to main content</a><header id="ptx-masthead" class="ptx-masthead"><div class="ptx-banner"><div class="title-container">
+<h1 class="heading"><a href="numerical-analysis-staab.html"><span class="title">Numerical Analysis</span> <span class="subtitle">A look at rootfinding, quadrature and approximation using analytic and computing tools</span></a></h1>
+<p class="byline">Peter Staab</p>
+</div></div></header><nav id="ptx-navbar" class="ptx-navbar navbar"><div class="ptx-navbar-contents">
+<button class="toc-toggle button" title="Contents"><span class="icon material-symbols-outlined" aria-hidden="true">&#xe5d2;</span><span class="name">Contents</span></button><div class="searchbox">
+<div class="searchwidget"><button id="searchbutton" class="searchbutton button" type="button" title="Search book"><span class="icon material-symbols-outlined" aria-hidden="true">&#xe8b6;</span><span class="name">Search Book</span></button></div>
+<div id="searchresultsplaceholder" class="searchresultsplaceholder" style="display: none">
+<div class="search-results-controls">
+<input aria-label="Search term" id="ptxsearch" class="ptxsearch" type="text" name="terms" placeholder="Search term"><button title="Close search" id="closesearchresults" class="closesearchresults"><span class="material-symbols-outlined">close</span></button>
+</div>
+<h2 class="search-results-heading">Search Results: </h2>
+<div id="searchempty" class="searchempty"><span>No results.</span></div>
+<ol id="searchresults" class="searchresults"></ol>
+</div>
+</div>
+<span class="nav-other-controls"><button id="light-dark-button" class="light-dark-button button" title="Dark Mode"><span class="icon material-symbols-outlined" aria-hidden="true">&#xe51c;</span><span class="name">Dark Mode</span></button></span><span class="treebuttons"><a class="previous-button button" href="sect-intro-rootfinding.html" title="Previous"><span class="icon material-symbols-outlined" aria-hidden="true">&#xe5cb;</span><span class="name">Prev</span></a><a class="up-button button" href="ch-rootfinding.html" title="Up"><span class="icon material-symbols-outlined" aria-hidden="true">&#xe5ce;</span><span class="name">Up</span></a><a class="next-button button" href="sect-fixed-point.html" title="Next"><span class="name">Next</span><span class="icon material-symbols-outlined" aria-hidden="true">&#xe5cc;</span></a></span>
+</div></nav><div id="latex-macros" class="hidden-content process-math" style="display:none"><span class="process-math">\(\newcommand{\N}{\mathbb N}
+\newcommand{\Z}{\mathbb Z}
+\newcommand{\Q}{\mathbb Q}
+\newcommand{\R}{\mathbb R}
+\newcommand{\bu}{\boldsymbol{u}}
+\newcommand{\bv}{\boldsymbol{v}}
+\newcommand{\bw}{\boldsymbol{w}}
+\newcommand{\bzero}{\boldsymbol{0}}
+\newcommand{\lt}{&lt;}
+\newcommand{\gt}{&gt;}
+\newcommand{\amp}{&amp;}
+\definecolor{fillinmathshade}{gray}{0.9}
+\newcommand{\fillinmath}[1]{\mathchoice{\colorbox{fillinmathshade}{$\displaystyle     \phantom{\,#1\,}$}}{\colorbox{fillinmathshade}{$\textstyle        \phantom{\,#1\,}$}}{\colorbox{fillinmathshade}{$\scriptstyle      \phantom{\,#1\,}$}}{\colorbox{fillinmathshade}{$\scriptscriptstyle\phantom{\,#1\,}$}}}
+\)</span></div>
+<div class="ptx-page">
+<div id="ptx-sidebar" class="ptx-sidebar"><nav id="ptx-toc" class="ptx-toc depth2 focused" data-preexpanded-levels="0" data-max-levels="2"><ul class="structural toc-item-list contains-active">
+<li class="toc-item toc-frontmatter"><div class="toc-title-box"><a href="frontmatter.html" class="internal"><span class="title">Front Matter</span></a></div></li>
+<li class="toc-item toc-chapter">
+<div class="toc-title-box"><a href="ch-background.html" class="internal"><span class="codenumber">1</span> <span class="title">Important Background Mathematics</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-section">
+<div class="toc-title-box"><a href="sect-polynomials.html" class="internal"><span class="codenumber">1.1</span> <span class="title">Polynomials</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-polynomials.html#sect-polynomials-4" class="internal"><span class="codenumber">1.1.1</span> <span class="title">Power Functions</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-polynomials.html#sect-polynomials-5" class="internal"><span class="codenumber">1.1.2</span> <span class="title">Forms of Polynomials</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-polynomials.html#sect-polynomials-6" class="internal"><span class="codenumber">1.1.3</span> <span class="title">Graphs of Polynomials</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-polynomials.html#sect-fundamental-theorem-algebra" class="internal"><span class="codenumber">1.1.4</span> <span class="title">Fundamental Theorem of Algebra</span></a></div></li>
+</ul>
+</li>
+<li class="toc-item toc-section"><div class="toc-title-box"><a href="sect-calc-theorems.html" class="internal"><span class="codenumber">1.2</span> <span class="title">Important Theorems from Calculus</span></a></div></li>
+<li class="toc-item toc-section">
+<div class="toc-title-box"><a href="sect-sequences.html" class="internal"><span class="codenumber">1.3</span> <span class="title">Sequences</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-sequences.html#sect-sequences-4" class="internal"><span class="codenumber">1.3.1</span> <span class="title">Limits of Sequences</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-sequences.html#sect-sequences-5" class="internal"><span class="codenumber">1.3.2</span> <span class="title">Monotonic Sequences</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-sequences.html#sect-sequences-6" class="internal"><span class="codenumber">1.3.3</span> <span class="title">The Squeeze Theorem</span></a></div></li>
+</ul>
+</li>
+<li class="toc-item toc-section">
+<div class="toc-title-box"><a href="sect-series.html" class="internal"><span class="codenumber">1.4</span> <span class="title">Infinite Series</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-series.html#sect-series-4" class="internal"><span class="codenumber">1.4.1</span> <span class="title">Convergence of Series</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-series.html#sect-series-5" class="internal"><span class="codenumber">1.4.2</span> <span class="title">Geometric Series</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-series.html#sect-series-6" class="internal"><span class="codenumber">1.4.3</span> <span class="title">Tests for Convergence of Series</span></a></div></li>
+</ul>
+</li>
+<li class="toc-item toc-section">
+<div class="toc-title-box"><a href="sect-power-series.html" class="internal"><span class="codenumber">1.5</span> <span class="title">Power Series</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-power-series.html#sect-power-series-4" class="internal"><span class="codenumber">1.5.1</span> <span class="title">Power Series</span></a></div></li>
+<li class="toc-item toc-subsection">
+<div class="toc-title-box"><a href="sect-power-series.html#sect-power-series-5" class="internal"><span class="codenumber">1.5.2</span> <span class="title">Representations of Functions as Power Series</span></a></div>
+<ul class="structural toc-item-list"><li class="toc-item toc-subsubsection"><div class="toc-title-box"><a href="sect-power-series.html#sect-power-series-5-3" class="internal"><span class="codenumber">1.5.2.1</span> <span class="title">Differentiation and Integration of Power Series</span></a></div></li></ul>
+</li>
+</ul>
+</li>
+<li class="toc-item toc-section">
+<div class="toc-title-box"><a href="sect-taylor-series.html" class="internal"><span class="codenumber">1.6</span> <span class="title">Taylor Series</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-subsection">
+<div class="toc-title-box"><a href="sect-taylor-series.html#sect-taylor-series-2" class="internal"><span class="codenumber">1.6.1</span> <span class="title">Taylor and Maclaurin Series</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-subsubsection"><div class="toc-title-box"><a href="sect-taylor-series.html#sect-taylor-series-2-3" class="internal"><span class="codenumber">1.6.1.1</span> <span class="title">Taylor Series</span></a></div></li>
+<li class="toc-item toc-subsubsection"><div class="toc-title-box"><a href="sect-taylor-series.html#sect-taylor-series-2-4" class="internal"><span class="codenumber">1.6.1.2</span> <span class="title">The <span class="process-math">\(n\)</span>th degree Taylor Polynomial</span></a></div></li>
+</ul>
+</li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-taylor-series.html#sect-taylor-series-3" class="internal"><span class="codenumber">1.6.2</span> <span class="title">Taylor’s Theorem</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-taylor-series.html#sect-taylor-series-4" class="internal"><span class="codenumber">1.6.3</span> <span class="title">Taylor Series of <span class="process-math">\(\sin x\)</span> and <span class="process-math">\(\cos x\)</span></span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-taylor-series.html#sect-taylor-series-5" class="internal"><span class="codenumber">1.6.4</span> <span class="title">The Binomial Series</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-taylor-series.html#sect-taylor-series-6" class="internal"><span class="codenumber">1.6.5</span> <span class="title">Summary of Important Maclaurin Series</span></a></div></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-item toc-chapter">
+<div class="toc-title-box"><a href="ch-intro-numerical.html" class="internal"><span class="codenumber">2</span> <span class="title">Introduction to Numerical Analysis</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-section">
+<div class="toc-title-box"><a href="sect-practical-examples.html" class="internal"><span class="codenumber">2.1</span> <span class="title">Practical Mathematical Examples</span></a></div>
+<ul class="structural toc-item-list"><li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-practical-examples.html#sect-practical-examples-3" class="internal"><span class="codenumber">2.1.1</span> <span class="title">What is Numerical Analysis?</span></a></div></li></ul>
+</li>
+<li class="toc-item toc-section">
+<div class="toc-title-box"><a href="sect-algorithms.html" class="internal"><span class="codenumber">2.2</span> <span class="title">Algorithms</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-algorithms.html#sect-algorithms-3" class="internal"><span class="codenumber">2.2.1</span> <span class="title">Newtons’ Method: A Better Square Root Algorithm</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-algorithms.html#sect-algorithms-4" class="internal"><span class="codenumber">2.2.2</span> <span class="title">YASRA: Yet Another Square Root Algorithm</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-algorithms.html#sect-algorithms-5" class="internal"><span class="codenumber">2.2.3</span> <span class="title">Analyzing Algorithms</span></a></div></li>
+</ul>
+</li>
+<li class="toc-item toc-section">
+<div class="toc-title-box"><a href="sect-convergence-sequence.html" class="internal"><span class="codenumber">2.3</span> <span class="title">Convergence of Sequences</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-subsection">
+<div class="toc-title-box"><a href="sect-convergence-sequence.html#sect-convergence-sequence-4" class="internal"><span class="codenumber">2.3.1</span> <span class="title">Big “O” Notation</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-subsubsection"><div class="toc-title-box"><a href="sect-convergence-sequence.html#sect-poly-operations" class="internal"><span class="codenumber">2.3.1.1</span> <span class="title">Order of operations and evaluating polynomials</span></a></div></li>
+<li class="toc-item toc-subsubsection"><div class="toc-title-box"><a href="sect-convergence-sequence.html#sect-convergence-sequence-4-4" class="internal"><span class="codenumber">2.3.1.2</span> <span class="title">Order of Convergence</span></a></div></li>
+<li class="toc-item toc-subsubsection"><div class="toc-title-box"><a href="sect-convergence-sequence.html#sect-convergence-sequence-4-5" class="internal"><span class="codenumber">2.3.1.3</span> <span class="title">Numerically Determining the order of convergence</span></a></div></li>
+</ul>
+</li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-convergence-sequence.html#sect-convergence-sequence-5" class="internal"><span class="codenumber">2.3.2</span> <span class="title">Determining Convergence Rates Theoretically</span></a></div></li>
+</ul>
+</li>
+<li class="toc-item toc-section">
+<div class="toc-title-box"><a href="sect-floating-point.html" class="internal"><span class="codenumber">2.4</span> <span class="title">Floating Point Number Systems</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-floating-point.html#sect-floating-point-4" class="internal"><span class="codenumber">2.4.1</span> <span class="title">Scientific Notation</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-floating-point.html#sect-floating-point-5" class="internal"><span class="codenumber">2.4.2</span> <span class="title">Floating Point Numbers of a given size</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-floating-point.html#sect-floating-point-6" class="internal"><span class="codenumber">2.4.3</span> <span class="title">Rounding Floating Point Numbers</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-floating-point.html#sect-floating-point-7" class="internal"><span class="codenumber">2.4.4</span> <span class="title">Overflow and Underflow</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-floating-point.html#sect-floating-point-8" class="internal"><span class="codenumber">2.4.5</span> <span class="title">Rounding Error</span></a></div></li>
+<li class="toc-item toc-subsection">
+<div class="toc-title-box"><a href="sect-floating-point.html#sect-floating-point-9" class="internal"><span class="codenumber">2.4.6</span> <span class="title">Practical Effects of Floating-Point Arithmetic</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-subsubsection"><div class="toc-title-box"><a href="sect-floating-point.html#sect-floating-point-9-3" class="internal"><span class="codenumber">2.4.6.1</span> <span class="title">Cancellation Error</span></a></div></li>
+<li class="toc-item toc-subsubsection"><div class="toc-title-box"><a href="sect-floating-point.html#sect-floating-point-9-4" class="internal"><span class="codenumber">2.4.6.2</span> <span class="title">Matrices and Roundoff Errors</span></a></div></li>
+</ul>
+</li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-floating-point.html#sect-floating-point-10" class="internal"><span class="codenumber">2.4.7</span> <span class="title">Why not just use Rational Numbers?</span></a></div></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-item toc-chapter contains-active">
+<div class="toc-title-box"><a href="ch-rootfinding.html" class="internal"><span class="codenumber">3</span> <span class="title">Rootfinding</span></a></div>
+<ul class="structural toc-item-list contains-active">
+<li class="toc-item toc-section"><div class="toc-title-box"><a href="sect-intro-rootfinding.html" class="internal"><span class="codenumber">3.1</span> <span class="title">Introduction to Rootfinding</span></a></div></li>
+<li class="toc-item toc-section contains-active">
+<div class="toc-title-box"><a href="sect-bisection.html" class="internal"><span class="codenumber">3.2</span> <span class="title">The Bisection Method</span></a></div>
+<ul class="structural toc-item-list active">
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-bisection.html#sect-bisection-3" class="internal"><span class="codenumber">3.2.1</span> <span class="title">The Bisection Algorithm</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-bisection.html#sect-bisection-4" class="internal"><span class="codenumber">3.2.2</span> <span class="title">The Bisection Method with a Spreadsheet</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-bisection.html#sect-bisection-5" class="internal"><span class="codenumber">3.2.3</span> <span class="title">Graphical look at the Bisection</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-bisection.html#sect-bisection-6" class="internal"><span class="codenumber">3.2.4</span> <span class="title">Analysis of the Bisection Algorithm</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-bisection.html#sect-bisection-7" class="internal"><span class="codenumber">3.2.5</span> <span class="title">Order and Rate of Convergence of the Bisection Method</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-bisection.html#sect-bisection-8" class="internal"><span class="codenumber">3.2.6</span> <span class="title">Stopping Conditions for the Bisection Method</span></a></div></li>
+</ul>
+</li>
+<li class="toc-item toc-section">
+<div class="toc-title-box"><a href="sect-fixed-point.html" class="internal"><span class="codenumber">3.3</span> <span class="title">Fixed Point Iteration Schemes</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-fixed-point.html#sect-fixed-point-3" class="internal"><span class="codenumber">3.3.1</span> <span class="title">Additional Analysis of Fixed Point Iterations</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-fixed-point.html#sect-fixed-point-4" class="internal"><span class="codenumber">3.3.2</span> <span class="title">Linear Convergence of Fixed Point Iterations</span></a></div></li>
+</ul>
+</li>
+<li class="toc-item toc-section">
+<div class="toc-title-box"><a href="sect-newtons-method.html" class="internal"><span class="codenumber">3.4</span> <span class="title">Newton’s Method</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-newtons-method.html#sect-newtons-method-3" class="internal"><span class="codenumber">3.4.1</span> <span class="title">Performing Newton’s Method using a Spreadsheet</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-newtons-method.html#sect-newtons-method-4" class="internal"><span class="codenumber">3.4.2</span> <span class="title">Analysis of Newton’s Method</span></a></div></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-item toc-chapter">
+<div class="toc-title-box"><a href="ch-interpolation.html" class="internal"><span class="codenumber">4</span> <span class="title">Interpolation Theory and Practice</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-section">
+<div class="toc-title-box"><a href="sect-intro-interpolation.html" class="internal"><span class="codenumber">4.1</span> <span class="title">Introduction to Interpolation</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-intro-interpolation.html#sect-intro-interpolation-3" class="internal"><span class="codenumber">4.1.1</span> <span class="title">Fundamental Interpolation Problem</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-intro-interpolation.html#sect-intro-interpolation-4" class="internal"><span class="codenumber">4.1.2</span> <span class="title">Interpolation Versus Regression</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-intro-interpolation.html#sect-intro-interpolation-5" class="internal"><span class="codenumber">4.1.3</span> <span class="title">Polynomial Interpolation</span></a></div></li>
+</ul>
+</li>
+<li class="toc-item toc-section">
+<div class="toc-title-box"><a href="sect-lagrange-interp.html" class="internal"><span class="codenumber">4.2</span> <span class="title">The Lagrange Form of the Interpolating Polynomial</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-lagrange-interp.html#sect-lagrange-interp-3" class="internal"><span class="codenumber">4.2.1</span> <span class="title">Quadratic Lagrange Polynomials</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-lagrange-interp.html#sect-lagrange-interp-4" class="internal"><span class="codenumber">4.2.2</span> <span class="title">General Lagrange Polynomial</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-lagrange-interp.html#sect-lagrange-interp-5" class="internal"><span class="codenumber">4.2.3</span> <span class="title">Error in the interpolating polynomial</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-lagrange-interp.html#sect-lagrange-interp-6" class="internal"><span class="codenumber">4.2.4</span> <span class="title">Advantages and Disadvantages of the Lagrange form</span></a></div></li>
+</ul>
+</li>
+<li class="toc-item toc-section">
+<div class="toc-title-box"><a href="sect-newton-divided-diff.html" class="internal"><span class="codenumber">4.3</span> <span class="title">Newton Divided Differences</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-newton-divided-diff.html#sect-newton-divided-diff-3" class="internal"><span class="codenumber">4.3.1</span> <span class="title">Newton Divided Difference Form of the Interpolating Polynomial</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-newton-divided-diff.html#sect-newton-divided-diff-4" class="internal"><span class="codenumber">4.3.2</span> <span class="title">Calculating the Newton Divided Differences</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-newton-divided-diff.html#sect-newton-divided-diff-5" class="internal"><span class="codenumber">4.3.3</span> <span class="title">Errors and Interpolation, revisited</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-newton-divided-diff.html#sect-newton-divided-diff-6" class="internal"><span class="codenumber">4.3.4</span> <span class="title">Summary</span></a></div></li>
+</ul>
+</li>
+<li class="toc-item toc-section">
+<div class="toc-title-box"><a href="ch-interpolation-6.html" class="internal"><span class="codenumber">4.4</span> <span class="title">Hermite Interpolation</span></a></div>
+<ul class="structural toc-item-list"><li class="toc-item toc-subsection"><div class="toc-title-box"><a href="ch-interpolation-6.html#ch-interpolation-6-3" class="internal"><span class="codenumber">4.4.1</span> <span class="title">Hermite Interpolation Implementation</span></a></div></li></ul>
+</li>
+</ul>
+</li>
+<li class="toc-item toc-chapter">
+<div class="toc-title-box"><a href="ch-quadrature.html" class="internal"><span class="codenumber">5</span> <span class="title">Quadrature</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-section">
+<div class="toc-title-box"><a href="sect-intro-quadrature.html" class="internal"><span class="codenumber">5.1</span> <span class="title">Numerical Differentiation</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-intro-quadrature.html#sect-intro-quadrature-3" class="internal"><span class="codenumber">5.1.1</span> <span class="title">Two-Point Difference Formulas</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-intro-quadrature.html#sect-intro-quadrature-4" class="internal"><span class="codenumber">5.1.2</span> <span class="title"><span class="process-math">\(n\)</span>-point formula for <span class="process-math">\(f'(x)\)</span></span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-intro-quadrature.html#sect-intro-quadrature-5" class="internal"><span class="codenumber">5.1.3</span> <span class="title">3- and 5-point formulas for <span class="process-math">\(f'(x)\)</span></span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-intro-quadrature.html#sect-intro-quadrature-6" class="internal"><span class="codenumber">5.1.4</span> <span class="title">Three-point numerical formulas for <span class="process-math">\(f''(x)\)</span></span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-intro-quadrature.html#sect-intro-quadrature-7" class="internal"><span class="codenumber">5.1.5</span> <span class="title">Higher Order Numerical derivatives</span></a></div></li>
+</ul>
+</li>
+<li class="toc-item toc-section">
+<div class="toc-title-box"><a href="sect-intro-quadature.html" class="internal"><span class="codenumber">5.2</span> <span class="title">The Basics of Numerical Integration or Quadrature</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-intro-quadature.html#sect-intro-quadature-3" class="internal"><span class="codenumber">5.2.1</span> <span class="title">Newton-Cotes Formulas</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-intro-quadature.html#sect-intro-quadature-4" class="internal"><span class="codenumber">5.2.2</span> <span class="title"><span class="process-math">\(n=1\)</span> case</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-intro-quadature.html#sect-intro-quadature-5" class="internal"><span class="codenumber">5.2.3</span> <span class="title"><span class="process-math">\(n=2\)</span> case</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-intro-quadature.html#sect-intro-quadature-6" class="internal"><span class="codenumber">5.2.4</span> <span class="title">Other Newton-Cotes</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-intro-quadature.html#sect-intro-quadature-7" class="internal"><span class="codenumber">5.2.5</span> <span class="title">Error Formulas for Newton-Cotes</span></a></div></li>
+</ul>
+</li>
+<li class="toc-item toc-section">
+<div class="toc-title-box"><a href="sect-composite-newton-cotes.html" class="internal"><span class="codenumber">5.3</span> <span class="title">Composite Newton-Cotes Quadrature</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-composite-newton-cotes.html#sect-composite-newton-cotes-3" class="internal"><span class="codenumber">5.3.1</span> <span class="title">Composite Trapezoid</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-composite-newton-cotes.html#sect-composite-newton-cotes-4" class="internal"><span class="codenumber">5.3.2</span> <span class="title">Rate of Convergence</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-composite-newton-cotes.html#sect-composite-newton-cotes-5" class="internal"><span class="codenumber">5.3.3</span> <span class="title">Composite Simpson’s Rule</span></a></div></li>
+</ul>
+</li>
+<li class="toc-item toc-section">
+<div class="toc-title-box"><a href="sect-gauss-quad.html" class="internal"><span class="codenumber">5.4</span> <span class="title">Gaussian Quadrature</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-gauss-quad.html#sect-gauss-quad-3" class="internal"><span class="codenumber">5.4.1</span> <span class="title">2-point Gaussian Quadrature Formula</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-gauss-quad.html#sect-gauss-quad-4" class="internal"><span class="codenumber">5.4.2</span> <span class="title">Gaussian Quadrature on <span class="process-math">\([a,b]\)</span></span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-gauss-quad.html#sect-gauss-quad-5" class="internal"><span class="codenumber">5.4.3</span> <span class="title">3-point Gaussian Quadrature Formula</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-gauss-quad.html#sect-gauss-quad-6" class="internal"><span class="codenumber">5.4.4</span> <span class="title">Error Formula of Gaussian Quadrature</span></a></div></li>
+</ul>
+</li>
+<li class="toc-item toc-section">
+<div class="toc-title-box"><a href="ch-quadrature-7.html" class="internal"><span class="codenumber">5.5</span> <span class="title">Richardson Extrapolation and Romberg Integration</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="ch-quadrature-7.html#ch-quadrature-7-3" class="internal"><span class="codenumber">5.5.1</span> <span class="title">Richardson Extrapolation</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="ch-quadrature-7.html#ch-quadrature-7-4" class="internal"><span class="codenumber">5.5.2</span> <span class="title">Richardson Extrapolation for other error schemes</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="ch-quadrature-7.html#ch-quadrature-7-5" class="internal"><span class="codenumber">5.5.3</span> <span class="title">Romberg Integration</span></a></div></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-item toc-chapter">
+<div class="toc-title-box"><a href="ch-approximation.html" class="internal"><span class="codenumber">6</span> <span class="title">Approximation Theory</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-section">
+<div class="toc-title-box"><a href="sect-intro-approximation.html" class="internal"><span class="codenumber">6.1</span> <span class="title">Introduction to Approximation Theory</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-intro-approximation.html#sect-intro-approximation-3" class="internal"><span class="codenumber">6.1.1</span> <span class="title">Norms of Functions</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-intro-approximation.html#sect-intro-approximation-4" class="internal"><span class="codenumber">6.1.2</span> <span class="title">Inner Product Spaces</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-intro-approximation.html#sect-intro-approximation-5" class="internal"><span class="codenumber">6.1.3</span> <span class="title">Vector Norms and distance</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-intro-approximation.html#sect-intro-approximation-6" class="internal"><span class="codenumber">6.1.4</span> <span class="title">Angles between vectors</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-intro-approximation.html#sect-intro-approximation-7" class="internal"><span class="codenumber">6.1.5</span> <span class="title">Orthonormal sets of vectors</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-intro-approximation.html#sect-intro-approximation-8" class="internal"><span class="codenumber">6.1.6</span> <span class="title">Inner Products of functions</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-intro-approximation.html#sect-intro-approximation-9" class="internal"><span class="codenumber">6.1.7</span> <span class="title">Weighted Inner Products</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-intro-approximation.html#sect-intro-approximation-10" class="internal"><span class="codenumber">6.1.8</span> <span class="title">Orthogonal Functions</span></a></div></li>
+</ul>
+</li>
+<li class="toc-item toc-section">
+<div class="toc-title-box"><a href="sect-discrete-least-squares.html" class="internal"><span class="codenumber">6.2</span> <span class="title">Discrete Least Squares</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-discrete-least-squares.html#sect-discrete-least-squares-3" class="internal"><span class="codenumber">6.2.1</span> <span class="title">Matrix Form of the Least Squares Regression</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-discrete-least-squares.html#sect-discrete-least-squares-4" class="internal"><span class="codenumber">6.2.2</span> <span class="title">Least-Squares Polynomials</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-discrete-least-squares.html#sect-discrete-least-squares-5" class="internal"><span class="codenumber">6.2.3</span> <span class="title">Least-Squares and Interpolation</span></a></div></li>
+</ul>
+</li>
+<li class="toc-item toc-section">
+<div class="toc-title-box"><a href="sect-orthogonal-polynomials.html" class="internal"><span class="codenumber">6.3</span> <span class="title">Orthogonal Polynomials and Least Squares Approximation</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-orthogonal-polynomials.html#sect-orthogonal-polynomials-3" class="internal"><span class="codenumber">6.3.1</span> <span class="title">Orthogonal Polynomials</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-orthogonal-polynomials.html#sect-orthogonal-polynomials-4" class="internal"><span class="codenumber">6.3.2</span> <span class="title">The Gram-Schmidt process for Orthogonalizing Polynomials</span></a></div></li>
+</ul>
+</li>
+<li class="toc-item toc-section">
+<div class="toc-title-box"><a href="sect-optimal-pts.html" class="internal"><span class="codenumber">6.4</span> <span class="title">Optimal Points for Interpolation</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-optimal-pts.html#sect-optimal-pts-3" class="internal"><span class="codenumber">6.4.1</span> <span class="title">Chebyshev Polynomials</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-optimal-pts.html#sect-optimal-pts-4" class="internal"><span class="codenumber">6.4.2</span> <span class="title">Monic Polynomials</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-optimal-pts.html#sect-optimal-pts-5" class="internal"><span class="codenumber">6.4.3</span> <span class="title">Interpolation on the Chebyshev roots</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-optimal-pts.html#sect-optimal-pts-6" class="internal"><span class="codenumber">6.4.4</span> <span class="title">Chebyshev Polynomials on <span class="process-math">\([a,b]\)</span></span></a></div></li>
+</ul>
+</li>
+<li class="toc-item toc-section">
+<div class="toc-title-box"><a href="sect-legendre-polys.html" class="internal"><span class="codenumber">6.5</span> <span class="title">Legendre Polynomials and Interpolation</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-legendre-polys.html#sect-legendre-polys-3" class="internal"><span class="codenumber">6.5.1</span> <span class="title">Approximating functions using Legendre Polynomials</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-legendre-polys.html#sect-legendre-polys-4" class="internal"><span class="codenumber">6.5.2</span> <span class="title">Chebyshev Polynomials</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-legendre-polys.html#sect-legendre-polys-5" class="internal"><span class="codenumber">6.5.3</span> <span class="title">Summary of Polynomial Interpolation</span></a></div></li>
+</ul>
+</li>
+<li class="toc-item toc-section">
+<div class="toc-title-box"><a href="sect-rational-interp.html" class="internal"><span class="codenumber">6.6</span> <span class="title">Rational Interpolation and Approximation</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-rational-interp.html#sect-rational-interp-3" class="internal"><span class="codenumber">6.6.1</span> <span class="title">Padé Approximations</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-rational-interp.html#sect-rational-interp-4" class="internal"><span class="codenumber">6.6.2</span> <span class="title">A Hermite-Type Rational Approximation</span></a></div></li>
+</ul>
+</li>
+<li class="toc-item toc-section"><div class="toc-title-box"><a href="sect-gauss-quad-revisit.html" class="internal"><span class="codenumber">6.7</span> <span class="title">Gaussian Quadrature: revisited</span></a></div></li>
+</ul>
+</li>
+<li class="toc-item toc-chapter">
+<div class="toc-title-box"><a href="ch-linear-algebra.html" class="internal"><span class="codenumber">7</span> <span class="title">Numerical Linear Algebra</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-section"><div class="toc-title-box"><a href="sect-intro-linear-algebra.html" class="internal"><span class="codenumber">7.1</span> <span class="title">Introduction to Linear Algebra</span></a></div></li>
+<li class="toc-item toc-section">
+<div class="toc-title-box"><a href="ch-linear-algebra-4.html" class="internal"><span class="codenumber">7.2</span> <span class="title">Linear Systems and Gaussian Elimination</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="ch-linear-algebra-4.html#ch-linear-algebra-4-3" class="internal"><span class="codenumber">7.2.1</span> <span class="title">Operation Counts of Gaussian Elimination</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="ch-linear-algebra-4.html#ch-linear-algebra-4-4" class="internal"><span class="codenumber">7.2.2</span> <span class="title">Comparison to Cramer’s Rule</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="ch-linear-algebra-4.html#ch-linear-algebra-4-5" class="internal"><span class="codenumber">7.2.3</span> <span class="title">Pivoting Strategies</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="ch-linear-algebra-4.html#ch-linear-algebra-4-6" class="internal"><span class="codenumber">7.2.4</span> <span class="title">Partial Pivoting</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="ch-linear-algebra-4.html#ch-linear-algebra-4-7" class="internal"><span class="codenumber">7.2.5</span> <span class="title">Scaled Partial Pivoting</span></a></div></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-item toc-chapter">
+<div class="toc-title-box"><a href="ch-validated-numerics.html" class="internal"><span class="codenumber">8</span> <span class="title">Validated Numerics</span></a></div>
+<ul class="structural toc-item-list"><li class="toc-item toc-section"><div class="toc-title-box"><a href="sect-interval-arithemtic.html" class="internal"><span class="codenumber">8.1</span> <span class="title">Interval Arithmetic</span></a></div></li></ul>
+</li>
+<li class="toc-item toc-backmatter"><div class="toc-title-box"><a href="backmatter.html" class="internal"><span class="title">Backmatter</span></a></div></li>
+</ul></nav></div>
+<main class="ptx-main"><div id="ptx-content" class="ptx-content"><section class="section" id="sect-bisection"><h2 class="heading hide-type">
+<span class="type">Section</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">3.2</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="title">The Bisection Method</span>
+</h2>
+<section class="introduction" id="sect-bisection-2"><div class="para" id="sect-bisection-2-1">We saw the Bisection method in <a href="sect-algorithms.html#ex-sqrt" class="xref" data-knowl="./knowl/xref/ex-sqrt.html" data-reveal-label="Reveal" data-close-label="Close" title="Example 2.2.4">Example 2.2.4</a> to find the square root of 65, but can be extended to finding roots of any function. The idea is that if you can find two <span class="process-math">\(x\)</span> values with function values that are different signs, and if the function is continuous, as we can see with <a href="sect-calc-theorems.html#thm-ivt" class="xref" data-knowl="./knowl/xref/thm-ivt.html" data-reveal-label="Reveal" data-close-label="Close" title="Theorem 1.2.1: Intermediate Value Theorem">Theorem 1.2.1</a>, discussed below, there will be a root.<div class="autopermalink" data-description="Paragraph"><a href="#sect-bisection-2-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<details id="sect-bisection-2-2" class="example example-like born-hidden-knowl"><summary class="knowl__link"><h3 class="heading">
+<span class="type">Example</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">3.2.1</span><span class="period heading-divison-mark heading-divison-mark__period">.</span>
+</h3></summary><article class="example example-like knowl__content"><div class="para" id="sect-bisection-2-2-1-1">Show that the function <span class="process-math">\(f(x)=x^{3}+3\)</span> has a root on <span class="process-math">\([-2,0]\text{.}\)</span><div class="autopermalink" data-description="Paragraph"><a href="#sect-bisection-2-2-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="solutions"><details id="sect-bisection-2-2-2" class="solution solution-like born-hidden-knowl"><summary class="knowl__link"><span class="type">Solution</span><span class="period heading-divison-mark heading-divison-mark__period">.</span></summary><div class="solution solution-like knowl__content">
+<div class="para" id="sect-bisection-2-2-2-1">We know that <span class="process-math">\(f\)</span> is continuous on the interval <span class="process-math">\([-2,0]\)</span> and <span class="process-math">\(f(-2)=-5\)</span> and <span class="process-math">\(f(0)=3\text{,}\)</span> and since this satisfies the IVT, there must exist a number <span class="process-math">\(c\)</span> such that <span class="process-math">\(f(c)=0\text{,}\)</span> and this is the definition of a root.<div class="autopermalink" data-description="Paragraph"><a href="#sect-bisection-2-2-2-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" data-description="Solution 3.2.1.1"><a href="#sect-bisection-2-2-2" title="Copy heading and permalink for Solution 3.2.1.1" aria-label="Copy heading and permalink for Solution 3.2.1.1">🔗</a></div>
+</div></details></div>
+<div class="autopermalink" data-description="Example 3.2.1"><a href="#sect-bisection-2-2" title="Copy heading and permalink for Example 3.2.1" aria-label="Copy heading and permalink for Example 3.2.1">🔗</a></div></article></details><div class="para" id="sect-bisection-2-3">Plotting the function above on the given interval:<div class="autopermalink" data-description="Paragraph"><a href="#sect-bisection-2-3" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<figure class="figure figure-like" id="fig-bisection"><div class="image-box" style="width: 100%; margin-left: 0%; margin-right: 0%;"><img src="generated/latex-image/fig-bisection-2.svg" role="img" class="contained" alt=""></div>
+<figcaption><span class="type">Figure</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">3.2.2<span class="period heading-divison-mark heading-divison-mark__period">.</span></span><span class="space heading-divison-mark heading-divison-mark__space"> </span><div class="autopermalink" data-description="Figure 3.2.2"><a href="#fig-bisection" title="Copy heading and permalink for Figure 3.2.2" aria-label="Copy heading and permalink for Figure 3.2.2">🔗</a></div></figcaption></figure><div class="para" id="sect-bisection-2-5">You can “see” that there is a root and the Intermediate Value Theorem assures that there is one there. Now, how to find it? We will see that the bisection method will start with an interval (with a guaranteed root), find the midpoint of the interval and then choose a new interval ensuring it has a root again. The following section shows this in detail.<div class="autopermalink" data-description="Paragraph"><a href="#sect-bisection-2-5" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div></section><section class="subsection" id="sect-bisection-3"><h3 class="heading hide-type">
+<span class="type">Subsection</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">3.2.1</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="title">The Bisection Algorithm</span>
+</h3>
+<div class="para" id="sect-bisection-3-2">Let <span class="process-math">\(f(x)\)</span> be a function and <span class="process-math">\([a,b]\)</span> be an interval <span class="process-math">\(a \lt b\text{,}\)</span> such that <span class="process-math">\(f(a)f(b) \lt 0\text{.}\)</span> The <em class="alert">bisection method</em> are the steps below to find the root <span class="process-math">\(p\)</span> with tolerance <span class="process-math">\(\epsilon\text{.}\)</span> That is if <span class="process-math">\(f(p)=0\text{,}\)</span> then return <span class="process-math">\(p^{\star}\)</span> such that <span class="process-math">\(|p-p^{\star}| \lt \epsilon\text{.}\)</span><div class="autopermalink" data-description="Paragraph"><a href="#sect-bisection-3-2" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="para logical" id="sect-bisection-3-3">
+<ol class="decimal" id="sect-bisection-3-3-1">
+<li id="sect-bisection-3-3-1-1">
+<div class="para" id="sect-bisection-3-3-1-1-1">Set <span class="process-math">\(a_{0}=a\text{,}\)</span> <span class="process-math">\(b_{0}=b\)</span> and <span class="process-math">\(n=0\text{.}\)</span><div class="autopermalink" data-description="Paragraph"><a href="#sect-bisection-3-3-1-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" data-description="Item 1"><a href="#sect-bisection-3-3-1-1" title="Copy heading and permalink for Item 1" aria-label="Copy heading and permalink for Item 1">🔗</a></div>
+</li>
+<li id="sect-bisection-3-3-1-2">
+<div class="para logical" id="sect-bisection-3-3-1-2-1">
+<div class="para">Let <span class="process-math">\(c_{n} = \frac{a_{n}+b_{n}}{2}\)</span>
+</div>
+<ul class="disc" id="sect-bisection-3-3-1-2-1-2">
+<li id="sect-bisection-3-3-1-2-1-2-1">
+<div class="para" id="sect-bisection-3-3-1-2-1-2-1-1">If <span class="process-math">\(f(a_{n})f(c_{n}) \lt 0\text{,}\)</span> then let <span class="process-math">\(a_{n+1}=a_{n}\text{,}\)</span> <span class="process-math">\(b_{n+1}=c_{n}\text{.}\)</span><div class="autopermalink" data-description="Paragraph"><a href="#sect-bisection-3-3-1-2-1-2-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" data-description="Item"><a href="#sect-bisection-3-3-1-2-1-2-1" title="Copy heading and permalink for Item" aria-label="Copy heading and permalink for Item">🔗</a></div>
+</li>
+<li id="sect-bisection-3-3-1-2-1-2-2">
+<div class="para" id="sect-bisection-3-3-1-2-1-2-2-1">else let <span class="process-math">\(a_{n+1}=c_{n}\text{,}\)</span> <span class="process-math">\(b_{n+1}=b_{n}\text{.}\)</span><div class="autopermalink" data-description="Paragraph"><a href="#sect-bisection-3-3-1-2-1-2-2-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" data-description="Item"><a href="#sect-bisection-3-3-1-2-1-2-2" title="Copy heading and permalink for Item" aria-label="Copy heading and permalink for Item">🔗</a></div>
+</li>
+</ul>
+<div class="autopermalink" data-description="Paragraph"><a href="#sect-bisection-3-3-1-2-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" data-description="Item 2"><a href="#sect-bisection-3-3-1-2" title="Copy heading and permalink for Item 2" aria-label="Copy heading and permalink for Item 2">🔗</a></div>
+</li>
+<li id="sect-bisection-3-3-1-3">
+<div class="para" id="sect-bisection-3-3-1-3-1">If <span class="process-math">\(b_{n+1}-a_{n+1} \lt  \epsilon\text{,}\)</span> then stop, return <span class="process-math">\((a_{n+1}+b_{n+1})/2\text{.}\)</span> If not let <span class="process-math">\(n=n+1\)</span> and return to step 2.<div class="autopermalink" data-description="Paragraph"><a href="#sect-bisection-3-3-1-3-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" data-description="Item 3"><a href="#sect-bisection-3-3-1-3" title="Copy heading and permalink for Item 3" aria-label="Copy heading and permalink for Item 3">🔗</a></div>
+</li>
+</ol>
+<div class="autopermalink" data-description="Paragraph"><a href="#sect-bisection-3-3" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="para" id="sect-bisection-3-4">The following example applies the bisection method to find <span class="process-math">\(\sqrt{65}\text{.}\)</span><div class="autopermalink" data-description="Paragraph"><a href="#sect-bisection-3-4" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<details id="ex-bisection-sqrt" class="example example-like born-hidden-knowl"><summary class="knowl__link"><h4 class="heading">
+<span class="type">Example</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">3.2.3</span><span class="period heading-divison-mark heading-divison-mark__period">.</span>
+</h4></summary><article class="example example-like knowl__content"><div class="para" id="ex-bisection-sqrt-1-1">Use the bisection method to find <span class="process-math">\(\sqrt{65}\)</span> using the function <span class="process-math">\(f(x)=x^{2}-65\)</span> on the interval <span class="process-math">\([8,9]\)</span> to 2 digits.<div class="autopermalink" data-description="Paragraph"><a href="#ex-bisection-sqrt-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div> <div class="para" id="ex-bisection-sqrt-1-2"><div class="autopermalink" data-description="Paragraph"><a href="#ex-bisection-sqrt-1-2" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div></div> <div class="para" id="ex-bisection-sqrt-1-3">First, <span class="process-math">\(n=0\text{,}\)</span> <span class="process-math">\(a_{0}=8\)</span> and <span class="process-math">\(b_{0}=9\)</span> and <span class="process-math">\(c_{0}=8.5\)</span> is the midpoint of this interval.<div class="autopermalink" data-description="Paragraph"><a href="#ex-bisection-sqrt-1-3" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div> <div class="para" id="ex-bisection-sqrt-1-4">Note that <span class="process-math">\(f(a_{0})=-1\text{,}\)</span> <span class="process-math">\(f(b_{0})=16\)</span> and <span class="process-math">\(f(c_{0})=7.25\text{.}\)</span> Since <span class="process-math">\(f(a_{0})f(c_{0}) \lt 0\text{,}\)</span> <span class="process-math">\(a_{1}=8\text{,}\)</span> <span class="process-math">\(b_{1}=c_{0}=8.5\text{.}\)</span> This is continued in the table:<div class="autopermalink" data-description="Paragraph"><a href="#ex-bisection-sqrt-1-4" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div> <figure class="table table-like" id="ex-bisection-sqrt-1-5"><figcaption><span class="type">Table</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">3.2.4<span class="period heading-divison-mark heading-divison-mark__period">.</span></span><span class="space heading-divison-mark heading-divison-mark__space"> </span>Table of interval Endpoints of the Bisection Method<div class="autopermalink" data-description="Table 3.2.4: Table of interval Endpoints of the Bisection Method"><a href="#ex-bisection-sqrt-1-5" title="Copy heading and permalink for Table 3.2.4: Table of interval Endpoints of the Bisection Method" aria-label="Copy heading and permalink for Table 3.2.4: Table of interval Endpoints of the Bisection Method">🔗</a></div></figcaption><div class="tabular-box natural-width"><table class="tabular">
+<tr>
+<td class="l m b1 r0 l0 t0 lines"><span class="process-math">\(n\)</span></td>
+<td class="l m b1 r0 l0 t0 lines"><span class="process-math">\(a_{n}\)</span></td>
+<td class="l m b1 r0 l0 t0 lines"><span class="process-math">\(f(a_{n})\)</span></td>
+<td class="l m b1 r0 l0 t0 lines"><span class="process-math">\(b_{n}\)</span></td>
+<td class="l m b1 r0 l0 t0 lines"><span class="process-math">\(f(b_{n})\)</span></td>
+<td class="l m b1 r0 l0 t0 lines"><span class="process-math">\(c_{n}\)</span></td>
+</tr>
+<tr>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(1\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(8\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(-1\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(9\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(16\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(8.5\)</span></td>
+</tr>
+<tr>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(2\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(8\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(-1\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(8.5\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(7.25\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(8.25\)</span></td>
+</tr>
+<tr>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(3\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(8\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(-1\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(8.25\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(3.0625\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(8.125\)</span></td>
+</tr>
+<tr>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(4\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(8\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(-1\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(8.125\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(1.015625\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(8.0625\)</span></td>
+</tr>
+<tr>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(5\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(8\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(-1\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(8.0625\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(0.00390625\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(8.03125\)</span></td>
+</tr>
+<tr>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(6\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(8.03125\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(-0.49902343\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(8.0625\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(0.00390625\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(8.046875\)</span></td>
+</tr>
+<tr>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(7\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(8.046875\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(-0.24780273\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(8.0625\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(0.00390625\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(8.0546875\)</span></td>
+</tr>
+<tr>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(8\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(8.0546875\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(-0.12200927\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(8.0625\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(0.00390625\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(8.05859375\)</span></td>
+</tr>
+<tr><td class="l m b0 r0 l0 t0 lines"></td></tr>
+</table></div></figure> <div class="para" id="ex-bisection-sqrt-1-6">And at this point <span class="process-math">\(b_{8}-a_{8}=0.0078125 \lt 0.01\text{,}\)</span> so we stop. Thus the approximation to <span class="process-math">\(\sqrt{65}\)</span> is <span class="process-math">\(c_{8}=8.05859375\text{.}\)</span><div class="autopermalink" data-description="Paragraph"><a href="#ex-bisection-sqrt-1-6" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" data-description="Example 3.2.3"><a href="#ex-bisection-sqrt" title="Copy heading and permalink for Example 3.2.3" aria-label="Copy heading and permalink for Example 3.2.3">🔗</a></div></article></details><div class="autopermalink" data-description="Subsection 3.2.1: The Bisection Algorithm"><a href="#sect-bisection-3" title="Copy heading and permalink for Subsection 3.2.1: The Bisection Algorithm" aria-label="Copy heading and permalink for Subsection 3.2.1: The Bisection Algorithm">🔗</a></div></section><section class="subsection" id="sect-bisection-4"><h3 class="heading hide-type">
+<span class="type">Subsection</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">3.2.2</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="title">The Bisection Method with a Spreadsheet</span>
+</h3>
+<div class="para" id="sect-bisection-4-2">The bisection method is fairly easy to perform with a simple handheld calculator, however it is tedious. Let’s begin by building a spreadsheet with the top row of the table in <a href="sect-bisection.html#ex-bisection-sqrt" class="xref" data-knowl="./knowl/xref/ex-bisection-sqrt.html" data-reveal-label="Reveal" data-close-label="Close" title="Example 3.2.3">Example 3.2.3</a>.<div class="autopermalink" data-description="Paragraph"><a href="#sect-bisection-4-2" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<figure class="table table-like" id="sect-bisection-4-3"><figcaption><span class="type">Table</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">3.2.5<span class="period heading-divison-mark heading-divison-mark__period">.</span></span><span class="space heading-divison-mark heading-divison-mark__space"> </span>Building a Spreadsheet for the Bisection Method<div class="autopermalink" data-description="Table 3.2.5: Building a Spreadsheet for the Bisection Method"><a href="#sect-bisection-4-3" title="Copy heading and permalink for Table 3.2.5: Building a Spreadsheet for the Bisection Method" aria-label="Copy heading and permalink for Table 3.2.5: Building a Spreadsheet for the Bisection Method">🔗</a></div></figcaption><div class="tabular-box natural-width"><table class="tabular">
+<tr>
+<td class="l m b1 r0 l0 t0 lines"></td>
+<td class="l m b1 r0 l0 t0 lines">A</td>
+<td class="l m b1 r0 l0 t0 lines">B</td>
+<td class="l m b1 r0 l0 t0 lines">C</td>
+<td class="l m b1 r0 l0 t0 lines">D</td>
+<td class="l m b1 r0 l0 t0 lines">E</td>
+<td class="l m b1 r0 l0 t0 lines">F</td>
+</tr>
+<tr>
+<td class="l m b0 r0 l0 t0 lines">1</td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(a\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(f(a)\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(b\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(f(b)\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(c\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(f(c)\)</span></td>
+</tr>
+<tr>
+<td class="l m b0 r0 l0 t0 lines">2</td>
+<td class="l m b0 r0 l0 t0 lines">8</td>
+<td class="l m b0 r0 l0 t0 lines">-1</td>
+<td class="l m b0 r0 l0 t0 lines">9</td>
+<td class="l m b0 r0 l0 t0 lines">16</td>
+<td class="l m b0 r0 l0 t0 lines">8.5</td>
+<td class="l m b0 r0 l0 t0 lines">7.25</td>
+</tr>
+<tr>
+<td class="l m b0 r0 l0 t0 lines">3</td>
+<td class="l m b0 r0 l0 t0 lines"></td>
+<td class="l m b0 r0 l0 t0 lines"></td>
+<td class="l m b0 r0 l0 t0 lines"></td>
+<td class="l m b0 r0 l0 t0 lines"></td>
+<td class="l m b0 r0 l0 t0 lines"></td>
+<td class="l m b0 r0 l0 t0 lines"></td>
+</tr>
+</table></div></figure><div class="para" id="sect-bisection-4-4">where<div class="autopermalink" data-description="Paragraph"><a href="#sect-bisection-4-4" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="para logical" id="sect-bisection-4-5">
+<ul class="disc" id="sect-bisection-4-5-1">
+<li id="sect-bisection-4-5-1-1">
+<div class="para" id="sect-bisection-4-5-1-1-1">the cell A2 has been entered as 8<div class="autopermalink" data-description="Paragraph"><a href="#sect-bisection-4-5-1-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" data-description="Item"><a href="#sect-bisection-4-5-1-1" title="Copy heading and permalink for Item" aria-label="Copy heading and permalink for Item">🔗</a></div>
+</li>
+<li id="sect-bisection-4-5-1-2">
+<div class="para" id="sect-bisection-4-5-1-2-1">the cell B2 has been entered as the formula: <code class="code-inline tex2jax_ignore">=a2*a2-65</code><div class="autopermalink" data-description="Paragraph"><a href="#sect-bisection-4-5-1-2-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" data-description="Item"><a href="#sect-bisection-4-5-1-2" title="Copy heading and permalink for Item" aria-label="Copy heading and permalink for Item">🔗</a></div>
+</li>
+<li id="sect-bisection-4-5-1-3">
+<div class="para" id="sect-bisection-4-5-1-3-1">the cell C2 has been entered as 9<div class="autopermalink" data-description="Paragraph"><a href="#sect-bisection-4-5-1-3-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" data-description="Item"><a href="#sect-bisection-4-5-1-3" title="Copy heading and permalink for Item" aria-label="Copy heading and permalink for Item">🔗</a></div>
+</li>
+<li id="sect-bisection-4-5-1-4">
+<div class="para" id="sect-bisection-4-5-1-4-1">the cell D2 has been entered as the formula: <code class="code-inline tex2jax_ignore">=c2*c2-65</code><div class="autopermalink" data-description="Paragraph"><a href="#sect-bisection-4-5-1-4-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" data-description="Item"><a href="#sect-bisection-4-5-1-4" title="Copy heading and permalink for Item" aria-label="Copy heading and permalink for Item">🔗</a></div>
+</li>
+<li id="sect-bisection-4-5-1-5">
+<div class="para" id="sect-bisection-4-5-1-5-1">the cell E2 has been entered as the formula: <code class="code-inline tex2jax_ignore">=0.5*(a2+c2)</code><div class="autopermalink" data-description="Paragraph"><a href="#sect-bisection-4-5-1-5-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" data-description="Item"><a href="#sect-bisection-4-5-1-5" title="Copy heading and permalink for Item" aria-label="Copy heading and permalink for Item">🔗</a></div>
+</li>
+<li id="sect-bisection-4-5-1-6">
+<div class="para" id="sect-bisection-4-5-1-6-1">the cell F2 has been entered as the formula: <code class="code-inline tex2jax_ignore">=e2*e2-65</code><div class="autopermalink" data-description="Paragraph"><a href="#sect-bisection-4-5-1-6-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" data-description="Item"><a href="#sect-bisection-4-5-1-6" title="Copy heading and permalink for Item" aria-label="Copy heading and permalink for Item">🔗</a></div>
+</li>
+</ul>
+<div class="autopermalink" data-description="Paragraph"><a href="#sect-bisection-4-5" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="para" id="sect-bisection-4-6">Note that the formulas in cells B2, D2 and F2 are the functions of the cells to the left of each and the cell in E2 is the midpoint of A2 and B2.<div class="autopermalink" data-description="Paragraph"><a href="#sect-bisection-4-6" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="para" id="sect-bisection-4-7">The next step is to choose new values for the left and right endpoints in columns A and C. To do this, in cell A3 enter the formula: <code class="code-inline tex2jax_ignore">=IF(B3*F3 &lt; 0;A3;E3)</code> (note that some spreadsheets use commas in place of semicolons.) This formula will each choose the same left endpoint or the midpoint <code class="code-inline tex2jax_ignore">c</code> to ensure that there is still a root between the two endpoints. For the same reason, enter <code class="code-inline tex2jax_ignore">=IF(D3*F3 &gt; 0;E3;C3)</code> in cell C3.<div class="autopermalink" data-description="Paragraph"><a href="#sect-bisection-4-7" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="para" id="sect-bisection-4-8">Lastly copy the cells from B2, D2, E2, and F2 into the ones in row 3. You may copy and paste or drag the lower-left corner of each cell. You should have a spreadsheet that looks like:<div class="autopermalink" data-description="Paragraph"><a href="#sect-bisection-4-8" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="tabular-box natural-width"><table class="tabular">
+<tr>
+<td class="l m b1 r0 l0 t0 lines"></td>
+<td class="l m b1 r0 l0 t0 lines">A</td>
+<td class="l m b1 r0 l0 t0 lines">B</td>
+<td class="l m b1 r0 l0 t0 lines">C</td>
+<td class="l m b1 r0 l0 t0 lines">D</td>
+<td class="l m b1 r0 l0 t0 lines">E</td>
+<td class="l m b1 r0 l0 t0 lines">F</td>
+</tr>
+<tr>
+<td class="l m b0 r0 l0 t0 lines">1</td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(a\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(f(a)\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(b\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(f(b)\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(p\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(f(p)\)</span></td>
+</tr>
+<tr>
+<td class="l m b0 r0 l0 t0 lines">2</td>
+<td class="l m b0 r0 l0 t0 lines">8</td>
+<td class="l m b0 r0 l0 t0 lines">-1</td>
+<td class="l m b0 r0 l0 t0 lines">9</td>
+<td class="l m b0 r0 l0 t0 lines">16</td>
+<td class="l m b0 r0 l0 t0 lines">8.5</td>
+<td class="l m b0 r0 l0 t0 lines">7.25</td>
+</tr>
+<tr>
+<td class="l m b0 r0 l0 t0 lines">3</td>
+<td class="l m b0 r0 l0 t0 lines">8.00000</td>
+<td class="l m b0 r0 l0 t0 lines">-1.00000</td>
+<td class="l m b0 r0 l0 t0 lines">8.50000</td>
+<td class="l m b0 r0 l0 t0 lines">7.25000</td>
+<td class="l m b0 r0 l0 t0 lines">8.25000</td>
+<td class="l m b0 r0 l0 t0 lines">3.06250</td>
+</tr>
+</table></div>
+<div class="para" id="sect-bisection-4-10">Lastly, if you selected all cells in the last line, click on the lower left corner and drag down to at least line 12, you will build up a table that looks like the table in <a href="sect-bisection.html#ex-bisection-sqrt" class="xref" data-knowl="./knowl/xref/ex-bisection-sqrt.html" data-reveal-label="Reveal" data-close-label="Close" title="Example 3.2.3">Example 3.2.3</a>.<div class="autopermalink" data-description="Paragraph"><a href="#sect-bisection-4-10" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" data-description="Subsection 3.2.2: The Bisection Method with a Spreadsheet"><a href="#sect-bisection-4" title="Copy heading and permalink for Subsection 3.2.2: The Bisection Method with a Spreadsheet" aria-label="Copy heading and permalink for Subsection 3.2.2: The Bisection Method with a Spreadsheet">🔗</a></div></section><section class="subsection" id="sect-bisection-5"><h3 class="heading hide-type">
+<span class="type">Subsection</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">3.2.3</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="title">Graphical look at the Bisection</span>
+</h3>
+<div class="para" id="sect-bisection-5-2">Let’s look at the last example graphically to understand the bisection method in a different way. First, the plot of <span class="process-math">\(f(x)=x^{2}-65\)</span> is given below.<div class="autopermalink" data-description="Paragraph"><a href="#sect-bisection-5-2" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<figure class="figure figure-like" id="fig-bisect2"><div class="image-box" style="width: 70%; margin-left: 15%; margin-right: 15%;"><img src="generated/latex-image/fig-bisect2-2.svg" role="img" class="contained" alt=""></div>
+<figcaption><span class="type">Figure</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">3.2.6<span class="period heading-divison-mark heading-divison-mark__period">.</span></span><span class="space heading-divison-mark heading-divison-mark__space"> </span><div class="autopermalink" data-description="Figure 3.2.6"><a href="#fig-bisect2" title="Copy heading and permalink for Figure 3.2.6" aria-label="Copy heading and permalink for Figure 3.2.6">🔗</a></div></figcaption></figure><div class="para" id="sect-bisection-5-4">Next, let’s plot the first few steps of bisection starting on the domain <span class="process-math">\([8,8.1]\text{.}\)</span> (Note: this is different than above, but more clearly illustrates how bisection works. First, <span class="process-math">\(a_{0}=8\text{,}\)</span> <span class="process-math">\(b_{0}=8.1\)</span> and the midpoint is <span class="process-math">\(c_{0}=8.05\)</span> and since <span class="process-math">\(f(c_{0}) \lt 0\)</span> and <span class="process-math">\(f(a_{0}) \lt 0\text{,}\)</span> then <span class="process-math">\(a_{1}=8.05\)</span> and <span class="process-math">\(b_{1}=b_{0}=8.1\text{.}\)</span><div class="autopermalink" data-description="Paragraph"><a href="#sect-bisection-5-4" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<figure class="figure figure-like" id="fig-bisect3"><div class="image-box" style="width: 70%; margin-left: 15%; margin-right: 15%;"><img src="generated/latex-image/fig-bisect3-2.svg" role="img" class="contained" alt=""></div>
+<figcaption><span class="type">Figure</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">3.2.7<span class="period heading-divison-mark heading-divison-mark__period">.</span></span><span class="space heading-divison-mark heading-divison-mark__space"> </span><div class="autopermalink" data-description="Figure 3.2.7"><a href="#fig-bisect3" title="Copy heading and permalink for Figure 3.2.7" aria-label="Copy heading and permalink for Figure 3.2.7">🔗</a></div></figcaption></figure><div class="para" id="sect-bisection-5-6">Continuing, <span class="process-math">\(c_{1}=8.075\)</span> and to keep the root bracketed (such that <span class="process-math">\(f(a_{2})f(b_{2}) \lt 0\)</span>), then <span class="process-math">\(a_{2}=8.05, b_{2}=c_{1}=8.075\text{.}\)</span> This method continues until the root is found to a desired accuracy.<div class="autopermalink" data-description="Paragraph"><a href="#sect-bisection-5-6" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" data-description="Subsection 3.2.3: Graphical look at the Bisection"><a href="#sect-bisection-5" title="Copy heading and permalink for Subsection 3.2.3: Graphical look at the Bisection" aria-label="Copy heading and permalink for Subsection 3.2.3: Graphical look at the Bisection">🔗</a></div></section><section class="subsection" id="sect-bisection-6"><h3 class="heading hide-type">
+<span class="type">Subsection</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">3.2.4</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="title">Analysis of the Bisection Algorithm</span>
+</h3>
+<div class="para" id="sect-bisection-6-2">We return to one of our main questions that arise in this area: how to we know that our sequence of points is converging to the correct answer. In short, we will answer this by analyzing the bisection method. The analysis can be summarized in the following theorem.<div class="autopermalink" data-description="Paragraph"><a href="#sect-bisection-6-2" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<article class="theorem theorem-like" id="thm-bisection-converge"><h4 class="heading">
+<span class="type">Theorem</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">3.2.8</span><span class="period heading-divison-mark heading-divison-mark__period">.</span>
+</h4>
+<div class="para logical" id="thm-bisection-converge-1-1">
+<div class="para">Let <span class="process-math">\(f\)</span> be a continuous function on the closed interval <span class="process-math">\([a,b]\)</span> with <span class="process-math">\(f(a)f(b) \lt 0\text{.}\)</span> The bisection method generates a sequence <span class="process-math">\(\{p_{n}\}\)</span> which converges to <span class="process-math">\(p\text{,}\)</span> a root (where <span class="process-math">\(f(p)=0\)</span> ) within <span class="process-math">\([a,b]\text{,}\)</span> with the property that</div>
+<div class="displaymath process-math" id="eq-bisection-bound">
+\begin{equation}
+|p-p_{n}| \leq \frac{b-a}{2^{n}}\tag{3.2.1}
+\end{equation}
+</div>
+<div class="autopermalink" data-description="Paragraph"><a href="#thm-bisection-converge-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" data-description="Theorem 3.2.8"><a href="#thm-bisection-converge" title="Copy heading and permalink for Theorem 3.2.8" aria-label="Copy heading and permalink for Theorem 3.2.8">🔗</a></div></article><details id="sect-bisection-6-4" class="hiddenproof born-hidden-knowl"><summary class="knowl__link"><h4 class="heading"><span class="type">Proof<span class="period heading-divison-mark heading-divison-mark__period">.</span></span></h4></summary><article class="hiddenproof knowl__content"><div class="para logical" id="sect-bisection-6-4-1">
+<div class="para">The length of the interval <span class="process-math">\(\ell_{n} = b_{n}-a_{n}\)</span> is halved in each step. That is</div>
+<div class="displaymath process-math">
+\begin{equation*}
+b_{n} - a_{n} = \frac{1}{2}(b_{n-1}-a_{n-1}) = \frac{1}{4}(b_{n-2}-a_{n-2}) = \cdots \frac{1}{2^{n}}(b_{0}-a_{0})
+\end{equation*}
+</div>
+<div class="autopermalink" data-description="Paragraph"><a href="#sect-bisection-6-4-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="para logical" id="sect-bisection-6-4-2">
+<div class="para">Since both <span class="process-math">\(p\)</span> and <span class="process-math">\(p_{n}\)</span> are in the interval <span class="process-math">\([a_{n},b_{n}]\text{,}\)</span> thus</div>
+<div class="displaymath process-math">
+\begin{equation*}
+|p-p_{n}| \leq b_{n} - a_{n} = \frac{1}{2^{n}}(b_{0}-a_{0}) = \frac{b-a}{2^{n}}
+\end{equation*}
+</div>
+<div class="autopermalink" data-description="Paragraph"><a href="#sect-bisection-6-4-2" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="para logical" id="sect-bisection-6-4-3">
+<div class="para">And using the squeeze theorem</div>
+<div class="displaymath process-math">
+\begin{equation*}
+\begin{aligned}\lim_{n \rightarrow \infty}|p - p_{n}| = \lim_{n \rightarrow \infty}\frac{1}{2^{n}}(b-a) = 0\end{aligned}
+\end{equation*}
+</div>
+<div class="para">so the sequence <span class="process-math">\(\{ p_{n} \}\)</span> converges to <span class="process-math">\(p\text{.}\)</span>
+</div>
+<div class="autopermalink" data-description="Paragraph"><a href="#sect-bisection-6-4-3" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" data-description="Proof 3.2.4.1"><a href="#sect-bisection-6-4" title="Copy heading and permalink for Proof 3.2.4.1" aria-label="Copy heading and permalink for Proof 3.2.4.1">🔗</a></div></article></details><div class="autopermalink" data-description="Subsection 3.2.4: Analysis of the Bisection Algorithm"><a href="#sect-bisection-6" title="Copy heading and permalink for Subsection 3.2.4: Analysis of the Bisection Algorithm" aria-label="Copy heading and permalink for Subsection 3.2.4: Analysis of the Bisection Algorithm">🔗</a></div></section><section class="subsection" id="sect-bisection-7"><h3 class="heading hide-type">
+<span class="type">Subsection</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">3.2.5</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="title">Order and Rate of Convergence of the Bisection Method</span>
+</h3>
+<div class="para logical" id="sect-bisection-7-2">
+<div class="para">Recall that an iterative method has rate <span class="process-math">\(O(\beta_{n})\)</span> if</div>
+<div class="displaymath process-math">
+\begin{equation*}
+\begin{aligned}|p_{n}-p| \leq \lambda |\beta_{n}|\end{aligned}
+\end{equation*}
+</div>
+<div class="autopermalink" data-description="Paragraph"><a href="#sect-bisection-7-2" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="para" id="sect-bisection-7-3">from <a href="sect-bisection.html#eq-bisection-bound" class="xref" data-knowl="./knowl/xref/eq-bisection-bound.html" data-reveal-label="Reveal" data-close-label="Close" title="Equation 3.2.1">(3.2.1)</a>, <span class="process-math">\(\beta_{n}=1/2^{n}\)</span> and <span class="process-math">\(\lambda = (b-a)\text{,}\)</span> so the bisection method converges with rate <span class="process-math">\(O(1/2^{n})\text{.}\)</span><div class="autopermalink" data-description="Paragraph"><a href="#sect-bisection-7-3" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="para logical" id="sect-bisection-7-4">
+<div class="para">It is a bit more difficult to calculate the order of convergence. Since there is not a simple formula for <span class="process-math">\(p_{n+1}\text{,}\)</span> it is hard to show that</div>
+<div class="displaymath process-math">
+\begin{equation*}
+\begin{aligned}\lim_{n \rightarrow \infty}\frac{p_{n+1}- p}{|p_{n} - p|^{\alpha}}= \lambda\end{aligned}
+\end{equation*}
+</div>
+<div class="para">exists for some <span class="process-math">\(\alpha\)</span> and <span class="process-math">\(\lambda\text{.}\)</span>
+</div>
+<div class="autopermalink" data-description="Paragraph"><a href="#sect-bisection-7-4" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="para logical" id="sect-bisection-7-5">
+<div class="para">Consider, instead, a linearly convergent sequence <span class="process-math">\(\{p_{n}\}\text{.}\)</span> This means that</div>
+<div class="displaymath process-math">
+\begin{equation*}
+\lim_{n \rightarrow \infty}\frac{|p_{n+1}-p|}{|p_{n}-p|}= \lambda.
+\end{equation*}
+</div>
+<div class="autopermalink" data-description="Paragraph"><a href="#sect-bisection-7-5" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="para logical" id="sect-bisection-7-6">
+<div class="para">For large <span class="process-math">\(n\text{,}\)</span> this means that</div>
+<div class="displaymath process-math">
+\begin{equation*}
+\frac{|p_{n+1}-p|}{|p_{n} - p|}\approx \lambda
+\end{equation*}
+</div>
+<div class="para">or</div>
+<div class="displaymath process-math">
+\begin{equation*}
+\begin{aligned}|p_{n+1}- p| \amp \approx \lambda |p_{n} - p| \\ \amp \approx \lambda (\lambda |p_{n-1}- p|)\end{aligned}
+\end{equation*}
+</div>
+<div class="para">and extending this we can show that</div>
+<div class="displaymath process-math">
+\begin{equation*}
+|p_{n+1}- p| \approx \lambda^{n} |p_{1} -p|.
+\end{equation*}
+</div>
+<div class="autopermalink" data-description="Paragraph"><a href="#sect-bisection-7-6" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="para logical" id="sect-bisection-7-7">
+<div class="para">Since</div>
+<div class="displaymath process-math">
+\begin{equation*}
+|p_{n+1}- p| \leq \frac{b-a}{2^{n+1}}
+\end{equation*}
+</div>
+<div class="para">we can say that the bisection is approximately linear with <span class="process-math">\(\lambda = 1/2\text{.}\)</span>
+</div>
+<div class="autopermalink" data-description="Paragraph"><a href="#sect-bisection-7-7" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" data-description="Subsection 3.2.5: Order and Rate of Convergence of the Bisection Method"><a href="#sect-bisection-7" title="Copy heading and permalink for Subsection 3.2.5: Order and Rate of Convergence of the Bisection Method" aria-label="Copy heading and permalink for Subsection 3.2.5: Order and Rate of Convergence of the Bisection Method">🔗</a></div></section><section class="subsection" id="sect-bisection-8"><h3 class="heading hide-type">
+<span class="type">Subsection</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">3.2.6</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="title">Stopping Conditions for the Bisection Method</span>
+</h3>
+<div class="para" id="sect-bisection-8-2">We have shown above that the bisection method converges and <a href="sect-bisection.html#thm-bisection-converge" class="xref" data-knowl="./knowl/xref/thm-bisection-converge.html" data-reveal-label="Reveal" data-close-label="Close" title="Theorem 3.2.8">Theorem 3.2.8</a> shows precisely the number of iterations needed to guarantee an error bound. There are three standard ways to determine when to stop:<div class="autopermalink" data-description="Paragraph"><a href="#sect-bisection-8-2" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="para logical" id="sect-bisection-8-3">
+<ol class="decimal" id="sect-bisection-8-3-1">
+<li id="sect-bisection-8-3-1-1">
+<div class="para logical" id="sect-bisection-8-3-1-1-1">
+<div class="para">The absolute error in the location of the root:</div>
+<div class="displaymath process-math">
+\begin{equation*}
+\begin{aligned}|p_{n}-p| \leq \frac{1}{2^{n}}(b_{0}-a_{0}) \leq \epsilon\end{aligned}
+\end{equation*}
+</div>
+<div class="autopermalink" data-description="Paragraph"><a href="#sect-bisection-8-3-1-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" data-description="Item 1"><a href="#sect-bisection-8-3-1-1" title="Copy heading and permalink for Item 1" aria-label="Copy heading and permalink for Item 1">🔗</a></div>
+</li>
+<li id="sect-bisection-8-3-1-2">
+<div class="para logical" id="sect-bisection-8-3-1-2-1">
+<div class="para">The relative error in the location of the root:</div>
+<div class="displaymath process-math">
+\begin{equation*}
+\frac{|p_{n} -p|}{|p_{n}|}\leq \frac{1}{|p_{n}| 2^{n}}(b_{0}-a_{0}) \leq \epsilon.
+\end{equation*}
+</div>
+<div class="autopermalink" data-description="Paragraph"><a href="#sect-bisection-8-3-1-2-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" data-description="Item 2"><a href="#sect-bisection-8-3-1-2" title="Copy heading and permalink for Item 2" aria-label="Copy heading and permalink for Item 2">🔗</a></div>
+</li>
+<li id="sect-bisection-8-3-1-3">
+<div class="para logical" id="sect-bisection-8-3-1-3-1">
+<div class="para">The root is reached within <span class="process-math">\(\epsilon\)</span>
+</div>
+<div class="displaymath process-math">
+\begin{equation*}
+|f(p_{n})| \leq \epsilon
+\end{equation*}
+</div>
+<div class="autopermalink" data-description="Paragraph"><a href="#sect-bisection-8-3-1-3-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" data-description="Item 3"><a href="#sect-bisection-8-3-1-3" title="Copy heading and permalink for Item 3" aria-label="Copy heading and permalink for Item 3">🔗</a></div>
+</li>
+</ol>
+<div class="autopermalink" data-description="Paragraph"><a href="#sect-bisection-8-3" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="para" id="sect-bisection-8-4">Determination of which method often depends what you are looking for.<div class="autopermalink" data-description="Paragraph"><a href="#sect-bisection-8-4" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<details id="sect-bisection-8-5" class="example example-like born-hidden-knowl"><summary class="knowl__link"><h4 class="heading">
+<span class="type">Example</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">3.2.9</span><span class="period heading-divison-mark heading-divison-mark__period">.</span>
+</h4></summary><article class="example example-like knowl__content"><div class="para" id="sect-bisection-8-5-1-1">Consider the function <span class="process-math">\(f(x) = 10x^{3} - 2000\text{.}\)</span> Perform the bisection method using the interval <span class="process-math">\([0,10]\)</span> and using each stopping condition for <span class="process-math">\(\epsilon = 0.01\text{.}\)</span> Report the number of steps needs for each.<div class="autopermalink" data-description="Paragraph"><a href="#sect-bisection-8-5-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="solutions"><details id="sect-bisection-8-5-2" class="solution solution-like born-hidden-knowl"><summary class="knowl__link"><span class="type">Solution</span><span class="period heading-divison-mark heading-divison-mark__period">.</span></summary><div class="solution solution-like knowl__content">
+<div class="para" id="sect-bisection-8-5-2-1">If we use the Bisection algorithm on this function for the given starting interval, we get the following table. From this we can see when the stopping condition is reached.<div class="autopermalink" data-description="Paragraph"><a href="#sect-bisection-8-5-2-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<figure class="table table-like" id="sect-bisection-8-5-2-2"><figcaption><span class="type">Table</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">3.2.10<span class="period heading-divison-mark heading-divison-mark__period">.</span></span><span class="space heading-divison-mark heading-divison-mark__space"> </span>TITLE<div class="autopermalink" data-description="Table 3.2.10: TITLE"><a href="#sect-bisection-8-5-2-2" title="Copy heading and permalink for Table 3.2.10: TITLE" aria-label="Copy heading and permalink for Table 3.2.10: TITLE">🔗</a></div></figcaption><div class="tabular-box natural-width"><table class="tabular">
+<tr>
+<td class="l m b1 r0 l0 t0 lines"><span class="process-math">\(n\)</span></td>
+<td class="l m b1 r0 l0 t0 lines"><span class="process-math">\(a\)</span></td>
+<td class="l m b1 r0 l0 t0 lines"><span class="process-math">\(f(a)\)</span></td>
+<td class="l m b1 r0 l0 t0 lines"><span class="process-math">\(b\)</span></td>
+<td class="l m b1 r0 l0 t0 lines"><span class="process-math">\(f(b)\)</span></td>
+<td class="l m b1 r0 l0 t0 lines"><span class="process-math">\(c\)</span></td>
+<td class="l m b1 r0 l0 t0 lines"><span class="process-math">\(f(c)\)</span></td>
+<td class="l m b1 r0 l0 t0 lines">abs. error</td>
+<td class="l m b1 r0 l0 t0 lines">rel. error</td>
+</tr>
+<tr><td class="l m b0 r0 l0 t0 lines"></td></tr>
+<tr>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(0\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(0.00000\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(-2000.00\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(10.0000\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(8000.00\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(5.00000\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(-750.000\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(10.0000\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(2.00000\)</span></td>
+</tr>
+<tr>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(1\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(5.00000\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(-750.000\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(10.0000\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(8000.00\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(7.50000\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(2218.750\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(5.00000\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(0.66667\)</span></td>
+</tr>
+<tr>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(2\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(5.00000\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(-750.000\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(7.50000\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(2218.75\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(6.25000\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(441.4063\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(2.50000\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(0.40000\)</span></td>
+</tr>
+<tr>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(3\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(5.00000\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(-750.000\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(6.25000\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(441.406\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(5.62500\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(-220.21\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(1.25000\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(0.22222\)</span></td>
+</tr>
+<tr>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(4\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(5.62500\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(-220.215\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(6.25000\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(441.406\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(5.93750\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(93.20068\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(0.62500\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(0.10526\)</span></td>
+</tr>
+<tr>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(5\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(5.62500\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(-220.215\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(5.93750\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(93.2007\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(5.78125\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(-67.741\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(0.31250\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(0.05405\)</span></td>
+</tr>
+<tr>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(6\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(5.78125\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(-67.7414\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(5.93750\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(93.2007\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(5.85938\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(11.65676\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(0.15625\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(0.02667\)</span></td>
+</tr>
+<tr>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(7\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(5.78125\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(-67.7414\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(5.85938\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(11.6568\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(5.82031\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(-28.309\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(0.07813\)</span></td>
+<td class="l m b1 r0 l0 t0 lines"><span class="process-math">\(0.01342\)</span></td>
+</tr>
+<tr>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(8\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(5.82031\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(-28.3088\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(5.85938\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(11.6568\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(5.83984\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(-8.39283\)</span></td>
+<td class="l m b0 r1 l0 t0 lines"><span class="process-math">\(0.03906\)</span></td>
+<td class="l m b1 r1 l0 t0 lines"><span class="process-math">\(0.00669\)</span></td>
+</tr>
+<tr>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(9\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(5.83984\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(-8.39283\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(5.85938\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(11.6568\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(5.84961\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(1.61523\)</span></td>
+<td class="l m b1 r0 l0 t0 lines"><span class="process-math">\(0.01953\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(0.00334\)</span></td>
+</tr>
+<tr>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(10\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(5.83984\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(-8.39283\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(5.84961\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(1.61523\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(5.84473\)</span></td>
+<td class="l m b0 r1 l0 t0 lines"><span class="process-math">\(-3.39298\)</span></td>
+<td class="l m b1 r1 l0 t0 lines"><span class="process-math">\(0.00977\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(0.00167\)</span></td>
+</tr>
+<tr>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(11\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(5.84473\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(-3.39298\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(5.84961\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(1.61523\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(5.84717\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(-0.88992\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(0.00488\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(0.00084\)</span></td>
+</tr>
+<tr>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(12\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(5.84717\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(-0.88992\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(5.84961\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(1.61523\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(5.84839\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(0.36240\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(0.00244\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(0.00042\)</span></td>
+</tr>
+<tr>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(13\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(5.84717\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(-0.88992\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(5.84839\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(0.36240\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(5.84778\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(-0.26383\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(0.00122\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(0.00021\)</span></td>
+</tr>
+<tr>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(14\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(5.84778\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(-0.26383\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(5.84839\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(0.36240\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(5.84808\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(0.04927\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(0.00061\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(0.00010\)</span></td>
+</tr>
+<tr>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(15\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(5.84778\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(-0.26383\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(5.84808\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(0.04927\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(5.84793\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(-0.10728\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(0.00031\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(0.00005\)</span></td>
+</tr>
+<tr>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(16\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(5.84793\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(-0.10728\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(5.84808\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(0.04927\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(5.84801\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(-0.02901\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(0.00015\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(0.00003\)</span></td>
+</tr>
+<tr>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(17\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(5.84801\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(-0.02901\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(5.84808\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(0.04927\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(5.84805\)</span></td>
+<td class="l m b1 r0 l0 t0 lines"><span class="process-math">\(0.01013\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(0.00008\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(0.00001\)</span></td>
+</tr>
+<tr>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(18\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(5.84801\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(-0.02901\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(5.84805\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(0.01013\)</span></td>
+<td class="l m b0 r1 l0 t0 lines"><span class="process-math">\(5.84803\)</span></td>
+<td class="l m b1 r1 l0 t0 lines"><span class="process-math">\(-0.00944\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(0.00004\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(0.00001\)</span></td>
+</tr>
+<tr>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(19\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(5.84803\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(-0.00944\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(5.84805\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(0.01013\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(5.84804\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(0.00034\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(0.00002\)</span></td>
+<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(0.00000\)</span></td>
+</tr>
+</table></div></figure><div class="para" id="sect-bisection-8-5-2-3">The first stopping condition occurs when <span class="process-math">\(n=10\text{,}\)</span> the second stopping condition occurs when <span class="process-math">\(n=8\)</span> and the final condition occurs when <span class="process-math">\(n=18\text{.}\)</span> Each are boxed above.<div class="autopermalink" data-description="Paragraph"><a href="#sect-bisection-8-5-2-3" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="para" id="sect-bisection-8-5-2-4">If we stop at different values of <span class="process-math">\(n\text{,}\)</span> there is a different approximate root.<div class="autopermalink" data-description="Paragraph"><a href="#sect-bisection-8-5-2-4" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" data-description="Solution 3.2.9.1"><a href="#sect-bisection-8-5-2" title="Copy heading and permalink for Solution 3.2.9.1" aria-label="Copy heading and permalink for Solution 3.2.9.1">🔗</a></div>
+</div></details></div>
+<div class="autopermalink" data-description="Example 3.2.9"><a href="#sect-bisection-8-5" title="Copy heading and permalink for Example 3.2.9" aria-label="Copy heading and permalink for Example 3.2.9">🔗</a></div></article></details><div class="para" id="sect-bisection-8-6">From the above example, one can see that using different stopping conditions give different results. A natural question to ask is which condition to use and of course the answer is it depends. If you need to ensure that you have reached a certain number of digits of accuracy, then 1) is good, and if you are just trying to find an answer that has a very small function value then 3) is good.<div class="autopermalink" data-description="Paragraph"><a href="#sect-bisection-8-6" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" data-description="Subsection 3.2.6: Stopping Conditions for the Bisection Method"><a href="#sect-bisection-8" title="Copy heading and permalink for Subsection 3.2.6: Stopping Conditions for the Bisection Method" aria-label="Copy heading and permalink for Subsection 3.2.6: Stopping Conditions for the Bisection Method">🔗</a></div></section><div class="autopermalink" data-description="Section 3.2: The Bisection Method"><a href="#sect-bisection" title="Copy heading and permalink for Section 3.2: The Bisection Method" aria-label="Copy heading and permalink for Section 3.2: The Bisection Method">🔗</a></div></section></div>
+<div id="ptx-content-footer" class="ptx-content-footer">
+<a class="previous-button button" href="sect-intro-rootfinding.html" title="Previous"><span class="icon material-symbols-outlined" aria-hidden="true">&#xe5cb;</span><span class="name">Prev</span></a><a class="top-button button" href="#" title="Top"><span class="icon material-symbols-outlined" aria-hidden="true">&#xe5ce;</span><span class="name">Top</span></a><a class="next-button button" href="sect-fixed-point.html" title="Next"><span class="name">Next</span><span class="icon material-symbols-outlined" aria-hidden="true">&#xe5cc;</span></a>
+</div></main>
+</div>
+<div id="ptx-page-footer" class="ptx-page-footer">
+<a class="pretext-link" href="https://pretextbook.org" title="PreTeXt"><div class="logo"><svg xmlns="http://www.w3.org/2000/svg" height="100%" viewBox="338 3000 8772 6866" role="img"><title>PreTeXt logo</title><g style="stroke-width:.025in; stroke:currentColor; fill:none"><polyline points="472,3590 472,9732 " style="stroke-width:174; stroke-linejoin:miter; stroke-linecap:round; "></polyline><path style="stroke-width:126;stroke-linecap:butt;" d="M 4724,9448 A 4660 4660  0  0  1  8598  9259"></path><path style="stroke-width:174;stroke-linecap:butt;" d="M 4488,9685 A 4228 4228  0  0  0   472  9732"></path><path style="stroke-width:126;stroke-linecap:butt;" d="M 4724,3590 A 4241 4241  0  0  1  8598  3496"></path><path style="stroke-width:126;stroke-linecap:round;" d="M 850,3496  A 4241 4241  0  0  1  4724  3590"></path><path style="stroke-width:126;stroke-linecap:round;" d="M 850,9259  A 4507 4507  0  0  1  4724  9448"></path><polyline points="5385,4299 4062,8125" style="stroke-width:300; stroke-linejoin:miter; stroke-linecap:round;"></polyline><polyline points="8598,3496 8598,9259" style="stroke-width:126; stroke-linejoin:miter; stroke-linecap:round;"></polyline><polyline points="850,3496 850,9259" style="stroke-width:126; stroke-linejoin:miter; stroke-linecap:round;"></polyline><polyline points="4960,9685 4488,9685" style="stroke-width:174; stroke-linejoin:miter; stroke-linecap:round;"></polyline><polyline points="3070,4582 1889,6141 3070,7700" style="stroke-width:300; stroke-linejoin:miter; stroke-linecap:round;"></polyline><polyline points="6418,4582 7600,6141 6418,7700" style="stroke-width:300; stroke-linejoin:miter; stroke-linecap:round;"></polyline><polyline points="8976,3590 8976,9732" style="stroke-width:174; stroke-linejoin:miter; stroke-linecap:round;"></polyline><path style="stroke-width:174;stroke-linecap:butt;" d="M 4960,9685 A 4228 4228  0  0  1  8976  9732"></path></g></svg></div></a><a class="runestone-link" href="https://runestone.academy" title="Runestone Academy"><img class="logo" src="https://runestone.academy/runestone/static/images/RAIcon_cropped.png" alt="Runstone Academy logo"></a><a class="mathjax-link" href="https://www.mathjax.org" title="MathJax"><img class="logo" src="https://www.mathjax.org/badge/badge-square-2.png" alt="MathJax logo"></a>
+</div>
+</body>
+</html>
