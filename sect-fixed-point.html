@@ -101,14 +101,14 @@ eBookConfig.allow_pairs = false;
 eBookConfig.enableScratchAC = false;
 eBookConfig.build_info = "";
 eBookConfig.python3 = null;
-eBookConfig.runestone_version = '7.9.13';
+eBookConfig.runestone_version = '7.9.18';
 eBookConfig.jobehost = '';
 eBookConfig.proxyuri_runs = '';
 eBookConfig.proxyuri_files = '';
 eBookConfig.enable_chatcodes =  false;
 </script>
 <!--*** Runestone Services ***-->
-<script src="_static/prefix-runtime.9f7f6b353cd8c357.bundle.js"></script><script src="_static/prefix-723.3e6434f80549315a.bundle.js"></script><script src="_static/prefix-runestone.629fdbd852876870.bundle.js"></script><link rel="stylesheet" type="text/css" href="_static/prefix-723.3bccd435914aa0ff.css">
+<script src="_static/prefix-runtime.cefb0224014f3333.bundle.js"></script><script src="_static/prefix-723.3e6434f80549315a.bundle.js"></script><script src="_static/prefix-runestone.c50cdcad467c8d3e.bundle.js"></script><link rel="stylesheet" type="text/css" href="_static/prefix-723.3bccd435914aa0ff.css">
 <link rel="stylesheet" type="text/css" href="_static/prefix-runestone.557d81b04b3ec0e4.css">
 <script src="_static/pretext/js/lti_iframe_resizer.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/lunr.js/2.3.9/lunr.min.js" integrity="sha512-4xUl/d6D6THrAnXAwGajXkoWaeMNwEKK4iNfq5DotEbLPAfk6FSxSP3ydNxqDgCw1c/0Z1Jg6L8h2j+++9BZmg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><script src="lunr-pretext-search-index.js" async=""></script><script src="_static/pretext/js/pretext_search.js"></script><script src="_static/pretext/js/lib/knowl.js"></script><!--knowl.js code controls Sage Cells within knowls--><script>sagecellEvalName='Evaluate (Sage)';
 </script>
@@ -138,6 +138,12 @@ eBookConfig.enable_chatcodes =  false;
 \newcommand{\bv}{\boldsymbol{v}}
 \newcommand{\bw}{\boldsymbol{w}}
 \newcommand{\bzero}{\boldsymbol{0}}
+\DeclareMathOperator{\rad}{rad}
+\DeclareMathOperator{\midpt}{midpt}
+\DeclareMathOperator{\diam}{diam}
+\DeclareMathOperator{\mig}{mig}
+\DeclareMathOperator{\magn}{mag}
+\DeclareMathOperator{\abs}{abs}
 \newcommand{\lt}{&lt;}
 \newcommand{\gt}{&gt;}
 \newcommand{\amp}{&amp;}
@@ -214,7 +220,7 @@ eBookConfig.enable_chatcodes =  false;
 <li class="toc-item toc-section">
 <div class="toc-title-box"><a href="sect-algorithms.html" class="internal"><span class="codenumber">2.2</span> <span class="title">Algorithms</span></a></div>
 <ul class="structural toc-item-list">
-<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-algorithms.html#sect-algorithms-3" class="internal"><span class="codenumber">2.2.1</span> <span class="title">Newtons’ Method: A Better Square Root Algorithm</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-algorithms.html#sect-intro-newtons" class="internal"><span class="codenumber">2.2.1</span> <span class="title">Newtons’ Method: A Better Square Root Algorithm</span></a></div></li>
 <li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-algorithms.html#sect-algorithms-4" class="internal"><span class="codenumber">2.2.2</span> <span class="title">YASRA: Yet Another Square Root Algorithm</span></a></div></li>
 <li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-algorithms.html#sect-algorithms-5" class="internal"><span class="codenumber">2.2.3</span> <span class="title">Analyzing Algorithms</span></a></div></li>
 </ul>
@@ -280,6 +286,7 @@ eBookConfig.enable_chatcodes =  false;
 <ul class="structural toc-item-list">
 <li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-newtons-method.html#sect-newtons-method-3" class="internal"><span class="codenumber">3.4.1</span> <span class="title">Performing Newton’s Method using a Spreadsheet</span></a></div></li>
 <li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-newtons-method.html#sect-newtons-method-4" class="internal"><span class="codenumber">3.4.2</span> <span class="title">Analysis of Newton’s Method</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-newtons-method.html#sect-newtons-method-5" class="internal"><span class="codenumber">3.4.3</span> <span class="title">Newton’s Method for roots of multiplicity greater than 1</span></a></div></li>
 </ul>
 </li>
 </ul>
@@ -445,14 +452,34 @@ eBookConfig.enable_chatcodes =  false;
 </li>
 <li class="toc-item toc-chapter">
 <div class="toc-title-box"><a href="ch-validated-numerics.html" class="internal"><span class="codenumber">8</span> <span class="title">Validated Numerics</span></a></div>
-<ul class="structural toc-item-list"><li class="toc-item toc-section"><div class="toc-title-box"><a href="sect-interval-arithemtic.html" class="internal"><span class="codenumber">8.1</span> <span class="title">Interval Arithmetic</span></a></div></li></ul>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-section">
+<div class="toc-title-box"><a href="sect-interval-arithemtic.html" class="internal"><span class="codenumber">8.1</span> <span class="title">Interval Arithmetic</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-interval-arithemtic.html#sect-interval-arithemtic-3" class="internal"><span class="codenumber">8.1.1</span> <span class="title">Basic Interval Operations</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-interval-arithemtic.html#sect-interval-arithemtic-4" class="internal"><span class="codenumber">8.1.2</span> <span class="title">Operations on Intervals</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-interval-arithemtic.html#sect-interval-arithemtic-5" class="internal"><span class="codenumber">8.1.3</span> <span class="title">Computational Concerns</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-interval-arithemtic.html#sect-interval-arithemtic-6" class="internal"><span class="codenumber">8.1.4</span> <span class="title">Expanding the idea of division</span></a></div></li>
+</ul>
+</li>
+<li class="toc-item toc-section"><div class="toc-title-box"><a href="ch-validated-numerics-4.html" class="internal"><span class="codenumber">8.2</span> <span class="title">An Abstract Look at Intervals</span></a></div></li>
+<li class="toc-item toc-section"><div class="toc-title-box"><a href="sect-function-intervals.html" class="internal"><span class="codenumber">8.3</span> <span class="title">Functions Defined on Intervals</span></a></div></li>
+<li class="toc-item toc-section">
+<div class="toc-title-box"><a href="sect-interval-rootfinding.html" class="internal"><span class="codenumber">8.4</span> <span class="title">Rootfinding using Intervals</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-interval-rootfinding.html#sect-interval-bisection" class="internal"><span class="codenumber">8.4.1</span> <span class="title">The Bisection Method Revisited</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-interval-rootfinding.html#sect-interval-rootfinding-3" class="internal"><span class="codenumber">8.4.2</span> <span class="title">Interval Newton’s Method</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-interval-rootfinding.html#sect-interval-rootfinding-4" class="internal"><span class="codenumber">8.4.3</span> <span class="title">Krawczyk Method</span></a></div></li>
+</ul>
+</li>
+</ul>
 </li>
 <li class="toc-item toc-backmatter"><div class="toc-title-box"><a href="backmatter.html" class="internal"><span class="title">Backmatter</span></a></div></li>
 </ul></nav></div>
 <main class="ptx-main"><div id="ptx-content" class="ptx-content"><section class="section" id="sect-fixed-point"><h2 class="heading hide-type">
 <span class="type">Section</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">3.3</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="title">Fixed Point Iteration Schemes</span>
 </h2>
-<section class="introduction" id="sect-fixed-point-2"><div class="para" id="sect-fixed-point-2-1">Thus far, in this chapter we have seen the bisection method and later we will see Newton’s Method (which we saw briefly in Chapter ch:intro). Newton’s method and other rootfinding techniques fall into a general scheme called fixed point iteration schemes. In short, if we have a function <span class="process-math">\(g(x)\)</span> and a sequence can be generated by knowing <span class="process-math">\(x_{0}\)</span> and then for subsequence terms, <span class="process-math">\(x_{n+1}= g(x_{n})\text{,}\)</span> this is a fixed point iteration.<div class="autopermalink" data-description="Paragraph"><a href="#sect-fixed-point-2-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+<section class="introduction" id="sect-fixed-point-2"><div class="para" id="sect-fixed-point-2-1">Thus far, in this chapter we have seen the bisection method and later we will see Newton’s Method (which we saw briefly in <a href="sect-algorithms.html#sect-intro-newtons" class="internal" title="Subsection 2.2.1: Newtons’ Method: A Better Square Root Algorithm">Subsection 2.2.1</a>). This and other rootfinding techniques fall into a general scheme called fixed point iteration schemes. In short, if we have a function <span class="process-math">\(g(x)\)</span> and a sequence can be generated by knowing <span class="process-math">\(x_{0}\)</span> and then for subsequence terms, <span class="process-math">\(x_{n+1}= g(x_{n})\text{,}\)</span> this is a fixed point iteration.<div class="autopermalink" data-description="Paragraph"><a href="#sect-fixed-point-2-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
 </div>
 <article class="definition definition-like" id="sect-fixed-point-2-2"><h3 class="heading">
 <span class="type">Definition</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">3.3.1</span><span class="period heading-divison-mark heading-divison-mark__period">.</span>
@@ -470,7 +497,7 @@ eBookConfig.enable_chatcodes =  false;
 </div>
 <details id="sect-fixed-point-2-5" class="example example-like born-hidden-knowl"><summary class="knowl__link"><h3 class="heading">
 <span class="type">Example</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">3.3.4</span><span class="period heading-divison-mark heading-divison-mark__period">.</span>
-</h3></summary><article class="example example-like knowl__content"><div class="para" id="sect-fixed-point-2-5-1-1">Run the iterations <span class="process-math">\(x_{n+1}= \cos x_{n}\)</span> where <span class="process-math">\(x_{0}=1\)</span> and <span class="process-math">\(n=0,1,2,3,4,5\text{.}\)</span> That is evaluate the fixed point iteration for <span class="process-math">\(g(x)=\cos x\)</span> with given initial point.<div class="autopermalink" data-description="Paragraph"><a href="#sect-fixed-point-2-5-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</h3></summary><article class="example example-like knowl__content"><div class="para" id="sect-fixed-point-2-5-1-1">Iterate with <span class="process-math">\(x_{n+1}= \cos x_{n}\)</span> where <span class="process-math">\(x_{0}=1\)</span> and <span class="process-math">\(n=1,2,3,\ldots,24\text{.}\)</span> That is evaluate the fixed point iteration for <span class="process-math">\(g(x)=\cos x\)</span> with given initial point.<div class="autopermalink" data-description="Paragraph"><a href="#sect-fixed-point-2-5-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
 </div>
 <div class="solutions"><details id="sect-fixed-point-2-5-2" class="solution solution-like born-hidden-knowl"><summary class="knowl__link"><span class="type">Solution</span><span class="period heading-divison-mark heading-divison-mark__period">.</span></summary><div class="solution solution-like knowl__content">
 <div class="para logical" id="sect-fixed-point-2-5-2-1">
@@ -488,9 +515,9 @@ eBookConfig.enable_chatcodes =  false;
 <div class="autopermalink" data-description="Example 3.3.4"><a href="#sect-fixed-point-2-5" title="Copy heading and permalink for Example 3.3.4" aria-label="Copy heading and permalink for Example 3.3.4">🔗</a></div></article></details><div class="para" id="sect-fixed-point-2-6">From the last example, it appears that if we iterate a function, we can find where it crosses the line <span class="process-math">\(y=x\text{.}\)</span> Consider the function <span class="process-math">\(g(x)= x^{4}-2.5x^{2}+1\)</span> and note that it crosses the line <span class="process-math">\(y=x\)</span> in two locations from the following plot:<div class="autopermalink" data-description="Paragraph"><a href="#sect-fixed-point-2-6" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
 </div>
 <figure class="figure figure-like" id="fig-f-two-intersections"><div class="image-box" style="width: 70%; margin-left: 15%; margin-right: 15%;"><img src="generated/latex-image/fig-f-two-intersections-2.svg" role="img" class="contained" alt=""></div>
-<figcaption><span class="type">Figure</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">3.3.5<span class="period heading-divison-mark heading-divison-mark__period">.</span></span><span class="space heading-divison-mark heading-divison-mark__space"> </span><div class="autopermalink" data-description="Figure 3.3.5"><a href="#fig-f-two-intersections" title="Copy heading and permalink for Figure 3.3.5" aria-label="Copy heading and permalink for Figure 3.3.5">🔗</a></div></figcaption></figure><details id="sect-fixed-point-2-8" class="example example-like born-hidden-knowl"><summary class="knowl__link"><h3 class="heading">
+<figcaption><span class="type">Figure</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">3.3.5<span class="period heading-divison-mark heading-divison-mark__period">.</span></span><span class="space heading-divison-mark heading-divison-mark__space"> </span>A graph of the function <span class="process-math">\(g(x)x^4-2.5x^2+1\)</span> and the line <span class="process-math">\(y=x\text{.}\)</span><div class="autopermalink" data-description="Figure 3.3.5"><a href="#fig-f-two-intersections" title="Copy heading and permalink for Figure 3.3.5" aria-label="Copy heading and permalink for Figure 3.3.5">🔗</a></div></figcaption></figure><details id="sect-fixed-point-2-8" class="example example-like born-hidden-knowl"><summary class="knowl__link"><h3 class="heading">
 <span class="type">Example</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">3.3.6</span><span class="period heading-divison-mark heading-divison-mark__period">.</span>
-</h3></summary><article class="example example-like knowl__content"><div class="para" id="sect-fixed-point-2-8-1-1">Run the fixed point iteration <span class="process-math">\(x_{n+1}= g(x_{n})\)</span> for <span class="process-math">\(x_{0}=1\)</span> when the function is <span class="process-math">\(g(x)=x^{4}-2.5x^{2}+1\text{.}\)</span><div class="autopermalink" data-description="Paragraph"><a href="#sect-fixed-point-2-8-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</h3></summary><article class="example example-like knowl__content"><div class="para" id="sect-fixed-point-2-8-1-1">Iterate <span class="process-math">\(x_{n+1}= g(x_{n})\)</span> for <span class="process-math">\(x_{0}=1\)</span> when the function is <span class="process-math">\(g(x)=x^{4}-2.5x^{2}+1\)</span> for <span class="process-math">\(n=1,2,\ldots, 24\text{.}\)</span><div class="autopermalink" data-description="Paragraph"><a href="#sect-fixed-point-2-8-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
 </div>
 <div class="solutions"><details id="sect-fixed-point-2-8-2" class="solution solution-like born-hidden-knowl"><summary class="knowl__link"><span class="type">Solution</span><span class="period heading-divison-mark heading-divison-mark__period">.</span></summary><div class="solution solution-like knowl__content">
 <div class="para logical" id="sect-fixed-point-2-8-2-1">
@@ -518,9 +545,7 @@ eBookConfig.enable_chatcodes =  false;
 <div class="para">Because the range of <span class="process-math">\(g\)</span> is a subset of <span class="process-math">\([a,b]\text{,}\)</span> <span class="process-math">\(\min_{x \in [a,b]}g(x) \geq a\)</span> and <span class="process-math">\(\max_{x \in [a,b]}g(x) \leq b\text{.}\)</span> Therefore</div>
 <div class="displaymath process-math">
 \begin{equation*}
-\begin{aligned}
-h(a) \amp = g(a)-a \geq 0 \amp \text{and} \amp \amp h(b) \amp = g(b)-b \leq 0
-\end{aligned}
+\begin{aligned} h(a) \amp = g(a)-a \geq 0 \amp \text{and} \amp \amp h(b) \amp = g(b)-b \leq 0 \end{aligned}
 \end{equation*}
 </div>
 <div class="autopermalink" data-description="Paragraph"><a href="#thm-fixed-pt-3-2" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
@@ -541,17 +566,18 @@ h(a) \amp = g(a)-a \geq 0 \amp \text{and} \amp \amp h(b) \amp = g(b)-b \leq 0
 </div>
 <div class="para logical" id="sect-fixed-point-2-12">
 <div class="para">In the second case, when <span class="process-math">\(g(x)=x^{4}-2.5x^{2}+1\text{,}\)</span> there are two fixed points. Using a different method, <span class="process-math">\(p_{1}=0.4790137621\)</span> and <span class="process-math">\(p_{2}= 1.655034382\)</span> are both fixed points and</div>
-<div class="displaymath process-math">
+<div class="displaymath process-math" data-contains-math-knowls="./knowl/xref/thm-fixed-pt.html">
 \begin{equation*}
 \begin{aligned}f'(p_{1}) \amp = -1.955421962 \amp f'(p_{2}) \amp = 9.858303690\end{aligned}
 \end{equation*}
 </div>
-<div class="para">and in both cases the absolute value is greater than 1. The fact that if <span class="process-math">\(|f'(p)| \gt 1\)</span> the sequence diverges is not a consequence of Theorem thm:fixed:pt, but may explain why we see the results.</div>
+<div class="para">and in both cases the absolute value is greater than 1. The fact that if <span class="process-math">\(|f'(p)| \gt 1\)</span> the sequence diverges is not a consequence of <a href="sect-fixed-point.html#thm-fixed-pt" class="xref" data-knowl="./knowl/xref/thm-fixed-pt.html" data-reveal-label="Reveal" data-close-label="Close" title="Theorem 3.3.7: Fixed Point Theorem">Theorem 3.3.7</a>, but may explain why we see the results.</div>
 <div class="autopermalink" data-description="Paragraph"><a href="#sect-fixed-point-2-12" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
 </div></section><section class="subsection" id="sect-fixed-point-3"><h3 class="heading hide-type">
 <span class="type">Subsection</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">3.3.1</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="title">Additional Analysis of Fixed Point Iterations</span>
 </h3>
-<div class="para" id="sect-fixed-point-3-2">Theorem thm:fixed:pt is extremely helpful for analyzing fixed points—especially to determine where an iteration will converge to a fixed point or not. In this section, we go further with the analysis. The last two theorems will determine the order of converge to the fixed point. First, however, we examine a theorem that determines how close an term of the sequence is to the fixed point.<div class="autopermalink" data-description="Paragraph"><a href="#sect-fixed-point-3-2" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+<div class="para" id="sect-fixed-point-3-2">
+<a href="sect-fixed-point.html#thm-fixed-pt" class="xref" data-knowl="./knowl/xref/thm-fixed-pt.html" data-reveal-label="Reveal" data-close-label="Close" title="Theorem 3.3.7: Fixed Point Theorem">Theorem 3.3.7</a> is extremely helpful for analyzing fixed points—especially to determine where an iteration will converge to a fixed point or not. In this section, we go further with the analysis. The last two theorems will determine the order of converge to the fixed point. First, however, we examine a theorem that determines how close an term of the sequence is to the fixed point.<div class="autopermalink" data-description="Paragraph"><a href="#sect-fixed-point-3-2" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
 </div>
 <article class="theorem theorem-like" id="thm-fixed-point-bounds"><h4 class="heading">
 <span class="type">Theorem</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">3.3.8</span><span class="period heading-divison-mark heading-divison-mark__period">.</span>
@@ -579,7 +605,7 @@ h(a) \amp = g(a)-a \geq 0 \amp \text{and} \amp \amp h(b) \amp = g(b)-b \leq 0
 </ol>
 <div class="autopermalink" data-description="Paragraph"><a href="#thm-fixed-point-bounds-1-2" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
 </div>
-<div class="autopermalink" data-description="Theorem 3.3.8"><a href="#thm-fixed-point-bounds" title="Copy heading and permalink for Theorem 3.3.8" aria-label="Copy heading and permalink for Theorem 3.3.8">🔗</a></div></article><div class="para" id="sect-fixed-point-3-4">First, note that the hypotheses of the theorem are the same as the fixed point theorem (Theorem thm:fixed:pt), so we know that there is a unique fixed point. This theorem gives us much more information about the iterations.<div class="autopermalink" data-description="Paragraph"><a href="#sect-fixed-point-3-4" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+<div class="autopermalink" data-description="Theorem 3.3.8"><a href="#thm-fixed-point-bounds" title="Copy heading and permalink for Theorem 3.3.8" aria-label="Copy heading and permalink for Theorem 3.3.8">🔗</a></div></article><div class="para" id="sect-fixed-point-3-4">First, note that the hypotheses of the theorem are the same as the fixed point theorem (<a href="sect-fixed-point.html#thm-fixed-pt" class="xref" data-knowl="./knowl/xref/thm-fixed-pt.html" data-reveal-label="Reveal" data-close-label="Close" title="Theorem 3.3.7: Fixed Point Theorem">Theorem 3.3.7</a>), so we know that there is a unique fixed point. This theorem gives us much more information about the iterations.<div class="autopermalink" data-description="Paragraph"><a href="#sect-fixed-point-3-4" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
 </div>
 <details id="sect-fixed-point-3-5" class="hiddenproof born-hidden-knowl"><summary class="knowl__link"><h4 class="heading"><span class="type">Proof<span class="period heading-divison-mark heading-divison-mark__period">.</span></span></h4></summary><article class="hiddenproof knowl__content"><div class="para logical" id="sect-fixed-point-3-5-1">
 <ol class="decimal" id="sect-fixed-point-3-5-1-1">
@@ -683,7 +709,7 @@ h(a) \amp = g(a)-a \geq 0 \amp \text{and} \amp \amp h(b) \amp = g(b)-b \leq 0
 <article class="theorem theorem-like" id="thm-fixed-point-2"><h4 class="heading">
 <span class="type">Theorem</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">3.3.9</span><span class="period heading-divison-mark heading-divison-mark__period">.</span>
 </h4>
-<div class="para" id="thm-fixed-point-2-1-1">thm:fixed:point:2 Let <span class="process-math">\(g\)</span> be a continuous function on the closed interval <span class="process-math">\([a,b]\)</span> with <span class="process-math">\(g: [a,b] \rightarrow [a,b]\)</span> and suppose that <span class="process-math">\(g'\)</span> is continuous on the open interval <span class="process-math">\((a,b)\)</span> with <span class="process-math">\(|g'(x)|\leq k  \lt  1\)</span> for all <span class="process-math">\(x \in (a,b)\text{.}\)</span> If <span class="process-math">\(g'(p) \neq 0\text{,}\)</span> where <span class="process-math">\(p\)</span> satisfies <span class="process-math">\(p=g(p)\text{,}\)</span> then the sequence <span class="process-math">\(p_{n+1}= g(p_{n})\)</span> converges only linearly to <span class="process-math">\(p\text{.}\)</span><div class="autopermalink" data-description="Paragraph"><a href="#thm-fixed-point-2-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+<div class="para" id="thm-fixed-point-2-1-1">Let <span class="process-math">\(g\)</span> be a continuous function on the closed interval <span class="process-math">\([a,b]\)</span> with <span class="process-math">\(g: [a,b] \rightarrow [a,b]\)</span> and suppose that <span class="process-math">\(g'\)</span> is continuous on the open interval <span class="process-math">\((a,b)\)</span> with <span class="process-math">\(|g'(x)|\leq k  \lt  1\)</span> for all <span class="process-math">\(x \in (a,b)\text{.}\)</span> If <span class="process-math">\(g'(p) \neq 0\text{,}\)</span> where <span class="process-math">\(p\)</span> satisfies <span class="process-math">\(p=g(p)\text{,}\)</span> then the sequence <span class="process-math">\(p_{n+1}= g(p_{n})\)</span> converges only linearly to <span class="process-math">\(p\text{.}\)</span><div class="autopermalink" data-description="Paragraph"><a href="#thm-fixed-point-2-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
 </div>
 <div class="autopermalink" data-description="Theorem 3.3.9"><a href="#thm-fixed-point-2" title="Copy heading and permalink for Theorem 3.3.9" aria-label="Copy heading and permalink for Theorem 3.3.9">🔗</a></div></article><details id="thm-fixed-point-2-2" class="hiddenproof born-hidden-knowl"><summary class="knowl__link"><h4 class="heading"><span class="type">Proof<span class="period heading-divison-mark heading-divison-mark__period">.</span></span></h4></summary><article class="hiddenproof knowl__content"><div class="para" id="thm-fixed-point-2-2-1">First, the hypotheses of the theorem imply that there is a unique fixed point <span class="process-math">\(p \in (a,b)\)</span> and the sequence converges to <span class="process-math">\(p\text{.}\)</span> We only need to show that if <span class="process-math">\(g'(p) \neq 0\text{,}\)</span> then the sequence converges linearly.<div class="autopermalink" data-description="Paragraph"><a href="#thm-fixed-point-2-2-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
 </div>
@@ -828,13 +854,13 @@ g(x) = \frac{1}{2}\biggl( x + \frac{a}{x}\biggr)
 \end{equation*}
 </div>
 <div class="autopermalink" data-description="Paragraph"><a href="#ex-sqrt-a-conv-rate-1-5" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
-</div> <div class="para" id="ex-sqrt-a-conv-rate-1-6">Since <span class="process-math">\(g'(p)=0\)</span> and <span class="process-math">\(g''(p) \neq 0\text{,}\)</span> this method converges and converges quadratically. The asymptotic error constant is <span class="process-math">\(g''(p)/2 = 1/(2 \sqrt{a})\text{,}\)</span> which we saw in Example ex:conv:rate:newt:sqrt.<div class="autopermalink" data-description="Paragraph"><a href="#ex-sqrt-a-conv-rate-1-6" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div> <div class="para" id="ex-sqrt-a-conv-rate-1-6">Since <span class="process-math">\(g'(p)=0\)</span> and <span class="process-math">\(g''(p) \neq 0\text{,}\)</span> this method converges and converges quadratically. The asymptotic error constant is <span class="process-math">\(g''(p)/2 = 1/(2 \sqrt{a})\text{,}\)</span> which we saw in <a href="sect-convergence-sequence.html#ex-convergence-newton-method-sqrt-65" class="xref" data-knowl="./knowl/xref/ex-convergence-newton-method-sqrt-65.html" data-reveal-label="Reveal" data-close-label="Close" title="Example 2.3.14">Example 2.3.14</a>.<div class="autopermalink" data-description="Paragraph"><a href="#ex-sqrt-a-conv-rate-1-6" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
 </div>
 <div class="autopermalink" data-description="Example 3.3.12"><a href="#ex-sqrt-a-conv-rate" title="Copy heading and permalink for Example 3.3.12" aria-label="Copy heading and permalink for Example 3.3.12">🔗</a></div></article></details><div class="para" id="sect-fixed-point-4-10">In light of the above example, the next one seeks a higher-order method for finding square roots. To do this, we’ll assume a functional form and then force the function to have <span class="process-math">\(g^{(i)}(p)=0\)</span> for as many <span class="process-math">\(i\)</span> as possible.<div class="autopermalink" data-description="Paragraph"><a href="#sect-fixed-point-4-10" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
 </div>
-<details id="sect-fixed-point-4-11" class="example example-like born-hidden-knowl"><summary class="knowl__link"><h4 class="heading">
+<details id="ex-cubic-convergence-sqrt" class="example example-like born-hidden-knowl"><summary class="knowl__link"><h4 class="heading">
 <span class="type">Example</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">3.3.13</span><span class="period heading-divison-mark heading-divison-mark__period">.</span>
-</h4></summary><article class="example example-like knowl__content"><div class="para logical" id="sect-fixed-point-4-11-1-1">
+</h4></summary><article class="example example-like knowl__content"><div class="para logical" id="ex-cubic-convergence-sqrt-1-1">
 <div class="para">Use <a href="sect-fixed-point.html#thm-fp-order" class="xref" data-knowl="./knowl/xref/thm-fp-order.html" data-reveal-label="Reveal" data-close-label="Close" title="Theorem 3.3.11">Theorem 3.3.11</a> to find a third-order method to find <span class="process-math">\(\sqrt{a}\text{.}\)</span> In particular find <span class="process-math">\(A\text{,}\)</span> <span class="process-math">\(B\)</span> and <span class="process-math">\(C\)</span> such that the fixed point iteration given by</div>
 <div class="displaymath process-math" data-contains-math-knowls="./knowl/xref/thm-fp-order.html">
 \begin{equation*}
@@ -842,16 +868,16 @@ g(x)  = \frac{Ax+Bx^{3}}{1+Cx^{2}}
 \end{equation*}
 </div>
 <div class="para">converges cubically.</div>
-<div class="autopermalink" data-description="Paragraph"><a href="#sect-fixed-point-4-11-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
-</div> <div class="para" id="sect-fixed-point-4-11-1-2"><div class="autopermalink" data-description="Paragraph"><a href="#sect-fixed-point-4-11-1-2" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div></div> <div class="para logical" id="sect-fixed-point-4-11-1-3">
+<div class="autopermalink" data-description="Paragraph"><a href="#ex-cubic-convergence-sqrt-1-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div> <div class="para" id="ex-cubic-convergence-sqrt-1-2"><div class="autopermalink" data-description="Paragraph"><a href="#ex-cubic-convergence-sqrt-1-2" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div></div> <div class="para logical" id="ex-cubic-convergence-sqrt-1-3">
 <div class="para">Using  <a href="sect-fixed-point.html#thm-fp-order" class="xref" data-knowl="./knowl/xref/thm-fp-order.html" data-reveal-label="Reveal" data-close-label="Close" title="Theorem 3.3.11">Theorem 3.3.11</a>, we need <span class="process-math">\(g\)</span> to satisfy:</div>
 <div class="displaymath process-math" data-contains-math-knowls="./knowl/xref/thm-fp-order.html">
 \begin{equation*}
 \begin{aligned}g(\sqrt{a}) \amp = \sqrt{a} \amp g'(\sqrt{a}) \amp = 0 \amp g''(\sqrt{a}) \amp = 0\end{aligned}
 \end{equation*}
 </div>
-<div class="autopermalink" data-description="Paragraph"><a href="#sect-fixed-point-4-11-1-3" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
-</div> <div class="para logical" id="sect-fixed-point-4-11-1-4">
+<div class="autopermalink" data-description="Paragraph"><a href="#ex-cubic-convergence-sqrt-1-3" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div> <div class="para logical" id="ex-cubic-convergence-sqrt-1-4">
 <div class="para">Skipping the algebra, we can find that</div>
 <div class="displaymath process-math">
 \begin{equation*}
@@ -864,18 +890,18 @@ g(x)  = \frac{Ax+Bx^{3}}{1+Cx^{2}}
 \begin{aligned}g(x) \amp = \frac{3 x + (1/a) x^{3}}{1 + (3/a) x^{2}}\\ \amp = \frac{3ax+x^{3}}{a+3x^{2}}\end{aligned}
 \end{equation*}
 </div>
-<div class="autopermalink" data-description="Paragraph"><a href="#sect-fixed-point-4-11-1-4" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
-</div> <div class="para logical" id="sect-fixed-point-4-11-1-5">
+<div class="autopermalink" data-description="Paragraph"><a href="#ex-cubic-convergence-sqrt-1-4" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div> <div class="para logical" id="ex-cubic-convergence-sqrt-1-5">
 <div class="para">And since</div>
 <div class="displaymath process-math">
 \begin{equation*}
 g'''(\sqrt{a})  = \frac{3}{2a}
 \end{equation*}
 </div>
-<div class="autopermalink" data-description="Paragraph"><a href="#sect-fixed-point-4-11-1-5" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
-</div> <div class="para" id="sect-fixed-point-4-11-1-6">This method is in fact third-order and the asymptotic error constant <span class="process-math">\(\lambda=g'''(\sqrt{a})/3! = \frac{1}{4a}\text{.}\)</span><div class="autopermalink" data-description="Paragraph"><a href="#sect-fixed-point-4-11-1-6" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+<div class="autopermalink" data-description="Paragraph"><a href="#ex-cubic-convergence-sqrt-1-5" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div> <div class="para" id="ex-cubic-convergence-sqrt-1-6">This method is in fact third-order and the asymptotic error constant <span class="process-math">\(\lambda=g'''(\sqrt{a})/3! = \frac{1}{4a}\text{.}\)</span><div class="autopermalink" data-description="Paragraph"><a href="#ex-cubic-convergence-sqrt-1-6" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
 </div>
-<div class="autopermalink" data-description="Example 3.3.13"><a href="#sect-fixed-point-4-11" title="Copy heading and permalink for Example 3.3.13" aria-label="Copy heading and permalink for Example 3.3.13">🔗</a></div></article></details><div class="para logical" id="sect-fixed-point-4-12">
+<div class="autopermalink" data-description="Example 3.3.13"><a href="#ex-cubic-convergence-sqrt" title="Copy heading and permalink for Example 3.3.13" aria-label="Copy heading and permalink for Example 3.3.13">🔗</a></div></article></details><div class="para logical" id="sect-fixed-point-4-12">
 <div class="para">To illustrate the speed of convergence of this, we will use this to find <span class="process-math">\(\sqrt{65}\text{.}\)</span> If we let <span class="process-math">\(x_{0}=1\)</span> and iterate, then</div>
 <div class="displaymath process-math">
 \begin{equation*}
@@ -884,9 +910,9 @@ g'''(\sqrt{a})  = \frac{3}{2a}
 </div>
 <div class="autopermalink" data-description="Paragraph"><a href="#sect-fixed-point-4-12" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
 </div>
-<div class="para" id="sect-fixed-point-4-13">And even though we showed above that the method is third-order, we will also show this numerically. Recall from Section sect:convergence:sequences that if <span class="process-math">\(e_{n} = x_{n}-\sqrt{65}\text{,}\)</span> then if <span class="process-math">\(e_{n+1}= \lambda |e_{n}|^{3}\text{,}\)</span> then the method is third-order (or cubic). Using these above,<div class="autopermalink" data-description="Paragraph"><a href="#sect-fixed-point-4-13" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+<div class="para" id="sect-fixed-point-4-13">And even though we showed above that the method is third-order, we will also show this numerically. Recall from <a href="sect-convergence-sequence.html" class="internal" title="Section 2.3: Convergence of Sequences">Section 2.3</a> that if <span class="process-math">\(e_{n} = x_{n}-\sqrt{65}\text{,}\)</span> then if <span class="process-math">\(e_{n+1}= \lambda |e_{n}|^{3}\text{,}\)</span> then the method is third-order (or cubic). Using these above,<div class="autopermalink" data-description="Paragraph"><a href="#sect-fixed-point-4-13" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
 </div>
-<figure class="table table-like" id="sect-fixed-point-4-14"><figcaption><span class="type">Table</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">3.3.14<span class="period heading-divison-mark heading-divison-mark__period">.</span></span><span class="space heading-divison-mark heading-divison-mark__space"> </span>TITLE<div class="autopermalink" data-description="Table 3.3.14: TITLE"><a href="#sect-fixed-point-4-14" title="Copy heading and permalink for Table 3.3.14: TITLE" aria-label="Copy heading and permalink for Table 3.3.14: TITLE">🔗</a></div></figcaption><div class="tabular-box natural-width"><table class="tabular">
+<figure class="table table-like" id="sect-fixed-point-4-14"><figcaption><span class="type">Table</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">3.3.14<span class="period heading-divison-mark heading-divison-mark__period">.</span></span><span class="space heading-divison-mark heading-divison-mark__space"> </span>Demonstration of Cubic Convergence of the method in Example 3.3.13<div class="autopermalink" data-description="Table 3.3.14: Demonstration of Cubic Convergence of the method in Example 3.3.13"><a href="#sect-fixed-point-4-14" title="Copy heading and permalink for Table 3.3.14: Demonstration of Cubic Convergence of the method in Example 3.3.13" aria-label="Copy heading and permalink for Table 3.3.14: Demonstration of Cubic Convergence of the method in Example 3.3.13">🔗</a></div></figcaption><div class="tabular-box natural-width"><table class="tabular">
 <tr>
 <td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(n\)</span></td>
 <td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(\dfrac{e_{n+1}}{|e_n|^3}\)</span></td>

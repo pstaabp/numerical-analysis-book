@@ -101,14 +101,14 @@ eBookConfig.allow_pairs = false;
 eBookConfig.enableScratchAC = false;
 eBookConfig.build_info = "";
 eBookConfig.python3 = null;
-eBookConfig.runestone_version = '7.9.13';
+eBookConfig.runestone_version = '7.9.18';
 eBookConfig.jobehost = '';
 eBookConfig.proxyuri_runs = '';
 eBookConfig.proxyuri_files = '';
 eBookConfig.enable_chatcodes =  false;
 </script>
 <!--*** Runestone Services ***-->
-<script src="_static/prefix-runtime.9f7f6b353cd8c357.bundle.js"></script><script src="_static/prefix-723.3e6434f80549315a.bundle.js"></script><script src="_static/prefix-runestone.629fdbd852876870.bundle.js"></script><link rel="stylesheet" type="text/css" href="_static/prefix-723.3bccd435914aa0ff.css">
+<script src="_static/prefix-runtime.cefb0224014f3333.bundle.js"></script><script src="_static/prefix-723.3e6434f80549315a.bundle.js"></script><script src="_static/prefix-runestone.c50cdcad467c8d3e.bundle.js"></script><link rel="stylesheet" type="text/css" href="_static/prefix-723.3bccd435914aa0ff.css">
 <link rel="stylesheet" type="text/css" href="_static/prefix-runestone.557d81b04b3ec0e4.css">
 <script src="_static/pretext/js/lti_iframe_resizer.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/lunr.js/2.3.9/lunr.min.js" integrity="sha512-4xUl/d6D6THrAnXAwGajXkoWaeMNwEKK4iNfq5DotEbLPAfk6FSxSP3ydNxqDgCw1c/0Z1Jg6L8h2j+++9BZmg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><script src="lunr-pretext-search-index.js" async=""></script><script src="_static/pretext/js/pretext_search.js"></script><script src="_static/pretext/js/lib/knowl.js"></script><!--knowl.js code controls Sage Cells within knowls--><script>sagecellEvalName='Evaluate (Sage)';
 </script>
@@ -138,6 +138,12 @@ eBookConfig.enable_chatcodes =  false;
 \newcommand{\bv}{\boldsymbol{v}}
 \newcommand{\bw}{\boldsymbol{w}}
 \newcommand{\bzero}{\boldsymbol{0}}
+\DeclareMathOperator{\rad}{rad}
+\DeclareMathOperator{\midpt}{midpt}
+\DeclareMathOperator{\diam}{diam}
+\DeclareMathOperator{\mig}{mig}
+\DeclareMathOperator{\magn}{mag}
+\DeclareMathOperator{\abs}{abs}
 \newcommand{\lt}{&lt;}
 \newcommand{\gt}{&gt;}
 \newcommand{\amp}{&amp;}
@@ -214,7 +220,7 @@ eBookConfig.enable_chatcodes =  false;
 <li class="toc-item toc-section">
 <div class="toc-title-box"><a href="sect-algorithms.html" class="internal"><span class="codenumber">2.2</span> <span class="title">Algorithms</span></a></div>
 <ul class="structural toc-item-list">
-<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-algorithms.html#sect-algorithms-3" class="internal"><span class="codenumber">2.2.1</span> <span class="title">Newtons’ Method: A Better Square Root Algorithm</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-algorithms.html#sect-intro-newtons" class="internal"><span class="codenumber">2.2.1</span> <span class="title">Newtons’ Method: A Better Square Root Algorithm</span></a></div></li>
 <li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-algorithms.html#sect-algorithms-4" class="internal"><span class="codenumber">2.2.2</span> <span class="title">YASRA: Yet Another Square Root Algorithm</span></a></div></li>
 <li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-algorithms.html#sect-algorithms-5" class="internal"><span class="codenumber">2.2.3</span> <span class="title">Analyzing Algorithms</span></a></div></li>
 </ul>
@@ -280,6 +286,7 @@ eBookConfig.enable_chatcodes =  false;
 <ul class="structural toc-item-list">
 <li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-newtons-method.html#sect-newtons-method-3" class="internal"><span class="codenumber">3.4.1</span> <span class="title">Performing Newton’s Method using a Spreadsheet</span></a></div></li>
 <li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-newtons-method.html#sect-newtons-method-4" class="internal"><span class="codenumber">3.4.2</span> <span class="title">Analysis of Newton’s Method</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-newtons-method.html#sect-newtons-method-5" class="internal"><span class="codenumber">3.4.3</span> <span class="title">Newton’s Method for roots of multiplicity greater than 1</span></a></div></li>
 </ul>
 </li>
 </ul>
@@ -445,7 +452,27 @@ eBookConfig.enable_chatcodes =  false;
 </li>
 <li class="toc-item toc-chapter">
 <div class="toc-title-box"><a href="ch-validated-numerics.html" class="internal"><span class="codenumber">8</span> <span class="title">Validated Numerics</span></a></div>
-<ul class="structural toc-item-list"><li class="toc-item toc-section"><div class="toc-title-box"><a href="sect-interval-arithemtic.html" class="internal"><span class="codenumber">8.1</span> <span class="title">Interval Arithmetic</span></a></div></li></ul>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-section">
+<div class="toc-title-box"><a href="sect-interval-arithemtic.html" class="internal"><span class="codenumber">8.1</span> <span class="title">Interval Arithmetic</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-interval-arithemtic.html#sect-interval-arithemtic-3" class="internal"><span class="codenumber">8.1.1</span> <span class="title">Basic Interval Operations</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-interval-arithemtic.html#sect-interval-arithemtic-4" class="internal"><span class="codenumber">8.1.2</span> <span class="title">Operations on Intervals</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-interval-arithemtic.html#sect-interval-arithemtic-5" class="internal"><span class="codenumber">8.1.3</span> <span class="title">Computational Concerns</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-interval-arithemtic.html#sect-interval-arithemtic-6" class="internal"><span class="codenumber">8.1.4</span> <span class="title">Expanding the idea of division</span></a></div></li>
+</ul>
+</li>
+<li class="toc-item toc-section"><div class="toc-title-box"><a href="ch-validated-numerics-4.html" class="internal"><span class="codenumber">8.2</span> <span class="title">An Abstract Look at Intervals</span></a></div></li>
+<li class="toc-item toc-section"><div class="toc-title-box"><a href="sect-function-intervals.html" class="internal"><span class="codenumber">8.3</span> <span class="title">Functions Defined on Intervals</span></a></div></li>
+<li class="toc-item toc-section">
+<div class="toc-title-box"><a href="sect-interval-rootfinding.html" class="internal"><span class="codenumber">8.4</span> <span class="title">Rootfinding using Intervals</span></a></div>
+<ul class="structural toc-item-list">
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-interval-rootfinding.html#sect-interval-bisection" class="internal"><span class="codenumber">8.4.1</span> <span class="title">The Bisection Method Revisited</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-interval-rootfinding.html#sect-interval-rootfinding-3" class="internal"><span class="codenumber">8.4.2</span> <span class="title">Interval Newton’s Method</span></a></div></li>
+<li class="toc-item toc-subsection"><div class="toc-title-box"><a href="sect-interval-rootfinding.html#sect-interval-rootfinding-4" class="internal"><span class="codenumber">8.4.3</span> <span class="title">Krawczyk Method</span></a></div></li>
+</ul>
+</li>
+</ul>
 </li>
 <li class="toc-item toc-backmatter"><div class="toc-title-box"><a href="backmatter.html" class="internal"><span class="title">Backmatter</span></a></div></li>
 </ul></nav></div>
@@ -468,8 +495,7 @@ eBookConfig.enable_chatcodes =  false;
 x= \cos x
 \end{equation*}
 </div>
-<div class="para">or finding the root of <span class="process-math">\(f(x) = x-\cos x\text{.}\)</span>
-</div>
+<div class="para">or finding the root of <span class="process-math">\(f(x) = x-\cos x\text{.}\)</span>  This does not have what is called a <em class="emphasis">closed-form solution</em>.  Such a solution would be a way to write the solution using other known functions.</div>
 <div class="autopermalink" data-description="Paragraph"><a href="#sect-intro-rootfinding-4-1-4" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
 </div>
 <div class="autopermalink" data-description="Example 3.1.1"><a href="#sect-intro-rootfinding-4" title="Copy heading and permalink for Example 3.1.1" aria-label="Copy heading and permalink for Example 3.1.1">🔗</a></div></article></details><div class="para" id="sect-intro-rootfinding-5">The next example is also a standard Calculus question.<div class="autopermalink" data-description="Paragraph"><a href="#sect-intro-rootfinding-5" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
@@ -484,7 +510,7 @@ x= \cos x
 f'(x) = \sin x + x \cos x = 0
 \end{equation*}
 </div>
-<div class="para">which does not have a closed form solution.</div>
+<div class="para">which also does not have a closed form solution.</div>
 <div class="autopermalink" data-description="Paragraph"><a href="#sect-intro-rootfinding-6-1-3" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
 </div>
 <div class="autopermalink" data-description="Example 3.1.3"><a href="#sect-intro-rootfinding-6" title="Copy heading and permalink for Example 3.1.3" aria-label="Copy heading and permalink for Example 3.1.3">🔗</a></div></article></details><div class="para logical" id="sect-intro-rootfinding-7">
