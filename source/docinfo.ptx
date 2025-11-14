@@ -28,6 +28,12 @@
     \newcommand{\bv}{\boldsymbol{v}}
     \newcommand{\bw}{\boldsymbol{w}}
     \newcommand{\bzero}{\boldsymbol{0}}
+    \DeclareMathOperator{\rad}{rad}
+    \DeclareMathOperator{\midpt}{midpt}
+    \DeclareMathOperator{\diam}{diam}
+    \DeclareMathOperator{\mig}{mig}
+    \DeclareMathOperator{\magn}{mag}
+    \DeclareMathOperator{\abs}{abs}
   </macros>
 
   <!-- If you put any latex-image elements you can include preambles -->

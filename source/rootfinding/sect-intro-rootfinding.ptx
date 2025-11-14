@@ -45,7 +45,7 @@
         <me>
           x= \cos x
         </me>
-        or finding the root of <m>f(x) = x-\cos x</m>.
+        or finding the root of <m>f(x) = x-\cos x</m>.  This does not have what is called a <em>closed-form solution</em>.  Such a solution would be a way to write the solution using other known functions.
       </p>
     </statement>
   </example>
@@ -68,7 +68,7 @@
         <me>
           f'(x) = \sin x + x \cos x = 0
         </me>
-        which does not have a closed form solution.
+        which also does not have a closed form solution.
       </p>
     </statement>
   </example>

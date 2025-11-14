@@ -388,7 +388,7 @@
   </introduction>
 
 
-  <subsection>
+  <subsection xml:id="sect-intro-newtons">
     <title>Newtons' Method: A Better Square Root Algorithm</title>
 
     <p>

@@ -1,0 +1,50 @@
+<section>
+  <title>An Abstract Look at Intervals</title>
+
+  <p>
+    First, we can consider an interval in geometric terms as the point <m>(\underline{a},\overline{a})</m> in <m>\R^{2}</m>.
+    Some examples are:
+  </p>
+
+  <figure xml:id="fig-intervals">
+    <caption></caption>
+    <image>
+      <shortdescription>
+      </shortdescription>
+      <latex-image>
+       <![CDATA[
+       \begin{tikzpicture}
+\draw[->] (-4.5,0) -- (4.5,0) node [above right] {$x$}; \foreach \x in {-4,-3,-2,-1,1,2,3,4} \draw (\x,0.1) -- (\x,-0.1) node [below] {\x};
+ \draw[->] (0,-4.5) -- (0,4.5) node [above right] {$y$};
+\foreach \y in {-4,-3,-2,-1,1,2,3,4} \draw (0.1,\y) -- (-0.1,\y) node [left] {\y};
+\draw[<->] (-4.5,-4.5) -- (4.5,4.5);
+\draw[very thick] (3,0) -- (4,0);
+\draw[dashed] (3,0) -- (3,4);
+\fill (3,4) circle[radius=2pt];
+\draw[very thick] (-2,0) -- (1,0);
+\draw[dashed] (-2,0) -- (-2,1);
+\fill (-2,1) circle[radius=2pt];
+\draw[dashed] (2,0) -- (2,2); \fill(2,2) circle[radius=2pt];
+\end{tikzpicture}
+       ]]>
+      </latex-image>
+    </image>
+  </figure>
+
+  <p>
+    And since for intervals <m>\underline{a}\leq \overline{a}</m>, then all intervals can be represented as points on or above the line <m>y=x</m>.
+    All thin intervals are on the line <m>y=x</m>.
+  </p>
+
+  <p>
+    Note also, that if we think of intervals in this way that addition is the same as vector addition.
+    That is, as an example
+    <me>
+      [3,4] + [-2,1] = [1,5]
+    </me>
+  </p>
+
+  <p>
+    Question: Is the set of all intervals with addition and scalar multiplication defined as ??? a vector space?
+  </p>
+</section>

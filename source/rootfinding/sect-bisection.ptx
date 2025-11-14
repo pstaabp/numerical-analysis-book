@@ -131,6 +131,7 @@
               <cell> <m>b_{n}</m> </cell>
               <cell> <m>f(b_{n})</m> </cell>
               <cell> <m>c_{n}</m> </cell>
+              <cell><m>f(c_n)</m></cell>
             </row>
 
             <row>
@@ -140,6 +141,7 @@
               <cell> <m>9</m> </cell>
               <cell> <m>16</m> </cell>
               <cell> <m>8.5</m> </cell>
+              <cell><m>7.25</m></cell>
             </row>
 
             <row>
@@ -149,6 +151,7 @@
               <cell> <m>8.5</m> </cell>
               <cell> <m>7.25</m> </cell>
               <cell> <m>8.25</m> </cell>
+              <cell><m>3.0625</m></cell>
             </row>
 
             <row>
@@ -158,6 +161,7 @@
               <cell> <m>8.25</m> </cell>
               <cell> <m>3.0625</m> </cell>
               <cell> <m>8.125</m> </cell>
+              <cell><m>1.015625</m></cell>
             </row>
 
             <row>
@@ -167,6 +171,7 @@
               <cell> <m>8.125</m> </cell>
               <cell> <m>1.015625</m> </cell>
               <cell> <m>8.0625</m> </cell>
+              <cell><m>0.00390625</m></cell>
             </row>
 
             <row>
@@ -176,6 +181,7 @@
               <cell> <m>8.0625</m> </cell>
               <cell> <m>0.00390625</m> </cell>
               <cell> <m>8.03125</m> </cell>
+              <cell><m>-0.49902343</m></cell>
             </row>
 
             <row>
@@ -185,6 +191,7 @@
               <cell> <m>8.0625</m> </cell>
               <cell> <m>0.00390625</m> </cell>
               <cell> <m>8.046875</m> </cell>
+              <cell><m>-0.24780273</m></cell>
             </row>
 
             <row>
@@ -194,6 +201,7 @@
               <cell> <m>8.0625</m> </cell>
               <cell> <m>0.00390625</m> </cell>
               <cell> <m>8.0546875</m> </cell>
+              <cell><m>-0.12200927</m></cell>
             </row>
 
             <row>
@@ -203,6 +211,7 @@
               <cell> <m>8.0625</m> </cell>
               <cell> <m>0.00390625</m> </cell>
               <cell> <m>8.05859375</m> </cell>
+              <cell><m>-0.05906677246</m></cell>
             </row>
 
             <row>
@@ -319,7 +328,7 @@
     </p>
 
     <p>
-      Note that the formulas in cells B2, D2 and F2 are the functions of the cells to the left of each and the cell in E2 is the midpoint of A2 and B2.
+      Note that the formulas in cells B2, D2 and F2 are the functions of the cells to the left of each and the cell in E2 is the midpoint of A2 and C2.
     </p>
 
     <p>

@@ -125,9 +125,9 @@
         </p>
 
         <table>
-          <title>TITLE</title>
+          <title>Table of values in Newton's method for <m>f(x)=\cos x - x</m></title>
 
-          <tabular left="minor">
+          <tabular>
             <row bottom="minor">
               <cell> <m>x_{i}</m> </cell>
               <cell> <m>f(x_{i})</m> </cell>
@@ -332,5 +332,114 @@
         </p>
       </solution>
     </example>
+  </subsection>
+
+
+  <subsection>
+    <title>Newton's Method for roots of multiplicity greater than 1</title>
+
+    <p>
+      We start with an example showing that Newton's method does not always converge quadratically.
+    </p>
+
+    <example>
+      <statement>
+        <p>
+          Apply Newton's method to the function <m>f(x) = e^x-x-1</m> starting with <m>x_0=0.5</m>
+        </p>
+      </statement>
+
+      <solution>
+        <p>
+          In this case, <m>f'(x) = e^x-1</m> and therefore Newton's method is
+          <me>
+            x_{n+1}  = x_n - \frac{e^{x_n} - x_n -1}{e^{x_n}-1}
+          </me>
+        </p>
+
+        <p>
+          The following table shows this:
+        </p>
+
+        <tabular>
+          <row>
+            <cell><m>n</m></cell>
+            <cell><m>x_n</m></cell>
+          </row>
+
+          <row>
+            <cell>0</cell>
+            <cell>0.5</cell>
+          </row>
+
+          <row>
+            <cell>1</cell>
+            <cell>0.25480007759114687</cell>
+          </row>
+
+          <row>
+            <cell>2</cell>
+            <cell>0.1802096055020658</cell>
+          </row>
+
+          <row>
+            <cell>3</cell>
+            <cell>0.14103188077228046</cell>
+          </row>
+
+          <row>
+            <cell>4</cell>
+            <cell>0.11641077194721548</cell>
+          </row>
+
+          <row>
+            <cell>5</cell>
+            <cell>0.0993613061968627</cell>
+          </row>
+
+          <row>
+            <cell>6</cell>
+            <cell>0.08679954162860683</cell>
+          </row>
+
+          <row>
+            <cell>7</cell>
+            <cell>0.07713325770653695</cell>
+          </row>
+
+          <row>
+            <cell>8</cell>
+            <cell>0.06945102448715239</cell>
+          </row>
+
+          <row>
+            <cell>9</cell>
+            <cell>0.0631910576041048</cell>
+          </row>
+
+          <row>
+            <cell>10</cell>
+            <cell>0.05798716463299298</cell>
+          </row>
+        </tabular>
+
+        <p>
+          It appears that this sequence is converging to 0 (note that <m>\e^0-0-1=0</m>), however it also appears to be converging very slowly, but can be shown numerically that the convergence is linear.
+        </p>
+      </solution>
+    </example>
+
+    <p>
+      What is going on with this?  Even though this is Newton's method, if we use <xref ref="thm-fp-order"/> with <m>g(x) = x-(e^x-x-1)/(e^x-1)</m>, note first that <m>g(0)</m> does not exist, however,
+      <me>
+        \lim_{x \to 0} g(x) = 0
+      </me>
+    </p>
+
+    <p>
+      <me>
+        \begin{aligned} g'(x) \amp = -\frac{{\mathrm{e}}^x \,{\left(x-{\mathrm{e}}^x +1\right)}}{{{\left({\mathrm{e}}^x -1\right)}}^2 } \amp g'(0) \amp = 0 \end{aligned}
+      </me>
+    </p>
   </subsection>
 </section>

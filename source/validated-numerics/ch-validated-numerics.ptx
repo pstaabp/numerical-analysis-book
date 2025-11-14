@@ -6,4 +6,7 @@
     </p>
   </introduction>
   <xi:include href="./sect-interval-arithmetic.ptx" />
+  <xi:include href="./sect-abstract-intervals.ptx" />
+  <xi:include href="./sect-function-intervals.ptx" />
+  <xi:include href="./sect-interval-rootfinding.ptx" />
 </chapter>

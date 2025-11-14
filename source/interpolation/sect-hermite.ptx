@@ -39,7 +39,7 @@
       A crude way to proceed would be to write:
       <me>
         \begin{aligned}P(x)\amp = a_{0} + a_{1}x + a_{2} x^{2} + a_{3} x^{3} \\
-        \amp \qquad\text{and its derivative}\\
+        \text{and its derivative}\qquad\qquad \amp \\
         P'(x)\amp = a_{1} + 2a_{2} x + 3a_{3} x^{2}\end{aligned}
       </me>
     </p>

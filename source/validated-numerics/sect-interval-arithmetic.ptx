@@ -1,8 +1,218 @@
 <section xml:id="sect-interval-arithemtic">
   <title>Interval Arithmetic</title>
 
-  <p>
-    hi there
-  </p>
+  <introduction>
+    <p>
+      We first start with arithmetic and applying functions to intervals.
+      We start with the definition of an interval.
+    </p>
 
+    <definition>
+      <statement>
+        <p>
+          An <alert>interval</alert> on the real line is the set <m>\boldsymbol{a}= [\underline{a},\overline{a}] = \{ x \; | \; \underline{a} \leq x \leq \overline{a} \}</m>.
+          If <m>\underline{a}=\overline{a}</m>, then the interval is called <alert>thin</alert>.
+        </p>
+      </statement>
+    </definition>
+
+    <p>
+      Note that we have defined an interval as a closed subset.
+      That is, the endpoints of the interval are in the interval and that the interval can contain a single value.
+    </p>
+  </introduction>
+
+
+  <subsection>
+    <title>Basic Interval Operations</title>
+
+    <p>
+      Since intervals are also sets, let's define the following:
+      <me>
+        \begin{aligned}\boldsymbol{a}\amp = \boldsymbol{b}\qquad \text{if $\underline{a}=\underline{b}$ and $\overline{a}= \overline{b}$}\\ \boldsymbol{a}\amp \subseteq \boldsymbol{b}\qquad \text{if $\underline{a}\geq \underline{b}$ and $\overline{a}\leq \overline{b}$}\\ \boldsymbol{a}\amp \subset \boldsymbol{b}\qquad \text{if $\boldsymbol{a}\subseteq \boldsymbol{b}$ and $\boldsymbol{a}\neq \boldsymbol{b}$}\\\end{aligned}
+      </me>
+    </p>
+
+    <p>
+      Also, the notion of intersection and union of sets can be extended to intervals if we are careful.
+      Since in general, the union of two intervals is not necessarily an interval, then
+      <me>
+        \begin{aligned}\boldsymbol{a}\cup \boldsymbol{b}\amp = [\min(\underline{a},\underline{b}),\max(\overline{a},\overline{b})]\end{aligned}
+      </me>
+    </p>
+
+    <p>
+      This is called the convex hull of the two intervals.
+      Also
+      <me>
+        \begin{aligned}\boldsymbol{a}\cap \boldsymbol{b}\amp = \begin{cases}\emptyset \amp  \text{if $\overline{a}&#x3C; \underline{b}$ and $\underline{a}>\overline{b}$} \\ [\max(\underline{a},\underline{b}),\min(\overline{a},\overline{b})] \amp  \text{otherwise}\end{cases}\end{aligned}
+      </me>
+    </p>
+
+    <p>
+      If we define
+      <me>
+        \begin{aligned}\rad(\boldsymbol{a})\amp = \frac{1}{2}(\underline{a}- \overline{a}) \\ \midpt(\boldsymbol{a})\amp =\frac{1}{2}(\underline{a}+ \overline{a}) \\ \diam(\boldsymbol{a})\amp = 2 \rad(\boldsymbol{a})\end{aligned}
+      </me>
+      to be the radius, midpoint and diameter of the interval.
+      Additional, if we define
+      <me>
+        \begin{aligned}\mig(\boldsymbol{a})\amp = \min_{a \in \boldsymbol{a}}a \\ \magn(\boldsymbol{a})\amp = \max_{a \in \boldsymbol{a}}a\end{aligned}
+      </me>
+      to be the “mignitude” and magnitude, which are the smallest (and largest respectively) distances between the origin and the interval.
+      Another equivalent definition of these can be written:
+      <me>
+        \begin{aligned}\mig(\boldsymbol{a})\amp = \begin{cases}0 \amp  \text{if $0 \in \boldsymbol{a}$} \\ \min(|\underline{a}|,|\overline{a}|) \amp  \text{otherwise} \\\end{cases}\\ \magn(\boldsymbol{a})\amp = \max(|\underline{a}|,|\overline{a}|)\end{aligned}
+      </me>
+      and
+      <me>
+        \begin{aligned}|\boldsymbol{a}| = \abs(\boldsymbol{a}) = \{|a| \; | \; a \in \boldsymbol{a}\} = [\mig(\boldsymbol{a}), \magn(\boldsymbol{a})]\end{aligned}
+      </me>
+    </p>
+  </subsection>
+
+
+  <subsection>
+    <title>Operations on Intervals</title>
+
+    <p>
+      Let <m>A</m> and <m>B</m> be intervals.
+      We defined <m>\star</m> to be the four basic operations <m>+,-,\cdot, \div</m> on real numbers.
+      Then
+      <me>
+        \begin{aligned}A \star B\amp = \{ x \star y \; | \; x \in A, y \in B\}\end{aligned}
+      </me>
+    </p>
+
+    <example>
+      <statement>
+        <p>
+          Let <m>A=[1,2]</m>, <m>B=[3,5]</m>, and <m>C=[-2,1]</m>, find <m>A+B</m>,<m>A-B</m>, <m>B-C</m>, <m>B \cdot C</m>, <m>A \div B</m>.
+        </p>
+      </statement>
+
+      <solution>
+        <p>
+          For each of these, we find all values in the resulting set, which typically means that we find the smallest possible value in the resulting set and the largest one.
+        </p>
+
+        <p>
+          <ul>
+            <li>
+              <p>
+                <m>A+B = [4,7]</m>
+              </p>
+            </li>
+
+            <li>
+              <p>
+                <m>A-B = [-4,-1]</m>
+              </p>
+            </li>
+
+            <li>
+              <p>
+                <m>B-C = [2,7]</m>
+              </p>
+            </li>
+
+            <li>
+              <p>
+                <m>B \cdot C = [-10,5]</m>
+              </p>
+            </li>
+
+            <li>
+              <p>
+                <m>A \div B = [1/5,2/3]</m>
+              </p>
+            </li>
+          </ul>
+        </p>
+      </solution>
+    </example>
+
+    <p>
+      We can define these more specifically as
+      <me>
+        \begin{aligned}\boldsymbol{a}+\boldsymbol{b}\amp = [\underline{a}+\underline{b},\overline{a}+\overline{b}] \\ \boldsymbol{a}- \boldsymbol{b}\amp = [\underline{a}-\overline{b},\overline{a}-\underline{b}] \\ \boldsymbol{a}\cdot \boldsymbol{b}\amp = [\min(\underline{a}\underline{b},\underline{a}\overline{b},\overline{a}\underline{b},\overline{a}\overline{b}),\max(\underline{a}\underline{b},\underline{a}\overline{b},\overline{a}\underline{b},\overline{a}\overline{b})] \\ \boldsymbol{a}\div \boldsymbol{b}\amp = \boldsymbol{a}\cdot [1/\overline{b},1/\underline{b}] \qquad \text{if $0 \not \in \boldsymbol{b}$}.\end{aligned}
+      </me>
+    </p>
+  </subsection>
+
+
+  <subsection>
+    <title>Computational Concerns</title>
+
+    <p>
+      The formulas above are the beginning of the ability to computations with intervals.
+    </p>
+
+    <p>
+      <ul>
+        <li>
+          <p>
+            For computer languages that allow new types, it is relatively straightforward to define a <em>interval</em> type, you simply need to store the min and max values of the interval.
+          </p>
+        </li>
+
+        <li>
+          <p>
+            Using the formulas above, the four basic operations can be computed quite easily and fast.
+          </p>
+        </li>
+
+        <li>
+          <p>
+            Except for when 0 is in the dividend interval in division.
+            We will see that later.
+          </p>
+        </li>
+      </ul>
+    </p>
+  </subsection>
+
+
+  <subsection>
+    <title>Expanding the idea of division</title>
+
+    <p>
+      Let's redefine the notion of division to be
+      <me>
+        \begin{aligned}\boldsymbol{a}\div \boldsymbol{b}\amp = \{ c \; | \; a = cb, a \in \boldsymbol{a}, b \in \boldsymbol{b}\}\end{aligned}
+      </me>
+    </p>
+
+    <p>
+      Let's look at an example of this: <m>\boldsymbol{a}=[2,3]</m> and <m>\boldsymbol{b}=[-1,2]</m>.
+      Since <m>0 \in \boldsymbol{b}</m>, we will replace <m>\boldsymbol{b}</m> with
+      <me>
+        \begin{aligned}\boldsymbol{b}' \cup \boldsymbol{b}''\amp = [-1,0)\cup(0,2)\end{aligned}
+      </me>
+    </p>
+
+    <p>
+      And note that we can define
+      <me>
+        \begin{aligned}[2,3] \div [-1,0)\amp = \lim_{x \rightarrow 0^-}[2,3] \div [-1,x) \\\amp = \lim_{x \rightarrow 0^-}[2,3] \cdot (1/x,-1] \\\amp = \lim_{x \rightarrow 0^-}[3/x,-2] = (-\infty,-2]\end{aligned}
+      </me>
+      and
+      <me>
+        \begin{aligned}[2,3] \div (0,2]\amp = \lim_{x \rightarrow 0^+}[2,3] \div (x,2] \\\amp = \lim_{x \rightarrow 0^+}[2,3] \cdot [1/2,1/x) \\\amp = \lim_{x \rightarrow 0^+}[1,1/x) = [1,\infty)\end{aligned}
+      </me>
+    </p>
+
+    <p>
+      So a way to define division containing 0 would be in this case is:
+      <me>
+        \begin{aligned}[2,3] \div [-1,2] = [2,3] \div (\boldsymbol{b}' \cup \boldsymbol{b}) = (-\infty,-2] \cup [1,\infty)\end{aligned}
+      </me>
+    </p>
+
+    <p>
+      There are some issues with this.
+      First, the result is not an interval.
+      Secondly, if that wasn't a problem, how to handle the infinite interval?
+    </p>
+  </subsection>
 </section>

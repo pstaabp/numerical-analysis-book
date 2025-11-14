@@ -2,7 +2,7 @@
   <title>Rootfinding</title>
   <introduction>
     <p>
-      Say things here.
+      Rootfinding is the process of finding values <m>p</m> such that <m>f(p)=0</m> for a function <m>f</m>. This is identical to solving equations <m>f(x)=g(x)</m>.  In this chapter, we learn techniques to estimate roots.
     </p>
   </introduction>
   <xi:include href="./sect-intro-rootfinding.ptx" />

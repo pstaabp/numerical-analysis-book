@@ -1,0 +1,143 @@
+<section xml:id="sect-interval-rootfinding">
+  <title>Rootfinding using Intervals</title>
+
+  <subsection xml:id="sect-interval-bisection">
+    <title>The Bisection Method Revisited</title>
+
+    <p>
+      Let's return to the problem we started with in <xref ref="ch-intro-numerical"/> in which we sought a numeric value to <m>\sqrt{65}</m>.
+      One method of solution was the bisection method from <xref ref="sect-bisection"/>, that we revisit here with knowledge of interval arithmetic and functions of intervals.
+    </p>
+
+    <p>
+      Recall that we can <q>see</q> a root with a graph.
+      Repeating the plot of <m>f(x) = x^2-65</m>
+    </p>
+
+    <figure xml:id="fig-bisect-interval">
+      <caption></caption>
+      <image width="70%">
+        <shortdescription>
+        </shortdescription>
+        <latex-image>
+          <![CDATA[
+          \begin{tikzpicture}[yscale=.05]
+            \draw[->] (-1.5,0) -- (9.5,0) node [above right] {$x$};
+            \foreach \x in {1,2,3,4,5,6,7,8,9} \draw (\x,1) -- (\x,-1) node [below] {\x};
+            \draw[->] (0,-70) -- (0,25) node [above right] {$y$};
+            \foreach \y in {-60,-40,-20,20} \draw (0.1,\y) -- (-0.1,\y) node [left] {\y};
+            \draw[<->] plot[domain=-1:9.1] (\x,{\x*\x-65});
+            \end{tikzpicture}
+          ]]>
+        </latex-image>
+      </image>
+    </figure>
+    <p>
+      And in <xref ref="sect-bisection"/>, we used the Intermediate Value Theorem to prove that there is a root in the interval <m>[8,9]</m>.  With knowledge of functions on intervals,
+      <me>
+        f([8,9]) = [-1,16]
+      </me>
+      and because <m>0 \in f([8,9])</m>, this proves that there is a root in the interval <m>[8,9]</m>.
+    </p>
+    <p>
+      The bisection method works in almost exactly the same way with intervals.  If we start with the interval <m>A=[8,9]</m> and define <m>A_{\ell} = [8,8.5]</m> and <m>A_r = [8.5,9]</m>, then
+      <md>
+        <mrow>f(A_{\ell}) \amp = [-1,7.25] \amp f(A_r) = [7.25,16]</mrow>
+      </md>
+      and since <m>0 \in f(A_{\ell})</m>, then the root is in <m>[8,8.5]</m>.
+    </p>
+   <algorithm xml:id="alg-interval-bisection">
+    <statement>
+      <p>
+        If the input is a function, <m>f</m>,  an interval, <m>X_0</m> and <m>\epsilon</m>, a interval diam for stopping, then
+      </p>
+      <p>
+        <ol>
+          <li>
+            <p>
+              Check that <m>0 \in f(X_0)</m> or declare an error that there is no root in the interval.
+            </p>
+          </li>
+          <li>
+            <p>
+              Let <m>i=0</m>
+            </p>
+          </li>
+          <li>
+            <p>
+              Construct <m>X_r = [\mig(X_i), \midpt(X_i)]</m> and <m>X_{\ell} = [\midpt(X_i), \magn(X_i)]</m>.
+            </p>
+          </li>
+          <li>
+            <p>
+              If <m>0 \in f(X_r)</m> then <m>X_{i+1} = X_r</m>, otherwise <m>X_{i+1} = X_{\ell}</m>
+            </p>
+          </li>
+          <li>
+            <p>
+              If <m>\diam(X_{i+1}) \lt \epsilon</m>, then stop.  The root is in <m>X_{i+1}</m>.  Otherwise, go to step 2.
+            </p>
+          </li>
+        </ol>
+      </p>
+    </statement>
+   </algorithm>
+
+  </subsection>
+
+  <subsection>
+    <title>Interval Newton's Method</title>
+
+    <p>
+      We revisit Newton's method using intervals.  To motivate this, let's turn to a simple function <m>f(x) = x^2-5</m> as shown below:
+    </p>
+    <figure xml:id="fig-simple-quad">
+      <caption></caption>
+      <image width="70%">
+        <shortdescription></shortdescription>
+        <latex-image>
+          <![CDATA[
+          \begin{tikzpicture}[yscale=0.5]
+          \draw[->] (-1,0) -- (5.5,0);
+          \foreach \x in {-1,1,2,3,4}
+          \draw (\x,0.1) -- (\x,-0.1) node [below] {\x};
+          \draw[->] (0,-6) -- (0,5.5);
+          \foreach \y in {-6,-5,...,-1,1,2,...,5} \draw (0.1,\y) -- (-0.1,\y) node[left] {\y};
+          \draw plot[domain=-0.5:3.5] (\x,{\x*\x-5});
+          \draw[very thick] (1,0) -- (3,0);
+          \draw[blue] (1,-4) -- (3,0);
+          \draw[blue] (3,4) -- (1.5,-5);
+          \end{tikzpicture}
+          ]]>
+        </latex-image>
+      </image>
+    </figure>
+  </subsection>
+
+
+  <subsection>
+    <title>Krawczyk Method</title>
+
+    <p>
+      Let <m>f(x)</m> have a zero, <m>x^{\star}</m> in the interval <m>\boldsymbol{x}</m>.
+      The mean value theorem of <m>f</m> applied to the interval <m>[x,x^{\star}]</m> where <m>x \in \boldsymbol{x}</m> is
+      <me>
+        f'(\xi)(x-x^{\star}) = f(x) - f(x^{\star}) = f(x)
+      </me>
+      for some <m>\xi \in [x,x^{\star}] \subset \boldsymbol{x}</m>.
+      This can be multiplied by <m>C</m> to get:
+      <me>
+        C f(x) = C f'(\xi)(x-x^{\star})
+      </me>
+      adding <m>x^{\star}-x</m> to both sides:
+      <me>
+        x^{\star}-x + C f(x) = x^{\star}-x + Cf'(\xi)(x-x^{\star})
+      </me>
+      or
+      <me>
+        x^{\star} = x - C f(x) -(1-Cf'(\xi))(x-x^{\star})
+      </me>
+      since <m>x^{\star}</m> and <m>\xi</m> are both in <m>\boldsymbol{x}</m>.
+    </p>
+  </subsection>
+</section>
