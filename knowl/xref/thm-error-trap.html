@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en-US" dir="ltr">
+<!--******************************************-->
+<!--*  Authored with PreTeXt                 *-->
+<!--*  pretextbook.org                       *-->
+<!--*  Theme: salem                          *-->
+<!--*  Palette:                              *-->
+<!--******************************************-->
+
+<!--********************************************-->
+<!--*       Generated from PreTeXt source      *-->
+<!--*                                          *-->
+<!--*         https://pretextbook.org          *-->
+<!--*                                          *-->
+<!--********************************************-->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="robots" content="noindex, nofollow">
+</head>
+<body class="ignore-math">
+<article class="theorem theorem-like"><h4 class="heading">
+<span class="type">Theorem</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">5.2.9</span><span class="period heading-divison-mark heading-divison-mark__period">.</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="title">Error Formula for Trapezoid Rule.</span>
+</h4>
+<div class="para logical">
+<div class="para">If <span class="process-math">\(f \in C^{2}[a,b]\text{,}\)</span> and <span class="process-math">\(I_{1}(f)\)</span> is the trapezoid rule given in <a href="sect-intro-quadature.html#eq-trap-rule" class="xref" data-knowl="./knowl/xref/eq-trap-rule.html" data-reveal-label="Reveal" data-close-label="Close" title="Equation 5.2.3">(5.2.3)</a>, then there exists an <span class="process-math">\(\hat{\xi}\in[a,b]\)</span> such that</div>
+<div class="displaymath process-math" data-contains-math-knowls="./knowl/xref/eq-trap-rule.html">
+\begin{equation*}
+\int_{a}^{b} f(x) \, dx = I_{1}(f) - \frac{(b-a)^{3}}{12}f''(\hat{\xi}) .
+\end{equation*}
+</div>
+<div class="autopermalink" data-description="Paragraph"><a href="#thm-error-trap-2-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" data-description="Theorem 5.2.9: Error Formula for Trapezoid Rule"><a href="#thm-error-trap" title="Copy heading and permalink for Theorem 5.2.9: Error Formula for Trapezoid Rule" aria-label="Copy heading and permalink for Theorem 5.2.9: Error Formula for Trapezoid Rule">🔗</a></div></article><details class="hiddenproof born-hidden-knowl"><summary class="knowl__link"><h4 class="heading"><span class="type">Proof<span class="period heading-divison-mark heading-divison-mark__period">.</span></span></h4></summary><article class="hiddenproof knowl__content"><div class="para">First, start with the interpolating polynomial error formula with <span class="process-math">\(n=1\)</span> from <a href="sect-lagrange-interp.html#thm-interp-error" class="xref" data-knowl="./knowl/xref/thm-interp-error.html" data-reveal-label="Reveal" data-close-label="Close" title="Theorem 4.2.6">Theorem 4.2.6</a>.<div class="autopermalink" data-description="Paragraph"><a href="#thm-error-trap-3-1" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="para logical">
+<div class="displaymath process-math">
+\begin{equation*}
+f(x) = P_{1} (x) + \frac{f''(\xi(x))}{2}(x-a)(x-b) .
+\end{equation*}
+</div>
+<div class="autopermalink" data-description="Paragraph"><a href="#thm-error-trap-3-2" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="para logical">
+<div class="para">If we integrate then</div>
+<div class="displaymath process-math">
+\begin{equation*}
+\int_{a}^{b} f(x) \, dx = I_{1}(f) + \int_{a}^{b} \frac{f''(\xi(x))}{2}(x-a)(x-b) \, dx,
+\end{equation*}
+</div>
+<div class="para">where <span class="process-math">\(\int_{a}^{b} P_{1}(x) \, dx = I_{1}(f)\)</span> as shown above. Since <span class="process-math">\((x-a)(x-b)\)</span> does not change sign, we can apply the weighted mean value theorem applied to the integral in the last term, there is an <span class="process-math">\(\hat{\xi}\)</span> such that</div>
+<div class="displaymath process-math">
+\begin{equation*}
+\begin{aligned}\int_{a}^{b} f(x) \, dx\amp = I_{1}(f) + \frac{f''(\hat{\xi})}{2}\int_{a}^{b} (x-a)(x-b) \, dx, \\\amp = I_{1}(f) - \frac{f''(\hat{\xi})}{12}(b-a)^{3} .\end{aligned}
+\end{equation*}
+</div>
+<div class="autopermalink" data-description="Paragraph"><a href="#thm-error-trap-3-3" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</div>
+<div class="autopermalink" data-description="Proof 5.2.9.1"><a href="#thm-error-trap-3" title="Copy heading and permalink for Proof 5.2.9.1" aria-label="Copy heading and permalink for Proof 5.2.9.1">🔗</a></div></article></details><span class="incontext"><a class="internal" href="sect-intro-quadature.html#thm-error-trap">in-context</a></span>
+</body>
+</html>
