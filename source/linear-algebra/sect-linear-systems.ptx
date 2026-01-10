@@ -59,7 +59,7 @@
           </me>
           can be written as the matrix:
           <me>
-            \begin{aligned}\begin{blockarray}{[rrrr|r]} a_{1,1} \amp  a_{1,2} \amp  \cdots \amp  a_{1,n} \amp  b_1 \\ a_{2,1} \amp  a_{2,2} \amp  \cdots \amp  a_{2,n} \amp  b_2 \\ \vdots \amp  \amp  \ddots \amp  \amp  \vdots \\ a_{m,1} \amp  a_{m,2} \amp  \cdots \amp  a_{m,n} \amp  b_m\end{blockarray}\end{aligned}
+            \begin{aligned}\begin{array}{rrrr|r} a_{1,1} \amp  a_{1,2} \amp  \cdots \amp  a_{1,n} \amp  b_1 \\ a_{2,1} \amp  a_{2,2} \amp  \cdots \amp  a_{2,n} \amp  b_2 \\ \vdots \amp  \amp  \ddots \amp  \amp  \vdots \\ a_{m,1} \amp  a_{m,2} \amp  \cdots \amp  a_{m,n} \amp  b_m\end{array}\end{aligned}
           </me>
         </p>
       </statement>
@@ -186,7 +186,7 @@
       If we let <m>g(n)</m> be the number of multiplications needed for the determinant, then
       <me>
         \begin{aligned}g(n)\amp = 1 \cdot g(n-1)\end{aligned}
-      </me>
+      </me>s
       and we know that <m>g(1) = 1</m>, This is the definition of the factorial, so <m>g(n)=n!</m>.
     </p>
 

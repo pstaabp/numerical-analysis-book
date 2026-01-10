@@ -16,7 +16,7 @@
 
       <solution>
         <p>
-          We know that <m>f</m> is continuous on the interval <m>[-2,0]</m> and <m>f(-2)=-5</m> and <m>f(0)=3</m>, and since this satisfies the IVT, there must exist a number <m>c</m> such that <m>f(c)=0</m>, and this is the definition of a root.
+          We know that <m>f</m> is continuous on the interval <m>[-2,0]</m> and <m>f(-2)=-5</m> and <m>f(0)=3</m>, and since this satisfies the Intermediate Value Theorem (<xref ref="thm-ivt"/>), there must exist a number <m>c</m> such that <m>f(c)=0</m>, and this is the definition of a root.
         </p>
       </solution>
     </example>
@@ -27,25 +27,25 @@
 
     <figure xml:id="fig-bisection">
       <caption></caption>
-      <image>
+      <image width="70%">
         <shortdescription>
         </shortdescription>
         <latex-image>
-      <![CDATA[
-      \begin{tikzpicture}[scale=0.75]
-\draw[->] (-5.5,0) -- (5.5,0) node [above right] {$x$};
- \foreach \x in {-5,...,-1,1,2,...,5} \draw (\x,0.1) -- (\x,-0.1) node [below] {\x};
-\draw[->] (0,-3.5) -- (0,5.5) node [above right] {$y$};
- \foreach \y in {-3,...,-1,1,2,...,5} \draw (0.1,\y) -- (-0.1,\y) node [left] {\y};
-\draw[<->] plot[domain=-1.7:1.1] (\x,{pow(\x,3)+3});
-\end{tikzpicture}
-      ]]>
+          <![CDATA[
+            \begin{tikzpicture}[scale=1]
+              \draw[->] (-5.5,0) -- (5.5,0) node [above right] {$x$};
+              \foreach \x in {-5,...,-1,1,2,...,5} \draw (\x,0.1) -- (\x,-0.1) node [below] {\x};
+              \draw[->] (0,-3.5) -- (0,5.5) node [above right] {$y$};
+              \foreach \y in {-3,...,-1,1,2,...,5} \draw (0.1,\y) -- (-0.1,\y) node [left] {\y};
+              \draw[<->] plot[domain=-1.7:1.1] (\x,{pow(\x,3)+3});
+            \end{tikzpicture}
+          ]]>
         </latex-image>
       </image>
     </figure>
 
     <p>
-      You can “see” that there is a root and the Intermediate Value Theorem assures that there is one there.
+      You can <q>see</q> that there is a root and the Intermediate Value Theorem assures that there is one there.
       Now, how to find it? We will see that the bisection method will start with an interval (with a guaranteed root), find the midpoint of the interval and then choose a new interval ensuring it has a root again.
       The following section shows this in detail.
     </p>
@@ -56,46 +56,55 @@
     <title>The Bisection Algorithm</title>
 
     <p>
-      Let <m>f(x)</m> be a function and <m>[a,b]</m> be an interval <m>a \lt b</m>, such that <m>f(a)f(b) \lt 0</m>.
-      The <alert>bisection method</alert> are the steps below to find the root <m>p</m> with tolerance <m>\epsilon</m>.
-      That is if <m>f(p)=0</m>, then return <m>p^{\star}</m> such that <m>|p-p^{\star}| \lt \epsilon</m>.
+      The following in the formal bisection method. 
     </p>
 
-    <p>
-      <ol>
-        <li>
-          <p>
-            Set <m>a_{0}=a</m>, <m>b_{0}=b</m> and <m>n=0</m>.
-          </p>
-        </li>
+    <algorithm xml:id="alg-bisection">
+      <title>Bisection Method</title>
+      <statement>
+        <p>
+          Let <m>f(x)</m> be a function and <m>[a,b]</m> be an interval <m>a \lt b</m>, such that <m>f(a)f(b) \lt 0</m>.
+          The <alert>bisection method</alert> are the steps below to find the root <m>p</m> with tolerance <m>\epsilon</m>.
+          That is if <m>f(p)=0</m>, then return <m>p^{\star}</m> such that <m>|p-p^{\star}| \lt \epsilon</m>.
+        </p>
 
-        <li>
-          <p>
-            Let <m>c_{n} = \frac{a_{n}+b_{n}}{2}</m>
-            <ul>
-              <li>
-                <p>
-                  If <m>f(a_{n})f(c_{n}) \lt 0</m>, then let <m>a_{n+1}=a_{n}</m>, <m>b_{n+1}=c_{n}</m>.
-                </p>
-              </li>
+        <p>
+          <ol>
+            <li>
+              <p>
+                Set <m>a_{0}=a</m>, <m>b_{0}=b</m> and <m>n=0</m>.
+              </p>
+            </li>
 
-              <li>
-                <p>
-                  else let <m>a_{n+1}=c_{n}</m>, <m>b_{n+1}=b_{n}</m>.
-                </p>
-              </li>
-            </ul>
-          </p>
-        </li>
+            <li>
+              <p>
+                Let <m>c_{n} = \frac{a_{n}+b_{n}}{2}</m>
+                <ul>
+                  <li>
+                    <p>
+                      If <m>f(a_{n})f(c_{n}) \lt 0</m>, then let <m>a_{n+1}=a_{n}</m>, <m>b_{n+1}=c_{n}</m>.
+                    </p>
+                  </li>
 
-        <li>
-          <p>
-            If <m>b_{n+1}-a_{n+1} \lt  \epsilon</m>, then stop, return <m>(a_{n+1}+b_{n+1})/2</m>.
-            If not let <m>n=n+1</m> and return to step 2.
-          </p>
-        </li>
-      </ol>
-    </p>
+                  <li>
+                    <p>
+                      else let <m>a_{n+1}=c_{n}</m>, <m>b_{n+1}=b_{n}</m>.
+                    </p>
+                  </li>
+                </ul>
+              </p>
+            </li>
+
+            <li>
+              <p>
+                If <m>b_{n+1}-a_{n+1} \lt  \epsilon</m>, then stop, return <m>(a_{n+1}+b_{n+1})/2</m>.
+                If not let <m>n=n+1</m> and return to step 2.
+              </p>
+            </li>
+          </ol>
+        </p>
+      </statement>
+    </algorithm>
 
     <p>
       The following example applies the bisection method to find <m>\sqrt{65}</m>.
@@ -492,7 +501,7 @@
       </p>
 
       <p>
-        And using the squeeze theorem
+        And using the squeeze theorem (<xref ref="thm-squeeze"/>)
         <me>
           \begin{aligned}\lim_{n \rightarrow \infty}|p - p_{n}| = \lim_{n \rightarrow \infty}\frac{1}{2^{n}}(b-a) = 0\end{aligned}
         </me>

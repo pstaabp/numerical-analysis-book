@@ -23,7 +23,7 @@
     <title>Composite Trapezoid</title>
 
     <p>
-      Recall that the Trapezoid Rule with its error term from Theorem thm:error:trap is
+      Recall that the Trapezoid Rule with its error term from <xref ref="thm-error-trap"/> is
       <me>
         \begin{aligned}\int_{a}^{b} f(x) \, dx\amp = \frac{b-a}{2}\bigl(f(a) + f(b) \bigr) - \frac{(b-a)^{3}}{12}f''(\xi)\end{aligned}
       </me>
@@ -113,7 +113,7 @@
         </p>
 
         <p>
-          To find a bound on the error, we use (eq:error:comp:trap) and need a bound on the second derivative of <m>f(x)</m>.
+          To find a bound on the error, we use <xref ref="eq-error-comp-trap"/> and need a bound on the second derivative of <m>f(x)</m>.
           It can be shown that <m>f''(x) = (4x^{2}-2)e^{-x^2}</m> and this reaches a maximum (in absolute value) at <m>x=0</m>, so <m>|f''(x)| \leq 2</m>.
           Using <xref ref="eq-error-comp-trap"/>,
           <me>
@@ -133,7 +133,7 @@
     <title>Rate of Convergence</title>
 
     <p>
-      Equation (eq:error:comp:trap) shows that the error is <m>O(h^{2})</m>.
+      <xref ref="eq-error-comp-trap"/> shows that the error is <m>O(h^{2})</m>.
       The following example will also show this is true numerically.
     </p>
 

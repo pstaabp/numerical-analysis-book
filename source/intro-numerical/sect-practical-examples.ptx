@@ -54,10 +54,11 @@
 
         <p>
           The probability that <m>X</m> is less than <m>a</m> is given by
-        <me>
-          \begin{aligned}P(X \lt a) \amp = \int_{-\infty}^{a} f(x;\mu,\sigma) \, dx \\
-          \amp = \int_{-\infty}^{a} \frac{1}{\sigma \sqrt{2\pi}}e^{-(x-\mu)^2/\sigma^2}\, dx\end{aligned}
-        </me>
+        <md>
+          <mrow>P(X \lt a) \amp = \int_{-\infty}^{a} f(x;\mu,\sigma) \, dx </mrow>
+          <mrow xml:id="eq-cum-dist-normal" number="yes">
+          \amp = \int_{-\infty}^{a} \frac{1}{\sigma \sqrt{2\pi}}e^{-(x-\mu)^2/\sigma^2}\, dx </mrow>
+          </md>
       </p>
 
       <p>

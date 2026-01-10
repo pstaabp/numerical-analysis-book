@@ -424,7 +424,7 @@
         </tabular>
 
         <p>
-          It appears that this sequence is converging to 0 (note that <m>\e^0-0-1=0</m>), however it also appears to be converging very slowly, but can be shown numerically that the convergence is linear.
+          It appears that this sequence is converging to 0 (note that <m>e^0-0-1=0</m>), however it also appears to be converging very slowly, but can be shown numerically that the convergence is linear.
         </p>
       </solution>
     </example>
@@ -441,5 +441,6 @@
         \begin{aligned} g'(x) \amp = -\frac{{\mathrm{e}}^x \,{\left(x-{\mathrm{e}}^x +1\right)}}{{{\left({\mathrm{e}}^x -1\right)}}^2 } \amp g'(0) \amp = 0 \end{aligned}
       </me>
     </p>
+    <p>NOTE: FINISH THIS SECTION</p>
   </subsection>
 </section>

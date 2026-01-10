@@ -21,13 +21,13 @@
       </p>
 
       <figure xml:id="fig-def-int">
-        <caption></caption>
+        <caption>Plot of <m>y=x</m> and <m>y=\cos x</m>. The shaded area bounded between the positive <m>y</m>-axis and the two curves in the first quadrant is shown.</caption>
         <image width="70%">
           <shortdescription>
           </shortdescription>
           <latex-image>
           <![CDATA[
-          \begin{tikzpicture}[scale=2]
+          \begin{tikzpicture}[scale=3]
             \fill[lightgray] (0,0) -- (0,1) -- (0.2,{cos(0.2 r)}) -- (0.4,{cos(0.4 r)})-- (0.6,{cos(0.6 r)})   -- (0.74,{cos(0.74 r)})   -- (0,0) -- cycle;
             \draw[->] (-1,0) -- (1.75,0) node [above right] {$x$};
             \draw[->] (0,-0.5) -- (0,1.25) node [above right] {$y$};
@@ -45,7 +45,9 @@
         <me>
           x= \cos x
         </me>
-        or finding the root of <m>f(x) = x-\cos x</m>.  This does not have what is called a <em>closed-form solution</em>.  Such a solution would be a way to write the solution using other known functions.
+        or finding the root of <m>f(x) = x-\cos x</m>.
+        This does not have what is called a <em>closed-form solution</em>.
+        Such a solution would be a way to write the solution using other known functions.
       </p>
     </statement>
   </example>
@@ -74,20 +76,32 @@
   </example>
 
   <p>
-    And finally to illustrate that these rootfinding problems arise in other fields, consider an object that falls near the surface of the earth.
-    One model of this that includes drag is that the height <m>y</m> as a function of time <m>t</m> is given by
-    <men xml:id="eq-height-drag">
-      \begin{aligned}y\amp= y_{0} - \frac{v_{\infty}^{2}}{g}\ln \biggl(\cosh \biggl(\frac{gt}{v_{\infty}}\biggr) \biggr) \label{eq:height:drag}\end{aligned}
-    </men>
-    where <m>y_{0}</m> is the initial height of the object, <m>g</m> is the gravitation constant near the earth and
-    <me>
-      \begin{aligned}v_{\infty}\amp= \sqrt{\frac{2mg}{\rho C_{D} A}}\end{aligned}
-    </me>
-    is the terminal velocity with <m>m</m> as the mass, <m>C_{D}</m> is the drag coefficient and <m>A</m> is the cross-sectional area of the object.
+    And finally to illustrate that these rootfinding problems arise in other fields, this next example examines how objects fall toward the earth.
   </p>
 
+  <example>
+    <statement>
+      <p>
+        A model of an object falling near the earth that includes drag is that the height <m>y</m> as a function of time <m>t</m> is given by
+        <men xml:id="eq-height-drag">
+          \begin{aligned}y\amp= y_{0} - \frac{v_{\infty}^{2}}{g}\ln \biggl(\cosh \biggl(\frac{gt}{v_{\infty}}\biggr) \biggr)\end{aligned}
+        </men>
+        where <m>y_{0}</m> is the initial height of the object, <m>g</m> is the gravitation constant near the earth and
+        <me>
+          \begin{aligned}v_{\infty}\amp= \sqrt{\frac{2mg}{\rho C_{D} A}}\end{aligned}
+        </me>
+        is the terminal velocity with <m>m</m> as the mass, <m>C_{D}</m> is the drag coefficient and <m>A</m> is the cross-sectional area of the object.
+      </p>
+
+      <p>
+        The time the object strikes the ground is given by the root of the function in <xref ref="eq-height-drag"/> knowing all the other parameters.
+      </p>
+    </statement>
+  </example>
+
   <p>
-    The time the object strikes the ground is given by the root of the function in <xref ref="eq-height-drag"/> knowing all the other parameters.
+    These examples are among many in which a solution is sought, but no closed-form solution can be found.
+    We will see in this chapter how to approximate the solutions.
   </p>
 
   <definition xml:id="def-multiplicity">
@@ -109,10 +123,30 @@
 
   <p>
     Multiplicity usually pertain only to roots of polynomials as we saw in <xref ref="sect-polynomials"/>.
-    For example, the polynomial: <m>f(x) = x^{3}+5x^{2}+3x-9</m> can be written as <m>f(x) = (x+3)^{2}(x-1)</m> so the root <m>-3</m> has multiplicity 2.
-    However, look at <m>g(x) = 1-\cos x</m>.
-    The function <m>g</m> has a root at <m>x=0</m>, but what is its multiplicity? It's not clear that you can write <m>x^{m}</m> as a factor of this function.
-    Because of this, we have a nice theorem we can apply:
+    For example, the polynomial: <m>f(x) = x^{3}+5x^{2}+3x-9</m> can be written as <m>f(x) = (x+3)^{2}(x-1)</m> so the root <m>-3</m> has multiplicity 2. </p>
+    <p>
+    However, a plot of the function <m>g(x) = 1-\cos x</m> that is in <xref ref="fig-multiplicity-2"/> shows that the root at <m>x=0</m> has characteristics of a function with multiplicity greater than 1. 
+  </p>
+
+  <figure xml:id="fig-multiplicity-2">
+        <caption>Plot of <m>y=1-\cos</m> showing the root of the function at <m>x=0</m>.</caption>
+        <image width="70%">
+          <shortdescription>
+          </shortdescription>
+          <latex-image>
+          <![CDATA[
+          \begin{tikzpicture}[scale=1.5]
+            \draw[->] (-3.25,0) -- (3.25,0) node [above right] {$x$};
+            \draw[->] (0,-0.5) -- (0,2.25) node [above right] {$y$};
+            \draw[<->] plot[smooth,domain=-3:3] (\x,{1-cos(\x r)});
+            \end{tikzpicture}
+          ]]>
+          </latex-image>
+        </image>
+      </figure>
+
+  <p>
+    The following theorem provides another tool to find the multiplicity. 
   </p>
 
   <theorem xml:id="thm-multiplicity">
@@ -155,11 +189,11 @@
         Obviously <m>f(p)=0</m>.
         Also if <m>f(x)</m> has <m>m</m> continuous derivatives, then <m>g(x)</m> does as well.
         <me>
-          \begin{aligned}f'(x)\amp= m (x-p)^{m-1}g(x) + (x-p)^{m} g'(x) \\ f''(x)\amp= m(m-1) (x-p)^{m-2}g(x) + 2 m (x-p)^{m-1}g'(x) + (x-p)^{m} g''(x)\\ f'''(x)\amp= m(m-1)(m-2) (x-p)^{m-3}g(x) + 3 m (m-1) (x-p)^{m-2}g'(x) \\\amp\qquad + 3 m(x-p)^{m-1}g''(x) + (x-p)^{m} g'''(x)
-          \end{aligned}
+          \begin{aligned}f'(x)\amp= m (x-p)^{m-1}g(x) + (x-p)^{m} g'(x) \\ f''(x)\amp= m(m-1) (x-p)^{m-2}g(x) + 2 m (x-p)^{m-1}g'(x) + (x-p)^{m} g''(x)\\ f'''(x)\amp= m(m-1)(m-2) (x-p)^{m-3}g(x) + 3 m (m-1) (x-p)^{m-2}g'(x) \\\amp\qquad + 3 m(x-p)^{m-1}g''(x) + (x-p)^{m} g'''(x) \end{aligned}
         </me>
         In general, we can write
-        <me>f^{(j)}(x) = \sum_{i=0}^{j}k_{i} (x-p)^{m-j+i}g^{(i)}(x),
+        <me>
+          f^{(j)}(x) = \sum_{i=0}^{j}k_{i} (x-p)^{m-j+i}g^{(i)}(x),
         </me>
         where <m>k_{i}</m> is a function of <m>m</m> (however the exact form it not needed).
       </p>

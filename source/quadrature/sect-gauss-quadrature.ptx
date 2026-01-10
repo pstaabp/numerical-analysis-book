@@ -239,7 +239,7 @@
 
     <p>
       The error associated with Gaussian quadrature can be found in much the same manner that we found for the Newton-Cotes formulas in <xref ref="sect-intro-quadature"/>.
-      In short the error associated with the interpolated polynomial is used and upon integration an error formula can be found.
+      In short, the error associated with the interpolated polynomial is used and upon integration an error formula can be found.
       We won't go into the details here mainly because the irregular spacing of the nodes (roots of Legendre polynomials) make the calculation more difficult than we saw for Newton-Cotes.
     </p>
   </subsection>

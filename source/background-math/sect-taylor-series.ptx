@@ -341,7 +341,7 @@
           </me>
           where
           <me>
-            \begin{aligned}\binom{k}{n}\amp = \frac{k(k-1)(k-2) \cdots (k-n+1)}{n!}= \frac{k!}{n!(k-n)!}\quad \text{when k \geq 0}\end{aligned}
+            \begin{aligned}\binom{k}{n}\amp = \frac{k(k-1)(k-2) \cdots (k-n+1)}{n!}= \frac{k!}{n!(k-n)!}\quad \text{when $k \geq 0$}\end{aligned}
           </me>
         </p>
       </li>

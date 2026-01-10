@@ -66,7 +66,7 @@
 
     <figure xml:id="fig-pop-mass">
       <caption></caption>
-      <image>
+      <image width="70%">
         <shortdescription>
         </shortdescription>
         <latex-image>
@@ -92,7 +92,7 @@
 
     <figure xml:id="fig-poly-pop">
       <caption></caption>
-      <image>
+      <image width="70%">
         <shortdescription>
         </shortdescription>
         <latex-image>
@@ -125,7 +125,7 @@
 
     <figure xml:id="fig-poly-simple">
       <caption></caption>
-      <image>
+      <image width="70%">
         <shortdescription>
         </shortdescription>
         <latex-image>
@@ -174,18 +174,18 @@
 
     <figure xml:id="fig-L1-min">
       <caption></caption>
-      <image>
+      <image width="70%">
         <shortdescription>
         </shortdescription>
         <latex-image>
       <![CDATA[
       \begin{tikzpicture}
-\draw[->] (-0.5,0) -- (7.5,0) node [above right] {$x$}; \foreach \x in {1,...,7} \draw (\x,0.1) -- (\x,-0.1) node [below] {\x};
- \draw[->] (0,-0.5) -- (0,5.5) node [above right] {$y$};
-\foreach \y in {1,...,5} \draw (0.1,\y) -- (-0.1,\y) node [left] {\y};
-\foreach \x/\y in {1/1.5,3/2,5/3,6/4} \fill (\x,\y) circle [radius=2pt];
-\draw[<->] plot [domain=0:6.5] (\x,{1.1255+0.3749*\x});
-\end{tikzpicture}
+        \draw[->] (-0.5,0) -- (7.5,0) node [above right] {$x$}; \foreach \x in {1,...,7} \draw (\x,0.1) -- (\x,-0.1) node [below] {\x};
+        \draw[->] (0,-0.5) -- (0,5.5) node [above right] {$y$};
+        \foreach \y in {1,...,5} \draw (0.1,\y) -- (-0.1,\y) node [left] {\y};
+        \foreach \x/\y in {1/1.5,3/2,5/3,6/4} \fill (\x,\y) circle [radius=2pt];
+        \draw[<->] plot [domain=0:6.5] (\x,{1.1255+0.3749*\x});
+      \end{tikzpicture}
       ]]>
         </latex-image>
       </image>
@@ -304,7 +304,7 @@
     <p>
       Setting <m>S_{\mathbf{a}}=0</m> and solving for <m>a</m> results in:
       <men xml:id="eq-ls-matrix-coeff">
-        \mathbf{a}= \begin{bmatrix}a \\ b\end{bmatrix}=(\mathbf{X}^{T}\mathbf{X})^{-1}\mathbf{X}^{T} \mathbf{y}\label
+        \mathbf{a}= \begin{bmatrix}a \\ b\end{bmatrix}=(\mathbf{X}^{T}\mathbf{X})^{-1}\mathbf{X}^{T} \mathbf{y}
       </men>
       where <m>a</m> and <m>b</m> are that in <xref ref="eq-least-sq-line"/>.
     </p>

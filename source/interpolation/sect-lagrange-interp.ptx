@@ -26,10 +26,10 @@
       <men xml:id="eq-lagrange-linear-comps">
         \begin{aligned}L_{1,0}(x)\amp = \frac{x-x_{1}}{x_{0}-x_{1}},\amp L_{1,1}(x)\amp = \frac{x-x_{0}}{x_{1} - x_{0}},\end{aligned}
       </men>
-      are called the Lagrange polynomials and are the “functional” part of <xref ref="eq-linear-lagrange"/>.
+      are called the Lagrange polynomials and are the <q>functional</q> part of <xref ref="eq-linear-lagrange"/>.
       In this case, they are a lines and have the properties:
       <men xml:id="eq-lagrange-linear-props">
-        \begin{aligned}L_{1,0}(x_{0})\amp = 1,\amp L_{1,0}(x_{1})\amp = 0,\amp L_{1,1}(x_{0})\amp = 0,\amp L_{1,1}(x_{1})\amp = 1.
+        \begin{aligned}L_{1,0}(x_{0})\amp = 1,\amp L_{1,0}(x_{1})\amp = 0,\\ L_{1,1}(x_{0})\amp = 0,\amp L_{1,1}(x_{1})\amp = 1.
         \end{aligned}
       </men>
     </p>
@@ -73,7 +73,7 @@
     <title>Quadratic Lagrange Polynomials</title>
 
     <p>
-      If we look at the above properties for the linear Lagrange polynomials in (eq:lagrange:linear:props), we can hypothesize the properties of a quadratic Lagrange polynomial.
+      If we look at the above properties for the linear Lagrange polynomials in <xref ref="eq-lagrange-linear-props"/>, we can hypothesize the properties of a quadratic Lagrange polynomial.
     </p>
 
     <p>
@@ -85,7 +85,7 @@
     <p>
       Also, analogous to <xref ref="eq-lagrange-linear-comps"/>, the following are the quadratic Lagrange polynomials.
       <men xml:id="eq-lagrange-quad-polys">
-        \begin{aligned}L_{2,0}(x)\amp = \frac{(x-x_{1})(x-x_{2})}{(x_{0}-x_{1})(x_{0}-x_{2})}, \notag \\ L_{2,1}(x)\amp = \frac{(x-x_{0})(x-x_{2})}{(x_{1}-x_{0})(x_{1}-x_{2})}, \notag \\ L_{2,2}(x)\amp = \frac{(x-x_{0})(x-x_{1})}{(x_{2}-x_{0})(x_{2}-x_{1})}.
+        \begin{aligned}L_{2,0}(x)\amp = \frac{(x-x_{1})(x-x_{2})}{(x_{0}-x_{1})(x_{0}-x_{2})}, \\ L_{2,1}(x)\amp = \frac{(x-x_{0})(x-x_{2})}{(x_{1}-x_{0})(x_{1}-x_{2})}, \notag \\ L_{2,2}(x)\amp = \frac{(x-x_{0})(x-x_{1})}{(x_{2}-x_{0})(x_{2}-x_{1})}.
         \end{aligned}
       </men>
     </p>
@@ -93,7 +93,7 @@
     <p>
       And the quadratic function that interpolates the data <m>\{(x_{0},f_{0}), (x_{1},f_{1}), (x_{2},f_{2})\}</m> is
       <men xml:id="eq-lagrange-quad">
-        \begin{aligned}y = f_{0} L_{2,0}(x) + f_{1} L_{2,1}(x)+f_{2} L_{2,2}(x) \label{eq:lagrange:quad}\end{aligned}
+        \begin{aligned}y = f_{0} L_{2,0}(x) + f_{1} L_{2,1}(x)+f_{2} L_{2,2}(x)\end{aligned}
       </men>
       and is the quadratic version of <xref ref="eq-linear-lagrange"/>.
     </p>
@@ -193,17 +193,17 @@
 
         <figure xml:id="fig-lagrange-interp">
           <caption></caption>
-          <image>
+          <image width="70%">
             <shortdescription>
             </shortdescription>
             <latex-image>
       <![CDATA[
-      \begin{tikzpicture}[xscale=3,yscale=5]
+      \begin{tikzpicture}[xscale=5,yscale=9]
 \draw[->] (-0.5,0) -- (1.2,0) node [above right] {$x$}; \foreach \x in {0.25,0.5,0.75,1} \draw (\x,0.02) -- (\x,-0.02) node [below] {\x};
  \draw[->] (0,-0.1) -- (0,0.6) node [above right] {$y$};
 \foreach \y in {0.1,0.2,0.3,0.4,0.5} \draw (0.02,\y) -- (-0.02,\y) node [left] {\y};
 \draw[<->] plot [domain=-0.2:1.2] (\x,{0.01923862081*pow(\x,4)-0.08107936270*pow(\x,3)+0.00479110462*\x*\x+0.3983943834*\x});
-\foreach \x/\y in {0/0,0.25/0.0987,0.50/0.1915,0.75/0.2734,1.0/0.3413} \fill (\x,\y) ellipse [x radius=0.5pt, y radius = 0.3pt];
+\foreach \x/\y in {0/0,0.25/0.0987,0.50/0.1915,0.75/0.2734,1.0/0.3413} \fill (\x,\y) ellipse [x radius=0.25pt, y radius = 0.15pt];
 \end{tikzpicture}
       ]]>
             </latex-image>
@@ -346,7 +346,7 @@
             \begin{aligned}g(x)\amp = f(x) - P(x) - \bigl(f(x) - P(x) \bigr) \prod_{i=0}^{n} \frac{x-x_{i}}{x-x_{i}}\\\amp = f(x) - P(x) - \bigl(f(x) - P(x)\bigr) \cdot 1 = 0.\end{aligned}
           </me>
           therefore <m>g</m> has <m>n+2</m> roots on <m>[a,b]</m>.
-          Applying the Generalized Rolle's Theorem given in Theorem thm:generalized:rolles, it follows that there exists <m>\xi \in [a,b]</m> such that <m>g^{(n+1)}(\xi) = 0</m>.
+          Applying the Generalized Rolle's Theorem given in <xref ref="thm-generalized-rolles"/>, it follows that there exists <m>\xi \in [a,b]</m> such that <m>g^{(n+1)}(\xi) = 0</m>.
         </p>
 
         <p>
@@ -508,7 +508,7 @@
     <p>
       Unfortunately, the Lagrange form requires that we start from scratch and rebuild the polynomial.
       That is, we can't use the current polynomial to find a new polynomial.
-      We will see that this is possible with the Newton Divided Differences.
+      We will see that this is possible with the Newton Divided Differences in the next section.
     </p>
   </subsection>
 </section>

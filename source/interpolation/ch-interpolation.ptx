@@ -2,7 +2,7 @@
   <title>Interpolation Theory and Practice</title>
   <introduction>
     <p>
-      Say things here.
+      Interpolation is the act of finding a function that passes through a set of points.  It is important first step in filling in gaps between data or approximating functions with simpler functions for computational purposes.  In this chapter, we introduce interpolation, and show how and why it works. 
     </p>
   </introduction>
   <xi:include href="./sect-intro-interpolation.ptx" />

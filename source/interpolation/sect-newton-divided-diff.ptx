@@ -95,12 +95,17 @@
       <row>
         <cell> <m>x_{0}</m> </cell>
         <cell> <m>f[x_{0}]</m> </cell>
+        <cell></cell>
+        <cell></cell>
+        <cell></cell>
       </row>
 
       <row>
         <cell> </cell>
         <cell> </cell>
         <cell> <m>f[x_{0},x_{1}]</m> </cell>
+        <cell></cell>
+        <cell></cell>
       </row>
 
       <row>
@@ -108,6 +113,7 @@
         <cell> <m>f[x_{1}]</m> </cell>
         <cell> </cell>
         <cell> <m>f[x_{0},x_{1},x_{2}]</m> </cell>
+        <cell></cell>
       </row>
 
       <row>
@@ -123,17 +129,23 @@
         <cell> <m>f[x_{2}]</m> </cell>
         <cell> </cell>
         <cell> <m>f[x_{1},x_{2},x_{3}]</m> </cell>
+        <cell></cell>
       </row>
 
       <row>
         <cell> </cell>
         <cell> </cell>
         <cell> <m>f[x_{2},x_{3}]</m> </cell>
+        <cell></cell>
+        <cell></cell>
       </row>
 
       <row>
         <cell> <m>x_{3}</m> </cell>
         <cell> <m>f[x_{3}]</m> </cell>
+        <cell></cell>
+        <cell></cell>
+        <cell></cell>
       </row>
     </tabular>
 
@@ -173,6 +185,7 @@
 
       <solution>
         <tabular>
+          <col right="minor"> </col> <col> </col> <col> </col> <col> </col> <col> </col>
           <row>
             <cell> <m>x_{0}=0</m> </cell>
             <cell> <m>f[x_{0}]=0</m> </cell>
@@ -226,7 +239,7 @@
           <me>
             f[x_{1},x_{2},x_{3}] = \frac{f[x_{2},x_{3}]-f[x_{1},x_{2}]}{x_{3}-x_{1}}= \frac{1 - \frac{1}{2}}{6-1} = - \frac{1}{10}.
           </me>
-          where the top is always the differences of the two adjacent numbers, but the denominator are the first-column values followed back (see the boxed values above).
+          where the numerator is the difference of the two adjacent numbers, and the denominator are the first-column values followed back (see the boxed values above).
         </p>
       </solution>
     </example>
@@ -331,6 +344,7 @@
         </p>
 
         <tabular>
+          <col> </col> <col> </col> <col> </col> <col> </col> <col> </col><col> </col><col> </col>
           <row>
             <cell> <m>i</m> </cell>
             <cell> <m>x_{i}</m> </cell>

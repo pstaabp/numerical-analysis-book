@@ -77,7 +77,7 @@
 
         <figure xml:id="fig-plot3419843">
           <caption></caption>
-          <image>
+          <image width="70%">
             <shortdescription>
             </shortdescription>
             <latex-image>
@@ -200,7 +200,7 @@
     <example>
       <statement>
         <p>
-          Find the first 4 polynomials that are orthogonal with respect to the weight function <m>w(x) \equiv x</m> on <m>[-1,1]</m> using the Gram-Schmidt process.
+          Find the first 4 polynomials that are orthogonal with respect to the weight function <m>w(x) \equiv 1</m> on <m>[-1,1]</m> using the Gram-Schmidt process.
         </p>
       </statement>
 

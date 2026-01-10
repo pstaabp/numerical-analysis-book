@@ -8,7 +8,7 @@
 
     <p>
       In the first case, we desire to know <m>f'(x)</m>, the derivative of a function <m>f</m> for some value of <m>x</m>.
-      Although most functions can be easily differentiated, if it is too complicated often a numerical derivative is sought instead.
+      Although most functions can be easily differentiated, if it is too complicated often a numerical derivative is sought instead or as we will see the function is not known. 
     </p>
 
     <p>

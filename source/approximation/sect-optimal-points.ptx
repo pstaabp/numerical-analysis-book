@@ -6,7 +6,7 @@
       In  <xref ref="ch-interpolation"/>, we investigated the details of interpolation.
       In most cases we used equally-spaced points as the interpolation nodes.
       The main problem with using such points is that the error associated with this increases as the number of points increases.
-      For example, recall the plot in Figure ???? On the edges on the interpolation domain, the function swings far above the points.
+      For example, recall the plot in <xref ref="fig-poly-pop"/> On the edges on the interpolation domain, the function swings far above the points.
       In this section, we look at how to select the interpolation nodes <m>x_{0},x_{1}, \ldots, x_{n}</m> that may do better.
     </p>
   </introduction>
@@ -34,9 +34,7 @@
       These don’t look much like polynomials, but we will see, in fact, they are.
       To see that they are each polynomials, we first need to establish,
       <men xml:id="eq-chebyshev-recur-1">
-        \begin{aligned}T_{n+1}(x)\amp = \cos ((n+1) \cos^{-1}x) = \cos (n \cos^{-1}x + \cos^{-1}x)\\
-         \amp \qquad \text{and using the sum formula of cosine, one gets} \\
-         T_{n+1}(x)\amp = \cos (n\cos^{-1}x) \cos(\cos^{-1}x) - \sin(n \cos^{-1}x) \sin (\cos^{-1}x).
+        \begin{aligned}T_{n+1}(x)\amp = \cos ((n+1) \cos^{-1}x) = \cos (n \cos^{-1}x + \cos^{-1}x)\\ \amp \qquad \text{and using the sum formula of cosine, one gets} \\ T_{n+1}(x)\amp = \cos (n\cos^{-1}x) \cos(\cos^{-1}x) - \sin(n \cos^{-1}x) \sin (\cos^{-1}x).
         \end{aligned}
       </men>
     </p>
@@ -81,7 +79,7 @@
 
     <figure xml:id="fig-plot-chebyshev5">
       <caption></caption>
-      <image>
+      <image width="70%">
         <shortdescription>
         </shortdescription>
         <latex-image>
@@ -280,7 +278,7 @@
     <p>
       The previous theorem says that the monic polynomials with smallest maximum norm (or <m>\ell_{\infty}</m>) are the Chebyshev polynomials.
       Let’s return to the error formula for interpolation.
-      Recall that from Theorem thm:interp:error, if <m>P(x)</m> is the interpolated polynomials using the nodes <m>x_{0}, x_{1}, \ldots, x_{n}</m>, then the error is given by
+      Recall that from <xref ref="thm-interp-error"/>, if <m>P(x)</m> is the interpolated polynomials using the nodes <m>x_{0}, x_{1}, \ldots, x_{n}</m>, then the error is given by
       <me>
         \begin{aligned}|f(x)-P(x)|\amp = \biggl\vert \frac{f^{(n+1)}(\xi(x))}{(n+1)!}\prod_{i=0}^{n} (x-x_{i}) \biggr\vert,\end{aligned}
       </me>
@@ -321,7 +319,7 @@
 
         <figure xml:id="fig-plot3298098234">
           <caption></caption>
-          <image>
+          <image width="70%">
             <shortdescription>
             </shortdescription>
             <latex-image>
@@ -417,18 +415,18 @@
           We can then use either Newton Divided Differences or Lagrange polynomials to find the interpolant through these points to arrive at:
           <me>
             \begin{aligned}p_{4}(x)\amp = -0.1751756924x^{3}+0.5429007218x^{2}-0.9989332286x+0.9946153174\end{aligned}
-          </me>
+          </me><![CDATA[]]>
           and examining a plot of <m>p_{4}(x)</m> and <m>e^{-x}</m> on <m>[-1,1]</m>, we get:
         </p>
 
         <figure xml:id="fig-plot-12341234">
           <caption></caption>
-          <image>
+          <image width="70%">
             <shortdescription>
             </shortdescription>
             <latex-image>
       <![CDATA[
-      \begin{tikzpicture}[yscale=1.5,xscale=2]
+      \begin{tikzpicture}[yscale=2,xscale=3]
 \draw[->] (-0.5,0) -- (1.5,0) node [above right] {$x$}; \foreach \x in {1} \draw (\x,0.1) -- (\x,-0.1) node [below] {\x};
  \draw[->] (0,-0.5) -- (0,1.5) node [above right] {$y$};
 \foreach \y in {1} \draw (0.1,\y) -- (-0.1,\y) node [left] {\y};
@@ -446,16 +444,16 @@
 
         <figure xml:id="fig-plot322489">
           <caption></caption>
-          <image>
+          <image width="70%">
             <shortdescription>
             </shortdescription>
             <latex-image>
       <![CDATA[
-      \begin{tikzpicture}[yscale=75,xscale=2]
+      \begin{tikzpicture}[yscale=125,xscale=3]
 \draw[->] (-0.5,0) -- (1.5,0) node [above right] {$x$}; \foreach \x in {1} \draw (\x,0.001) -- (\x,-0.001) node [below] {\x};
  \draw[->] (0,-0.005) -- (0,0.025) node [above right] {$y$};
 \foreach \y in {0.01,0.02} \draw (0.03,\y) -- (-0.03,\y) node [left] {\y};
-\draw[<->,dashed] plot[domain=-0.1:1.1] (\x,{abs(exp(-\x) -(-0.1751756924*\x*\x*\x+.5429007218*\x*\x-.9989332286*\x+.9946153174))});
+\draw[<->,dashed] plot[domain=-0.1:1.1, smooth, samples=150] (\x,{abs(exp(-\x) -(-0.1751756924*\x*\x*\x+.5429007218*\x*\x-.9989332286*\x+.9946153174))});
 \end{tikzpicture}
       ]]>
             </latex-image>
@@ -511,7 +509,6 @@
         </p>
 
         <tabular>
-
           <row bottom="minor">
             <cell> <m>k</m> </cell>
             <cell> <m>t_{k}</m> </cell>
@@ -574,7 +571,7 @@
 
         <figure xml:id="fig-plot23234">
           <caption></caption>
-          <image>
+          <image width="70%">
             <shortdescription>
             </shortdescription>
             <latex-image>
@@ -602,7 +599,7 @@
 
         <figure xml:id="fig-plot323">
           <caption></caption>
-          <image>
+          <image width="70%">
             <shortdescription>
             </shortdescription>
             <latex-image>
@@ -655,7 +652,6 @@
             <cell> <m>t_{j}</m> </cell>
             <cell> <m>f(t_{j})</m> </cell>
           </row>
-
 
           <row>
             <cell>1</cell>

@@ -36,7 +36,7 @@
             </shortdescription>
             <latex-image>
               <![CDATA[
-                \begin{tikzpicture}[scale=2]
+                \begin{tikzpicture}[scale=3]
                   \draw[->] (-1,0) -- (1.75,0) node [above right] {$x$};
                   \draw[->] (0,-0.5) -- (0,1.25) node [above right] {$y$};
                   \draw[<->] (-0.5,-0.5) -- (1.25,1.25);

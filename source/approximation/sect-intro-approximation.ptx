@@ -150,7 +150,7 @@
     <example>
       <statement>
         <p>
-          Show that <m>\R^{n}</m> is an inner product space with <m>\bu=(u_{1}, u_{2}, \ldots, u_{n})^{T}</m> and <m>\bv=(v_{1},v_{2}, \ldots,v_{n})^{T}</m> and <m>\langle \bu, \bv \rangle = \bu^{T} \bv</m>.
+          Show that <m>\R^{n}</m> is an inner product space with <m>\bu=(u_{1}, u_{2}, \ldots, u_{n})^{\intercal}</m> and <m>\bv=(v_{1},v_{2}, \ldots,v_{n})^{\intercal}</m> and <m>\langle \bu, \bv \rangle = \bu^{\intercal} \bv</m>.
         </p>
 
         <p>
@@ -166,7 +166,7 @@
             <li>
               <p>
                 <me>
-                  \langle \bu, \bv \rangle = \bu^{T} \bv = (\bu^{T} \bv)^{T} = \bv^{T} (\bu^{T})^{T} = \bv^{T} \bu = \langle \bv, \bu \rangle.
+                  \langle \bu, \bv \rangle = \bu^{\intercal} \bv = (\bu^{\intercal} \bv)^{\intercal} = \bv^{\intercal} (\bu^{\intercal})^{\intercal} = \bv^{\intercal} \bu = \langle \bv, \bu \rangle.
                 </me>
                 so the first property is satisfied.
               </p>
@@ -174,7 +174,7 @@
 
             <li>
               <me>
-                \begin{aligned} \langle a \bu + b \bv, \bw \rangle\amp= (a \bu + b\bv)^{T} \bw = (a \bu^{T} + b \bv^{T}) \bw \\ \amp= a \bu^{T} \bw + b \bv^{T} \bw = a \langle \bu, \bw \rangle + b \langle \bv, \bw \rangle.
+                \begin{aligned} \langle a \bu + b \bv, \bw \rangle\amp= (a \bu + b\bv)^{\intercal} \bw = (a \bu^{\intercal} + b \bv^{\intercal}) \bw \\ \amp= a \bu^{\intercal} \bw + b \bv^{\intercal} \bw = a \langle \bu, \bw \rangle + b \langle \bv, \bw \rangle.
                 \end{aligned}
               </me>
             </li>
@@ -182,7 +182,7 @@
             <li>
               <p>
                 <me>
-                  \langle \bu, \bu \rangle = \bu^{T} \bu = u_{1}^{2} + u_{2}^{2} + u_{3}^{2} + \cdots + u_{n}^{2}
+                  \langle \bu, \bu \rangle = \bu^{\intercal} \bu = u_{1}^{2} + u_{2}^{2} + u_{3}^{2} + \cdots + u_{n}^{2}
                 </me>
                 which satisfies <m>\geq 0</m>.
                 The only time that this quantity equals 0, is when <m>u_{1}=u_{2} = \cdots =u_{n}=0</m> or <m>\bu = \bzero</m>.

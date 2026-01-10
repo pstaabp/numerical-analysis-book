@@ -9,8 +9,8 @@
       <men xml:id="eq-norm-curve-cum-dist">
         \int_{0}^{a} e^{-x^2}\, dx
       </men>
-      that appears in Chapter ch:intro that is related to the normal curve in Probability and Statistics.
-      There is no simple antiderivative of <m>e^{-x^2}</m> and thus we need to resort to other methods to evaluate (eq:norm:curve:cum:dist) for values of <m>a</m>.
+      which is similar to <xref ref="eq-cum-dist-normal"/> that is related to the normal curve in Probability and Statistics.
+      There is no simple antiderivative of <m>e^{-x^2}</m> and thus we need to resort to other methods to evaluate <xref ref="eq-norm-curve-cum-dist"/> for values of <m>a</m>.
     </p>
 
     <p>
@@ -32,7 +32,7 @@
     <p>
       This may look similar to that of a Riemann sum from Calculus.
       You may recall that the Riemann sum (for a finite number of rectangles) is an approximation to the area under the curve or the definite integral.
-      Typically, if <m>w_{i}=h=x_{i+1}-x_{i}</m>, that is the points used in evaluation are equally spaced, then (eq:quad:basic) is the Riemann sum.
+      Typically, if <m>w_{i}=h=x_{i+1}-x_{i}</m>, that is the points used in evaluation are equally spaced, then <xref ref="eq-quad-basic"/> is the Riemann sum.
     </p>
   </introduction>
 
@@ -106,12 +106,12 @@
 
     <figure xml:id="fig-trapezoid">
       <caption></caption>
-      <image>
+      <image width="70%">
         <shortdescription>
         </shortdescription>
         <latex-image>
       <![CDATA[
-      \begin{tikzpicture}[yscale=0.6]
+      \begin{tikzpicture}[yscale=1.2, xscale=2]
 \draw (-0.5,0) -- (5,0);
 \draw (0,-1) -- (0,4);
 \fill[lightgray] (1,1) -- (3,3) -- (3,0) -- (1,0) -- cycle;
@@ -148,7 +148,7 @@
       and we will define <m>h = (b-a)/2</m> to be half the total distance between <m>a</m> and <m>b</m>.
       The Lagrange polynomials through these points are:
       <me>
-        \begin{aligned}L_{2,0}(x)\amp = \frac{(x-x_{1})(x-x_{2})}{2h^{2}},\amp L_{2,1}(x)\amp = \frac{(x-x_{0})(x-x_{2})}{-h^{2}}, \\ L_{2,2}(x)\amp = \frac{(x-x_{0})(x-x_{1})}{2h^{2}},\end{aligned}
+        \begin{aligned}L_{2,0}(x)\amp = \frac{(x-x_{1})(x-x_{2})}{2h^{2}},\\ L_{2,1}(x)\amp = \frac{(x-x_{0})(x-x_{2})}{-h^{2}}, \\ L_{2,2}(x)\amp = \frac{(x-x_{0})(x-x_{1})}{2h^{2}},\end{aligned}
       </me>
       and the weights are:
       <me>
@@ -159,7 +159,7 @@
     <p>
       If we define <m>x=a+th</m>, these can be written:
       <me>
-        \begin{aligned}w_{0}\amp = \frac{h}{2}\int_{0}^{2} (t-1)(t-2) \, dt = \frac{h}{3},\amp w_{1}\amp = -h \int_{0}^{2} t(t-2) \, dt = \frac{4h}{3}, \\ w_{2}\amp = \frac{h}{2}\int_{0}^{2} t(t-1) \, dt = \frac{h}{3}, \\\end{aligned}
+        \begin{aligned} w_{0}\amp = \frac{h}{2}\int_{0}^{2} (t-1)(t-2) \, dt = \frac{h}{3},\\ w_{1}\amp = -h \int_{0}^{2} t(t-2) \, dt = \frac{4h}{3}, \\ w_{2}\amp = \frac{h}{2}\int_{0}^{2} t(t-1) \, dt = \frac{h}{3}, \\\end{aligned}
       </me>
       so the quadrature formula in this case using the above points and weights and substituting into <xref ref="eq-quad-basic"/> can be written as follows.
     </p>
@@ -389,7 +389,7 @@
       This is an alternative to using the interpolation polynomial to find the <m>w_{i}</m>.
     </p>
 
-    <example>
+    <example xml:id="ex-open-newton-coates">
       <statement>
         <p>
           Find <m>w_{0}</m> and <m>w_{1}</m> such that the quadrature rule on <m>[a,b]</m> for <m>\int_{a}^{b} f(x) \, dx</m> given by
@@ -679,5 +679,43 @@
         </p>
       </statement>
     </example>
+  </subsection>
+
+
+  <subsection>
+    <title>Exercises and Projects</title>
+
+    <project>
+      <statement>
+        <p>
+          In <xref ref="ex-open-newton-coates"/>, we derived an open Newton-Cotes formula for quadrature.  An alternative way to derive these is to do a similar analysis of quadrature that we did above for the closed Newton-Cotes formulas.  
+        </p>
+        <p>
+          Investigate the Open Newton-Coates formula and provide examples of applying the formula for various functions.  Note that these can be helpful for analyzing type II improper integrals (see a standard calculus book). 
+        </p>
+      </statement>
+    </project>
+
+    <project>
+      <statement>
+        <p>
+          Consider an integral of the form:
+          <me>
+            \int_{-\infty}^b f(x) \, dx
+          </me>
+          or
+          <me>
+            \int_{a}^{\infty} f(x) \, dx
+          </me>
+        </p>
+
+        <p>
+          The way to handle these integrals is to do a transformation (substitution) that maps from <m>(-\infty,b]</m> or <m>[a,\infty)</m> to a finite interval, say <m>[c,d]</m> and then perform a standard quadrature technique on the transformed integral. 
+        </p>
+        <p>
+          Investigate some possible transformations, apply some standard techniques and find error formulas for the new quadrature formula. 
+        </p>
+      </statement>
+    </project>
   </subsection>
 </section>
