@@ -82,38 +82,40 @@
 <figure class="table table-like"><figcaption><span class="type">Table</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">2.3.17<span class="period heading-divison-mark heading-divison-mark__period">.</span></span><span class="space heading-divison-mark heading-divison-mark__space"> </span>Table that show Newton’s method is quadratic convergence<div class="autopermalink" data-description="Table 2.3.17: Table that show Newton’s method is quadratic convergence"><a href="#ex-convergence-newton-method-sqrt-65-2-4" title="Copy heading and permalink for Table 2.3.17: Table that show Newton’s method is quadratic convergence" aria-label="Copy heading and permalink for Table 2.3.17: Table that show Newton’s method is quadratic convergence">🔗</a></div></figcaption><div class="tabular-box natural-width"><table class="tabular">
 <tr>
 <td class="l m b1 r0 l0 t0 lines"><span class="process-math">\(n\)</span></td>
-<td class="l m b1 r0 l0 t0 lines"><span class="process-math">\(e_{n+1}/e_{n}^{2}\)</span></td>
+<td class="l m b1 r0 l0 t0 lines"><span class="process-math">\(\ln(e_{n+2}/e_{n+1})/\ln(e_{n+1}/e_n)\)</span></td>
 </tr>
 <tr>
-<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(1\)</span></td>
-<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(0.50000000000000000000\)</span></td>
+<td class="l m b0 r0 l0 t0 lines">0</td>
+<td class="l m b0 r0 l0 t0 lines">1.178900923244053</td>
 </tr>
 <tr>
-<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(2\)</span></td>
-<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(0.015151515151515151514\)</span></td>
+<td class="l m b0 r0 l0 t0 lines">1</td>
+<td class="l m b0 r0 l0 t0 lines">1.3473842470980333</td>
 </tr>
 <tr>
-<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(3\)</span></td>
-<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(0.028596187175043327555\)</span></td>
+<td class="l m b0 r0 l0 t0 lines">2</td>
+<td class="l m b0 r0 l0 t0 lines">1.6184379407788283</td>
 </tr>
 <tr>
-<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(4\)</span></td>
-<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(0.047164576903451453271\)</span></td>
+<td class="l m b0 r0 l0 t0 lines">3</td>
+<td class="l m b0 r0 l0 t0 lines">1.8884480463362425</td>
 </tr>
 <tr>
-<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(5\)</span></td>
-<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(0.059763677424166397344\)</span></td>
+<td class="l m b0 r0 l0 t0 lines">4</td>
+<td class="l m b0 r0 l0 t0 lines">1.990935253721586</td>
 </tr>
 <tr>
-<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(6\)</span></td>
-<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(0.061974903037885230164\)</span></td>
+<td class="l m b0 r0 l0 t0 lines">5</td>
+<td class="l m b0 r0 l0 t0 lines">1.9997878352631038</td>
 </tr>
-<tr>
-<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(7\)</span></td>
-<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(0.062017343454547928227\)</span></td>
-</tr>
-<tr><td class="l m b0 r0 l0 t0 lines"></td></tr>
-</table></div></figure><div class="para">And this shows that this appears to be quadratically convergent with asymptotic error constant <span class="process-math">\(\lambda \approx 0.06\)</span><div class="autopermalink" data-description="Paragraph"><a href="#ex-convergence-newton-method-sqrt-65-2-5" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</table></div></figure><div class="para logical">
+<div class="para">From this analysis, it appears that in fact, this method converges linearly. The asymptote error constant is:</div>
+<div class="displaymath process-math">
+\begin{equation*}
+\lambda = \frac{e_{n+1}}{e_n^2} = \frac{3.06 \cdot 10^{-27}}{(2.2182083323568204 \cdot 10^{-13})^2} \approx 0.06208
+\end{equation*}
+</div>
+<div class="autopermalink" data-description="Paragraph"><a href="#ex-convergence-newton-method-sqrt-65-2-5" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
 </div>
 <div class="autopermalink" data-description="Solution 2.3.15.1"><a href="#ex-convergence-newton-method-sqrt-65-2" title="Copy heading and permalink for Solution 2.3.15.1" aria-label="Copy heading and permalink for Solution 2.3.15.1">🔗</a></div>
 </div></details></div>

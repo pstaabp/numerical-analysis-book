@@ -65,38 +65,40 @@
 <td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(2.894257120155\cdot10^{-14}\)</span></td>
 </tr>
 <tr><td class="l m b0 r0 l0 t0 lines"></td></tr>
-</table></div></figure> <div class="para">Looking at the errors, they appear to be dropping in a linear way (each is about 1/100 of the previous one), so we can determine if this is indeed the case with the following table of <span class="process-math">\(e_{n+1}/e_{n}\text{.}\)</span><div class="autopermalink" data-description="Paragraph"><a href="#ex-order-convergence-YASRA-1-5" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</table></div></figure> <div class="para">Looking at the errors, they appear to be dropping in a linear way (each is about 1/100 of the previous one), but let’s use the formula above:<div class="autopermalink" data-description="Paragraph"><a href="#ex-order-convergence-YASRA-1-5" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
 </div> <figure class="table table-like"><figcaption><span class="type">Table</span><span class="space heading-divison-mark heading-divison-mark__space"> </span><span class="codenumber">2.3.14<span class="period heading-divison-mark heading-divison-mark__period">.</span></span><span class="space heading-divison-mark heading-divison-mark__space"> </span>Using a table to estimate the convergence rate of YASRA<div class="autopermalink" data-description="Table 2.3.14: Using a table to estimate the convergence rate of YASRA"><a href="#ex-order-convergence-YASRA-1-6" title="Copy heading and permalink for Table 2.3.14: Using a table to estimate the convergence rate of YASRA" aria-label="Copy heading and permalink for Table 2.3.14: Using a table to estimate the convergence rate of YASRA">🔗</a></div></figcaption><div class="tabular-box natural-width"><table class="tabular">
 <tr>
 <td class="l m b1 r0 l0 t0 lines"><span class="process-math">\(n\)</span></td>
-<td class="l m b1 r0 l0 t0 lines"><span class="process-math">\(e_{n+1}/e_{n}\)</span></td>
+<td class="l m b1 r0 l0 t0 lines"><span class="process-math">\(\ln(e_{n+2}/e_{n+1})/\ln(e_{n+1}/e_n)\)</span></td>
 </tr>
 <tr>
-<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(0\)</span></td>
-<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(0.0038911\)</span></td>
+<td class="l m b0 r0 l0 t0 lines">0</td>
+<td class="l m b0 r0 l0 t0 lines">0.8747372133045498</td>
 </tr>
 <tr>
-<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(1\)</span></td>
-<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(0.0077973\)</span></td>
+<td class="l m b0 r0 l0 t0 lines">1</td>
+<td class="l m b0 r0 l0 t0 lines">0.9538685373847787</td>
 </tr>
 <tr>
-<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(2\)</span></td>
-<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(0.0097542\)</span></td>
+<td class="l m b0 r0 l0 t0 lines">2</td>
+<td class="l m b0 r0 l0 t0 lines">0.975439938281658</td>
 </tr>
 <tr>
-<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(3\)</span></td>
-<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(0.0109290\)</span></td>
+<td class="l m b0 r0 l0 t0 lines">3</td>
+<td class="l m b0 r0 l0 t0 lines">0.9846245750612836</td>
 </tr>
 <tr>
-<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(4\)</span></td>
-<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(0.0117122\)</span></td>
+<td class="l m b0 r0 l0 t0 lines">4</td>
+<td class="l m b0 r0 l0 t0 lines">0.9936913420698572</td>
 </tr>
-<tr>
-<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(5\)</span></td>
-<td class="l m b0 r0 l0 t0 lines"><span class="process-math">\(0.0122716\)</span></td>
-</tr>
-<tr><td class="l m b0 r0 l0 t0 lines"></td></tr>
-</table></div></figure> <div class="para">From this analysis, it appears that in fact, this method converges linearly and with asymptotic error constant <span class="process-math">\(\lambda \approx 0.013\text{.}\)</span><div class="autopermalink" data-description="Paragraph"><a href="#ex-order-convergence-YASRA-1-7" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
+</table></div></figure> <div class="para logical">
+<div class="para">From this analysis, it appears that in fact, this method converges linearly. The asymptote error constant is:</div>
+<div class="displaymath process-math">
+\begin{equation*}
+\lambda = \frac{e_{n+1}}{e_n} = \frac{2.894257120155\cdot10^{-14}}{2.358481020952\cdot10^{-12}} \approx 0.01227
+\end{equation*}
+</div>
+<div class="autopermalink" data-description="Paragraph"><a href="#ex-order-convergence-YASRA-1-7" title="Copy heading and permalink for Paragraph" aria-label="Copy heading and permalink for Paragraph">🔗</a></div>
 </div>
 <div class="autopermalink" data-description="Example 2.3.12"><a href="#ex-order-convergence-YASRA" title="Copy heading and permalink for Example 2.3.12" aria-label="Copy heading and permalink for Example 2.3.12">🔗</a></div></article><span class="incontext"><a class="internal" href="sect-convergence-sequence.html#ex-order-convergence-YASRA">in-context</a></span>
 </body>
