@@ -1,0 +1,418 @@
+<section xml:id="sect-other-rootfinding">
+  <title>Other Rootfinding Methods</title>
+
+  <introduction>
+    <p>
+      In <xref ref="sect-newtons-method"/>, we saw Newton's method.
+      Although it's not a perfect rootfinding algorithm, Newton's method has a lot of strength including it's relative simplicity and quadratic convergence.
+      However, one drawback is that it requires taking the derivative.
+      In this chapter we will see the secant method which uses a secant line instead of a tangent line to estimate the root.
+    </p>
+
+    <p>
+      Additional methods including the blending of the methods we've seen including using the speed of Newton's method with the bisection method which guarantees a root.
+    </p>
+  </introduction>
+
+
+  <subsection xml:id="subsec-secant-method">
+    <title>The Secant Method</title>
+
+    <p>
+      Recall that in <xref ref="sect-newtons-method"/>, we used the tangent line to the function <m>f(x)</m> to estimate the root.
+      If instead, we use the secant line, we do the same.
+      <xref ref="fig-secant-method"/> shows the secant line through a function <m>y=f(x)</m> through two points <m>(x_1, f(x_1))</m> and <m>(x_2, f(x_2))</m>.
+      The zero of the secant line is found and labelled as <m>x_3</m>.
+      This is used recursively.
+    </p>
+
+    <figure xml:id="fig-secant-method">
+      <caption></caption>
+      <image width="75%">
+        <shortdescription>
+        </shortdescription>
+        <latex-image>
+          <![CDATA[ 
+          \begin{tikzpicture}[scale =2]
+            \draw[->] (-1,0) -- (5,0) node [above right] {$x$};
+            \draw[->] (0,-3) -- (0,3); 
+            \draw[<->] plot [domain=-0.5:4] (\x,{0.3*(\x-1.25)^2-0.5});
+            \draw (3,0.1) -- (3,-0.1) node [below] {$x_2$};
+            \draw (4,0.1) -- (4,-0.1) node [below] {$x_1$};
+            \fill (3,{0.3*(3-1.25)^2-0.5}) circle (1pt);
+            \fill (4,{0.3*(4-1.25)^2-0.5}) circle (1pt);
+            \draw ({(0.5-0.3*(3-1.25)^2)/(0.3*((4-1.25)^2-(3-1.25)^2))+ 3},0.1) 
+            -- ({(0.5-0.3*(3-1.25)^2)/(0.3*((4-1.25)^2-(3-1.25)^2))+ 3},-0.1) node [below] {$x_3$};
+            \draw plot[domain =2:4.25] (\x, {(0.3*((4-1.25)^2-(3-1.25)^2))*(\x-3)+0.3*(3-1.25)^2-0.5});
+          \end{tikzpicture}
+          ]]>
+        </latex-image>
+      </image>
+    </figure>
+
+    <p>
+      Recall that a secant line through the points <m>(x_1, f(x_1))</m> and <m>(x_2, f(x_2))</m> can be written
+      <me>
+        y = f(x_2) + \frac{f(x_2)-f(x_1)}{x_2-x_1} (x - x_2)
+      </me>
+      and the zeros of this line is
+      <me>
+        x = x_2 - f(x_2) \frac{x_2-x_1}{f(x_2)-f(x_1)}
+      </me>
+      This value is thus used to find an approximation to the root or
+      <me>
+        x_3 = x_2 - f(x_2) \frac{x_2-x_1}{f(x_2)-f(x_1)}
+      </me>
+    </p>
+
+    <p>
+      If this is same formula is used recursively, then we have
+      <men xml:id="eq-secant-step">
+        x_{n+1} = x_n - f(x_n) \frac{x_n-x_{n-1}}{f(x_n)-f(x_{n-1})}
+      </men>
+    </p>
+
+    <algorithm xml:id="alg-secant-method">
+      <title>Secant Rootfinding Method</title>
+
+      <statement>
+        <p>
+          The following will find the root <m>p</m> to within <m>\epsilon</m> using the <term>secant method</term>:
+        </p>
+
+        <p>
+          <ol>
+            <li>
+              <p>
+                Start with two approximations of the root called <m>x_0</m> and <m>x_1</m>.
+                Let <m>n=1</m>.
+              </p>
+            </li>
+
+            <li>
+              <p>
+                Find
+                <me>
+                  x_{n+1} = x_n - f(x_n) \frac{x_n-x_{n-1}}{f(x_n)-f(x_{n-1})}
+                </me>
+              </p>
+            </li>
+
+            <li>
+              <p>
+                If <m>|x_{n+1}-x_n| &lt; \epsilon</m>, stop.
+                The best approximation to the root <m>p</m> is <m>x_{n+1}</m>.
+                If not, increment <m>n</m> by 1 and return to step 2.
+              </p>
+            </li>
+          </ol>
+        </p>
+
+        <p>
+          Note: An alternative stopping condition would be use <m>|f(x_{n+1})| \lt \epsilon</m>.
+        </p>
+      </statement>
+    </algorithm>
+
+    <p>
+      The next example shows the detailed steps to use the secant method.
+    </p>
+
+    <example>
+      <statement>
+        <p>
+          Use the secant method to find the intersection point of <m>y=\cos x</m> and <m>y=x</m> or finding the root of <m>f(x) = \cos x - x</m>.
+          This is the same function as in <xref ref="ex-newtons-method"/>.
+          Use <m>x_0=1.5</m> and <m>x_1 = 1</m>.
+        </p>
+      </statement>
+
+      <solution>
+        <p>
+        </p>
+
+        <table xml:id="table-root-convergence">
+          <title>Convergence of Root-Finding Method</title>
+
+          <tabular top="major" left="minor" right="minor" bottom="minor" halign="right">
+            <row header="yes" bottom="medium">
+              <cell><m>n</m></cell>
+              <cell><m>x_n</m></cell>
+              <cell><m>f(x_n)</m></cell>
+            </row>
+
+            <row>
+              <cell>0</cell>
+              <cell><m>1.50000000000000000000</m></cell>
+              <cell><m>-1.429262798332</m></cell>
+            </row>
+
+            <row>
+              <cell>1</cell>
+              <cell><m>1.00000000000000000000</m></cell>
+              <cell><m>-4.596976941319\times 10^{-01}</m></cell>
+            </row>
+
+            <row>
+              <cell>2</cell>
+              <cell><m>0.76293613902753061761</m></cell>
+              <cell><m>-4.012601889379\times 10^{-02}</m></cell>
+            </row>
+
+            <row>
+              <cell>3</cell>
+              <cell><m>0.74026437750068385814</m></cell>
+              <cell><m>-1.974111129638\times 10^{-03}</m></cell>
+            </row>
+
+            <row>
+              <cell>4</cell>
+              <cell><m>0.73909126246184205257</m></cell>
+              <cell><m>-1.025799485867\times 10^{-05}</m></cell>
+            </row>
+
+            <row>
+              <cell>5</cell>
+              <cell><m>0.73908513481012311798</m></cell>
+              <cell><m>-2.669348387419\times 10^{-09}</m></cell>
+            </row>
+
+            <row>
+              <cell>6</cell>
+              <cell><m>0.73908513321516280022</m></cell>
+              <cell><m>-3.612606381257\times 10^{-15}</m></cell>
+            </row>
+
+            <row>
+              <cell>7</cell>
+              <cell><m>0.73908513321516064166</m></cell>
+              <cell><m>-1.272274423348\times 10^{-24}</m></cell>
+            </row>
+
+            <row>
+              <cell>8</cell>
+              <cell><m>0.73908513321516064166</m></cell>
+              <cell><m>-6.063960095502\times 10^{-40}</m></cell>
+            </row>
+
+            <row>
+              <cell>9</cell>
+              <cell><m>0.73908513321516064166</m></cell>
+              <cell><m>-8.636168555094\times 10^{-78}</m></cell>
+            </row>
+          </tabular>
+        </table>
+      </solution>
+    </example>
+  </subsection>
+
+
+  <subsection xml:id="subsec-analysis-secant">
+    <title>Analysis of the Secant Method</title>
+
+    <p>
+      Analyzing the secant method is similar to that of other iterative methods, however, because there are three points involved in the step in <xref ref="eq-secant-step"/>, the analysis must be adapted a bit.
+    </p>
+
+    <p>
+      First, let <m>p</m> be the root of <m>f</m>, that is, <m>f(p)=0</m> and <m>(x_n)</m> is the sequence of points from the secant method.
+      Define <m>\epsilon_n = |x_n-p|</m>.
+      Then expand the terms <m>f(x_n)</m> and <m>f(x_{n-1})</m> about the root <m>p</m>.
+      <me>
+        \begin{aligned} f(x_n) \amp = f(p) + f'(p)(x_n-p) + \frac{f''(p)}{2}(x_n-p)^2 + \cdots \\ \amp = f'(p) \epsilon_n + \frac{f''(p)}{2}\epsilon_n^2 \\ f(x_{n-1})\amp = f(p) + f'(p)(x_{n-1}-p) + \frac{f''(p)}{2}(x_{n-1}-p)^2 + \cdots \\ \amp = f'(p) \epsilon_{n-1} + \frac{f''(p)}{2}\epsilon_{n-1}^2 \end{aligned}
+      </me>
+      where <m>f(p)=0</m> is used.
+      Subtracting these results in
+      <me>
+        f(x_n) - f(x_{n-1}) = f'(p)(\epsilon_n - \epsilon_{n-1}) + \frac{f''(p)}{2} (\epsilon_n^2 - \epsilon_{n-1}^2)
+      </me>
+      Then using <xref ref="eq-secant-step"/> and subtracting <m>p</m> from each side results in
+      <me>
+        \begin{aligned} x_{n+1} - p   \amp = x_n - f(x_n) \frac{x_n-x_{n-1}}{f(x_n)-f(x_{n-1})} - p \\ \epsilon_{n+1}\amp = \epsilon_n - \left(f'(p)\epsilon_n + \frac{f''(p)}{2}\epsilon_n^2\right) \frac{\epsilon_n - \epsilon_{n-1}}{f'(p)(\epsilon_n - \epsilon_{n-1}) + \frac{f''(p)}{2} (\epsilon_n^2 - \epsilon_{n-1}^2)} \\ \amp = \epsilon_n \frac{f'(p)+ \frac{f''(p)}{2} (\epsilon_n + \epsilon_{n-1}) - f'(p) - \epsilon_n f''(p)/2}{f'(p)+ \frac{f''(p)}{2} (\epsilon_n + \epsilon_{n-1})} \\ \amp = \epsilon_n \frac{\epsilon_{n-1} f''(p)/2}{f'(p)+ \frac{f''(p)}{2} (\epsilon_n + \epsilon_{n-1})} \\ \amp \approx \epsilon_n \epsilon_{n-1} \frac{f''(p)}{2f'(p)} \end{aligned}
+      </me>
+      so we have the relationship that <m>\epsilon_{n+1} \approx C \epsilon_n \epsilon_{n-1}</m>.
+    </p>
+
+    <p>
+      We are trying to find the order of convergence or the value of <m>\alpha</m> such that <m>\epsilon_{n+1} \approx \lambda \epsilon_n^{\alpha}</m> or equivalently, <m>\epsilon_{n} \approx \lambda \epsilon_{n-1}^{\alpha}</m> which results in
+      <me>
+        \epsilon_{n-1} \approx \left(\frac{1}{\lambda} \epsilon_n\right)^{1/\alpha}
+      </me>
+      and then
+      <me>
+        \begin{aligned} \epsilon_{n+1} \amp \approx C \epsilon_n \epsilon_{n-1} \approx C \epsilon_n \left(\frac{1}{\lambda} \epsilon_n\right)^{1/\alpha} \\ \lambda \epsilon_n^{\alpha} \amp \approx  \frac{C}{\lambda^{1/\alpha}} \epsilon^{1+1/\alpha} \end{aligned}
+      </me>
+    </p>
+
+    <p>
+      To ensure that the powers of <m>\epsilon</m> is the same for both sides:
+      <me>
+        \begin{aligned} \alpha \amp = 1 + \frac{1}{\alpha} \\ \alpha^2 - \alpha -1 \amp = 0 \end{aligned}
+      </me>
+      and using the quadatic formula, <m>\alpha = (1 \pm \sqrt{5})/2</m> and since we need <m>\alpha \gt 0</m>, then <m>\alpha  \approx 1.61</m>, the same result that we saw above.
+    </p>
+  </subsection>
+
+
+  <subsection xml:id="subsec-newton-bisection">
+    <title>The Newton-Bisection Method</title>
+
+    <p>
+      One of the advantages of the bisection method from <xref ref="sect-bisection"/> is that if the original interval is guaranteed to contain a root, then each successive step results in a root.
+      However, as we saw, it is quite slow to converge and in this section, we combine the speed of Newton's method to speed up the bisection method.
+    </p>
+  </subsection>
+
+
+  <subsection xml:id="subsec-mullers-method">
+    <title>Muller's Method</title>
+
+    <p>
+      Muller's method extends the idea of the secant method to three points and the quadratic that passes through the points.
+      Consider a general function as in <xref ref="fig-muller"/>
+    </p>
+
+    <figure xml:id="fig-muller">
+      <caption></caption>
+      <image width="75%">
+        <shortdescription>
+        </shortdescription>
+        <latex-image>
+          <![CDATA[ 
+          \begin{tikzpicture}[scale =2]
+            \draw[->] (-1,0) -- (5,0) node [above right] {$x$};
+            \draw[->] (0,-3) -- (0,3); 
+            \draw[<->] plot [domain=-0.5:4.5] (\x,{atan(\x-2.2)*pi/180 });
+            \draw (1,0.1) -- (1,-0.1) node [below] {$x_3$};
+            \draw (3,0.1) -- (3,-0.1) node [below] {$x_2$};
+            \draw (4,0.1) -- (4,-0.1) node [below] {$x_1$};
+            \fill (3,{atan(3-2.2)*pi/180}) circle (1pt);
+            \fill (4,{atan(4-2.2)*pi/180}) circle (1pt);
+            \fill (1,{atan(1-2.2)*pi/180}) circle (1pt);
+          \end{tikzpicture}
+          ]]>
+        </latex-image>
+      </image>
+    </figure>
+
+    <p>
+      We find the parabola that passes through the points <m>(x_0, f_0)</m>, <m>(x_1, f_1)</m> and <m>(x_2, f_2)</m>, where <m>f_j = f(x_j)</m>.
+      Although the quadratic can be written in standard form, it is easier if we write it as
+      <me>
+        q(x) = a_0 + a_1 (x-x_1) + a_2 (x-x_1)^2
+      </me>
+      We also use
+      <me>
+        \begin{aligned} h_1 \amp = x_1-x_0 \amp h_2 \amp = x_2 - x_1 \amp \delta_1 \amp = \frac{f_1-f_0}{h_1} \amp \delta_2 \amp = \frac{f_2-f_1}{h_2} \end{aligned}
+      </me>
+      substituting the three points into <m>q(x)</m> results in
+      <md>
+        <mrow xml:id="eq-muller-01" number="yes">q(x_0) \amp =  f_0 = a_0 + a_1 (x_0-x_1) + a_2 (x_0-x_1)^2 = a_0 -a_1 h_1 + a_2 h_1^2 </mrow>
+        <mrow xml:id="eq-muller-02" number="yes">q(x_1) \amp =  f_1 = a_0 </mrow>
+        <mrow xml:id="eq-muller-03" number="yes">q(x_2) \amp =  f_2 = a_0  + a_1 (x_2-x_1) + a_2 (x_2-x_1)^2 = a_0 + a_1 h_2 + a_2 h_2^2</mrow>
+      </md>
+      Plugging in <m>a_0=f_1</m> into <xref ref="eq-muller-01"/> and divide by <m>h_1</m> results in
+      <men xml:id="eq-muller-04">
+        \frac{f_0-f_1}{h_1} = -\delta_1 = - a_1 + a_2 h_1
+      </men>
+      Combining <xref ref="eq-muller-02"/> and <xref ref="eq-muller-03"/> and dividing by <m>h_2</m> results in
+      <men xml:id="eq-muller-05">
+        \frac{f_2-f_1}{h_2} = \delta_2 = a_1 + a_2h_2
+      </men>
+      adding  <xref ref="eq-muller-04"/> and <xref ref="eq-muller-05"/>
+      <me>
+        \delta_2 - \delta_1 = a_2 (h_1 + h_2)
+      </me>
+      which results in
+      <me>
+        a_2 = \frac{\delta_2-\delta_1}{h_1+h_2}
+      </me>
+      and then subtracting <m>h_2</m> times <xref ref="eq-muller-04"/> and <m>h_1</m> times <xref ref="eq-muller-05"/> results in
+      <me>
+        \delta_1 h_2 + \delta_2 h_1 = a_1(h_2+h_1)
+      </me>
+      or
+      <me>
+        a_1 = \frac{\delta_1 h_2 + \delta_2 h_1 }{h_2+h_1}
+      </me>
+    </p>
+
+    <p>
+      This shows that the quadratic that passes through the points is
+      <me>
+        q(x) = a_0 + a_1 (x-x_1)
+      </me>
+      with
+      <me>
+        \begin{aligned} a_0 \amp =f_1 \amp a_1 \amp =\frac{\delta_1 h_2 + \delta_2 h_1 }{h_2+h_1} \amp a_2 \amp = \frac{\delta_2-\delta_1}{h_1+h_2} \end{aligned}
+      </me>
+    </p>
+
+    <example>
+      <statement>
+        <p>
+          Use the results above to find the quadratic that passes through the points <m>(1,4), (3,1)</m> and <m>(6,2)</m>
+        </p>
+      </statement>
+
+      <solution>
+        <p>
+          First,
+          <me>
+            \begin{aligned} h_1 \amp = x_1 -x_0 = 3-1 = 2  \\ h_2 \amp = x_2 - x_1 = 6-3 = 3 \\ \delta_1 \amp = \frac{f_1-f_0}{h_1} = \frac{1-4}{2} = -\frac{3}{2} \\ \delta_2 \amp = \frac{f_2 -f_1}{h_2} = \frac{2-1}{3} = \frac{1}{3} \end{aligned}
+          </me>
+          and then the coefficients of the quadratic is
+          <me>
+            \begin{aligned} a_0 \amp = 1 \\ a_1 \amp = \frac{\delta_1 h_2 + \delta_2 h_1 }{h_2+h_1} = \frac{(-3/2)(3) + (1/3)(2)}{2+3} = -\frac{23}{30} \\ a_2 \amp = \frac{\delta_2-\delta_1}{h_1+h_2} = \frac{(1/3-(-3/2))}{5} = \frac{11}{30} \end{aligned}
+          </me>
+        </p>
+
+        <p>
+          This results in the quadratic equation:
+          <me>
+            q(x) = 1-\frac{23}{30}(x-3) + \frac{11}{30}(x-3)^2
+          </me>
+        </p>
+      </solution>
+    </example>
+
+    <p>
+      Next, Muller's method uses the root of the quadratic to find the root, however, only one of the roots is needed.
+      <me>
+        x-x_1 = \frac{-a_1 \pm \sqrt{a_1^2 - 4a_0a_2}}{2 a_2}
+      </me>
+    </p>
+
+    <algorithm xml:id="alg-muller">
+      <statement>
+        <p>
+          The folllowing steps uses Muller's method to estimate the root <m>p</m> of the function <m>f(x)</m>.
+          The input in the function and three <m>x-</m>values.
+          Let's call them <m>x_0, x_1</m> and <m>x_2</m> and we will find the root to <c>tol</c>.
+        </p>
+
+        <p>
+          <ol>
+            <li>
+              <p>
+                Let
+                <cd>
+                <cline>h₁ = x₁ -x₀</cline>
+                <cline>h₂ = x₂ - x₁</cline>
+                </cd>
+              </p>
+            </li>
+          </ol>
+        </p>
+      </statement>
+    </algorithm>
+  </subsection>
+
+
+  <subsection xml:id="subsec-brents-method">
+    <title>Brent's Method</title>
+
+    <p>
+    </p>
+  </subsection>
+</section>

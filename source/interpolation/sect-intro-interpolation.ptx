@@ -8,7 +8,7 @@
 
     <tabular>
       <row>
-        <cell> <m>x</m> </cell>
+        <cell right="minor"> <m>x</m> </cell>
         <cell>0</cell>
         <cell>0.25</cell>
         <cell>0.50</cell>
@@ -17,11 +17,7 @@
       </row>
 
       <row>
-        <cell> </cell>
-      </row>
-
-      <row>
-        <cell> <m>P(X \gt x)</m> </cell>
+        <cell right="minor"> <m>P(0 \lt X \lt  x)</m> </cell>
         <cell>0.0000</cell>
         <cell>0.0987</cell>
         <cell>0.1915</cell>
@@ -29,9 +25,6 @@
         <cell>0.3413</cell>
       </row>
 
-      <row>
-        <cell> </cell>
-      </row>
     </tabular>
 
     <p>
@@ -105,7 +98,7 @@
       From a computational point of view, a polynomial can be evaluated only with four basic operations (<m>+,-,\times,\div{}</m>) that are easily done in computers.
       Except for Rational Functions (which are usually the second encountered class of interpolated functions), all other functions require some kind of approximation to find function values.
       In addition, polynomials can be evaluated efficiently.
-      See Section sect:poly:operations for more details.
+      See <xref ref="sect-poly-operations"/> for more details.
     </p>
 
     <p>

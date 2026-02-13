@@ -112,7 +112,7 @@
           <me>
             \lim_{n \rightarrow \infty}\frac{|p_{n}-p|}{\beta_{n}}= L
           </me>
-          and for some <m>L</m> such that <m>0  \lt  k \lt  \infty</m>, then <m>(p_{n})</m> converges with <m>O(\beta_{n})</m>.
+          for <m>0  \lt  L \lt  \infty</m>, then <m>(p_{n})</m> converges with <m>O(\beta_{n})</m>.
         </p>
       </statement>
     </theorem>
@@ -137,27 +137,91 @@
     </example>
   </subsection>
 
+
   <subsection >
     <title>Comparing Order of Operations</title>
-    
+
     <p>
-      We will see that common order of operations are <m>O(n), O(n^2)</m> and other powers, but often <m>O(\ln n), O(n \ln n)</m> and others in the form <m>O(n^p \ln n)</m>.  As we have already alluded to that we desire faster algorithms which correspond to lower order.  
+      We will see that common order of operations are <m>O(n), O(n^2)</m> and other powers, but often <m>O(\ln n), O(n \ln n)</m> and others in the form <m>O(n^p \ln n)</m>.
+      As we have already alluded to that we desire faster algorithms which correspond to lower order.
     </p>
+
     <p>
-      It's probably clear that <m>O(n)</m> is lower than <m>O(n^2)</m> or in general <m>O(n^p)</m> is lower than <m>O(n^q)</m> when <m>p \lt q</m>.  However, where does <m>O(n^p \ln n)</m> fit?  
+      It's probably clear that <m>O(n)</m> is lower than <m>O(n^2)</m> or in general <m>O(n^p)</m> is lower than <m>O(n^q)</m> when <m>p \lt q</m>.
+      However, where does <m>O(n^p \ln n)</m> fit?
     </p>
+
     <p>
-      If we look at some numerical data for these, we can make a table 
+      If we look at some numerical data for these, we can make a table
     </p>
+
     <table>
-      <title></title>
-      <tabular>
+      <title>Comparative Growth of Functions</title>
+
+      <tabular halign="center" top="minor" left="minor" bottom="minor" right="minor">
+        <row header="yes" bottom="medium">
+          <cell><m>n</m></cell>
+          <cell><m>\log(n)</m></cell>
+          <cell><m>n \log(n)</m></cell>
+          <cell><m>n \log^2(n)</m></cell>
+          <cell><m>n^2</m></cell>
+          <cell><m>n^2 \log(n)</m></cell>
+        </row>
+
         <row>
-          <cell><m>n</m></cell><cell><m>\ln n</m></cell> <cell><m>n \ln n</m></cell>
+          <cell>1</cell>
+          <cell>0</cell>
+          <cell>0</cell>
+          <cell>0</cell>
+          <cell>1</cell>
+          <cell>0</cell>
+        </row>
+
+        <row>
+          <cell>10</cell>
+          <cell>1</cell>
+          <cell>10</cell>
+          <cell>10</cell>
+          <cell>100</cell>
+          <cell>100</cell>
+        </row>
+
+        <row>
+          <cell>100</cell>
+          <cell>2</cell>
+          <cell>200</cell>
+          <cell>400</cell>
+          <cell>10,000</cell>
+          <cell>20,000</cell>
+        </row>
+
+        <row>
+          <cell>1,000</cell>
+          <cell>3</cell>
+          <cell>3,000</cell>
+          <cell>9,000</cell>
+          <cell>1,000,000</cell>
+          <cell>3,000,000</cell>
+        </row>
+
+        <row>
+          <cell>100,000</cell>
+          <cell>5</cell>
+          <cell>500,000</cell>
+          <cell>2,500,000</cell>
+          <cell><m>10^{10}</m></cell>
+          <cell><m>5 \times 10^{10}</m></cell>
         </row>
       </tabular>
     </table>
+
+    <p>
+      This should give a sense of how fast these functions grow.
+      Note that the order of the columns are from slowest to fastest.
+      Throughout this course, there will be discussisons of the order of operation of a given algorithm and you may need to refer back to this table to get a sense of the <q>speed</q> of an algorithm.
+    </p>
   </subsection>
+
 
   <subsection xml:id="sect-poly-operations">
     <title>Order of operations and evaluating polynomials</title>
@@ -184,7 +248,7 @@
 
     <p>
       Thus the rate of evaluating a polynomial in this manner is <m>O(n^{2})</m>.
-      An alternative to this way is to write the polynomial above in the form
+      An alternative to this way is to write the polynomial above using Horner's form (see <xref ref="sect-polynomial-forms"/>):
       <me>
         P(x) = b_{0} + x(b_{1} + x(b_{2} + x (\cdots + x)))
       </me>
@@ -332,7 +396,7 @@
       <statement>
         <p>
           Evaluate the linear converging sequence where <m>e_{n+1}= 0.1 e_{n}</m> and the quadratically converging sequence where <m>\epsilon_{n+1}= 0.9 \epsilon_{n}^{2}</m>.
-          for <m>n=1,2, \ldots, 9.</m> Let <m>e_{1}=1</m> and <m>\epsilon_{1}=1</m>.
+          for <m>n=1,2, \ldots, 9.</m> Let <m>e_{0}=1</m> and <m>\epsilon_{0}=1</m>.
         </p>
 
         <p>
@@ -431,23 +495,25 @@
     </p>
 
     <p>
-      We simply use the definition to determine the order.
+      We simply use the definition to determine the order:
+      <me>
+        \lambda=\lim_{n \rightarrow \infty} \frac{e_{n+1}}{e_{n}^{\alpha}}
+      </me>
     </p>
 
     <p>
-      <ul>
-        <li>
-          <p>
-            If <m>\displaystyle \lambda=\frac{e_{n+1}}{e_{n}}</m> is a constant, then the sequence is linear and <m>\lambda</m> is the asymptotic error constant.
-          </p>
-        </li>
+      We'll take a sufficiently large value of <m>n</m>, but practically, this could be less than 10.
+      When the limit is nearly converged, then
+      <me>
+        \lambda \approx  \frac{e_{n+1}}{e_{n}^{\alpha}}  \approx \frac{e_{n+2}}{e_{n+1}^{\alpha}}
+      </me>
+    </p>
 
-        <li>
-          <p>
-            If <m>\displaystyle \lambda=\frac{e_{n+1}}{e_{n}^{2}}</m> is a constant, then the sequence is quadratic and <m>\lambda</m> is the asymptotic error constant.
-          </p>
-        </li>
-      </ul>
+    <p>
+      Taking the equation (we'll assume it's equal) on the right, then
+      <me>
+        \begin{aligned} \frac{e^{\alpha}_{n+1}}{e^{\alpha}_n} \amp \approx \frac{e_{n+2}}{e_{n+1}} \\ \left( \frac{e_{n+1}}{e_n}\right)^{\alpha} \amp \approx \frac{e_{n+2}}{e_{n+1}} \\ \alpha \ln  \left( \frac{e_{n+1}}{e_n}\right) \amp \approx \ln \left(\frac{e_{n+2}}{e_{n+1}}\right) \\ \alpha \amp \approx \frac{\ln(e_{n+2}/e_{n+1})}{\ln(e_{n+1}/e_n)} \end{aligned}
+      </me>
     </p>
 
     <example xml:id="ex-order-convergence-YASRA">
@@ -522,7 +588,7 @@
         </table>
 
         <p>
-          Looking at the errors, they appear to be dropping in a linear way (each is about 1/100 of the previous one), so we can determine if this is indeed the case with the following table of <m>e_{n+1}/e_{n}</m>.
+          Looking at the errors, they appear to be dropping in a linear way (each is about 1/100 of the previous one), but let's use the formula above:
         </p>
 
         <table>
@@ -531,47 +597,42 @@
           <tabular>
             <row bottom="minor">
               <cell> <m>n</m> </cell>
-              <cell> <m>e_{n+1}/e_{n}</m> </cell>
+              <cell> <m>\ln(e_{n+2}/e_{n+1})/\ln(e_{n+1}/e_n)</m> </cell>
             </row>
 
             <row>
-              <cell> <m>0</m> </cell>
-              <cell> <m>0.0038911</m> </cell>
+              <cell>0</cell>
+              <cell>0.8747372133045498</cell>
             </row>
 
             <row>
-              <cell> <m>1</m> </cell>
-              <cell> <m>0.0077973</m> </cell>
+              <cell>1</cell>
+              <cell>0.9538685373847787</cell>
             </row>
 
             <row>
-              <cell> <m>2</m> </cell>
-              <cell> <m>0.0097542</m> </cell>
+              <cell>2</cell>
+              <cell>0.975439938281658</cell>
             </row>
 
             <row>
-              <cell> <m>3</m> </cell>
-              <cell> <m>0.0109290</m> </cell>
+              <cell>3</cell>
+              <cell>0.9846245750612836</cell>
             </row>
 
             <row>
-              <cell> <m>4</m> </cell>
-              <cell> <m>0.0117122</m> </cell>
-            </row>
-
-            <row>
-              <cell> <m>5</m> </cell>
-              <cell> <m>0.0122716</m> </cell>
-            </row>
-
-            <row>
-              <cell> </cell>
+              <cell>4</cell>
+              <cell>0.9936913420698572</cell>
             </row>
           </tabular>
         </table>
 
         <p>
-          From this analysis, it appears that in fact, this method converges linearly and with asymptotic error constant <m>\lambda \approx 0.013</m>.
+          From this analysis, it appears that in fact, this method converges linearly.
+          The asymptote error constant is:
+          <me>
+            \lambda = \frac{e_{n+1}}{e_n} = \frac{2.894257120155\cdot10^{-14}}{2.358481020952\cdot10^{-12}} \approx 0.01227
+          </me>
         </p>
       </statement>
     </example>
@@ -671,52 +732,47 @@
           <tabular>
             <row bottom="minor">
               <cell> <m>n</m> </cell>
-              <cell> <m>e_{n+1}/e_{n}^{2}</m> </cell>
+               <cell> <m>\ln(e_{n+2}/e_{n+1})/\ln(e_{n+1}/e_n)</m> </cell>
             </row>
 
             <row>
-              <cell> <m>1</m> </cell>
-              <cell> <m>0.50000000000000000000</m> </cell>
+              <cell>0</cell>
+              <cell>1.178900923244053</cell>
             </row>
 
             <row>
-              <cell> <m>2</m> </cell>
-              <cell> <m>0.015151515151515151514</m> </cell>
+              <cell>1</cell>
+              <cell>1.3473842470980333</cell>
             </row>
 
             <row>
-              <cell> <m>3</m> </cell>
-              <cell> <m>0.028596187175043327555</m> </cell>
+              <cell>2</cell>
+              <cell>1.6184379407788283</cell>
             </row>
 
             <row>
-              <cell> <m>4</m> </cell>
-              <cell> <m>0.047164576903451453271</m> </cell>
+              <cell>3</cell>
+              <cell>1.8884480463362425</cell>
             </row>
 
             <row>
-              <cell> <m>5</m> </cell>
-              <cell> <m>0.059763677424166397344</m> </cell>
+              <cell>4</cell>
+              <cell>1.990935253721586</cell>
             </row>
 
             <row>
-              <cell> <m>6</m> </cell>
-              <cell> <m>0.061974903037885230164</m> </cell>
-            </row>
-
-            <row>
-              <cell> <m>7</m> </cell>
-              <cell> <m>0.062017343454547928227</m> </cell>
-            </row>
-
-            <row>
-              <cell> </cell>
+              <cell>5</cell>
+              <cell>1.9997878352631038</cell>
             </row>
           </tabular>
         </table>
 
-        <p>
-          And this shows that this appears to be quadratically convergent with asymptotic error constant <m>\lambda \approx 0.06</m>
+         <p>
+          From this analysis, it appears that in fact, this method converges linearly.
+          The asymptote error constant is:
+          <me>
+            \lambda = \frac{e_{n+1}}{e_n^2} = \frac{3.06 \cdot 10^{-27}}{(2.2182083323568204 \cdot 10^{-13})^2} \approx 0.06208
+          </me>
         </p>
       </solution>
     </example>

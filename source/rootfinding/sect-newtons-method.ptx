@@ -22,7 +22,7 @@
 
     <figure xml:id="fig-newton">
       <caption></caption>
-      <image>
+      <image width="75%">
         <shortdescription>
         </shortdescription>
         <latex-image>
@@ -352,9 +352,9 @@
       <solution>
         <p>
           In this case, <m>f'(x) = e^x-1</m> and therefore Newton's method is
-          <me>
+          <men xml:id="eq-newton-ex2">
             x_{n+1}  = x_n - \frac{e^{x_n} - x_n -1}{e^{x_n}-1}
-          </me>
+          </men>
         </p>
 
         <p>
@@ -430,17 +430,34 @@
     </example>
 
     <p>
-      What is going on with this?  Even though this is Newton's method, if we use <xref ref="thm-fp-order"/> with <m>g(x) = x-(e^x-x-1)/(e^x-1)</m>, note first that <m>g(0)</m> does not exist, however,
-      <me>
-        \lim_{x \to 0} g(x) = 0
-      </me>
+      What's going on with this?  Why so slow.
+      Notice that the method in <xref ref="eq-newton-ex2"/>, the term in the determinator is going to 0, and in fact, if we plug in, then we have a division by zero error.
     </p>
 
     <p>
+      Even though this is Newton's method, if we use <xref ref="thm-fp-order"/> with <m>g(x) = x-(e^x-x-1)/(e^x-1)</m>, note first that <m>g(0)</m> does not exist, however,
       <me>
-        \begin{aligned} g'(x) \amp = -\frac{{\mathrm{e}}^x \,{\left(x-{\mathrm{e}}^x +1\right)}}{{{\left({\mathrm{e}}^x -1\right)}}^2 } \amp g'(0) \amp = 0 \end{aligned}
+        \lim_{x \to 0} g(x) = 0
       </me>
+  and <me>
+        g'(x) = -\frac{{\mathrm{e}}^x \,{\left(x-{\mathrm{e}}^x +1\right)}}{{{\left({\mathrm{e}}^x -1\right)}}^2 } 
+      </me>
+      and again <m>g'(0)</m> is not defined, but 
+      <me>
+        \lim_{x \to 0} g'(x) = \frac{1}{2}
+      </me>
+      which would show this is a linear convergence method.  
     </p>
-    <p>NOTE: FINISH THIS SECTION</p>
+
+    <p>
+      The issue with this can be seen if you recall that the denominator of Newton's method is the derivative.  For the function <m>f(x) = e^x - x -1</m> has <m>f'(x) = e^x - 1</m>. 
+      If we use <xref ref="thm-multiplicity"/>, with the result that 
+      <me>
+        \begin{aligned}
+        f(0) \amp  = 0, \amp f'(0) \amp = 0, \amp f''(0) \amp  = 1 \neq 0
+        \end{aligned}
+      </me>
+      which shows that <m>f(x)</m> has a root of multiplicity 2 at <m>x=0</m>.
+    </p>
   </subsection>
 </section>

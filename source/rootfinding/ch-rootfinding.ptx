@@ -9,4 +9,5 @@
   <xi:include href="./sect-bisection.ptx" />
   <xi:include href="./sect-fixed-point.ptx" />
   <xi:include href="./sect-newtons-method.ptx" />
+  <xi:include href="./sect-other-rootfinding.ptx" />
 </chapter>
