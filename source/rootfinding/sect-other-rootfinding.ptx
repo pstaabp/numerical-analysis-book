@@ -249,7 +249,7 @@
       <me>
         \begin{aligned} \alpha \amp = 1 + \frac{1}{\alpha} \\ \alpha^2 - \alpha -1 \amp = 0 \end{aligned}
       </me>
-      and using the quadatic formula, <m>\alpha = (1 \pm \sqrt{5})/2</m> and since we need <m>\alpha \gt 0</m>, then <m>\alpha  \approx 1.61</m>, the same result that we saw above.
+      and using the quadratic formula, <m>\alpha = (1 \pm \sqrt{5})/2</m> and since we need <m>\alpha \gt 0</m>, then <m>\alpha  \approx 1.61</m>, the same result that we saw above.
     </p>
   </subsection>
 
@@ -283,12 +283,13 @@
             \draw[->] (-1,0) -- (5,0) node [above right] {$x$};
             \draw[->] (0,-3) -- (0,3); 
             \draw[<->] plot [domain=-0.5:4.5] (\x,{atan(\x-2.2)*pi/180 });
-            \draw (1,0.1) -- (1,-0.1) node [below] {$x_3$};
-            \draw (3,0.1) -- (3,-0.1) node [below] {$x_2$};
-            \draw (4,0.1) -- (4,-0.1) node [below] {$x_1$};
+            \draw (1,0.1) -- (1,-0.1) node [below] {$x_2$};
+            \draw (3,0.1) -- (3,-0.1) node [below] {$x_1$};
+            \draw (4,0.1) -- (4,-0.1) node [below] {$x_0$};
             \fill (3,{atan(3-2.2)*pi/180}) circle (1pt);
             \fill (4,{atan(4-2.2)*pi/180}) circle (1pt);
             \fill (1,{atan(1-2.2)*pi/180}) circle (1pt);
+            \draw[<->, blue] plot [domain=0.5:4.5] (\x, {0.6747409422235525 + 0.5177710855896291*(\x-3)-0.12881420541062194*(\x-3)^2});
           \end{tikzpicture}
           ]]>
         </latex-image>
@@ -307,9 +308,9 @@
       </me>
       substituting the three points into <m>q(x)</m> results in
       <md>
-        <mrow xml:id="eq-muller-01" number="yes">q(x_0) \amp =  f_0 = a_0 + a_1 (x_0-x_1) + a_2 (x_0-x_1)^2 = a_0 -a_1 h_1 + a_2 h_1^2 </mrow>
-        <mrow xml:id="eq-muller-02" number="yes">q(x_1) \amp =  f_1 = a_0 </mrow>
-        <mrow xml:id="eq-muller-03" number="yes">q(x_2) \amp =  f_2 = a_0  + a_1 (x_2-x_1) + a_2 (x_2-x_1)^2 = a_0 + a_1 h_2 + a_2 h_2^2</mrow>
+        <mrow xml:id="eq-muller-01" number="yes"> q(x_0) \amp =  f_0 = a_0 + a_1 (x_0-x_1) + a_2 (x_0-x_1)^2 = a_0 -a_1 h_1 + a_2 h_1^2 </mrow>
+        <mrow xml:id="eq-muller-02" number="yes"> q(x_1) \amp =  f_1 = a_0 </mrow>
+        <mrow xml:id="eq-muller-03" number="yes"> q(x_2) \amp =  f_2 = a_0  + a_1 (x_2-x_1) + a_2 (x_2-x_1)^2 = a_0 + a_1 h_2 + a_2 h_2^2 </mrow>
       </md>
       Plugging in <m>a_0=f_1</m> into <xref ref="eq-muller-01"/> and divide by <m>h_1</m> results in
       <men xml:id="eq-muller-04">
@@ -340,7 +341,7 @@
     <p>
       This shows that the quadratic that passes through the points is
       <me>
-        q(x) = a_0 + a_1 (x-x_1)
+        q(x) = a_0 + a_1 (x-x_1) + a_2(x-x_1)^2
       </me>
       with
       <me>
@@ -379,14 +380,23 @@
     <p>
       Next, Muller's method uses the root of the quadratic to find the root, however, only one of the roots is needed.
       <me>
-        x-x_1 = \frac{-a_1 \pm \sqrt{a_1^2 - 4a_0a_2}}{2 a_2}
+        x-x_1 = - \frac{2a_0}{a_1 \pm \sqrt{a_1^2-4a_0a_2}} = \frac{-a_1 \pm \sqrt{a_1^2 - 4a_0a_2}}{2 a_2}
+      </me>
+      The root is the one closer to the point <m>x_2</m> or the one with the larger denominator.
+      Thus we will take the sign that is the same as the sign of <m>a_1</m>.
+    </p>
+
+    <p>
+      Therefore, we get:
+      <me>
+        x_3 = x_1 -  \frac{2a_0}{a_1 + \text{sgn}(a_1) \sqrt{a_1^2-4a_0a_2}}
       </me>
     </p>
 
     <algorithm xml:id="alg-muller">
       <statement>
         <p>
-          The folllowing steps uses Muller's method to estimate the root <m>p</m> of the function <m>f(x)</m>.
+          The following steps uses Muller's method to estimate the root <m>p</m> of the function <m>f(x)</m>.
           The input in the function and three <m>x-</m>values.
           Let's call them <m>x_0, x_1</m> and <m>x_2</m> and we will find the root to <c>tol</c>.
         </p>
@@ -395,17 +405,110 @@
           <ol>
             <li>
               <p>
+                Store <c>x₀</c>, <c>x₁</c>, <c>x₂</c> in a vector/array.
+              </p>
+            </li>
+
+            <li>
+              <p>
                 Let
                 <cd>
                 <cline>h₁ = x₁ -x₀</cline>
                 <cline>h₂ = x₂ - x₁</cline>
+                <cline>δ₁ = (f(x₁)-f(x₀))/h₁</cline>
+                <cline>δ₂ = (f(x₂)-f(x₁))/h₂</cline>
+                <cline>a₀ = f(x₁)</cline>
+                <cline>a₁ = (δ₁ * h₂ + δ₂ * h₁)/(h₁+h₂)</cline>
+                <cline>a₂ = (δ₂-δ₁)/(h₁+h₂)</cline>
                 </cd>
+              </p>
+            </li>
+
+            <li>
+              <p>
+                let
+                <cd>
+                <cline>x₃ = x₁ - 2*a₀/(a₁+sgn(a₁)*sqrt(a₁^2-4*a₂*a₀))</cline>
+                </cd>
+              </p>
+            </li>
+
+            <li>
+              <p>
+                If <c>abs(x₃-x₂) &lt; ϵ</c> then stop and return <c>x₃</c>.
+                If not, let
+                <cd>
+                <cline>x₀ = x₁</cline>
+                <cline>x₁ = x₂</cline>
+                <cline>x₂ = x₃</cline>
+                </cd>
+                and return to step 2.
               </p>
             </li>
           </ol>
         </p>
       </statement>
     </algorithm>
+
+    <p>
+      We will now solve the equation <m>\cos x = x</m> by finding the root of <m>f(x) = \cos x - x</m>.
+    </p>
+
+    <example>
+      <statement>
+        <p>
+          Find the root of <m>f(x) = \cos x - x</m> using Muller's method starting with <m>x_0 = 0, x_1 = 1, x_2 = 2</m>.
+        </p>
+      </statement>
+
+      <solution>
+        <p>
+          We show the first step in detail and the the remaining ones.
+          <cd>
+          <cline>h₁ = x₁ -x₀ = 1</cline>
+          <cline>h₂ = x₂ - x₁ = 1</cline>
+          <cline>δ₁ = (f(x₁)-f(x₀))/h₁ = -1.4596976941</cline>
+          <cline>δ₂ = (f(x₂)-f(x₁))/h₂ = -1.9564491424</cline>
+          <cline>a₀ = f(x₁) = -0.45969769</cline>
+          <cline>a₁ = (δ₁ * h₂ + δ₂ * h₁)/(h₁+h₂) = -1.708073</cline>
+          <cline>a₂ = (δ₂-δ₁)/(h₁+h₂) = -0.2483757</cline>
+          </cd>
+        </p>
+        <p>
+          And then <c>x₃ =  0.71942008 </c>.
+        </p>
+        <p>
+          We then repeat this until the cutoff value resulting the the following table.  
+        </p>
+        <table xml:id="table-bigfloat-convergence">
+  <title>Root-Finding Convergence with BigFloat</title>
+  <tabular top="major" left="minor" right="minor" bottom="minor" halign="right">
+    <row header="yes" bottom="medium">
+      <cell><alert>n</alert></cell>
+      <cell><alert>x</alert></cell>
+      <cell><alert>f</alert></cell>
+    </row>
+    <row header="yes" bottom="minor">
+      <cell><m>\text{Int64}</m></cell>
+      <cell><m>\text{BigFloat}</m></cell>
+      <cell><m>\text{BigFloat}</m></cell>
+    </row>
+    
+    <row><cell>0</cell><cell><m>1.50000000000000000000</m></cell><cell><m>1.000000000000\text{e}{+00}</m></cell></row>
+    <row><cell>1</cell><cell><m>1.00000000000000000000</m></cell><cell><m>-4.596976941319\text{e}{-01}</m></cell></row>
+    <row><cell>2</cell><cell><m>0.76293613902753061761</m></cell><cell><m>-2.416146836547\text{e}{+00}</m></cell></row>
+    <row><cell>3</cell><cell><m>0.74026437750068385814</m></cell><cell><m>3.276790532876\text{e}{-02}</m></cell></row>
+    <row><cell>4</cell><cell><m>0.73909126246184205257</m></cell><cell><m>9.171630667026\text{e}{-04}</m></cell></row>
+    <row><cell>5</cell><cell><m>0.73908513481012311798</m></cell><cell><m>-1.907353946720\text{e}{-06}</m></cell></row>
+    <row><cell>6</cell><cell><m>0.73908513321516280022</m></cell><cell><m>-1.371358137823\text{e}{-12}</m></cell></row>
+    <row><cell>7</cell><cell><m>0.73908513321516064166</m></cell><cell><m>5.745267438980\text{e}{-23}</m></cell></row>
+    <row><cell>8</cell><cell><m>0.73908513321516064166</m></cell><cell><m>3.599040004838\text{e}{-42}</m></cell></row>
+    <row><cell>9</cell><cell><m>0.73908513321516064166</m></cell><cell><m>-8.636168555094\text{e}{-78}</m></cell></row>
+    <row><cell>10</cell><cell><m>0.73908513321516064166</m></cell><cell><m>8.636168555094\text{e}{-78}</m></cell></row>
+  </tabular>
+</table>
+      </solution>
+    </example>
   </subsection>
 
 
