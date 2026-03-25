@@ -230,61 +230,87 @@
     <example>
       <statement>
         <p>
-          REDO USING MATLAB
-        </p>
-
-        <p>
           Find the 5-point center difference formula for <m>f'(x)</m> using a Computer Algebra System:
         </p>
+      </statement>
 
+      <solution>
         <p>
-          We will use Maple commands here.
-          First, we will need the <em>CurveFitting</em> package.
+          We will use the Symbolics package of Julia.<fn> This was last done in March of 2026 using Julia 1.13 and the Symbolics 7.16.0 package.
+          It appears that Symbolics is changing quickly and may be able to do more with newer packages or the syntax may change.
+          </fn>
         </p>
 
         <p>
-          <em> with(CurveFitting):</em>
+          <cd>
+          <cline>using Symbolics</cline>
+          </cd>
         </p>
 
         <p>
-          Create the polynomial:
+          Then set up the needed variables.
         </p>
 
         <p>
-          <em> Pn:=PolynomialInterpolation([seq([<m>x_{i}</m>,<m>f(x_{i})</m>],i=0..4)],z): </em>
+          <cd>
+          <cline>@variables x[0:4], h, f(..), t</cline>
+          </cd>
         </p>
 
         <p>
-          where the colon is used to suppress the output.
-          You may remove it to see a number of pages of output.
-          Note: this is a polynomial in <m>z</m> because the points are chosen to be in term of <m>x</m>.
+          Then we need to define the order-4 Lagrange polynomial through the points <m>(x_k, f(x_k))</m> for <m>k=0,1,\ldots, 4</m>.
+          Unfortunately, it looks like it needs to be written out:
         </p>
 
-        <p>
-          Next, differentiate the interpolating polynomial:
-        </p>
+
+        <program language="julia">
+          <code>
+       P4 = f(x[0]) * (t-x[1])*(t-x[2])*(t-x[3])*(t-x[4])/((x[0]-x[1])*(x[0]-x[2])*(x[0]-x[3])*(x[0]-x[4])) + 
+  f(x[1])*(t-x[0])*(t-x[2])*(t-x[3])*(t-x[4])/((x[1]-x[0])*(x[1]-x[2])*(x[1]-x[3])*(x[1]-x[4])) +
+  f(x[2])*(t-x[0])*(t-x[1])*(t-x[3])*(t-x[4])/((x[2]-x[0])*(x[2]-x[1])*(x[2]-x[3])*(x[2]-x[4])) +
+  f(x[3])*(t-x[0])*(t-x[1])*(t-x[2])*(t-x[4])/((x[3]-x[0])*(x[3]-x[1])*(x[3]-x[2])*(x[3]-x[4])) +
+  f(x[4])*(t-x[0])*(t-x[1])*(t-x[2])*(t-x[3])/((x[4]-x[0])*(x[4]-x[1])*(x[4]-x[2])*(x[4]-x[3])) 
+          </code>
+        </program>
 
         <p>
-          <em> dPn:=diff(Pn,z): </em>
+          and then differentiate:
         </p>
 
-        <p>
-          and then substitute in the points.
-          The polynomial is to be evaluated at <m>x_{2}</m> and then the other points are written in terms of <m>x_{2}</m> and <m>h</m>.
-        </p>
+
+        <program language="julia">
+          <code>
+            dP4 = Symbolics.derivative(P4,t)
+          </code>
+        </program>
 
         <p>
-          <em> simplify(eval(dPn,<m>\{z=x_{2}</m>, <m>x_{0}=x_{2}-2h</m>, <m>x_{1}=x_{2}-h</m>, <m>x_{3}=x_{2}+h</m>, <m>x_{4}=x_{2}+2h\}</m>)) </em>
+          which results in a large mess which we won't show here.
+          To find the difference formula, we substitute in <m>x_2</m> for <m>t</m> because we are looking for the center difference.
+          This can be down with
         </p>
 
+
+        <program language="julia">
+          <code>
+            substitute(substitute(substitute(substitute(dP4, Dict(t =&gt; x[2], x[4] =&gt; x[3] + h)), 
+              x[3] =&gt; x[2] + h), 
+                x[2] =&gt; x[1] + h), 
+                  x[1] =&gt; x[0] + h)        
+          </code>
+        </program>
+
         <p>
-          and the output should be
+          This results in the following:
           <me>
-            \begin{aligned}\frac{1}{12}\frac{-8f(x_{2}-h)+f(x_{2}-2h)-f(x_{2}+2h)+8f(x_{2}+h)}{h}\end{aligned}
+            \frac{2 ~ f\left( x_{3} \right)}{3 ~ h} + \frac{ - f\left( x_{4} \right)}{12 ~ h} + \frac{ - 2 ~ f\left( x_{1} \right)}{3 ~ h} + \frac{f\left( x_{0} \right)}{12 ~ h}
           </me>
-          which can be written back in terms of <m>x_{0}, x_{1}, x_{2}, x_{3}, x_{4}</m> as:
+        </p>
+
+        <p>
+          This can be written as
           <me>
-            \begin{aligned}f'(x_{2}) \approx\amp \frac{f(x_{0})-8f(x_{1})+8f(x_{3})-f(x_{4})}{12h}\end{aligned}
+            f'(x_2) \approx \frac{1}{12h}\left(f(x_{0})-8f(x_{1})+8f(x_{3})-f(x_{4}) \right)
           </me>
         </p>
 
@@ -293,7 +319,7 @@
           Note that <m>f(x_{2})</m> is missing from the formula.
           This is similar to the center point missing in the 3-point formula for <m>f'(x)</m> in <xref ref="eq-num-diff-3pt-center"/>.
         </p>
-      </statement>
+      </solution>
     </example>
   </subsection>
 

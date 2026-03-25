@@ -151,9 +151,9 @@
         <p>
           Use <xref ref="eq-2pt-gauss-quad-a-b"/> to approximate <m>\int_{0}^{1} e^{-x^2}\, dx</m>.
         </p>
-        </statement>
-        <solution>
+      </statement>
 
+      <solution>
         <p>
           In this case <m>a=0</m>, <m>b=1</m> and we get
           <me>
@@ -242,5 +242,187 @@
       In short, the error associated with the interpolated polynomial is used and upon integration an error formula can be found.
       We won't go into the details here mainly because the irregular spacing of the nodes (roots of Legendre polynomials) make the calculation more difficult than we saw for Newton-Cotes.
     </p>
+  </subsection>
+
+
+  <subsection>
+    <title>Higher-Order Gaussian Quadrature</title>
+
+    <p>
+      In <xref ref="subsect-gauss-quad-revisited"/>, we will show why using roots of Legendre Polynomials for the quadrature notes results in the highest degree of precision possible.
+      For this section, let's assume that the nodes <m>x_k</m> are the roots of <m>P_n(x)</m>, found using <xref ref="eq-legendre-poly-recur"/>.
+      In that section, we also derive the formula for the weights or
+      <men xml:id="eq-gaussian-quad-weights">
+        w_k = \frac{2}{(1-x_k^2)(P_n'(x_k))^2}
+      </men>
+    </p>
+
+    <example>
+      <statement>
+        <p>
+          Find the nodes from the roots of the Legendre polynomial and the weights using <xref ref="eq-gaussian-quad-weights"/> for both the <m>n=2</m> and <m>n=3</m> cases for Gaussian Quadrature formula.
+        </p>
+      </statement>
+
+      <solution>
+        <p>
+          First, for the <m>n=2</m> case, we need <m>P_2</m>, which can be derived from <xref ref="eq-legendre-poly-recur"/>
+          <me>
+            P_2(x) = \frac{2(2)-1}{2} x P_1(x) - \frac{2-1}{2} P_0(x)  = \frac{3}{2} x (x) - \frac{1}{2} (1) = \frac{3}{2}x^2-\frac{1}{2}
+          </me>
+        </p>
+
+        <p>
+          The nodes are the root of this or
+          <me>
+            \begin{aligned} x^2 = \frac{1}{3} \qquad \Longrightarrow \quad x = \pm \frac{1}{\sqrt{3}} \end{aligned}
+          </me>
+          which is the same as the nodes found above.
+          Next, we'll find the weights.
+        </p>
+
+        <p>
+          First, we need the derivative so <m>P'_2(x) = 3x</m>, then
+          <me>
+            w_0 = \frac{2}{(1-(1/3))(3(1/\sqrt{3}))^2} = 1
+          </me>
+          and similarly (mainly due to symmetry), <m>w_1=1</m>.
+        </p>
+
+        <p>
+          For the <m>n=3</m> case, we start with the 3rd Legendre Polynomial which can be derived as
+          <me>
+            \begin{aligned} P_3(x) \amp =  \frac{2(3)-1}{3} x P_2(x) - \frac{3-1}{3} P_1(x) \\ \amp = \frac{5}{3} x \left(\frac{3}{2}x^2-\frac{1}{2}\right) - \frac{2}{3} x \\ \amp = \frac{5}{2} x^3 -\frac{3}{2} x = \frac{1}{2} \left(5x^3-3x^2 \right) \end{aligned}
+          </me>
+        </p>
+
+        <p>
+          The quadrature nodes are the roots of this polynomial or
+          <me>
+            x = 0, \pm \sqrt{\frac{3}{5}}.
+          </me>
+        </p>
+
+        <p>
+          To find the weights, we first need the derivative or
+          <me>
+            P'_3 (x) = \frac{1}{2} \left(15 x^2 - 6\right)
+          </me>
+          and then
+          <me>
+            \begin{aligned} w_0 \amp = \frac{2}{(1-(\sqrt{3/5})^2)((15(\sqrt{3/5})^2 -6)/2)^2}  \\ \amp = \frac{2}{(2/5)(3)^2} = \frac{5}{9} \\ w_1 \amp = \frac{2}{(1-0^2)((-3/2)^2)} = \frac{8}{9} \\ w_2 \amp = w_0 = \frac{5}{9} \end{aligned}
+          </me>
+        </p>
+      </solution>
+    </example>
+
+    <p>
+      Let's look at a higher-order Gauss-Quadrature formula
+    </p>
+
+    <example>
+      <statement>
+        <p>
+          Find the Gauss-Quadrature formula for <m>n=7</m> and use it to find an estimate for <m>\int_0^1 e^{-x^2} \, dx</m>.
+        </p>
+      </statement>
+
+      <solution>
+        <p>
+          First, we need, <m>P_7</m>, the seventh Legendre Polynomial.
+          Again, using <xref ref="eq-legendre-poly-recur"/>, we can generate this polynomial.
+          Skipping the details, we get
+          <me>
+            P_7(x) = \frac{1}{16} \left( 429x^7 - 693 x^5 + 315 x^3-35x\right)
+          </me>
+          and we seek the roots.
+          Note that one of the roots is <m>x=0</m>, which is always the fact for odd Legendre polynomials.
+          Use <m>z=x^2</m>, we can reduce the rest to a cubic polynomial and generate the exact solutions, however they are quite complicated.
+          Instead, we will generate the roots numerically with Newton's method to high precision.
+        </p>
+
+        <p>
+          It's helpful to have the graph of <m>P_7</m> to estimate the roots.
+        </p>
+
+        <image width="80%" source="plots/gauss7.png">
+          <shortdescription>
+          </shortdescription>
+        </image>
+
+        <p>
+          and as expected, the roots are symmetric about <m>x=0</m>.
+          If we use Newton's method as described in <xref ref="sect-newtons-method"/>, we can find all 7 roots.
+          Note though that they are symmetric, so we only need to find 3 of them.
+          Also the weights are found from <xref ref="eq-gaussian-quad-weights"/> and again there is symmetry to these.
+          The following table shows 20 decimals of each of these.
+        </p>
+
+        <table xml:id="table-gauss-legendre-n7">
+          <title>Nodes and Weights for <m>n=7</m> Gaussian Quadrature</title>
+
+          <tabular top="medium" left="medium" bottom="medium" right="medium">
+            <row header="yes" bottom="minor">
+              <cell halign="center"><m>i</m></cell>
+              <cell halign="left"><m>x_i</m></cell>
+              <cell halign="left"><m>w_i</m></cell>
+            </row>
+
+            <row>
+              <cell halign="center">1</cell>
+              <cell><m>-0.94910791234275852453</m></cell>
+              <cell><m>0.12948496616886969327</m></cell>
+            </row>
+
+            <row>
+              <cell halign="center">2</cell>
+              <cell><m>-0.74153118559939443986</m></cell>
+              <cell><m>0.27970539148927666790</m></cell>
+            </row>
+
+            <row>
+              <cell halign="center">3</cell>
+              <cell><m>-0.40584515137739716691</m></cell>
+              <cell><m>0.38183005050511894495</m></cell>
+            </row>
+
+            <row>
+              <cell halign="center">4</cell>
+              <cell><m>0.00000000000000000000</m></cell>
+              <cell><m>0.41795918367346938776</m></cell>
+            </row>
+
+            <row>
+              <cell halign="center">5</cell>
+              <cell><m>0.40584515137739716691</m></cell>
+              <cell><m>0.38183005050511894495</m></cell>
+            </row>
+
+            <row>
+              <cell halign="center">6</cell>
+              <cell><m>0.74153118559939443986</m></cell>
+              <cell><m>0.27970539148927666790</m></cell>
+            </row>
+
+            <row>
+              <cell halign="center">7</cell>
+              <cell><m>0.94910791234275852453</m></cell>
+              <cell><m>0.12948496616886969327</m></cell>
+            </row>
+          </tabular>
+        </table>
+        <p>
+          Since the interval of integration is not <m>[-1,1]</m>, we perform the transformation in <xref ref="eq-convert-interval"/>
+          <me>
+            z = \frac{0+1}{2} + x \frac{1-0}{2} = \frac{1+x}{2}
+          </me>
+          Lastly, we use the formula 
+          <me>
+            I_7(f) = \sum_{i=1}^7 w_i f((1+x_i)/2)
+          </me>
+          with <m>f(x) = e^{-x^2}</m> to get the estimation: <m>I_7(f) = 0.74682413281163830879066365</m>.  This is within <m>10^{-12}</m> of the true answer. 
+        </p>
+      </solution>
+    </example>
   </subsection>
 </section>

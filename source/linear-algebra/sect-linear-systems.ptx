@@ -1,4 +1,4 @@
-<section>
+<section xml:id="sect-linear-systems">
   <title>Linear Systems and Gaussian Elimination</title>
 
   <introduction>
@@ -118,7 +118,7 @@
           <p>
             First, consider the number of operations of the form:
             <me>
-              \begin{aligned}k R_{1} + R_{j} \rightarrow R_{j}\end{aligned}
+              \begin{aligned}k R_{1} + R_{j} \to R_{j}\end{aligned}
             </me>
             for <m>j=2, \ldots, m</m> needed to eliminate the element in row <m>j</m>, column 1.
           </p>
@@ -200,6 +200,10 @@
   <subsection>
     <title>Pivoting Strategies</title>
 
+    <p>
+      First, let's look at solving a simple 3 by 3 linear system as an example we'll use below.
+    </p>
+
     <example>
       <statement>
         <p>
@@ -212,6 +216,9 @@
       </statement>
 
       <solution>
+        <p>
+          There are many approaches to doing this and we'll switch everything to integers in this case first before doing row operations.  Multiplying the first row by 105, the second by 42 and the third by   
+        </p>
         <p>
           <me>
             \begin{aligned}x_{1}\amp = 1\amp x_{2}\amp = 7\amp x_{3}\amp = 1\end{aligned}

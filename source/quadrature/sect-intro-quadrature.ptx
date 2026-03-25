@@ -562,7 +562,7 @@
     <p>
       This theorem is quite useful for finding error bounds when using the trapezoid rule to approximate a definite integral.
       It also gives the degree of precision for the trapezoid rule.
-      If we integral <m>f(x)=x^{n}</m>, then the error given by the second term in Theorem thm:error:trap which is proportional to <m>f''(\xi)</m> is 0 for <m>x^{0}</m> and <m>x^{1}</m>, but not <m>x^{2}</m>.
+      If we integral <m>f(x)=x^{n}</m>, then the error given by the second term in Theorem <xref ref="thm-error-trap"/> which is proportional to <m>f''(\xi)</m> is 0 for <m>x^{0}</m> and <m>x^{1}</m>, but not <m>x^{2}</m>.
       Therefore the degree of precision is 1.
     </p>
 

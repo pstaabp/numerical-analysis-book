@@ -111,9 +111,9 @@
         \int_{-1}^{1} f(x) P_{j}(x) \, dx = c_{j} \int_{-1}^{1} (P_{j}(x))^{2} \, dx
       </me>
       and solving for <m>c_{j}</m> and using the same Lemma again above, we get:
-      <me>
+      <men xml:id="eq-legendre-coefficients">
         \begin{aligned}c_{j}\amp = \frac{2j+1}{2}\int_{-1}^{1} f(x) P_{j}(x) \, dx\end{aligned}
-      </me>
+      </men>
     </p>
 
     <example>
@@ -157,6 +157,93 @@
         </p>
       </solution>
     </example>
+
+    <p>
+      The following lemma can be quite helpful as we will see below.
+    </p>
+
+    <lemma xml:id="lem-legendre-orthogonal-polynomial">
+      <statement>
+        <p>
+          Let <m>Q(x)</m> be a polynomial of degree at most <m>n-1</m>.
+          <me>
+            \int_{-1}^1 P_n(x) Q(x) \,dx = 0
+          </me>
+          if <m>P_n</m> is the <m>n</m>th Legendre Polynomial.
+        </p>
+      </statement>
+
+
+      <proof>
+        <p>
+          The polynomial <m>Q(x)</m> can be written as
+          <me>
+            Q(x) = \sum_{j=0}^{n-1} c_j P_j(x)
+          </me>
+          using the <m>c_j</m> in <xref ref="eq-legendre-coefficients"/>.
+        </p>
+
+        <p>
+          Then
+          <me>
+            \begin{aligned} \int_{-1}^1 P_n(x) Q(x) \,dx \amp =  \int_{-1}^1 P_n(x) \sum_{j=0}^{n-1} c_j P_j(x) \, dx  \\ \amp = \sum_{j=0}^{n-1} c_j \int_{-1}^1 P_n(x) P_j (x) \,dx = 0 \end{aligned}
+          </me>
+          because each of the integrals above are 0 from <xref ref="lem-legendre-ortho"/>.
+        </p>
+      </proof>
+    </lemma>
+  </subsection>
+
+
+  <subsection xml:id="subsect-gauss-quad-revisited">
+    <title>Gaussian Quadrature Revisited</title>
+
+    <p>
+      In <xref ref="sect-gauss-quad"/>, we mentioned that the quadrature points or nodes of the formula were the roots of the Legendre polynomials.
+      This is explained now that we have better background in approximation theory.
+    </p>
+
+    <p>
+      Our desire is to find
+      <me>
+        I(f) = \int_{-1}^1 f(x) \, dx
+      </me>
+      where we return to the interval <m>[-1,1]</m>, where the Legendre Polynomials are defined.
+      Gaussian Quadrature require that we evaluate <m>I(f)</m> exactly for all polynomials up to some degree.
+      We will show that if <m>F(x)</m> be a polynomial of degree <m>2n-1</m>...
+    </p>
+
+    <p>
+      From <xref ref="subsect-poly-quotient-remainder"/>,  the quotient-remainder theorem of polynomials can be applied as 
+      <men xml:id="eq-gq-poly-long-div">
+        F(x) = P_n(x) Q(x) + R(x)
+      </men>
+      where <m>P_n</m> is the Legendre polynomial in <xref ref="eq-legendre-poly-recur"/>, a degree <m>n</m> polynomial and  <m>Q(x)</m> and <m>R(x)</m> are degree <m>n-1</m> polynomials.
+      Using <xref ref="eq-gq-poly-long-div"/>,
+      <me>
+        \int_{-1}^1 F(x) \, dx = \int_{-1}^1 P_n(x) Q(x) \, dx + \int_{-1}^1 R(x) \, dx
+      </me>
+      and because the first integral on the right side is 0 from <xref ref="lem-legendre-orthogonal-polynomial"/>,
+      <me>
+        \int_{-1}^1 F(x) \, dx = \int_{-1}^1 R(x) \, dx
+      </me>
+    </p>
+
+    <p>
+      Recall that quadrature is to write
+      <me>
+        I(f) = \sum_{k=1}^n w_k f(x_k)
+      </me>
+      Examining <xref ref="eq-gq-poly-long-div"/> at a node <m>x_k</m>
+      <me>
+        F(x_k) = P_n(x_k) Q(x_k) + R(x_k)
+      </me>
+      If we use <m>x_k</m> to be the roots of <m>P_n(x)</m>, then <m>P(x_k)=0</m> and
+      <me>
+        F(x_k) = R(x_k).
+      </me>
+      The implication of this is that at a node <m>x_k</m>, the <m>2n-1</m> degree polynomial <m>F(x)</m> has the same function value as the <m>n-1</m> degree polynomial <m>R(x)</m>.
+    </p>
   </subsection>
 
 
@@ -165,8 +252,7 @@
 
     <p>
       As discussed in <xref ref="sect-intro-approximation"/>, we covered inner product spaces with inner products.
-      The first example of this is the Chebyshev polynomials that we saw in
-      <xref ref="sect-optimal-pts"/>.
+      The first example of this is the Chebyshev polynomials that we saw in <xref ref="sect-optimal-pts"/>.
       The next theorem shows that these polynomials are orthogonal.
     </p>
 

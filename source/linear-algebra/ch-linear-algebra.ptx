@@ -1,10 +1,17 @@
 <chapter xml:id="ch-linear-algebra" xmlns:xi="http://www.w3.org/2001/XInclude">
   <title>Numerical Linear Algebra</title>
   <introduction>
-    <p>
-      Say things here.
-    </p>
+  <p>
+    Linear Algebra has two broad, but related concepts: solving linear systems and operations with matrices.  This chapter goes into some detail about both of these from the point of view of numerical algorithms.  
+  </p>
+
+  <p>
+    Recall that in <xref ref="sect-rounding-error"/>, there was an example of solving a 3 by 3 linear system by row-reducing a matrix, as is typically done ``by hand'' in a Linear Algebra class.  The example showed that the answer was quite susceptible to round-off errors.  In <xref ref="sect-linear-systems"/>, we will investigate ways to improve the techniques to solving these systems.  
+  </p>
+
+  <p>
+    Another category that is helpful in performing numerical linear algebra is that of performing a matrix factorization.  One such technique is that of an <m>LU</m>-factorization in which the original matrix <m>A</m> can be written as <m>A=LU</m>, where <m>L</m> is a lower-triangular matrix and <m>U</m> is an upper triangular matrix.  
+  </p>
   </introduction>
-  <xi:include href="sect-intro-linear-algebra.ptx" />
   <xi:include href="sect-linear-systems.ptx" />
 </chapter>

@@ -9,12 +9,12 @@
     </p>
 
     <p>
-      Recall in Section sect:interp:intro that a factored form of the polynomial was shown to have advantage mainly due to evaluation speed.
+      Recall in Section <xref ref="sect-intro-interpolation"/> that a factored form of the polynomial was shown to have advantage mainly due to evaluation speed.
       Similar to this form, the <em>Newton form of a polynomial</em> given by
       <md>
         <mrow> P_{0,1,2, \ldots, n}(x) \amp = a_{0} + a_{1} (x-x_{0}) + a_{2} (x-x_{0})(x-x_{1}) + </mrow>
         <mrow> \amp \qquad \qquad \cdots + a_{n} (x-x_{0})(x-x_{1}) \cdots (x-x_{n-1}),</mrow>
-        <mrow xml:id="eq-newton-poly-general"> \amp = \sum_{k=0}^{n} a_{k} \bigl(\prod_{i=0}^{k-1}(x-x_{i}) \bigr), </mrow>
+        <mrow xml:id="eq-newton-poly-general" number="yes"> \amp = \sum_{k=0}^{n} a_{k} \bigl(\prod_{i=0}^{k-1}(x-x_{i}) \bigr), </mrow>
       </md>
       has advantages when it comes to interpolations.
       The number <m>x_{0}, x_{1}, \ldots</m> can be any set of numbers, however when using this form for interpolation, the <m>x</m>-values of the data set is typically used.
@@ -47,7 +47,7 @@
     <p>
       Let's now return to the interpolation problem.
       That is for a set of points <m>\{(x_{i}, f_{i})\}</m>, for <m>i=0,1,\ldots,n</m>, find an <m>n</m>th degree polynomial that passes through all points.
-      In terms of the Newton's Divided Difference formulas, let the polynomial <m>P_{0,1,2,\ldots,n}(x)</m> be that defined in (eq:newton:poly:general).
+      In terms of the Newton's Divided Difference formulas, let the polynomial <m>P_{0,1,2,\ldots,n}(x)</m> be that defined in <xref ref="eq-newton-poly-general"/>.
     </p>
 
     <p>

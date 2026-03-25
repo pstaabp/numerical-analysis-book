@@ -488,11 +488,6 @@
       <cell><alert>x</alert></cell>
       <cell><alert>f</alert></cell>
     </row>
-    <row header="yes" bottom="minor">
-      <cell><m>\text{Int64}</m></cell>
-      <cell><m>\text{BigFloat}</m></cell>
-      <cell><m>\text{BigFloat}</m></cell>
-    </row>
     
     <row><cell>0</cell><cell><m>1.50000000000000000000</m></cell><cell><m>1.000000000000\text{e}{+00}</m></cell></row>
     <row><cell>1</cell><cell><m>1.00000000000000000000</m></cell><cell><m>-4.596976941319\text{e}{-01}</m></cell></row>

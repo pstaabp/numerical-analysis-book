@@ -777,4 +777,48 @@
       See <url href="https://complexanalysis.org/web/root-1-2-2.html" >Complex Analysis by Howell and Mathews</url> as a nice open-source text.<fn>The proof is shown in Chapter 6 of that text.</fn>
     </p>
   </subsection>
+
+  <subsection xml:id="subsect-poly-quotient-remainder">
+    <title>Quotient Remainder Theorem</title>
+    <p>
+      Another important aspect of polynomials is that if there is division between two polynomials and this is often seen in polynomials long division.  Consider the following example: 
+      <me>
+        \begin{array}{r}
+    x^2 - x - 1 \phantom{000000000000} \\
+    x^2 - 2x + 1 \enclose{longdiv}{x^4 - 3x^3 + 2x^2 + 4x - 1} \phantom{0} \\
+    \underline{-(x^4 - 2x^3 + x^2)} \phantom{000000000} \\
+    -x^3 + x^2 + 4x \phantom{00000} \\
+    \underline{-(-x^3 + 2x^2 - x)} \phantom{0000} \\
+    -x^2 + 5x - 1 \phantom{000} \\
+    \underline{-(-x^2 + 2x - 1)} \\
+    3x
+\end{array}
+      </me>
+    </p>
+    <p>
+      Recall that what this shows is that 
+      <me>
+        x^4 - 3x^3 + 2x^2 + 4x - 1 = (x^2-x-1)(x^2-2x+1) + 3x 
+      </me>
+    </p>
+    <p>
+      and this can be done for various degrees of polynomials summarized in the following. 
+    </p>
+    <theorem xml:id="thm-poly-quotient-remainder">
+      <statement>
+        <p>
+          Let <m>a(x)</m> and <m>b(x)</m> be polynomials where the degree of <m>b</m> is smaller than that of <m>a</m>.  Then there exists polynomials <m>q(x)</m> and <m>r(x)</m> such that 
+          <me>
+            a(x) = b(x) q(x) + r(x)
+          </me>
+          where <m>\deg(r(x)) \lt \deg(b(x))</m>. 
+        </p>
+      </statement>
+    </theorem>
+    
+
+    <p>
+      NOTE: FILL IN PROOF AND give some other examples how this helps. 
+    </p>
+  </subsection>
 </section>
